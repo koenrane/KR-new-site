@@ -618,6 +618,7 @@ video {
   width: fit-content;
   max-width: 100%;
   margin-bottom: calc(2 * $base-margin);
+  margin-top: $base-margin;
 
   article > p &,
   article > &,
@@ -629,12 +630,13 @@ video {
   }
 }
 
+[saved-theme="light"] img,
+[saved-theme="light"] video {
+  mix-blend-mode: multiply;
+}
+
 img {
   margin-top: $base-margin;
-
-  [saved-theme="light"] & {
-    mix-blend-mode: multiply;
-  }
 
   &.inline-img {
     display: inline;
