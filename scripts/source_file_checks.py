@@ -278,6 +278,29 @@ def check_card_image(metadata: dict) -> List[str]:
     return errors
 
 
+def check_table_alignments(file_path: Path) -> List[str]:
+    """
+    Check if all markdown tables have explicit column alignments.
+
+    By specifying alignment, table appearance is robust to CSS changes.
+
+    Valid alignments: :---:, :---, ---:, :---:
+    Invalid: ---, ----
+    """
+    errors = []
+    content = file_path.read_text()
+
+    column_pattern = r"\|\s*-+\s*\|"
+    for line_num, line in enumerate(content.split("\n"), 1):
+        if re.search(column_pattern, line):
+            errors.append(
+                f"Table column at line {line_num} missing alignment "
+                f"(should be :---, ---:, or :---:)"
+            )
+
+    return errors
+
+
 def check_file_data(
     metadata: dict,
     existing_urls: PathMap,
@@ -300,6 +323,7 @@ def check_file_data(
         "required_fields": check_required_fields(metadata),
         "invalid_links": check_invalid_md_links(file_path),
         "latex_tags": check_latex_tags(file_path),
+        "table_alignments": check_table_alignments(file_path),
     }
 
     if metadata:
