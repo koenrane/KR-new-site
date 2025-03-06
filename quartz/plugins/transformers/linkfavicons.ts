@@ -360,7 +360,7 @@ export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): El
     // Adjust the style of the appended element
     logger.debug("Adding margin-left to appended element")
     imgNodeToAppend.properties = imgNodeToAppend.properties || {}
-    imgNodeToAppend.properties.style = "margin-left: 0.05rem;"
+    imgNodeToAppend.properties.class = "favicon close-text"
   }
 
   // Take the last few characters (up to maxCharsToRead)

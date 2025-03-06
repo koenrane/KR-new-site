@@ -434,6 +434,10 @@ img.favicon {
     vertical-align: 65%;
   }
 
+  &.close-text {
+    margin-left: 0.05rem;
+  }
+
   // These are really dark by default so we make them match var(--foreground)
   &[src$="mail.svg"],
   &[src$="readthesequences_com.avif"] {
@@ -507,8 +511,6 @@ img.favicon {
   }
 
   &[src$="turntrout-favicons/favicon.ico"] {
-    margin-left: -0.05rem;
-
     :root[saved-theme="light"] & {
       filter: contrast(15%);
     }

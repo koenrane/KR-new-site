@@ -57,12 +57,9 @@ const createExpectedSpan = (
     { type: "text", value: text },
     {
       ...linkfavicons.createFaviconElement(imgPath),
-      ...(extraStyles && {
-        properties: {
-          ...linkfavicons.createFaviconElement(imgPath).properties,
-          style: extraMarginLeft ? "margin-left: 0.05rem;" : "",
-        },
-      }),
+      properties: {
+        class: `favicon${extraMarginLeft ? " close-text" : ""}`,
+      },
     },
   ],
 })
