@@ -7,20 +7,12 @@ const emitThemeChangeEvent = (theme: "light" | "dark") => {
   document.dispatchEvent(event)
 }
 
-function getDescriptionParagraph(): HTMLParagraphElement | null {
-  return document.querySelector(".darkmode > .description")
-}
-
-function getToggleSwitch(): HTMLInputElement | null {
-  return document.querySelector("#darkmode-toggle") as HTMLInputElement
-}
-
 function themeChange(e: MediaQueryListEvent): void {
   const newTheme = e.matches ? "dark" : "light"
   document.documentElement.setAttribute("saved-theme", newTheme)
   localStorage.setItem("theme", newTheme)
 
-  const toggleSwitch = getToggleSwitch()
+  const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
   if (toggleSwitch) {
     toggleSwitch.checked = e.matches
   }
@@ -34,11 +26,11 @@ function switchTheme(e: Event): void {
   emitThemeChangeEvent(newTheme)
 
   // Toggle the label text
-  const descriptionParagraph = getDescriptionParagraph()
+  const descriptionParagraph = document.querySelector("#darkmode-description")
   if (localStorage.getItem("usedToggle") !== "true" && descriptionParagraph) {
     descriptionParagraph.classList.add("hidden")
   }
-  // Prevent further clicks from having an effect
+  // Prevent further clicks from affecting description
   localStorage.setItem("usedToggle", "true")
 }
 
@@ -53,13 +45,13 @@ export function setupDarkMode() {
     // Hide the description after the user has interacted with the toggle
     window.addEventListener("load", function () {
       if (localStorage.getItem("usedToggle") !== "true") {
-        const descriptionParagraph = getDescriptionParagraph()
+        const descriptionParagraph = document.querySelector("#darkmode-description")
         descriptionParagraph?.classList.remove("hidden")
       }
     })
 
     // Darkmode toggle
-    const toggleSwitch = getToggleSwitch()
+    const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
     if (toggleSwitch) {
       toggleSwitch.addEventListener("change", wrappedSwitchTheme)
       toggleSwitch.checked = currentTheme === "dark"

@@ -113,7 +113,7 @@
 }
 
 @media all and (max-width: $mobile-breakpoint) {
-  .darkmode label svg {
+  .darkmode #night-icon {
     width: 15px;
     height: 15px;
   }
@@ -263,15 +263,13 @@
     margin: 0 calc(1.5 * $base-margin);
   }
 
-  & > .toggle {
+  & #darkmode-toggle {
     display: none;
-    box-sizing: border-box;
   }
 
-  & .description {
+  & #darkmode-description {
     position: relative;
     top: -28px;
-    left: 23.5px;
     font-size: var(--text-size-80);
     color: var(--midground);
     transition: opacity 0.5s ease;
@@ -294,31 +292,31 @@
   }
 }
 
-:root[saved-theme="dark"] {
-  color-scheme: dark;
-}
-
 :root[saved-theme="light"] {
   color-scheme: light;
+
+  & #day-icon {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  & #night-icon {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
-:root[saved-theme="dark"] .toggle ~ label {
-  & > #day-icon {
+:root[saved-theme="dark"] {
+  color-scheme: dark;
+
+  & #day-icon {
     opacity: 0;
+    visibility: hidden;
   }
 
-  & > #night-icon {
+  & #night-icon {
     opacity: 1;
-  }
-}
-
-:root .toggle ~ label {
-  & > #day-icon {
-    opacity: 1;
-  }
-
-  & > #night-icon {
-    opacity: 0;
+    visibility: visible;
   }
 }
 
