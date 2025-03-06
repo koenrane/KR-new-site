@@ -53,8 +53,8 @@ const darkMode = (
     <p id="darkmode-description" className="desktop-only hidden">
       Dark mode
     </p>
-    <input className="toggle" id="darkmode-toggle" type="checkbox" />
-    <label htmlFor="darkmode-toggle">
+    <label>
+      <input id="darkmode-toggle" type="checkbox" />
       {lightSvg}
       {darkSvg}
     </label>
