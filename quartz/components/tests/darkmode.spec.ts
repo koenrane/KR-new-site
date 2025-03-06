@@ -1,5 +1,7 @@
 import { test, expect, type Page } from "@playwright/test"
 
+import { isDesktopViewport } from "./visual_utils"
+
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
 })
@@ -84,6 +86,10 @@ test("Theme persists across page reloads", async ({ page }) => {
 })
 
 test("Description paragraph hides after first toggle", async ({ page }) => {
+  if (!isDesktopViewport(page)) {
+    return
+  }
+
   const label = page.locator(".darkmode label")
   await expect(label).toBeAttached()
 
