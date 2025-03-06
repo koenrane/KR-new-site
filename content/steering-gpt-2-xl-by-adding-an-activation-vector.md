@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-x
 skip_import: true
 description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
   prompts into loving completions.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 

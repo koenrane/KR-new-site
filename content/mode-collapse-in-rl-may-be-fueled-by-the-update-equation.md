@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in
 skip_import: true
 description: A proposed tweak to policy gradient algorithms may avoid mode collapse,
   but more research is needed to assess its practicality.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 

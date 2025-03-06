@@ -35,8 +35,9 @@ original_url: https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-
 skip_import: true
 description: 800+ orthogonal vectors steer an AI model to write code. Redundant features
   or something weirder?
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 

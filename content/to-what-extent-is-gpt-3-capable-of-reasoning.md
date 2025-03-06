@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/L5JSMZQvkBAx9MD5A/to-what-extent-i
 skip_import: true
 description: Examining the reasoning capabilities of GPT-3 through a series of hypothetical
   questions and scenarios.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 

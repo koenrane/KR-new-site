@@ -42,8 +42,9 @@ original_url: https://www.lesswrong.com/posts/eAsN5vNjvmxzACuuX/swimming-upstrea
 skip_import: "true"
 description: "I dove headfirst into AI safety, even at the risk of my PhD. This is\
   \ how. "
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 

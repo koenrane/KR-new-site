@@ -167,14 +167,13 @@ def create_server(git_root_path: Path) -> int:
     Returns the PID of the server to use.
     """
     # Use existing server if running
-    if is_port_in_use(8080):
-        existing_pid = find_quartz_process()
-        if existing_pid:
-            console.log(
-                "[green]Using existing quartz server "
-                f"(PID: {existing_pid})[/green]"
-            )
-            return existing_pid
+    existing_pid = find_quartz_process()
+    if existing_pid:
+        console.log(
+            "[green]Using existing quartz server "
+            f"(PID: {existing_pid})[/green]"
+        )
+        return existing_pid
 
     # Start new server
     console.log("Starting new quartz server...")

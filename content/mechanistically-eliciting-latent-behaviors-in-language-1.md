@@ -38,8 +38,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jwqnnwe15pr1vkvswuhf.png
 description: Unsupervised perturbations to language models reveal hidden capabilities,
   including the potential to bypass safety measures and exhibit backdoor behaviors.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
