@@ -41,7 +41,8 @@ export async function waitForThemeTransition(page: Page) {
 
 export async function setTheme(page: Page, theme: "light" | "dark") {
   await page.evaluate((themeValue) => {
-    document.documentElement.setAttribute("saved-theme", themeValue)
+    document.documentElement.setAttribute("theme", themeValue)
+    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme: themeValue } }))
   }, theme)
 
   await waitForThemeTransition(page)

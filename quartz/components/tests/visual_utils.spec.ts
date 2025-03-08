@@ -18,10 +18,8 @@ test.describe("visual_utils functions", () => {
   for (const theme of ["light", "dark"]) {
     test(`setTheme changes theme attribute to ${theme}`, async ({ page }) => {
       await setTheme(page, theme as "light" | "dark")
-      const savedTheme = await page.evaluate(() =>
-        document.documentElement.getAttribute("saved-theme"),
-      )
-      expect(savedTheme).toBe(theme)
+      const currentTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
+      expect(currentTheme).toBe(theme)
     })
   }
 
