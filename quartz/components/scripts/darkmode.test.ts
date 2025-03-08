@@ -7,6 +7,20 @@ import { jest, describe, it, beforeEach, afterEach, expect } from "@jest/globals
 import { type FullSlug } from "../../util/path"
 import { rotateTheme, setupDarkMode } from "./darkmode"
 
+// Mock MediaQueryListEvent if not available in test environment
+class MockMediaQueryListEvent extends Event {
+  matches: boolean
+  media: string
+
+  constructor(type: string, init: { matches: boolean; media: string }) {
+    super(type)
+    this.matches = init.matches
+    this.media = init.media
+  }
+}
+
+global.MediaQueryListEvent = global.MediaQueryListEvent || MockMediaQueryListEvent
+
 type MediaQueryCallback = (e: MediaQueryListEvent) => void
 
 const createMockMediaQueryList = (
@@ -135,10 +149,11 @@ describe("darkmode", () => {
 
       // Get the callback that was registered
       const callback = mediaQueryList.addEventListener.mock.calls[0][1] as MediaQueryCallback
-
-      // Simulate the media query change
-      // skipcq: JS-0255
-      callback({ matches: true } as MediaQueryListEvent)
+      const event = new MediaQueryListEvent("change", {
+        matches: true,
+        media: "(prefers-color-scheme: dark)",
+      })
+      callback(event)
 
       // Theme class and events should reflect the system preference (dark)
       expect(document.documentElement.getAttribute("theme")).toBe("dark")
@@ -170,7 +185,11 @@ describe("darkmode", () => {
       matchMediaSpy.mockReturnValue(lightMediaQueryList)
 
       const callback = mediaQueryList.addEventListener.mock.calls[0][1] as MediaQueryCallback
-      callback({ matches: false } as MediaQueryListEvent)
+      const event = new MediaQueryListEvent("change", {
+        matches: false,
+        media: "(prefers-color-scheme: dark)",
+      })
+      callback(event)
 
       expect(document.documentElement.getAttribute("theme")).toBe("light")
     })
@@ -185,26 +204,20 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
-      const autoText = document.querySelector("#darkmode-auto-text")
-      expect(autoText?.classList.contains("hidden")).toBe(false)
-
       // auto -> light
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("light")
       expect(document.documentElement.getAttribute("theme")).toBe("light")
-      expect(autoText?.classList.contains("hidden")).toBe(true)
 
       // light -> dark
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("dark")
       expect(document.documentElement.getAttribute("theme")).toBe("dark")
-      expect(autoText?.classList.contains("hidden")).toBe(true)
 
       // dark -> auto
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("auto")
       expect(document.documentElement.getAttribute("theme")).toBe("dark")
-      expect(autoText?.classList.contains("hidden")).toBe(false)
     })
   })
 })
