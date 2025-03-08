@@ -18,7 +18,7 @@ const emitThemeChangeEvent = (theme: Theme) => {
  * @returns The system's preferred theme ('light' or 'dark')
  */
 function getSystemTheme(): Theme {
-  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 
 /**
@@ -28,10 +28,6 @@ function getSystemTheme(): Theme {
  */
 function setThemeClass(theme: Theme, emitEvent: boolean = true) {
   document.documentElement.setAttribute("theme", theme)
-  const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
-  if (toggleSwitch) {
-    toggleSwitch.checked = theme === "dark"
-  }
   if (emitEvent) {
     emitThemeChangeEvent(theme)
   }
@@ -62,7 +58,7 @@ function updateTheme(theme: Theme): void {
  * Cycles through theme states in the order: auto -> light -> dark -> auto
  * Updates the theme and marks the toggle as used
  */
-const rotateTheme = () => {
+export const rotateTheme = () => {
   const currentTheme = localStorage.getItem("saved-theme") || "auto"
   let newTheme: Theme
 
@@ -80,6 +76,7 @@ const rotateTheme = () => {
       newTheme = "auto"
   }
 
+  // TODO decouple from rotate - just use rotate to find next theme
   updateTheme(newTheme)
 }
 
@@ -96,7 +93,7 @@ function setupDarkMode() {
   updateTheme(theme as Theme)
 
   // Set up click handler for the toggle
-  const toggle = document.querySelector("#darkmode-toggle") as HTMLInputElement
+  const toggle = document.querySelector("#theme-toggle") as HTMLButtonElement
   if (toggle) {
     toggle.addEventListener("click", wrapWithoutTransition(rotateTheme))
   }

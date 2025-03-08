@@ -50,11 +50,10 @@ const darkSvg = (
 
 const darkMode = (
   <span id="darkmode-span" className="no-select">
-    <label>
-      <input id="darkmode-toggle" type="checkbox" />
+    <button id="theme-toggle" type="button" aria-label="Toggle theme">
       {lightSvg}
       {darkSvg}
-    </label>
+    </button>
     <p id="darkmode-auto-text" className="hidden">
       Auto
     </p>
