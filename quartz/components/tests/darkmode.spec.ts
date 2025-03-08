@@ -1,13 +1,11 @@
 import { test, expect, type Page } from "@playwright/test"
 
-import { isDesktopViewport } from "./visual_utils"
-
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
 })
 
 async function clickToggle(page: Page) {
-  const mode = await page.evaluate(() => document.documentElement.getAttribute("saved-theme"))
+  const mode = await page.evaluate(() => document.documentElement.getAttribute("theme"))
   if (mode === "dark") {
     await page.locator("#night-icon").click()
   } else {
@@ -25,10 +23,8 @@ test("Dark mode toggle changes theme", async ({ page }) => {
   await expect(darkSvg).not.toBeVisible()
 
   // Get initial theme
-  const initialTheme = await page.evaluate(() =>
-    document.documentElement.getAttribute("saved-theme"),
-  )
-  const initialSpan = page.locator("span.dark-mode")
+  const initialTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
+  const initialSpan = page.locator("#darkmode-span")
   const initialIcon = await initialSpan.screenshot()
 
   await clickToggle(page)
@@ -38,25 +34,34 @@ test("Dark mode toggle changes theme", async ({ page }) => {
   }).toPass()
 
   // Verify theme changed
-  const newTheme = await page.evaluate(() => document.documentElement.getAttribute("saved-theme"))
+  const newTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
   expect(newTheme).not.toBe(initialTheme)
   expect(newTheme).toBe(initialTheme === "dark" ? "light" : "dark")
 
   // Verify localStorage updated
-  const storedTheme = await page.evaluate(() => localStorage.getItem("theme"))
+  const storedTheme = await page.evaluate(() => localStorage.getItem("saved-theme"))
   expect(storedTheme).toBe(newTheme)
 })
 
-test("System preference changes are reflected", async ({ page }) => {
+test("System preference changes are reflected in auto mode", async ({ page }) => {
   const toggle = page.locator("#darkmode-toggle")
+  const autoText = page.locator("#darkmode-auto-text")
+
+  // Set to auto mode
+  await page.evaluate(() => {
+    localStorage.setItem("saved-theme", "auto")
+  })
+  await page.reload()
+
+  await expect(autoText).not.toHaveClass(/hidden/)
 
   for (const colorScheme of ["light", "dark"]) {
     await page.emulateMedia({
       colorScheme: colorScheme as "light" | "dark" | "no-preference" | null | undefined,
     })
     await page.reload()
-    //
-    const theme = await page.evaluate(() => document.documentElement.getAttribute("saved-theme"))
+
+    const theme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
     expect(theme).toBe(colorScheme)
     if (colorScheme === "light") {
       await expect(toggle).not.toBeChecked()
@@ -69,15 +74,15 @@ test("System preference changes are reflected", async ({ page }) => {
 test("Theme persists across page reloads", async ({ page }) => {
   // Set theme to dark
   await page.evaluate(() => {
-    localStorage.setItem("theme", "dark")
-    document.documentElement.setAttribute("saved-theme", "dark")
+    localStorage.setItem("saved-theme", "dark")
+    document.documentElement.setAttribute("theme", "dark")
   })
 
   // Reload page
   await page.reload()
 
   // Verify theme persisted
-  const theme = await page.evaluate(() => document.documentElement.getAttribute("saved-theme"))
+  const theme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
   expect(theme).toBe("dark")
 
   // Verify toggle state matches
@@ -85,29 +90,8 @@ test("Theme persists across page reloads", async ({ page }) => {
   await expect(toggle).toBeChecked()
 })
 
-test("Description paragraph hides after first toggle", async ({ page }) => {
-  if (!isDesktopViewport(page)) {
-    return
-  }
-
-  const label = page.locator(".darkmode label")
-  await expect(label).toBeAttached()
-
-  const description = page.locator("#darkmode-description")
-  await expect(description).toBeVisible()
-
-  await clickToggle(page)
-
-  // Verify description hides
-  await expect(description).toHaveClass(/hidden/)
-
-  // Verify localStorage flag set
-  const usedToggle = await page.evaluate(() => localStorage.getItem("usedToggle"))
-  expect(usedToggle).toBe("true")
-})
-
 test("Theme change event is emitted", async ({ page }) => {
-  const label = page.locator(".darkmode label")
+  const label = page.locator("#darkmode-span label")
   await expect(label).toBeAttached()
 
   // Listen for theme change event
@@ -124,16 +108,14 @@ test("Theme change event is emitted", async ({ page }) => {
 
   // Verify event emitted with correct theme
   const emittedTheme = await themeChangePromise
-  const currentTheme = await page.evaluate(() =>
-    document.documentElement.getAttribute("saved-theme"),
-  )
+  const currentTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
   expect(emittedTheme).toBe(currentTheme)
 })
 
 test("Toggle state matches system preference by default", async ({ page }) => {
   // Clear any stored preference
   await page.evaluate(() => {
-    localStorage.removeItem("theme")
+    localStorage.removeItem("saved-theme")
   })
 
   // Emulate dark color scheme
@@ -148,6 +130,10 @@ test("Toggle state matches system preference by default", async ({ page }) => {
   await page.reload()
 
   await expect(toggle).not.toBeChecked()
+
+  // Verify auto label is visible when no preference is set
+  const autoText = page.locator("#darkmode-auto-text")
+  await expect(autoText).not.toHaveClass(/hidden/)
 })
 
 test("Dark mode icons are visible and toggle correctly", async ({ page }) => {
