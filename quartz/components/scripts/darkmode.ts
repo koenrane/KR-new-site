@@ -1,6 +1,6 @@
 import { wrapWithoutTransition } from "./component_script_utils"
 
-type Theme = "light" | "dark" | "auto"
+export type Theme = "light" | "dark" | "auto"
 
 /**
  * Emits a custom 'themechange' event with the current theme
@@ -17,7 +17,7 @@ const emitThemeChangeEvent = (theme: Theme) => {
  * Determines the system's color scheme preference
  * @returns The system's preferred theme ('light' or 'dark')
  */
-function getSystemTheme(): Theme {
+export function getSystemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 

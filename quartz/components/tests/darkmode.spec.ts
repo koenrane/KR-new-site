@@ -1,8 +1,28 @@
 import { test, expect, type Page } from "@playwright/test"
 
+import { type Theme, getSystemTheme } from "../scripts/darkmode"
+
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
 })
+
+async function checkIconVisibility(page: Page, colorScheme: Theme) {
+  const dayIcon = page.locator("#day-icon")
+  const nightIcon = page.locator("#night-icon")
+  let expectedTheme = colorScheme
+  if (colorScheme === "auto") {
+    expectedTheme = getSystemTheme()
+  }
+  expect(["light", "dark"]).toContain(expectedTheme)
+
+  if (colorScheme === "light") {
+    await expect(dayIcon).toBeVisible()
+    await expect(nightIcon).not.toBeVisible()
+  } else {
+    await expect(dayIcon).not.toBeVisible()
+    await expect(nightIcon).toBeVisible()
+  }
+}
 
 async function clickToggle(page: Page) {
   await page.locator("#theme-toggle").click()
@@ -10,12 +30,9 @@ async function clickToggle(page: Page) {
 
 test("Dark mode toggle changes theme", async ({ page }) => {
   const toggle = page.locator("#theme-toggle")
-  const lightSvg = page.locator("#day-icon")
-  const darkSvg = page.locator("#night-icon")
 
   await expect(toggle).toBeAttached()
-  await expect(lightSvg).toBeVisible()
-  await expect(darkSvg).not.toBeVisible()
+  await checkIconVisibility(page, "light")
 
   // Get initial theme
   const initialTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
@@ -58,16 +75,7 @@ test("System preference changes are reflected in auto mode", async ({ page }) =>
     const theme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
     expect(theme).toBe(colorScheme)
 
-    // Verify icon visibility based on theme
-    const dayIcon = page.locator("#day-icon")
-    const nightIcon = page.locator("#night-icon")
-    if (colorScheme === "light") {
-      await expect(dayIcon).toBeVisible()
-      await expect(nightIcon).not.toBeVisible()
-    } else {
-      await expect(dayIcon).not.toBeVisible()
-      await expect(nightIcon).toBeVisible()
-    }
+    await checkIconVisibility(page, colorScheme as Theme)
   }
 })
 
@@ -85,11 +93,7 @@ test("Theme persists across page reloads", async ({ page }) => {
   const theme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
   expect(theme).toBe("dark")
 
-  // Verify icon state matches
-  const dayIcon = page.locator("#day-icon")
-  const nightIcon = page.locator("#night-icon")
-  await expect(dayIcon).not.toBeVisible()
-  await expect(nightIcon).toBeVisible()
+  await checkIconVisibility(page, "dark")
 })
 
 test("Theme change event is emitted", async ({ page }) => {
@@ -120,22 +124,17 @@ test("Icon state matches system preference by default", async ({ page }) => {
     localStorage.removeItem("saved-theme")
   })
 
-  const dayIcon = page.locator("#day-icon")
-  const nightIcon = page.locator("#night-icon")
-
   // Emulate dark color scheme
   await page.emulateMedia({ colorScheme: "dark" })
   await page.reload()
 
-  await expect(dayIcon).not.toBeVisible()
-  await expect(nightIcon).toBeVisible()
+  await checkIconVisibility(page, "dark")
 
   // Emulate light color scheme
   await page.emulateMedia({ colorScheme: "light" })
-  await page.reload()
+  await page.reload() // TODO get rid of this
 
-  await expect(dayIcon).toBeVisible()
-  await expect(nightIcon).not.toBeVisible()
+  await checkIconVisibility(page, "light")
 
   // Verify auto label is visible when no preference is set
   const autoText = page.locator("#darkmode-auto-text")
@@ -143,21 +142,16 @@ test("Icon state matches system preference by default", async ({ page }) => {
 })
 
 test("Dark mode icons are visible and toggle correctly", async ({ page }) => {
-  const dayIcon = page.locator("#day-icon")
-  const nightIcon = page.locator("#night-icon")
   const toggle = page.locator("#theme-toggle")
 
   await expect(toggle).toBeAttached()
-  await expect(dayIcon).toBeVisible()
-  await expect(nightIcon).not.toBeVisible()
+  await checkIconVisibility(page, "light")
 
   await clickToggle(page)
 
-  await expect(dayIcon).not.toBeVisible()
-  await expect(nightIcon).toBeVisible()
+  await checkIconVisibility(page, "dark")
 
   await clickToggle(page)
 
-  await expect(dayIcon).toBeVisible()
-  await expect(nightIcon).not.toBeVisible()
+  await checkIconVisibility(page, "light")
 })
