@@ -213,7 +213,7 @@
   }
 }
 
-:root[saved-theme="dark"] .shadow {
+:root[theme="dark"] .shadow {
   @media all and (max-width: $full-page-width) {
     box-shadow: 0 4px 4px 0 var(--midground-faintest);
     clip-path: inset(0 0 -1500px 0);
@@ -249,50 +249,61 @@
 }
 
 // DARKMODE
-.darkmode {
-  display: inline;
+#darkmode-span {
   z-index: 3;
   position: absolute;
   right: 0;
   top: 5%;
+  font-size: var(--text-size-80);
+  text-align: right;
+  display: flex;
+  flex-direction: column;
 
   @media all and (max-width: $full-page-width) {
     position: relative;
     left: inherit;
     top: inherit;
     margin: 0 calc(1.5 * $base-margin);
+    flex-direction: row; // Left-to-right
   }
 
   & #darkmode-toggle {
     display: none;
   }
 
-  & #darkmode-description {
+  & label {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
     position: relative;
-    top: -28px;
-    font-size: var(--text-size-80);
+    margin-right: calc(0.25 * $base-margin);
+  }
+
+  & #darkmode-auto-text {
     color: var(--midground);
     transition: opacity 0.5s ease;
+    margin: 0;
 
-    &.hidden {
-      opacity: 0;
+    @media all and (max-width: $full-page-width) {
+      margin-left: $base-margin;
+      order: 999; // Push to the end of the row
     }
   }
 
   & svg {
-    left: 68%;
     cursor: pointer;
     opacity: 0;
     position: absolute;
-    width: 20px;
-    height: 20px;
-    top: calc(50% - 10px);
+    width: inherit;
+    height: inherit;
+    left: 0;
+    top: 0;
     fill: var(--midground);
     transition: opacity 0.1s ease;
   }
 }
 
-:root[saved-theme="light"] {
+:root[theme="light"] {
   color-scheme: light;
 
   & #day-icon {
@@ -306,7 +317,7 @@
   }
 }
 
-:root[saved-theme="dark"] {
+:root[theme="dark"] {
   color-scheme: dark;
 
   & #day-icon {

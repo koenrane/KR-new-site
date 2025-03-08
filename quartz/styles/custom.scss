@@ -243,7 +243,7 @@ audio {
 }
 
 // Partially blends audio player with background
-[saved-theme="dark"] audio {
+[theme="dark"] audio {
   mix-blend-mode: luminosity;
 }
 
@@ -276,8 +276,8 @@ sup {
   display: none;
 }
 
-:root[saved-theme="dark"] video,
-:root[saved-theme="dark"] img {
+:root[theme="dark"] video,
+:root[theme="dark"] img {
   &.favicon {
     filter: saturate(0%);
   }
@@ -444,7 +444,7 @@ img.favicon {
     // Computed to match var(--foreground) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(27%);
 
-    :root[saved-theme="dark"] & {
+    :root[theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
@@ -456,13 +456,13 @@ img.favicon {
     transform: rotate(-90deg) scaleX(-1) scale(1.2);
     filter: invert(27%);
 
-    :root[saved-theme="dark"] & {
+    :root[theme="dark"] & {
       filter: invert(80%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
 
   &[src$="gwern_net.avif"] {
-    :root[saved-theme="light"] & {
+    :root[theme="light"] & {
       filter: invert(100%);
       mix-blend-mode: multiply;
     }
@@ -470,18 +470,18 @@ img.favicon {
 
   // Make it less searingly bright on dark mode
   &[src$="wikipedia_org.avif"] {
-    :root[saved-theme="dark"] & {
+    :root[theme="dark"] & {
       filter: contrast(75%);
     }
   }
 
   // Very dark by default
   &[src$="github_com.avif"] {
-    :root[saved-theme="light"] & {
+    :root[theme="light"] & {
       filter: invert(25%);
     }
 
-    :root[saved-theme="dark"] & {
+    :root[theme="dark"] & {
       filter: invert(75%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
@@ -490,14 +490,14 @@ img.favicon {
   &[src$="nips_cc.avif"],
   &[src$="matsprogram_org.avif"],
   &[src$="proceedings_mlr_press.avif"] {
-    :root[saved-theme="dark"] & {
+    :root[theme="dark"] & {
       filter: invert(100%) grayscale(100%);
     }
   }
 
   &[src$="arbital_com.avif"],
   &[src$="aaai_org.avif"] {
-    :root[saved-theme="light"] & {
+    :root[theme="light"] & {
       filter: brightness(0.3);
     }
   }
@@ -505,17 +505,17 @@ img.favicon {
   // Gray logos made white on dark mode
   &[src$="alignmentforum_org.avif"],
   &[src$="ai-alignment_com.avif"] {
-    :root[saved-theme="dark"] & {
+    :root[theme="dark"] & {
       filter: brightness(3); // Make it brighter
     }
   }
 
   &[src$="turntrout-favicons/favicon.ico"] {
-    :root[saved-theme="light"] & {
+    :root[theme="light"] & {
       filter: contrast(15%);
     }
 
-    :root[saved-theme="dark"] & {
+    :root[theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) brightness() contrast(50%);
     }
   }
@@ -632,8 +632,8 @@ video {
   }
 }
 
-[saved-theme="light"] img,
-[saved-theme="light"] video {
+[theme="light"] img,
+[theme="light"] video {
   mix-blend-mode: multiply;
 }
 
@@ -668,8 +668,8 @@ body.no-mix-blend-mode {
   }
 
   & #search-layout {
-    [saved-theme="light"] & img:not([src$=".svg"]),
-    [saved-theme="light"] & video {
+    [theme="light"] & img:not([src$=".svg"]),
+    [theme="light"] & video {
       mix-blend-mode: multiply;
     }
   }
@@ -926,7 +926,7 @@ iframe {
 }
 
 // Specific graph in design doc has too much whitespace in light
-:root[saved-theme="light"] {
+:root[theme="light"] {
   .compression-ratio-graph {
     margin-bottom: -0.25rem;
   }
@@ -957,19 +957,19 @@ iframe {
 }
 
 .light-svg {
-  :root[saved-theme="light"] & {
+  :root[theme="light"] & {
     filter: invert(35%); // Lighten to match the text color
   }
 
   // Use a lighter color in dark mode
-  :root[saved-theme="dark"] & {
+  :root[theme="dark"] & {
     filter: invert(75%);
   }
 }
 
 // These transparent images need a background color to have visible text
 .transparent-image {
-  :root[saved-theme="dark"] & {
+  :root[theme="dark"] & {
     background-color: var(--foreground);
   }
 }

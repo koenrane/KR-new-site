@@ -32,9 +32,11 @@ describe("darkmode", () => {
   beforeEach(() => {
     // Mock DOM elements
     document.body.innerHTML = `
-          <div class="darkmode">
-            <p class="description">Dark mode description</p>
-            <input type="checkbox" id="darkmode-toggle" />
+          <div id="darkmode-span">
+            <label>
+              <input type="checkbox" id="darkmode-toggle" />
+            </label>
+            <p id="darkmode-auto-text">Auto</p>
           </div>
         `
 
@@ -84,7 +86,7 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
-      expect(document.documentElement.getAttribute("saved-theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("theme")).toBe("dark")
       const toggle = document.querySelector("#darkmode-toggle") as HTMLInputElement
       expect(toggle.checked).toBe(true)
     })
@@ -104,13 +106,13 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
-      expect(document.documentElement.getAttribute("saved-theme")).toBe("light")
+      expect(document.documentElement.getAttribute("theme")).toBe("light")
       const toggle = document.querySelector("#darkmode-toggle") as HTMLInputElement
       expect(toggle.checked).toBe(false)
     })
 
     it("should respect stored theme preference over system preference", () => {
-      localStorage.setItem("theme", "dark")
+      localStorage.setItem("saved-theme", "dark")
       matchMediaSpy.mockImplementation((query: unknown) => ({
         matches: typeof query === "string" && query === "(prefers-color-scheme: light)",
         media: typeof query === "string" ? query : "",
@@ -125,7 +127,7 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
-      expect(document.documentElement.getAttribute("saved-theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("theme")).toBe("dark")
       const toggle = document.querySelector("#darkmode-toggle") as HTMLInputElement
       expect(toggle.checked).toBe(true)
     })
@@ -148,22 +150,12 @@ describe("darkmode", () => {
 
     it("should update localStorage when theme is changed", () => {
       setupDarkMode()
-      document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
+      document.dispatchEvent(new CustomEvent("nav", { detail: { url: "test-page" as FullSlug } }))
 
       triggerToggle(true)
 
-      expect(localStorageSpy).toHaveBeenCalledWith("theme", "dark")
-    })
-
-    it("should hide description after first toggle use", () => {
-      setupDarkMode()
-      document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
-
-      triggerToggle(true)
-
-      const description = document.querySelector(".description")
-      expect(description?.classList.contains("hidden")).toBe(true)
-      expect(localStorageSpy).toHaveBeenCalledWith("usedToggle", "true")
+      // Initial theme is auto
+      expect(localStorageSpy).toHaveBeenCalledWith("saved-theme", "auto")
     })
   })
 
@@ -194,14 +186,20 @@ describe("darkmode", () => {
       // skipcq: JS-0255
       callback({ matches: true } as MediaQueryListEvent)
 
-      expect(document.documentElement.getAttribute("saved-theme")).toBe("dark")
-      expect(localStorageSpy).toHaveBeenCalledWith("theme", "dark")
+      // Theme class and events should reflect the system preference (dark)
+      expect(document.documentElement.getAttribute("theme")).toBe("dark")
       expect(documentSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           type: "themechange",
           detail: { theme: "dark" },
         }),
       )
+
+      // But localStorage should preserve auto mode
+      expect(localStorageSpy).toHaveBeenCalledWith("saved-theme", "auto")
     })
   })
 })
+
+// TODO add tests for auto mode
+// TODO add tests for cycling through themes

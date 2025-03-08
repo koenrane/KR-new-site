@@ -49,15 +49,15 @@ const darkSvg = (
 )
 
 const darkMode = (
-  <span className="darkmode no-select">
-    <p id="darkmode-description" className="desktop-only hidden">
-      Dark mode
-    </p>
+  <span id="darkmode-span" className="no-select">
     <label>
       <input id="darkmode-toggle" type="checkbox" />
       {lightSvg}
       {darkSvg}
     </label>
+    <p id="darkmode-auto-text" className="hidden">
+      Auto
+    </p>
   </span>
 )
 

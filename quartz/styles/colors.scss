@@ -1,4 +1,4 @@
-:root[saved-theme="dark"],
+:root[theme="dark"],
 .dark-mode {
   // Catppuccin Frappe
   --pink: #fba7e4;
@@ -31,7 +31,7 @@
 }
 
 // Catppuccin Latte
-:root[saved-theme="light"],
+:root[theme="light"],
 .light-mode {
   --flamingo: #dd7878;
   --pink: #ee7ed0;

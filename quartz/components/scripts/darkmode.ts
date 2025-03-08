@@ -1,65 +1,122 @@
 import { wrapWithoutTransition } from "./component_script_utils"
 
-const emitThemeChangeEvent = (theme: "light" | "dark") => {
+type Theme = "light" | "dark" | "auto"
+
+/**
+ * Emits a custom 'themechange' event with the current theme
+ * @param theme - The current theme state
+ */
+const emitThemeChangeEvent = (theme: Theme) => {
   const event: CustomEvent = new CustomEvent("themechange", {
     detail: { theme },
   })
   document.dispatchEvent(event)
 }
 
-function themeChange(e: MediaQueryListEvent): void {
-  const newTheme = e.matches ? "dark" : "light"
-  document.documentElement.setAttribute("saved-theme", newTheme)
-  localStorage.setItem("theme", newTheme)
+/**
+ * Determines the system's color scheme preference
+ * @returns The system's preferred theme ('light' or 'dark')
+ */
+function getSystemTheme(): Theme {
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
+}
 
+/**
+ * Updates the DOM to reflect the current theme state
+ * @param theme - The theme to apply
+ * @param emitEvent - Whether to emit a theme change event (default: true)
+ */
+function setThemeClass(theme: Theme, emitEvent: boolean = true) {
+  document.documentElement.setAttribute("theme", theme)
   const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
   if (toggleSwitch) {
-    toggleSwitch.checked = e.matches
+    toggleSwitch.checked = theme === "dark"
   }
-  emitThemeChangeEvent(newTheme)
+  if (emitEvent) {
+    emitThemeChangeEvent(theme)
+  }
 }
 
-function switchTheme(e: Event): void {
-  const newTheme = (e.target as HTMLInputElement)?.checked ? "dark" : "light"
-  document.documentElement.setAttribute("saved-theme", newTheme)
-  localStorage.setItem("theme", newTheme)
-  emitThemeChangeEvent(newTheme)
+/**
+ * Updates the theme state and related UI elements
+ * @param theme - The theme state to apply
+ */
+function updateTheme(theme: Theme): void {
+  localStorage.setItem("saved-theme", theme)
 
-  // Toggle the label text
-  const descriptionParagraph = document.querySelector("#darkmode-description")
-  if (localStorage.getItem("usedToggle") !== "true" && descriptionParagraph) {
-    descriptionParagraph.classList.add("hidden")
+  // Update UI for auto mode
+  const autoText = document.querySelector("#darkmode-auto-text")
+  if (autoText) {
+    autoText.classList.toggle("hidden", theme !== "auto")
   }
-  // Prevent further clicks from affecting description
-  localStorage.setItem("usedToggle", "true")
+
+  // Apply the appropriate theme
+  if (theme === "auto") {
+    setThemeClass(getSystemTheme())
+  } else {
+    setThemeClass(theme)
+  }
 }
 
-const wrappedSwitchTheme = wrapWithoutTransition(switchTheme)
+/**
+ * Cycles through theme states in the order: auto -> light -> dark -> auto
+ * Updates the theme and marks the toggle as used
+ */
+const rotateTheme = () => {
+  const currentTheme = localStorage.getItem("saved-theme") || "auto"
+  let newTheme: Theme
 
-export function setupDarkMode() {
-  const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
-  const currentTheme = localStorage.getItem("theme") ?? userPref
-  document.documentElement.setAttribute("saved-theme", currentTheme)
+  switch (currentTheme) {
+    case "auto":
+      newTheme = "light"
+      break
+    case "light":
+      newTheme = "dark"
+      break
+    case "dark":
+      newTheme = "auto"
+      break
+    default:
+      newTheme = "auto"
+  }
+
+  updateTheme(newTheme)
+}
+
+/**
+ * Initializes the dark mode functionality:
+ * - Sets up initial theme based on saved preference or auto mode
+ * - Configures theme toggle click handler
+ * - Sets up system preference change listener
+ * - Manages description visibility based on toggle usage
+ */
+function setupDarkMode() {
+  const savedTheme = localStorage.getItem("saved-theme")
+  const theme = savedTheme || "auto"
+  updateTheme(theme as Theme)
+
+  // Set up click handler for the toggle
+  const toggle = document.querySelector("#darkmode-toggle") as HTMLInputElement
+  if (toggle) {
+    toggle.addEventListener("click", wrapWithoutTransition(rotateTheme))
+  }
 
   document.addEventListener("nav", () => {
-    // Hide the description after the user has interacted with the toggle
-    window.addEventListener("load", function () {
-      if (localStorage.getItem("usedToggle") !== "true") {
-        const descriptionParagraph = document.querySelector("#darkmode-description")
-        descriptionParagraph?.classList.remove("hidden")
+    /**
+     * Handles system color scheme preference changes
+     * @param e - MediaQueryList event containing the new preference
+     */
+    function doSystemPreference(e: MediaQueryListEvent): void {
+      if (localStorage.getItem("saved-theme") === "auto") {
+        const newTheme = e.matches ? "dark" : "light"
+        setThemeClass(newTheme)
       }
-    })
-
-    // Darkmode toggle
-    const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
-    if (toggleSwitch) {
-      toggleSwitch.addEventListener("change", wrappedSwitchTheme)
-      toggleSwitch.checked = currentTheme === "dark"
     }
+    const wrappedSystemPreference = wrapWithoutTransition(doSystemPreference)
 
-    // Listen for changes in prefers-color-scheme
-    const wrappedThemeChange = wrapWithoutTransition(themeChange)
     const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-    colorSchemeMediaQuery.addEventListener("change", wrappedThemeChange)
+    colorSchemeMediaQuery.addEventListener("change", wrappedSystemPreference)
   })
 }
+
+export { setupDarkMode }
