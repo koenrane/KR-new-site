@@ -26,7 +26,7 @@ export function getSystemTheme(): Theme {
  * @param theme - The theme to apply
  * @param emitEvent - Whether to emit a theme change event (default: true)
  */
-function setThemeClassOnRoot(theme: Theme, emitEvent: boolean = true) {
+function setThemeClassOnRoot(theme: Theme, emitEvent = true) {
   document.documentElement.setAttribute("theme", theme)
   if (emitEvent) {
     emitThemeChangeEvent(theme)
@@ -37,7 +37,7 @@ function setThemeClassOnRoot(theme: Theme, emitEvent: boolean = true) {
  * Updates the theme state and related UI elements
  * @param theme - The theme state to apply
  */
-function handleThemeUpdate(theme: Theme): void {
+export function handleThemeUpdate(theme: Theme): void {
   localStorage.setItem("saved-theme", theme)
 
   // Only show the auto text if the theme is auto

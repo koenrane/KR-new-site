@@ -1,15 +1,19 @@
 import { test, expect, type Page } from "@playwright/test"
 
-import { type Theme, getSystemTheme } from "../scripts/darkmode"
+import { type Theme } from "../scripts/darkmode"
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
+  // Default auto to light
+  await page.emulateMedia({ colorScheme: "light" })
 })
 
 async function checkTheme(page: Page, colorScheme: Theme) {
   let expectedTheme = colorScheme
   if (colorScheme === "auto") {
-    expectedTheme = getSystemTheme()
+    expectedTheme = await page.evaluate(() =>
+      window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+    )
   }
   expect(["light", "dark"]).toContain(expectedTheme)
 
@@ -18,7 +22,7 @@ async function checkTheme(page: Page, colorScheme: Theme) {
 
   const dayIcon = page.locator("#day-icon")
   const nightIcon = page.locator("#night-icon")
-  if (colorScheme === "light") {
+  if (expectedTheme === "light") {
     await expect(dayIcon).toBeVisible()
     await expect(nightIcon).not.toBeVisible()
   } else {
@@ -79,29 +83,45 @@ test("System preference changes are reflected in auto mode", async ({ page }) =>
       colorScheme: colorScheme as "light" | "dark" | "no-preference" | null | undefined,
     })
 
-    const theme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
+    const theme = await getTheme(page)
     expect(theme).toBe(colorScheme)
 
     await checkTheme(page, colorScheme as Theme)
+    // Storage shouldn't change in auto mode
+    await checkStorage(page, "auto")
   }
 })
 
-test("Theme persists across page reloads", async ({ page }) => {
-  // Set theme to dark
-  await page.evaluate(() => {
-    localStorage.setItem("saved-theme", "dark")
-    document.documentElement.setAttribute("theme", "dark")
+for (const colorScheme of ["light", "dark", "auto"]) {
+  test(`Theme persists across page reloads: ${colorScheme}`, async ({ page }) => {
+    await page.evaluate((scheme) => {
+      localStorage.setItem("saved-theme", scheme)
+      const root = document.documentElement
+
+      if (scheme === "auto") {
+        const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light"
+        root.setAttribute("theme", systemPreference)
+      } else {
+        root.setAttribute("theme", scheme)
+      }
+      root.dispatchEvent(new Event("themechange"))
+    }, colorScheme as string)
+
+    await page.reload()
+
+    const theme = await getTheme(page)
+    if (colorScheme === "auto") {
+      await expect(page.locator("#darkmode-auto-text")).toBeVisible()
+    } else {
+      expect(theme).toBe(colorScheme)
+    }
+
+    await checkTheme(page, colorScheme as Theme)
+    await checkStorage(page, colorScheme as Theme)
   })
-
-  // Reload page
-  await page.reload()
-
-  // Verify theme persisted
-  const theme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
-  expect(theme).toBe("dark")
-
-  await checkTheme(page, "dark")
-})
+}
 
 test("Theme change event is emitted", async ({ page }) => {
   const toggle = page.locator("#theme-toggle")
