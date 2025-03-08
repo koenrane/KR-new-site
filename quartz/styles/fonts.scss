@@ -21,7 +21,7 @@
   --max-font-size: 1.5rem; // 24px
   --base-font-size: clamp(
     var(--min-font-size),
-    calc(var(--min-font-size) + 0.5vw),
+    calc(var(--min-font-size) + 1vw),
     var(--max-font-size)
   );
 
