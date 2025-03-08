@@ -331,6 +331,7 @@ code {
     content: attr(data-first-letter);
     text-transform: uppercase;
     position: absolute;
+    cursor: text;
   }
 }
 
@@ -369,6 +370,7 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-foreground);
     font-weight: 500 !important;
+    cursor: text;
 
     // Firefox-specific adjustments for dropcap
     @supports (-moz-appearance: none) {
