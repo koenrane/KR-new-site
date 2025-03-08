@@ -27,8 +27,17 @@ async function checkTheme(page: Page, colorScheme: Theme) {
   }
 }
 
+async function checkStorage(page: Page, colorScheme: Theme) {
+  const storedTheme = await page.evaluate(() => localStorage.getItem("saved-theme"))
+  expect(storedTheme).toBe(colorScheme)
+}
+
 async function clickButton(page: Page) {
   await page.locator("#theme-toggle").click()
+}
+
+async function getTheme(page: Page) {
+  return await page.evaluate(() => document.documentElement.getAttribute("theme"))
 }
 
 test("Dark mode toggle changes theme", async ({ page }) => {
@@ -38,7 +47,7 @@ test("Dark mode toggle changes theme", async ({ page }) => {
   await checkTheme(page, "light")
 
   // Get initial theme
-  const initialTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
+  const initialTheme = await getTheme(page)
   const initialSpan = page.locator("#darkmode-span")
   const initialIcon = await initialSpan.screenshot()
 
@@ -49,13 +58,12 @@ test("Dark mode toggle changes theme", async ({ page }) => {
   }).toPass()
 
   // Verify theme changed
-  const newTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
+  const newTheme = await getTheme(page)
   expect(newTheme).not.toBe(initialTheme)
   expect(newTheme).toBe(initialTheme === "dark" ? "light" : "dark")
 
   // Verify localStorage updated
-  const storedTheme = await page.evaluate(() => localStorage.getItem("saved-theme"))
-  expect(storedTheme).toBe(newTheme)
+  await checkStorage(page, newTheme as Theme)
 })
 
 test("System preference changes are reflected in auto mode", async ({ page }) => {
@@ -113,7 +121,7 @@ test("Theme change event is emitted", async ({ page }) => {
 
   // Verify event emitted with correct theme
   const emittedTheme = await themeChangePromise
-  const currentTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
+  const currentTheme = await getTheme(page)
   expect(emittedTheme).toBe(currentTheme)
 })
 
@@ -146,14 +154,15 @@ test("Auto label is visible iff auto mode is set", async ({ page }) => {
 })
 
 test("Dark mode icons are visible and toggle correctly", async ({ page }) => {
-  const autoTheme = "light"
-  await page.emulateMedia({ colorScheme: autoTheme })
-
-  await checkTheme(page, autoTheme)
-
-  await clickButton(page)
+  // Auto mode at first
+  expect(await getTheme(page)).toBe("light")
   await checkTheme(page, "light")
 
   await clickButton(page)
+  expect(await getTheme(page)).toBe("light")
+  await checkTheme(page, "light")
+
+  await clickButton(page)
+  expect(await getTheme(page)).toBe("dark")
   await checkTheme(page, "dark")
 })
