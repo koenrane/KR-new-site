@@ -26,7 +26,7 @@ function getSystemTheme(): Theme {
  * @param theme - The theme to apply
  * @param emitEvent - Whether to emit a theme change event (default: true)
  */
-function setThemeClass(theme: Theme, emitEvent: boolean = true) {
+function setThemeClassOnRoot(theme: Theme, emitEvent: boolean = true) {
   document.documentElement.setAttribute("theme", theme)
   if (emitEvent) {
     emitThemeChangeEvent(theme)
@@ -37,7 +37,7 @@ function setThemeClass(theme: Theme, emitEvent: boolean = true) {
  * Updates the theme state and related UI elements
  * @param theme - The theme state to apply
  */
-function updateTheme(theme: Theme): void {
+function handleThemeUpdate(theme: Theme): void {
   localStorage.setItem("saved-theme", theme)
 
   // Update UI for auto mode
@@ -48,36 +48,39 @@ function updateTheme(theme: Theme): void {
 
   // Apply the appropriate theme
   if (theme === "auto") {
-    setThemeClass(getSystemTheme())
+    setThemeClassOnRoot(getSystemTheme())
   } else {
-    setThemeClass(theme)
+    setThemeClassOnRoot(theme)
   }
+}
+
+const getNextTheme = (): Theme => {
+  const currentTheme = localStorage.getItem("saved-theme") || "auto"
+  let nextTheme: Theme
+
+  switch (currentTheme) {
+    case "auto":
+      nextTheme = "light"
+      break
+    case "light":
+      nextTheme = "dark"
+      break
+    case "dark":
+      nextTheme = "auto"
+      break
+    default:
+      nextTheme = "auto"
+  }
+
+  return nextTheme
 }
 
 /**
  * Cycles through theme states in the order: auto -> light -> dark -> auto
- * Updates the theme and marks the toggle as used
  */
 export const rotateTheme = () => {
-  const currentTheme = localStorage.getItem("saved-theme") || "auto"
-  let newTheme: Theme
-
-  switch (currentTheme) {
-    case "auto":
-      newTheme = "light"
-      break
-    case "light":
-      newTheme = "dark"
-      break
-    case "dark":
-      newTheme = "auto"
-      break
-    default:
-      newTheme = "auto"
-  }
-
-  // TODO decouple from rotate - just use rotate to find next theme
-  updateTheme(newTheme)
+  const nextTheme = getNextTheme()
+  handleThemeUpdate(nextTheme)
 }
 
 /**
@@ -90,7 +93,7 @@ export const rotateTheme = () => {
 function setupDarkMode() {
   const savedTheme = localStorage.getItem("saved-theme")
   const theme = savedTheme || "auto"
-  updateTheme(theme as Theme)
+  handleThemeUpdate(theme as Theme)
 
   // Set up click handler for the toggle
   const toggle = document.querySelector("#theme-toggle") as HTMLButtonElement
@@ -106,7 +109,7 @@ function setupDarkMode() {
     function doSystemPreference(e: MediaQueryListEvent): void {
       if (localStorage.getItem("saved-theme") === "auto") {
         const newTheme = e.matches ? "dark" : "light"
-        setThemeClass(newTheme)
+        setThemeClassOnRoot(newTheme)
       }
     }
     const wrappedSystemPreference = wrapWithoutTransition(doSystemPreference)

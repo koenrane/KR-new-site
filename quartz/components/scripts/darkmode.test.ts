@@ -33,7 +33,6 @@ describe("darkmode", () => {
   }
 
   beforeEach(() => {
-    // Mock DOM elements
     document.body.innerHTML = `
       <div id="darkmode-span">
         <button id="theme-toggle" type="button" aria-label="Toggle theme">
