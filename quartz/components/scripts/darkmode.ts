@@ -40,18 +40,14 @@ function setThemeClassOnRoot(theme: Theme, emitEvent: boolean = true) {
 function handleThemeUpdate(theme: Theme): void {
   localStorage.setItem("saved-theme", theme)
 
-  // Update UI for auto mode
-  const autoText = document.querySelector("#darkmode-auto-text")
+  // Only show the auto text if the theme is auto
+  const autoText = document.querySelector("#darkmode-auto-text") as HTMLElement
   if (autoText) {
-    autoText.classList.toggle("hidden", theme !== "auto")
+    autoText.style.visibility = theme === "auto" ? "visible" : "hidden"
   }
 
-  // Apply the appropriate theme
-  if (theme === "auto") {
-    setThemeClassOnRoot(getSystemTheme())
-  } else {
-    setThemeClassOnRoot(theme)
-  }
+  const themeToApply = theme === "auto" ? getSystemTheme() : theme
+  setThemeClassOnRoot(themeToApply)
 }
 
 const getNextTheme = (): Theme => {

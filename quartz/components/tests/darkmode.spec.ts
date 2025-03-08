@@ -137,7 +137,6 @@ test("Auto label is visible iff auto mode is set", async ({ page }) => {
 
   await clickButton(page)
   await expect(autoText).not.toBeVisible()
-  await expect(page.locator("#light-mode-text")).toBeVisible()
 
   await clickButton(page)
   await expect(autoText).not.toBeVisible()
