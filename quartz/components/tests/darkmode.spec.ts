@@ -3,9 +3,10 @@ import { test, expect, type Page } from "@playwright/test"
 import { type Theme } from "../scripts/darkmode"
 import { setTheme as utilsSetTheme } from "./visual_utils"
 
+const AUTO_THEME: Theme = "light"
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
-  await page.emulateMedia({ colorScheme: "light" })
+  await page.emulateMedia({ colorScheme: AUTO_THEME })
 })
 
 class DarkModeHelper {
@@ -17,7 +18,7 @@ class DarkModeHelper {
 
   async getTheme(): Promise<string> {
     const theme = await this.page.evaluate(() => document.documentElement.getAttribute("theme"))
-    return theme || "light"
+    return theme || AUTO_THEME
   }
 
   async setTheme(theme: Theme): Promise<void> {
@@ -53,7 +54,7 @@ class DarkModeHelper {
 
 test("Dark mode toggle changes icon's visual state", async ({ page }) => {
   const helper = new DarkModeHelper(page)
-  await helper.verifyTheme("light")
+  await helper.verifyTheme(AUTO_THEME)
   const initialSpan = page.locator("#darkmode-span")
   const initialIcon = await initialSpan.screenshot()
 
@@ -131,3 +132,57 @@ for (const useButton of [true, false]) {
     }
   })
 }
+
+/* If detectDarkMode.js isn't working right, the FOUC will happen here */
+test("No flash of unstyled content on page load", async ({ page }) => {
+  const afterScreenshots = new Map<Theme, Buffer>()
+  const minimalHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <link rel="stylesheet" href="/index.css">
+        <script id="detect-dark-mode" src="/static/scripts/detectDarkMode.js"></script>
+      </head>
+      <body>
+      </body>
+    </html>
+  `
+
+  for (const initialTheme of ["light", "dark", "auto"] as const) {
+    // Set up initial conditions before loading page
+    await page.addInitScript((initialTheme: Theme) => {
+      localStorage.clear()
+      localStorage.setItem("saved-theme", initialTheme)
+    }, initialTheme)
+    const themeToSet = initialTheme === "auto" ? AUTO_THEME : initialTheme
+    await page.emulateMedia({ colorScheme: themeToSet })
+
+    // Load the minimal page first
+    await page.reload()
+    await page.setContent(minimalHtml, { waitUntil: "domcontentloaded" })
+
+    // Take first screenshot immediately after script injection
+    const firstScreenshot = await page.screenshot()
+
+    // Wait for styles to be applied
+    await page.waitForLoadState("networkidle")
+    const afterLoadScreenshot = await page.screenshot()
+    afterScreenshots.set(initialTheme, afterLoadScreenshot)
+
+    // Compare screenshots - they should be identical if no FOUC occurred
+    expect(Buffer.from(firstScreenshot).toString("base64")).toEqual(
+      Buffer.from(afterLoadScreenshot).toString("base64"),
+    )
+
+    // Verify root theme is set correctly
+    const helper = new DarkModeHelper(page)
+    const currentTheme = (await helper.getTheme()) as Theme
+    expect(currentTheme).toBe(themeToSet)
+  }
+
+  // Verify different themes produce different visual states
+  expect(afterScreenshots.size).toBe(3)
+  expect(afterScreenshots.get("light")).not.toEqual(afterScreenshots.get("dark"))
+  expect(afterScreenshots.get(AUTO_THEME)).toEqual(afterScreenshots.get("auto"))
+  expect(afterScreenshots.get("dark")).not.toEqual(afterScreenshots.get("auto"))
+})
