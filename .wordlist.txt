@@ -2605,3 +2605,4 @@ GPT-4o
 Prost
 
 GPT-4-o
+polyamorous

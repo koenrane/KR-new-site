@@ -112,8 +112,8 @@ export default (() => {
       <script
         type="application/json"
         id="quartz-frontmatter"
+        // skipcq: JS-0440
         dangerouslySetInnerHTML={{
-          // skipcq: JS-0440
           __html: JSON.stringify(exposedFrontmatter),
         }}
       />
@@ -169,8 +169,6 @@ export default (() => {
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
         )}
-        <link rel="robots" href="/static/robots.txt" type="text/plain" />
-
         <link rel="icon" href={iconPath} />
         <link rel="apple-touch-icon" href={appleIconPath} />
         <link rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />

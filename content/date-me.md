@@ -7,10 +7,12 @@ hideSubscriptionLinks: true
 card_image: https://assets.turntrout.com/static/images/card_images/anime_sunset.png
 description: My dating doc, sharing who I am and who I'm looking for. Is it you? 💘
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2025-03-05 20:43:54.692493
+date_updated: 2025-03-08 18:08:37.606100
 tags:
   - personal
 ---
+
+
 
 
 
@@ -81,7 +83,7 @@ AI-fueled house parties
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
-<img src="/asset_staging/alex-gigachad-side.png" style="width: 218px; height: 30vh; object-fit: cover; object-position: 80%;" alt="Me smiling, bearing some resemblance to gigachad."/>
+<img src="https://assets.turntrout.com/static/images/posts/alex-gigachad-side.avif" style="width: 218px; height: 30vh; object-fit: cover; object-position: 80%;" alt="Me smiling, bearing some resemblance to gigachad."/>
 <figcaption>(a) Alex</figcaption>
 </div>
 <div class="subfigure">

@@ -17,10 +17,17 @@ export const Static: QuartzEmitterPlugin = () => ({
     const staticPath = joinSegments(QUARTZ, "static")
     const fps = await glob("**", staticPath, cfg.configuration.ignorePatterns)
     for (const fp of fps) {
-      graph.addEdge(
-        joinSegments("static", fp) as FilePath,
-        joinSegments(argv.output, "static", fp) as FilePath,
-      )
+      if (fp === "robots.txt") {
+        graph.addEdge(
+          joinSegments("static", fp) as FilePath,
+          joinSegments(argv.output, fp) as FilePath,
+        )
+      } else {
+        graph.addEdge(
+          joinSegments("static", fp) as FilePath,
+          joinSegments(argv.output, "static", fp) as FilePath,
+        )
+      }
     }
 
     return graph
@@ -28,11 +35,28 @@ export const Static: QuartzEmitterPlugin = () => ({
   async emit({ argv, cfg }): Promise<FilePath[]> {
     const staticPath = joinSegments(QUARTZ, "static")
     const fps = await glob("**", staticPath, cfg.configuration.ignorePatterns)
+    const emittedFiles: FilePath[] = []
 
+    // Copy robots.txt to root
+    const robotsTxtPath = joinSegments(staticPath, "robots.txt")
+    if (fs.existsSync(robotsTxtPath)) {
+      await fs.promises.copyFile(robotsTxtPath, joinSegments(argv.output, "robots.txt"))
+      emittedFiles.push(joinSegments(argv.output, "robots.txt") as FilePath)
+    }
+
+    // Copy everything else to /static/
     await fs.promises.cp(staticPath, joinSegments(argv.output, "static"), {
       recursive: true,
       dereference: true,
     })
-    return fps.map((fp) => joinSegments(argv.output, "static", fp)) as FilePath[]
+
+    // Add all other files to emitted files list
+    emittedFiles.push(
+      ...(fps
+        .filter((fp) => fp !== "robots.txt")
+        .map((fp) => joinSegments(argv.output, "static", fp)) as FilePath[]),
+    )
+
+    return emittedFiles
   },
 })

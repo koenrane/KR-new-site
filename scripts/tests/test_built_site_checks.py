@@ -1,6 +1,7 @@
 import subprocess
 import sys
 from pathlib import Path
+from typing import List
 
 import pytest
 import requests
@@ -1840,3 +1841,28 @@ def test_check_consecutive_periods(html, expected):
 def test_check_favicon_parent_elements(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     assert check_favicon_parent_elements(soup) == expected
+
+
+@pytest.mark.parametrize(
+    "file_structure,expected",
+    [
+        # Test robots.txt in root (valid)
+        (["robots.txt"], []),
+        # Test missing robots.txt
+        ([], ["robots.txt not found in site root"]),
+        # Test robots.txt in subdirectory (should still report missing from root)
+        (["static/robots.txt"], ["robots.txt not found in site root"]),
+    ],
+)
+def test_check_robots_txt_location(
+    tmp_path: Path, file_structure: List[str], expected: List[str]
+):
+    """Test the check_robots_txt_location function with various file structures."""
+    # Create the test files
+    for file_path in file_structure:
+        full_path = tmp_path / file_path
+        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.touch()
+
+    result = check_robots_txt_location(tmp_path)
+    assert result == expected
