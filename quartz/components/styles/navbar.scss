@@ -282,7 +282,7 @@
 
     @media all and (min-width: $full-page-width) {
       margin-right: 0;
-      margin-bottom: calc(0.25 * $base-margin);
+      margin-bottom: calc(0.5 * $base-margin);
       align-self: center; // Centered above the auto text
     }
   }

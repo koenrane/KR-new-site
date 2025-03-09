@@ -112,8 +112,8 @@ export default (() => {
       <script
         type="application/json"
         id="quartz-frontmatter"
+        // skipcq: JS-0440
         dangerouslySetInnerHTML={{
-          // skipcq: JS-0440
           __html: JSON.stringify(exposedFrontmatter),
         }}
       />
