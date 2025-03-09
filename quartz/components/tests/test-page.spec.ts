@@ -373,3 +373,53 @@ for (const theme of ["light", "dark"]) {
     await takeScreenshotAfterElement(page, testInfo, elvishText, 50, `elvish-text-hover-${theme}`)
   })
 }
+
+test.describe("Video Speed Controller visibility", () => {
+  test("hides VSC controller for no-vsc videos after img", async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.innerHTML = `
+        <div class="vsc-controller">Test</div>
+        <img />
+        <video class="no-vsc"></video>
+      `
+    })
+
+    const vscController = page.locator(".vsc-controller")
+    await expect(vscController).toBeHidden()
+  })
+  test("hides VSC controller for no-vsc videos", async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.innerHTML = `
+        <div class="vsc-controller">Test</div>
+        <video class="no-vsc"></video>
+      `
+    })
+
+    const vscController = page.locator(".vsc-controller")
+    await expect(vscController).toBeHidden()
+  })
+
+  test("hides VSC controller for autoplay videos", async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.innerHTML = `
+        <div class="vsc-controller">Test</div>
+        <video autoplay></video>
+      `
+    })
+
+    const vscController = page.locator(".vsc-controller")
+    await expect(vscController).toBeHidden()
+  })
+
+  test("shows VSC controller for regular videos", async ({ page }) => {
+    await page.evaluate(() => {
+      document.body.innerHTML = `
+        <div class="vsc-controller">Test</div>
+        <video></video>
+      `
+    })
+
+    const vscController = page.locator(".vsc-controller")
+    await expect(vscController).toBeVisible()
+  })
+})
