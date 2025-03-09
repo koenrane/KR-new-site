@@ -150,7 +150,7 @@ I like the pastel palettes provided by Catppuccin:
 <figcaption>The palettes for light and dark mode. In dark mode, I decrease the saturation of image assets.</figcaption>
 </figure>
 
-I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets. I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower-contrast text.
+I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets. I even used CSS to dynamically adjust the luminance of select favicons, avoiding the scourge of common jet-black favicons mixed in with my softer text color. My dark mode button rotates between "automatic", "force light mode", and "force dark mode."
 
 ## Colors should accent content
 
