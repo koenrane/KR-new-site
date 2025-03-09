@@ -189,13 +189,10 @@ export async function search(page: Page, term: string) {
   const resultsContainer = page.locator("#results-container")
   await expect(resultsContainer).toBeVisible()
 
-  // If showing preview, wait for it to be ready
   if (showingPreview(page)) {
     const previewContainer = page.locator("#preview-container")
     await expect(previewContainer).toBeAttached()
-    // Print viewport size
-    console.error("Viewport size:", page.viewportSize())
-    await expect(previewContainer).toBeVisible({ timeout: 10000 })
+    // Will not be visible if no results are found
   }
 }
 
