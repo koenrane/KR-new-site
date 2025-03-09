@@ -248,7 +248,6 @@
   }
 }
 
-// DARKMODE
 #darkmode-span {
   z-index: 3;
   position: absolute;
@@ -274,11 +273,18 @@
   & #theme-toggle {
     display: inline-block;
     width: 20px;
+    min-width: 20px; // Prevent flex collapse
     height: 20px;
     position: relative;
-    margin-right: calc(0.25 * $base-margin);
     border: none;
     background-color: transparent;
+    margin-right: calc(0.5 * $base-margin);
+
+    @media all and (min-width: $full-page-width) {
+      margin-right: 0;
+      margin-bottom: calc(0.25 * $base-margin);
+      align-self: center; // Centered above the auto text
+    }
   }
 
   & #darkmode-auto-text {
