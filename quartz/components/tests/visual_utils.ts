@@ -63,7 +63,7 @@ export async function takeRegressionScreenshot(
   testInfo: TestInfo,
   screenshotSuffix: string,
   options?: RegressionScreenshotOptions,
-) {
+): Promise<Buffer> {
   const browserName = testInfo.project.name
   const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}-${browserName}.png`
   const baseOptions = { path: screenshotPath, animations: "disabled" as const }
@@ -79,7 +79,7 @@ export async function takeRegressionScreenshot(
     return element.screenshot(screenshotOptions)
   }
 
-  return page.screenshot(screenshotOptions)
+  return await page.screenshot(screenshotOptions)
 }
 
 export async function takeScreenshotAfterElement(
