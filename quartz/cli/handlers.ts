@@ -4,7 +4,7 @@ import type { Element as CheerioElement } from "domhandler"
 import { Mutex } from "async-mutex"
 import chalk from "chalk"
 import { load as cheerioLoad } from "cheerio"
-import chokidar from "chokidar"
+import { watch } from "chokidar"
 import CleanCSS from "clean-css"
 // @ts-expect-error no critical types
 import { generate } from "critical"
@@ -263,21 +263,19 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
   )
   console.log("Hint: exit with Ctrl+C")
 
-  chokidar
-    .watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
-      ignoreInitial: true,
-      ignored: [
-        "**/test/**",
-        "**/tests/**",
-        "**/*.test.ts",
-        "**/*.test.tsx",
-        "**/*.spec.ts",
-        "**/*.spec.tsx",
-      ],
-    })
-    .on("all", async () => {
-      await build(clientRefresh)
-    })
+  watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
+    ignoreInitial: true,
+    ignored: [
+      "**/test/**",
+      "**/tests/**",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+    ],
+  }).on("all", async () => {
+    await build(clientRefresh)
+  })
 }
 
 export const loadSettings = {
