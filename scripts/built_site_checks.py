@@ -1036,6 +1036,19 @@ def check_css_issues(file_path: Path) -> List[str]:
     return []
 
 
+def check_robots_txt_location(base_dir: Path) -> List[str]:
+    """
+    Check that robots.txt exists in the root directory and not in
+    subdirectories.
+    """
+    issues = []
+    root_robots = base_dir / "robots.txt"
+    if not root_robots.is_file():
+        issues.append("robots.txt not found in site root")
+
+    return issues
+
+
 def main() -> None:
     """
     Check all HTML files in the public directory for issues.
@@ -1047,6 +1060,12 @@ def main() -> None:
     css_issues = check_css_issues(public_dir / "index.css")
     if css_issues:
         print_issues(public_dir / "index.css", {"CSS_issues": css_issues})
+        issues_found = True
+
+    # Check robots.txt location
+    robots_issues = check_robots_txt_location(public_dir)
+    if robots_issues:
+        print_issues(public_dir, {"robots_txt_issues": robots_issues})
         issues_found = True
 
     md_dir: Path = git_root / "content"
