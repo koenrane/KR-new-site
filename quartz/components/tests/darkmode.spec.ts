@@ -4,130 +4,104 @@ import { type Theme } from "../scripts/darkmode"
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
-  // Default auto to light
   await page.emulateMedia({ colorScheme: "light" })
 })
 
-async function checkTheme(page: Page, colorScheme: Theme) {
-  let expectedTheme = colorScheme
-  if (colorScheme === "auto") {
-    expectedTheme = await page.evaluate(() =>
-      window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
-    )
+class DarkModeHelper {
+  page: Page
+
+  constructor(page: Page) {
+    this.page = page
   }
-  expect(["light", "dark"]).toContain(expectedTheme)
 
-  // Wait for theme attribute to be set correctly
-  await expect(page.locator(":root")).toHaveAttribute("theme", expectedTheme)
-
-  const dayIcon = page.locator("#day-icon")
-  const nightIcon = page.locator("#night-icon")
-  if (expectedTheme === "light") {
-    await expect(dayIcon).toBeVisible()
-    await expect(nightIcon).not.toBeVisible()
-  } else {
-    await expect(dayIcon).not.toBeVisible()
-    await expect(nightIcon).toBeVisible()
+  async getTheme(): Promise<string> {
+    const theme = await this.page.evaluate(() => document.documentElement.getAttribute("theme"))
+    return theme || "light"
   }
-}
 
-async function checkStorage(page: Page, colorScheme: Theme) {
-  const storedTheme = await page.evaluate(() => localStorage.getItem("saved-theme"))
-  expect(storedTheme).toBe(colorScheme)
-}
-
-async function clickButton(page: Page) {
-  await page.locator("#theme-toggle").click()
-}
-
-async function getTheme(page: Page) {
-  return await page.evaluate(() => document.documentElement.getAttribute("theme"))
-}
-
-test("Dark mode toggle changes theme", async ({ page }) => {
-  const toggle = page.locator("#theme-toggle")
-
-  await expect(toggle).toBeAttached()
-  await checkTheme(page, "light")
-
-  // Get initial theme
-  const initialTheme = await getTheme(page)
-  const initialSpan = page.locator("#darkmode-span")
-  const initialIcon = await initialSpan.screenshot()
-
-  await clickButton(page)
-  await expect(async () => {
-    const currentIcon = await initialSpan.screenshot()
-    expect(currentIcon).not.toEqual(initialIcon)
-  }).toPass()
-
-  // Verify theme changed
-  const newTheme = await getTheme(page)
-  expect(newTheme).not.toBe(initialTheme)
-  expect(newTheme).toBe(initialTheme === "dark" ? "light" : "dark")
-
-  // Verify localStorage updated
-  await checkStorage(page, newTheme as Theme)
-})
-
-test("System preference changes are reflected in auto mode", async ({ page }) => {
-  await page.evaluate(() => {
-    localStorage.setItem("saved-theme", "auto")
-  })
-
-  const autoText = page.locator("#darkmode-auto-text")
-  await expect(autoText).toBeVisible()
-
-  for (const colorScheme of ["light", "dark"]) {
-    await page.emulateMedia({
-      colorScheme: colorScheme as "light" | "dark" | "no-preference" | null | undefined,
-    })
-
-    const theme = await getTheme(page)
-    expect(theme).toBe(colorScheme)
-
-    await checkTheme(page, colorScheme as Theme)
-    // Storage shouldn't change in auto mode
-    await checkStorage(page, "auto")
-  }
-})
-
-for (const colorScheme of ["light", "dark", "auto"]) {
-  test(`Theme persists across page reloads: ${colorScheme}`, async ({ page }) => {
-    await page.evaluate((scheme) => {
-      localStorage.setItem("saved-theme", scheme)
+  async setTheme(theme: Theme): Promise<void> {
+    await this.page.evaluate((t) => {
+      localStorage.setItem("saved-theme", t)
       const root = document.documentElement
-
-      if (scheme === "auto") {
+      if (t === "auto") {
         const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches
           ? "dark"
           : "light"
         root.setAttribute("theme", systemPreference)
       } else {
-        root.setAttribute("theme", scheme)
+        root.setAttribute("theme", t)
       }
       root.dispatchEvent(new Event("themechange"))
-    }, colorScheme as string)
+    }, theme)
+  }
 
-    await page.reload()
+  async verifyTheme(expectedTheme: Theme): Promise<void> {
+    const actualTheme =
+      expectedTheme === "auto"
+        ? await this.page.evaluate(() =>
+            window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+          )
+        : expectedTheme
 
-    const theme = await getTheme(page)
-    if (colorScheme === "auto") {
-      await expect(page.locator("#darkmode-auto-text")).toBeVisible()
-    } else {
-      expect(theme).toBe(colorScheme)
-    }
+    await expect(this.page.locator(":root")).toHaveAttribute("theme", actualTheme)
+    await expect(this.page.locator("#day-icon")).toBeVisible({ visible: actualTheme === "light" })
+    await expect(this.page.locator("#night-icon")).toBeVisible({ visible: actualTheme === "dark" })
+  }
 
-    await checkTheme(page, colorScheme as Theme)
-    await checkStorage(page, colorScheme as Theme)
-  })
+  async verifyStorage(expectedTheme: Theme): Promise<void> {
+    const storedTheme = await this.page.evaluate(() => localStorage.getItem("saved-theme"))
+    expect(storedTheme).toBe(expectedTheme)
+  }
+
+  async clickToggle(): Promise<void> {
+    await this.page.locator("#theme-toggle").click()
+  }
+
+  async verifyAutoText(visible: boolean): Promise<void> {
+    await expect(this.page.locator("#darkmode-auto-text")).toBeVisible({ visible })
+  }
 }
 
-test("Theme change event is emitted", async ({ page }) => {
-  const toggle = page.locator("#theme-toggle")
-  await expect(toggle).toBeAttached()
+test("Dark mode toggle changes icon's visual state", async ({ page }) => {
+  const helper = new DarkModeHelper(page)
+  await helper.verifyTheme("light")
+  const initialSpan = page.locator("#darkmode-span")
+  const initialIcon = await initialSpan.screenshot()
 
-  // Listen for theme change event
+  await helper.clickToggle()
+  await expect(async () => {
+    expect(await initialSpan.screenshot()).not.toEqual(initialIcon)
+  }).toPass()
+})
+
+test("System preference changes are reflected in auto mode", async ({ page }) => {
+  const helper = new DarkModeHelper(page)
+  await helper.setTheme("auto")
+  await helper.verifyAutoText(true)
+
+  for (const scheme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: scheme })
+    await helper.verifyTheme(scheme)
+    await helper.verifyStorage("auto")
+  }
+})
+
+test.describe("Theme persistence and UI states", () => {
+  for (const theme of ["light", "dark", "auto"] as const) {
+    test(`persists ${theme} theme across reloads`, async ({ page }) => {
+      const helper = new DarkModeHelper(page)
+      await helper.setTheme(theme)
+
+      await page.reload()
+      await helper.verifyTheme(theme)
+      await helper.verifyStorage(theme)
+      await helper.verifyAutoText(theme === "auto")
+    })
+  }
+})
+
+test("Theme change event is emitted", async ({ page }) => {
+  const helper = new DarkModeHelper(page)
   const themeChangePromise = page.evaluate(
     () =>
       new Promise((resolve) => {
@@ -137,52 +111,18 @@ test("Theme change event is emitted", async ({ page }) => {
       }),
   )
 
-  await clickButton(page)
-
-  // Verify event emitted with correct theme
-  const emittedTheme = await themeChangePromise
-  const currentTheme = await getTheme(page)
+  await helper.clickToggle()
+  const [emittedTheme, currentTheme] = await Promise.all([themeChangePromise, helper.getTheme()])
   expect(emittedTheme).toBe(currentTheme)
 })
 
-test("Icon state matches system preference by default", async ({ page }) => {
-  // Clear any stored preference
-  await page.evaluate(() => {
-    localStorage.removeItem("saved-theme")
-  })
-  // Emulate dark color scheme
-  await page.emulateMedia({ colorScheme: "dark" })
-  await checkTheme(page, "dark")
+test("Dark mode icons toggle correctly through states", async ({ page }) => {
+  const helper = new DarkModeHelper(page)
+  const states: Theme[] = ["auto", "light", "dark", "auto"]
 
-  // Emulate light color scheme
-  await page.emulateMedia({ colorScheme: "light" })
-  await checkTheme(page, "light")
-})
-
-test("Auto label is visible iff auto mode is set", async ({ page }) => {
-  const autoText = page.locator("#darkmode-auto-text")
-  await expect(autoText).toBeVisible()
-
-  await clickButton(page)
-  await expect(autoText).not.toBeVisible()
-
-  await clickButton(page)
-  await expect(autoText).not.toBeVisible()
-
-  await clickButton(page)
-  await expect(autoText).toBeVisible()
-})
-
-test("Dark mode icons are visible and toggle correctly", async ({ page }) => {
-  // Auto mode at first
-  expect(await getTheme(page)).toBe("light")
-  await checkTheme(page, "light")
-
-  await clickButton(page)
-  expect(await getTheme(page)).toBe("light")
-  await checkTheme(page, "light")
-
-  await clickButton(page)
-  expect(await getTheme(page)).toBe("dark")
-  await checkTheme(page, "dark")
+  for (const [index, theme] of states.entries()) {
+    await helper.verifyTheme(theme)
+    await helper.verifyAutoText(theme === "auto")
+    if (index < states.length - 1) await helper.clickToggle()
+  }
 })

@@ -33,6 +33,13 @@ function setThemeClassOnRoot(theme: Theme, emitEvent = true) {
   }
 }
 
+function updateAutoTextVisibility(theme: Theme) {
+  const autoText = document.querySelector("#darkmode-auto-text") as HTMLElement
+  if (autoText) {
+    autoText.style.visibility = theme === "auto" ? "visible" : "hidden"
+  }
+}
+
 /**
  * Updates the theme state and related UI elements
  * @param theme - The theme state to apply
@@ -40,11 +47,7 @@ function setThemeClassOnRoot(theme: Theme, emitEvent = true) {
 export function handleThemeUpdate(theme: Theme): void {
   localStorage.setItem("saved-theme", theme)
 
-  // Only show the auto text if the theme is auto
-  const autoText = document.querySelector("#darkmode-auto-text") as HTMLElement
-  if (autoText) {
-    autoText.style.visibility = theme === "auto" ? "visible" : "hidden"
-  }
+  updateAutoTextVisibility(theme)
 
   const themeToApply = theme === "auto" ? getSystemTheme() : theme
   setThemeClassOnRoot(themeToApply)
