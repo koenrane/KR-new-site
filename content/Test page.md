@@ -77,6 +77,24 @@ Subtitle: I am a subtitle with [a link](/test-page).
         - .
   - The last bullet
 
+## Description list
+
+Header 1
+: Test item 1
+<dl>
+<dt>Unordered list inside a description list</dt>
+<dd><ul>
+   <li>Voice &amp; video calls</li>
+   <li><abbr class="small-caps">Gps</abbr></li>
+   <li>Audible</li>
+   <li>Uber / Lyft</li>
+   <li>Authenticators / alarms / other boring utilities</li>
+   <li>Roam / note-taking</li>
+   </ul>
+</dd>
+
+## Callout lists
+
 > [!info] List callout
 > Testing a list callout:
 >
