@@ -28,6 +28,7 @@ from rich.style import Style
 console = Console()
 SERVER_START_WAIT_TIME: int = 60
 
+# skipcq: BAN-B108
 TEMP_DIR = Path("/tmp/quartz_checks")
 os.makedirs(TEMP_DIR, exist_ok=True)
 STATE_FILE_PATH = TEMP_DIR / "last_successful_step.json"
@@ -166,14 +167,16 @@ def create_server(git_root_path: Path) -> int:
 
     Returns the PID of the server to use.
     """
-    # Use existing server if running
-    existing_pid = find_quartz_process()
-    if existing_pid:
-        console.log(
-            "[green]Using existing quartz server "
-            f"(PID: {existing_pid})[/green]"
-        )
-        return existing_pid
+    # Check if port is in use first
+    if is_port_in_use(8080):
+        # Only use existing server if port is in use
+        existing_pid = find_quartz_process()
+        if existing_pid:
+            console.log(
+                "[green]Using existing quartz server "
+                f"(PID: {existing_pid})[/green]"
+            )
+            return existing_pid
 
     # Start new server
     console.log("Starting new quartz server...")
@@ -518,7 +521,7 @@ def main() -> None:
 
         # Validate the last step exists in our known steps
         last_step = get_last_step(all_step_names if args.resume else None)
-        if args.resume and not last_step:
+        if args.resume and last_step is None:
             # If resuming but no valid last step found, start from beginning
             console.log(
                 "[yellow]No valid resume point found. "

@@ -110,6 +110,7 @@ def test_create_server():
 
         # Case 2: The port isn't in use initially, but comes up after we start the server
         mock_port_check.side_effect = [False] + [True] * 39
+        mock_find_process.return_value = None  # Reset mock for second case
 
         # We must ensure we set up the context-manager return value properly
         mock_server_instance = mock_popen.return_value.__enter__.return_value
@@ -725,10 +726,11 @@ def test_create_server_progress_bar():
         patch("scripts.run_push_checks.Progress") as mock_progress_cls,
         patch("subprocess.Popen") as mock_popen,
         patch("time.sleep"),  # Don't actually sleep in tests
+        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
     ):
         # Set up mocks
         # First two checks are for the initial port check and first loop iteration
-        # Thirdrun_push_checks second loop iteration
+        # Third check is for second loop iteration
         # Fourth check is for success
         mock_port_check.side_effect = [False, False, False, True]
         mock_progress = MagicMock()
