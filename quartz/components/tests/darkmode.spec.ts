@@ -71,6 +71,9 @@ test("System preference changes are reflected in auto mode", async ({ page }) =>
   for (const scheme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme: scheme })
     await helper.verifyTheme(scheme)
+
+    // We're in auto mode the whole time
+    await helper.verifyAutoText(true)
     await helper.verifyStorage("auto")
   }
 })
@@ -80,6 +83,7 @@ test.describe("Theme persistence and UI states", () => {
     test(`persists ${theme} theme across reloads`, async ({ page }) => {
       const helper = new DarkModeHelper(page)
       await helper.setTheme(theme)
+      await helper.verifyAutoText(theme === "auto")
 
       await page.reload()
       await helper.verifyTheme(theme)
@@ -105,13 +109,25 @@ test("Theme change event is emitted", async ({ page }) => {
   expect(emittedTheme).toBe(currentTheme)
 })
 
-test("Dark mode icons toggle correctly through states", async ({ page }) => {
-  const helper = new DarkModeHelper(page)
-  const states: Theme[] = ["auto", "light", "dark", "auto"]
+// Verify that dark mode toggle works w/ both the real button and the helper
+for (const useButton of [true, false]) {
+  const method = useButton ? "clickToggle" : "setTheme"
 
-  for (const [index, theme] of states.entries()) {
-    await helper.verifyTheme(theme)
-    await helper.verifyAutoText(theme === "auto")
-    if (index < states.length - 1) await helper.clickToggle()
-  }
-})
+  test(`Dark mode icons toggle correctly through states (method: ${method})`, async ({ page }) => {
+    const helper = new DarkModeHelper(page)
+    const states: Theme[] = ["auto", "light", "dark", "auto"]
+
+    for (const [index, theme] of states.entries()) {
+      await helper.verifyTheme(theme)
+      await helper.verifyAutoText(theme === "auto")
+
+      if (index < states.length - 1) {
+        if (useButton) {
+          await helper.clickToggle()
+        } else {
+          await helper.setTheme(states[index + 1])
+        }
+      }
+    }
+  })
+}
