@@ -2,6 +2,7 @@ import { type Locator, type TestInfo, expect } from "@playwright/test"
 import { type Page } from "playwright"
 
 import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
+import { type Theme } from "../scripts/darkmode"
 
 export interface RegressionScreenshotOptions {
   element?: string | Locator
@@ -39,10 +40,19 @@ export async function waitForThemeTransition(page: Page) {
   })
 }
 
-export async function setTheme(page: Page, theme: "light" | "dark") {
-  await page.evaluate((themeValue) => {
-    document.documentElement.setAttribute("theme", themeValue)
-    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme: themeValue } }))
+export async function setTheme(page: Page, theme: Theme) {
+  await page.evaluate((t) => {
+    localStorage.setItem("saved-theme", t)
+    const root = document.documentElement
+    if (t === "auto") {
+      const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+      root.setAttribute("theme", systemPreference)
+    } else {
+      root.setAttribute("theme", t)
+    }
+    root.dispatchEvent(new Event("themechange"))
   }, theme)
 
   await waitForThemeTransition(page)

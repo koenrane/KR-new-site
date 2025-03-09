@@ -1,6 +1,7 @@
 import { test, expect, type Page } from "@playwright/test"
 
 import { type Theme } from "../scripts/darkmode"
+import { setTheme as utilsSetTheme } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
@@ -20,19 +21,7 @@ class DarkModeHelper {
   }
 
   async setTheme(theme: Theme): Promise<void> {
-    await this.page.evaluate((t) => {
-      localStorage.setItem("saved-theme", t)
-      const root = document.documentElement
-      if (t === "auto") {
-        const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light"
-        root.setAttribute("theme", systemPreference)
-      } else {
-        root.setAttribute("theme", t)
-      }
-      root.dispatchEvent(new Event("themechange"))
-    }, theme)
+    await utilsSetTheme(this.page, theme)
   }
 
   async verifyTheme(expectedTheme: Theme): Promise<void> {

@@ -1,6 +1,7 @@
 import { test, expect, type PageScreenshotOptions } from "@playwright/test"
 import sharp from "sharp"
 
+import { type Theme } from "../scripts/darkmode"
 import {
   yOffset,
   setTheme,
@@ -11,15 +12,20 @@ import {
 } from "./visual_utils"
 
 test.describe("visual_utils functions", () => {
+  const preferredTheme = "light"
+
   test.beforeEach(async ({ page }) => {
     await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
+    await page.emulateMedia({ colorScheme: preferredTheme })
   })
 
-  for (const theme of ["light", "dark"]) {
+  for (const theme of ["light", "dark", "auto"]) {
     test(`setTheme changes theme attribute to ${theme}`, async ({ page }) => {
-      await setTheme(page, theme as "light" | "dark")
+      await setTheme(page, theme as Theme)
       const currentTheme = await page.evaluate(() => document.documentElement.getAttribute("theme"))
-      expect(currentTheme).toBe(theme)
+
+      const expectedTheme = theme === "auto" ? preferredTheme : theme
+      expect(currentTheme).toBe(expectedTheme)
     })
   }
 

@@ -152,8 +152,6 @@ test("Menu disappears gradually when scrolling down", async ({ page }) => {
   expect(opacityValues.some((v) => v > 0 && v < 1)).toBeTruthy() // Should have intermediate values
 })
 
-// Todo check that shadow works
-
 test("Navbar shows shadow when scrolling down (lostpixel)", async ({ page }, testInfo) => {
   test.skip(isDesktopViewport(page), "Mobile-only test")
 
@@ -200,3 +198,21 @@ test("Navbar shows shadow when scrolling down (lostpixel)", async ({ page }, tes
   // Verify shadow is removed
   await expect(navbar).not.toHaveClass(/shadow/)
 })
+
+for (const theme of ["light", "dark", "auto"]) {
+  test(`Left sidebar is visible on desktop in ${theme} mode`, async ({ page }, testInfo) => {
+    test.skip(!isDesktopViewport(page), "Desktop-only test")
+
+    const leftSidebar = page.locator("#left-sidebar")
+    await expect(leftSidebar).toBeVisible()
+    await page.evaluate((theme: string) => {
+      localStorage.setItem("saved-theme", theme)
+      const root = document.documentElement
+      root.setAttribute("theme", theme)
+      root.dispatchEvent(new Event("themechange"))
+    }, theme)
+    await takeRegressionScreenshot(page, testInfo, `left-sidebar-${theme}`, {
+      element: leftSidebar,
+    })
+  })
+}
