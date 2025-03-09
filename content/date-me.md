@@ -81,7 +81,7 @@ AI-fueled house parties
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
-<img src="/asset_staging/alex-gigachad-side.png" style="width: 218px; height: 30vh; object-fit: cover; object-position: 80%;" alt="Me smiling, bearing some resemblance to gigachad."/>
+<img src="https://assets.turntrout.com/static/images/posts/alex-gigachad-side.avif" style="width: 218px; height: 30vh; object-fit: cover; object-position: 80%;" alt="Me smiling, bearing some resemblance to gigachad."/>
 <figcaption>(a) Alex</figcaption>
 </div>
 <div class="subfigure">
