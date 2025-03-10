@@ -156,9 +156,9 @@
 }
 
 #navbar-left,
-.navbar-left {
+.navbar-left,
+#navbar-right {
   display: flex;
-  position: relative;
   align-items: center;
 
   @media all and (min-width: $full-page-width) {
@@ -167,13 +167,13 @@
   }
 }
 
-#navbar-right {
-  display: flex;
-  align-items: center;
+#navbar-left,
+.navbar-left {
+  position: relative;
+}
 
+#navbar-right {
   @media all and (min-width: $full-page-width) {
-    flex-direction: column;
-    align-items: flex-end;
     margin-right: calc(0.25 * $base-margin);
   }
 }
