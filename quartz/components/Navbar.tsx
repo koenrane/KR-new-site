@@ -121,10 +121,8 @@ export default (() => {
       <div id="navbar" className="navbar" spa-preserve>
         <div id="navbar-left">
           {headerVideoContainer}
-          <h2 className="page-title-text">
-            <a href={baseDir} id="page-title-text">
-              {title}
-            </a>
+          <h2>
+            <a href={baseDir}>{title}</a>
           </h2>
           {darkMode}
         </div>

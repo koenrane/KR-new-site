@@ -123,8 +123,13 @@
   }
 }
 
+#page-title {
+  margin: 0;
+}
+
 /* Center the site name under the pond video */
-.page-title-text {
+#page-title h2,
+#navbar-left h2 {
   text-align: center;
   color: var(--midground);
 
