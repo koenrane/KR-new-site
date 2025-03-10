@@ -147,6 +147,11 @@
     margin-top: calc(0.5 * $base-margin);
   }
 
+  // Simulate an h3 on mobile. Prevent weird wrapping issues
+  @media all and (max-width: $mobile-breakpoint) {
+    font-size: var(--text-size-500);
+  }
+
   @media all and (min-width: $full-page-width) {
     margin-bottom: 0;
     margin-top: 0;
@@ -299,7 +304,7 @@
     flex-shrink: 0; // Don't want it to wrap
 
     @media all and (max-width: $full-page-width) {
-      margin-left: calc(0.5 * $base-margin);
+      margin-left: calc(0.25 * $base-margin);
       order: 999; // Push to the end of the row
     }
   }
