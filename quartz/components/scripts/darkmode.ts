@@ -10,7 +10,6 @@ export function getSystemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 
-// TODO update "theme" to "data-theme"
 /**
  * Updates the DOM to reflect the current theme state
  * @param theme - The theme to apply
