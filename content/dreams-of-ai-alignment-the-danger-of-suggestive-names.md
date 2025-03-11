@@ -36,8 +36,9 @@ original_url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-ali
 skip_import: true
 description: 'AI alignment plagued by imprecise language. Ex: "reward" and "shoggoth"
   are suggestive words that obstruct clear thought.'
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-10 20:10:07.374144
 ---
+
 
 
 
