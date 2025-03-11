@@ -9,7 +9,7 @@ tags:
 description: The "shoggoth" meme reflects fears about AI but lacks sufficient scientific basis. The meme misleads people to think AI is scarier than we know it to be.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: /asset_staging/no-shoggoth.png
+card_image: https://i.imgur.com/Zff8t5y.png
 aliases:
   - shoggoth
   - friendly-shoggoth
