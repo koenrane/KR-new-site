@@ -444,13 +444,6 @@ def get_check_steps(
             shell=True,
         ),
         CheckStep(
-            name="Checking source files",
-            command=[
-                "python",
-                f"{git_root_path}/scripts/source_file_checks.py",
-            ],
-        ),
-        CheckStep(
             name="Running Javascript unit tests",
             command=["npm", "run", "test"],
         ),
@@ -462,6 +455,13 @@ def get_check_steps(
             name="Compressing and uploading local assets",
             command=["sh", f"{git_root_path}/scripts/handle_local_assets.sh"],
             shell=True,
+        ),
+        CheckStep(
+            name="Checking source files",
+            command=[
+                "python",
+                f"{git_root_path}/scripts/source_file_checks.py",
+            ],
         ),
     ]
 
