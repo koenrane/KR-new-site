@@ -3,17 +3,6 @@ import { wrapWithoutTransition } from "./component_script_utils"
 export type Theme = "light" | "dark" | "auto"
 
 /**
- * Emits a custom 'themechange' event with the current theme
- * @param theme - The current theme state
- */
-const emitThemeChangeEvent = (theme: Theme) => {
-  const event: CustomEvent = new CustomEvent("themechange", {
-    detail: { theme },
-  })
-  document.dispatchEvent(event)
-}
-
-/**
  * Determines the system's color scheme preference
  * @returns The system's preferred theme ('light' or 'dark')
  */
@@ -21,23 +10,15 @@ export function getSystemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 
+// TODO update "theme" to "data-theme"
 /**
  * Updates the DOM to reflect the current theme state
  * @param theme - The theme to apply
- * @param emitEvent - Whether to emit a theme change event (default: true)
  */
-function setThemeClassOnRoot(theme: Theme, emitEvent = true) {
-  document.documentElement.setAttribute("theme", theme)
-  if (emitEvent) {
-    emitThemeChangeEvent(theme)
-  }
-}
-
-function updateAutoTextVisibility(theme: Theme) {
-  const autoText = document.querySelector("#darkmode-auto-text") as HTMLElement
-  if (autoText) {
-    autoText.style.visibility = theme === "auto" ? "visible" : "hidden"
-  }
+function setThemeClassOnRoot(theme: Theme) {
+  document.documentElement.setAttribute("data-theme-mode", theme)
+  const themeToApply = theme === "auto" ? getSystemTheme() : theme
+  document.documentElement.setAttribute("theme", themeToApply)
 }
 
 /**
@@ -46,11 +27,7 @@ function updateAutoTextVisibility(theme: Theme) {
  */
 export function handleThemeUpdate(theme: Theme): void {
   localStorage.setItem("saved-theme", theme)
-
-  updateAutoTextVisibility(theme)
-
-  const themeToApply = theme === "auto" ? getSystemTheme() : theme
-  setThemeClassOnRoot(themeToApply)
+  setThemeClassOnRoot(theme)
 }
 
 const getNextTheme = (): Theme => {
@@ -87,14 +64,13 @@ export const rotateTheme = () => {
  * - Sets up initial theme based on saved preference or auto mode
  * - Configures theme toggle click handler
  * - Sets up system preference change listener
- * - Manages description visibility based on toggle usage
+ * - Manages "auto" text visibility based on toggle usage
  */
 function setupDarkMode() {
   const savedTheme = localStorage.getItem("saved-theme")
   const theme = savedTheme || "auto"
   handleThemeUpdate(theme as Theme)
 
-  // Set up click handler for the toggle
   const toggle = document.querySelector("#theme-toggle") as HTMLButtonElement
   if (toggle) {
     toggle.addEventListener("click", wrapWithoutTransition(rotateTheme))
@@ -106,15 +82,20 @@ function setupDarkMode() {
      * @param e - MediaQueryList event containing the new preference
      */
     function doSystemPreference(e: MediaQueryListEvent): void {
-      if (localStorage.getItem("saved-theme") === "auto") {
+      const savedTheme = localStorage.getItem("saved-theme")
+      if (savedTheme === "auto") {
         const newTheme = e.matches ? "dark" : "light"
-        setThemeClassOnRoot(newTheme)
+        document.documentElement.setAttribute("theme", newTheme)
       }
     }
     const wrappedSystemPreference = wrapWithoutTransition(doSystemPreference)
 
     const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
     colorSchemeMediaQuery.addEventListener("change", wrappedSystemPreference)
+
+    // Update theme state after navigation
+    const currentTheme = localStorage.getItem("saved-theme") || "auto"
+    setThemeClassOnRoot(currentTheme as Theme)
   })
 }
 

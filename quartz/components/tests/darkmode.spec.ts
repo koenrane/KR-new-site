@@ -25,7 +25,7 @@ class DarkModeHelper {
     await utilsSetTheme(this.page, theme)
   }
 
-  async verifyTheme(expectedTheme: Theme): Promise<void> {
+  async verifyTheme(expectedTheme: Theme, autoMode: boolean = false): Promise<void> {
     const actualTheme =
       expectedTheme === "auto"
         ? await this.page.evaluate(() =>
@@ -34,6 +34,9 @@ class DarkModeHelper {
         : expectedTheme
 
     await expect(this.page.locator(":root")).toHaveAttribute("theme", actualTheme)
+    if (autoMode) {
+      await expect(this.page.locator(":root")).toHaveAttribute("data-theme-mode", "auto")
+    }
     await expect(this.page.locator("#day-icon")).toBeVisible({ visible: actualTheme === "light" })
     await expect(this.page.locator("#night-icon")).toBeVisible({ visible: actualTheme === "dark" })
   }
@@ -54,7 +57,7 @@ class DarkModeHelper {
 
 test("Dark mode toggle changes icon's visual state", async ({ page }) => {
   const helper = new DarkModeHelper(page)
-  await helper.verifyTheme(AUTO_THEME)
+  await helper.verifyTheme(AUTO_THEME, true)
   const initialSpan = page.locator("#darkmode-span")
   const initialIcon = await initialSpan.screenshot()
 
@@ -71,7 +74,7 @@ test("System preference changes are reflected in auto mode", async ({ page }) =>
 
   for (const scheme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme: scheme })
-    await helper.verifyTheme(scheme)
+    await helper.verifyTheme(scheme, true)
 
     // We're in auto mode the whole time
     await helper.verifyAutoText(true)
@@ -87,27 +90,11 @@ test.describe("Theme persistence and UI states", () => {
       await helper.verifyAutoText(theme === "auto")
 
       await page.reload()
-      await helper.verifyTheme(theme)
+      await helper.verifyTheme(theme, theme === "auto")
       await helper.verifyStorage(theme)
       await helper.verifyAutoText(theme === "auto")
     })
   }
-})
-
-test("Theme change event is emitted", async ({ page }) => {
-  const helper = new DarkModeHelper(page)
-  const themeChangePromise = page.evaluate(
-    () =>
-      new Promise((resolve) => {
-        document.addEventListener("themechange", ((e: CustomEvent) => {
-          resolve(e.detail.theme)
-        }) as EventListener)
-      }),
-  )
-
-  await helper.clickToggle()
-  const [emittedTheme, currentTheme] = await Promise.all([themeChangePromise, helper.getTheme()])
-  expect(emittedTheme).toBe(currentTheme)
 })
 
 // Verify that dark mode toggle works w/ both the real button and the helper
@@ -119,7 +106,7 @@ for (const useButton of [true, false]) {
     const states: Theme[] = ["auto", "light", "dark", "auto"]
 
     for (const [index, theme] of states.entries()) {
-      await helper.verifyTheme(theme)
+      await helper.verifyTheme(theme, theme === "auto")
       await helper.verifyAutoText(theme === "auto")
 
       if (index < states.length - 1) {
@@ -186,3 +173,20 @@ test("No flash of unstyled content on page load", async ({ page }) => {
   expect(afterScreenshots.get(AUTO_THEME)).toEqual(afterScreenshots.get("auto"))
   expect(afterScreenshots.get("dark")).not.toEqual(afterScreenshots.get("auto"))
 })
+
+for (const prefix of ["./shard-theory", "./about", "./design#"]) {
+  test(`Internal navigation preserves auto text visibility (prefix: ${prefix})`, async ({
+    page,
+  }) => {
+    const helper = new DarkModeHelper(page)
+    await helper.setTheme("auto")
+    await helper.verifyAutoText(true)
+
+    // Navigate to an internal page
+    const firstLink = page.locator(`a[href^='${prefix}']`).first()
+    await firstLink.scrollIntoViewIfNeeded()
+    await firstLink.click()
+    await helper.verifyAutoText(true)
+    await helper.verifyTheme(AUTO_THEME, true)
+  })
+}

@@ -37,7 +37,6 @@ const createMockMediaQueryList = (
 })
 
 describe("darkmode", () => {
-  let documentSpy: ReturnType<typeof jest.spyOn>
   let localStorageSpy: ReturnType<typeof jest.spyOn>
   let matchMediaSpy: jest.Mock<(query: string) => MediaQueryList>
 
@@ -57,7 +56,6 @@ describe("darkmode", () => {
       </div>
     `
 
-    documentSpy = jest.spyOn(document, "dispatchEvent")
     localStorageSpy = jest.spyOn(Storage.prototype, "setItem")
 
     // Mock window.matchMedia
@@ -119,13 +117,6 @@ describe("darkmode", () => {
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
       triggerToggle()
-
-      expect(documentSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: "themechange",
-          detail: { theme: expect.any(String) },
-        }),
-      )
     })
 
     it("should update localStorage when theme is changed", () => {
@@ -147,6 +138,10 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
+      // Initially in auto mode
+      expect(document.documentElement.getAttribute("theme")).toBe("light")
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
+
       // Get the callback that was registered
       const callback = mediaQueryList.addEventListener.mock.calls[0][1] as MediaQueryCallback
       const event = new MediaQueryListEvent("change", {
@@ -155,14 +150,9 @@ describe("darkmode", () => {
       })
       callback(event)
 
-      // Theme class and events should reflect the system preference (dark)
+      // Theme should change to dark but mode should stay auto
       expect(document.documentElement.getAttribute("theme")).toBe("dark")
-      expect(documentSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: "themechange",
-          detail: { theme: "dark" },
-        }),
-      )
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
 
       // But localStorage should preserve auto mode
       expect(localStorageSpy).toHaveBeenCalledWith("saved-theme", "auto")
@@ -178,7 +168,9 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
+      // Initially dark theme but auto mode
       expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
 
       // Change system preference to light
       const lightMediaQueryList = createMockMediaQueryList(false)
@@ -191,7 +183,9 @@ describe("darkmode", () => {
       })
       callback(event)
 
+      // Theme should change but mode should stay auto
       expect(document.documentElement.getAttribute("theme")).toBe("light")
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
     })
   })
 
@@ -204,20 +198,25 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
+
       // auto -> light
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("light")
       expect(document.documentElement.getAttribute("theme")).toBe("light")
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("light")
 
       // light -> dark
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("dark")
       expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("dark")
 
       // dark -> auto
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("auto")
       expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
     })
   })
 })

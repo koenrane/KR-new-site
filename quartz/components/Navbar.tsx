@@ -53,7 +53,7 @@ const darkMode = (
       {lightSvg}
       {darkSvg}
     </button>
-    <p id="darkmode-auto-text" style={{ visibility: "hidden" }}>
+    <p id="darkmode-auto-text" className="theme-toggle-auto">
       Auto
     </p>
   </span>

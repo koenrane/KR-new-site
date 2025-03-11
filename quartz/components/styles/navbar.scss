@@ -356,3 +356,14 @@
     margin-top: calc(0.25 * $base-margin);
   }
 }
+
+.theme-toggle-auto {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+:root[data-theme-mode="auto"] .theme-toggle-auto {
+  visibility: visible;
+  opacity: 1;
+}

@@ -58,7 +58,6 @@ export async function setTheme(page: Page, theme: Theme) {
     } else {
       root.setAttribute("theme", t)
     }
-    root.dispatchEvent(new Event("themechange"))
   }, theme)
 
   await waitForThemeTransition(page)
