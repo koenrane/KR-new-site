@@ -54,9 +54,9 @@ export async function setTheme(page: Page, theme: Theme) {
       const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light"
-      root.setAttribute("theme", systemPreference)
+      root.setAttribute("data-theme", systemPreference)
     } else {
-      root.setAttribute("theme", t)
+      root.setAttribute("data-theme", t)
     }
   }, theme)
 

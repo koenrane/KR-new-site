@@ -18,7 +18,7 @@ export function getSystemTheme(): Theme {
 function setThemeClassOnRoot(theme: Theme) {
   document.documentElement.setAttribute("data-theme-mode", theme)
   const themeToApply = theme === "auto" ? getSystemTheme() : theme
-  document.documentElement.setAttribute("theme", themeToApply)
+  document.documentElement.setAttribute("data-theme", themeToApply)
 }
 
 /**
@@ -85,7 +85,7 @@ function setupDarkMode() {
       const savedTheme = localStorage.getItem("saved-theme")
       if (savedTheme === "auto") {
         const newTheme = e.matches ? "dark" : "light"
-        document.documentElement.setAttribute("theme", newTheme)
+        document.documentElement.setAttribute("data-theme", newTheme)
       }
     }
     const wrappedSystemPreference = wrapWithoutTransition(doSystemPreference)

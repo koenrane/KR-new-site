@@ -158,7 +158,7 @@
     --callout-icon: var(--callout-icon-math);
   }
 
-  :root[theme="dark"] & {
+  :root[data-theme="dark"] & {
     &[data-callout="abstract"],
     &[data-callout="tip"] {
       --color: color-mix(in srgb, var(--teal) 85%, var(--base));

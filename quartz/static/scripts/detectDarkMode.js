@@ -9,5 +9,5 @@
     theme = userPref
   }
 
-  document.documentElement.setAttribute("theme", theme)
+  document.documentElement.setAttribute("data-theme", theme)
 })()

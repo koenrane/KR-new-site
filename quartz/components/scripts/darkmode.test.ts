@@ -96,7 +96,7 @@ describe("darkmode", () => {
         setupDarkMode()
         document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
-        expect(document.documentElement.getAttribute("theme")).toBe(systemPrefers)
+        expect(document.documentElement.getAttribute("data-theme")).toBe(systemPrefers)
       })
     }
 
@@ -107,7 +107,7 @@ describe("darkmode", () => {
       setupDarkMode()
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
-      expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("dark")
     })
   })
 
@@ -139,7 +139,7 @@ describe("darkmode", () => {
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
       // Initially in auto mode
-      expect(document.documentElement.getAttribute("theme")).toBe("light")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("light")
       expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
 
       // Get the callback that was registered
@@ -151,7 +151,7 @@ describe("darkmode", () => {
       callback(event)
 
       // Theme should change to dark but mode should stay auto
-      expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("dark")
       expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
 
       // But localStorage should preserve auto mode
@@ -169,7 +169,7 @@ describe("darkmode", () => {
       document.dispatchEvent(new CustomEvent("nav", { detail: { url: "" as FullSlug } }))
 
       // Initially dark theme but auto mode
-      expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("dark")
       expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
 
       // Change system preference to light
@@ -184,7 +184,7 @@ describe("darkmode", () => {
       callback(event)
 
       // Theme should change but mode should stay auto
-      expect(document.documentElement.getAttribute("theme")).toBe("light")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("light")
       expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
     })
   })
@@ -203,19 +203,19 @@ describe("darkmode", () => {
       // auto -> light
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("light")
-      expect(document.documentElement.getAttribute("theme")).toBe("light")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("light")
       expect(document.documentElement.getAttribute("data-theme-mode")).toBe("light")
 
       // light -> dark
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("dark")
-      expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("dark")
       expect(document.documentElement.getAttribute("data-theme-mode")).toBe("dark")
 
       // dark -> auto
       rotateTheme()
       expect(localStorage.getItem("saved-theme")).toBe("auto")
-      expect(document.documentElement.getAttribute("theme")).toBe("dark")
+      expect(document.documentElement.getAttribute("data-theme")).toBe("dark")
       expect(document.documentElement.getAttribute("data-theme-mode")).toBe("auto")
     })
   })

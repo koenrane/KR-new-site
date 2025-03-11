@@ -17,7 +17,9 @@ class DarkModeHelper {
   }
 
   async getTheme(): Promise<string> {
-    const theme = await this.page.evaluate(() => document.documentElement.getAttribute("theme"))
+    const theme = await this.page.evaluate(() =>
+      document.documentElement.getAttribute("data-theme"),
+    )
     return theme || AUTO_THEME
   }
 
@@ -33,7 +35,7 @@ class DarkModeHelper {
           )
         : expectedTheme
 
-    await expect(this.page.locator(":root")).toHaveAttribute("theme", actualTheme)
+    await expect(this.page.locator(":root")).toHaveAttribute("data-theme", actualTheme)
     if (autoMode) {
       await expect(this.page.locator(":root")).toHaveAttribute("data-theme-mode", "auto")
     }
