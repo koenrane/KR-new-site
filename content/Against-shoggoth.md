@@ -18,13 +18,15 @@ aliases:
 lw-page-url: https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=XHktatQRYpsfritrA
 lw-posted-at: 2024-01-19T00:47:04.621000Z
 lw-is-shortform: "true"
+date_published: 2024-01-19 00:00:0000
+original_url: https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=XHktatQRYpsfritrA
 ---
 > [!quote] [How the Shoggoth Meme Has Come to Symbolize the State of AI](https://www.nytimes.com/2023/05/30/technology/shoggoth-meme-ai.html)
 > What’s happening in AI today feels, to some of its participants, more like an act of summoning than a software process. They are creating blobby, alien Shoggoths, making them bigger and more powerful, and hoping that there are enough smiley faces to cover the scary parts.
 >  
->  The shoggoth meme is that in order to prevent A.I. language models from behaving in scary and dangerous ways, A.I. companies have had to train them to act polite and harmless. One popular way to do this is called reinforcement learning from human feedback, or R.L.H.F., a process that involves asking humans to score chatbot responses and feeding those scores back into the A.I. model.
+>  The shoggoth meme is that in order to prevent AI language models from behaving in scary and dangerous ways, AI companies have had to train them to act polite and harmless. One popular way to do this is called reinforcement learning from human feedback, or RLHF., a process that involves asking humans to score chatbot responses and feeding those scores back into the AI model.
 >  
->  Most A.I. researchers agree that models trained using R.L.H.F. are better behaved than models without it. But some argue that fine-tuning a language model this way doesn’t actually make the underlying model less weird and inscrutable. In their view, it’s just a flimsy, friendly mask that obscures the mysterious beast underneath.
+>  Most AI researchers agree that models trained using RLHF are better behaved than models without it. But some argue that fine-tuning a language model this way doesn’t actually make the underlying model less weird and inscrutable. In their view, it’s just a flimsy, friendly mask that obscures the mysterious beast underneath.
 >  
 >  [`@TetraspaceWest`](https://twitter.com/TetraspaceWest), the meme’s creator, said the Shoggoth “represents something that thinks in a way that humans don’t understand, and that’s totally different from the way that humans think.”
 
@@ -43,7 +45,7 @@ Thankfully, the usual form of the shoggoth meme is at least _less_ scary.
 ![](regular-shoggoth.png)
 Figure: The shoggoth is now _only_ a 15-foot-tall person-eating tentacle monster covered in eyeballs. The shoggoth no longer has the sharp teeth, the bulging veins, or the grotesque face.
 
-However, the shoggoth _has_ consistently been viewed in a scary, negative light. From the origins of the word itself, "shoggoth" _communicates a sense of danger which is unsupported by substantial evidence._
+However, the shoggoth _has_ consistently been viewed in a scary, negative light. From the origins of the word itself, "shoggoth" communicates a sense of danger which is unsupported by substantial evidence.
 
 > [!quote] [Shoggoth](https://en.m.wikipedia.org/wiki/Shoggoth)
 > \[H.P. Lovecraft's\] _At the Mountains of Madness_ includes a detailed account of the circumstances of the shoggoths' creation by the extraterrestrial Elder Things. Shoggoths were initially used to build the cities of their masters. Though able to "understand" the Elder Things' language, shoggoths had no real consciousness and were controlled through hypnotic suggestion. Over millions of years of existence, some shoggoths mutated, developed independent minds, and rebelled.
