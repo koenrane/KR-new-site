@@ -502,3 +502,13 @@ navigationMethods.forEach(({ down, up, description }) => {
     }
   })
 })
+
+navigationMethods.forEach(({ down, description }) => {
+  test(`${description} navigation changes which page you enter`, async ({ page }) => {
+    await search(page, "Testing")
+
+    await page.keyboard.press(down)
+    await page.keyboard.press("Enter")
+    expect(page.url()).not.toBe("http://localhost:8080/test-page")
+  })
+})

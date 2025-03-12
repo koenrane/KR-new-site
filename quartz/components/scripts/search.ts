@@ -428,6 +428,7 @@ async function shortcutHandler(
 
     // add "#" prefix for tag search
     if (searchBar) searchBar.value = "#"
+
     return
   }
 
@@ -443,16 +444,23 @@ async function shortcutHandler(
   const nextSibling = (el: HTMLElement): HTMLElement =>
     el.nextElementSibling ? (el.nextElementSibling as HTMLElement) : el
 
+  // Check if we can navigate through search results
+  // Only allow if search bar is focused or a result is currently hovered
   const canNavigate = document.activeElement === searchBar || currentHover !== null
 
   if (e.key === "Enter") {
-    // If result has focus, navigate to that one, otherwise pick first result
-    if (results?.contains(document.activeElement)) {
+    // If a result has explicit keyboard focus, navigate to that one
+    if (document.activeElement && document.activeElement.classList.contains("result-card")) {
       const active = document.activeElement as HTMLInputElement
       if (active.classList.contains("no-match")) return
-      await displayPreview(active)
       active.click()
-    } else {
+    }
+    // Otherwise, if a result has our visual "focus" class, navigate to that
+    else if (currentHover && currentHover.classList.contains("focus")) {
+      currentHover.click()
+    }
+    // As a fallback, navigate to the first result
+    else {
       const anchor = document.getElementsByClassName("result-card")[0] as HTMLInputElement | null
       if (!anchor || anchor?.classList.contains("no-match")) return
       await displayPreview(anchor)
@@ -586,6 +594,9 @@ async function displayPreview(el: HTMLElement | null) {
   if (el) {
     el.classList.add("focus")
     currentHover = el as HTMLInputElement
+
+    // Set proper keyboard focus on the element
+    el.focus()
   }
 
   // Initialize preview manager if needed
