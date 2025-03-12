@@ -1,8 +1,7 @@
 ---
 title: 
 permalink: 
-publish: false
-no_dropcap: "false"
+no_dropcap: false
 tags: 
 description: ""
 authors: Alex Turner
