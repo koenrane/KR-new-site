@@ -17,7 +17,11 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
   let titleContent = null
 
   if (title) {
-    titleContent = <h1 className={classNames(displayClass, "article-title")}>{title}</h1>
+    titleContent = (
+      <h1 id="article-title" className={classNames(displayClass)}>
+        {title}
+      </h1>
+    )
     if (title.match("Tag: ")) {
       const tagText = formatTag(title.split("Tag: ")[1])
       titleContent = (
@@ -30,11 +34,5 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
 
   return titleContent
 }
-
-ArticleTitle.css = `
-.article-title {
-  margin: -2rem 0 0 0;
-}
-`
 
 export default (() => ArticleTitle) satisfies QuartzComponentConstructor

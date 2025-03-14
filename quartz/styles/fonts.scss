@@ -396,3 +396,7 @@ article[data-use-dropcap="true"] {
 .center .ordinal-num {
   font-variant-numeric: lining-nums;
 }
+
+#article-title {
+  margin-top: calc(-4 * $base-margin);
+}
