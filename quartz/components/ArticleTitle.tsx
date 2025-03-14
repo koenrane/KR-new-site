@@ -13,26 +13,25 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
   if (fileData.frontmatter?.title) {
     fileData.frontmatter.title = formatTitle(fileData.frontmatter.title)
   }
-  const title = fileData.frontmatter?.title
-  let titleContent = null
 
-  if (title) {
-    titleContent = (
-      <h1 id="article-title" className={classNames(displayClass)}>
-        {title}
-      </h1>
+  const title = fileData.frontmatter?.title
+  let tagContent = <>{title}</>
+
+  // Tags are styled like inline code
+  if (title?.match("Tag: ")) {
+    const tagText = title.split("Tag: ")[1]
+    tagContent = (
+      <>
+        Tag: <span className="tag-text">{formatTag(tagText)}</span>
+      </>
     )
-    if (title.match("Tag: ")) {
-      const tagText = formatTag(title.split("Tag: ")[1])
-      titleContent = (
-        <h1 className={classNames(displayClass, "article-title")}>
-          Tag: <span className="tag-text">{tagText}</span>
-        </h1>
-      )
-    }
   }
 
-  return titleContent
+  return (
+    <h1 id="article-title" className={classNames(displayClass)}>
+      {tagContent}
+    </h1>
+  )
 }
 
 export default (() => ArticleTitle) satisfies QuartzComponentConstructor
