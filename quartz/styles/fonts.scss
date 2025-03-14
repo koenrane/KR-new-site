@@ -400,3 +400,8 @@ article[data-use-dropcap="true"] {
 #article-title {
   margin-top: calc(-4 * $base-margin);
 }
+
+.tag-text {
+  font-family: var(--font-monospace);
+  font-size: smaller;
+}

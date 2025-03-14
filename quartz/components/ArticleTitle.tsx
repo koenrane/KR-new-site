@@ -26,7 +26,7 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
       const tagText = formatTag(title.split("Tag: ")[1])
       titleContent = (
         <h1 className={classNames(displayClass, "article-title")}>
-          Tag: <span style="font-family:var(--font-monospace); font-size: smaller">{tagText}</span>
+          Tag: <span className="tag-text">{tagText}</span>
         </h1>
       )
     }
