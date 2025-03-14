@@ -4,7 +4,6 @@
 import React from "react"
 
 import { i18n } from "../i18n"
-import { type FullSlug, joinSegments, pathToRoot } from "../util/path"
 import { JSResourceToScriptElement } from "../util/resources"
 import { formatTitle } from "./component_utils"
 import {
@@ -67,10 +66,7 @@ export default (() => {
     const permalink = fileData.permalink || url.href
 
     // Images and other assets ---
-    const iconPath = joinSegments(
-      pathToRoot(fileData.slug || ("" as FullSlug)),
-      "static/images/favicon.ico",
-    )
+    const iconPath = "/static/images/favicon.ico"
     const appleIconPath = "https://assets.turntrout.com/static/images/apple-icon.png"
     const siteImage = "https://assets.turntrout.com/static/images/fb_preview.png"
 
