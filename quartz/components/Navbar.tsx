@@ -53,9 +53,7 @@ const darkMode = (
       {lightSvg}
       {darkSvg}
     </button>
-    <p id="darkmode-auto-text" className="theme-toggle-auto">
-      Auto
-    </p>
+    <p id="theme-label"></p>
   </span>
 )
 

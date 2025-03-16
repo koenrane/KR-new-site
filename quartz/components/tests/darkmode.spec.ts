@@ -27,7 +27,7 @@ class DarkModeHelper {
     await utilsSetTheme(this.page, theme)
   }
 
-  async verifyTheme(expectedTheme: Theme, autoMode: boolean = false): Promise<void> {
+  async verifyTheme(expectedTheme: Theme): Promise<void> {
     const actualTheme =
       expectedTheme === "auto"
         ? await this.page.evaluate(() =>
@@ -36,9 +36,6 @@ class DarkModeHelper {
         : expectedTheme
 
     await expect(this.page.locator(":root")).toHaveAttribute("data-theme", actualTheme)
-    if (autoMode) {
-      await expect(this.page.locator(":root")).toHaveAttribute("data-theme-mode", "auto")
-    }
     await expect(this.page.locator("#day-icon")).toBeVisible({ visible: actualTheme === "light" })
     await expect(this.page.locator("#night-icon")).toBeVisible({ visible: actualTheme === "dark" })
   }
@@ -52,14 +49,16 @@ class DarkModeHelper {
     await this.page.locator("#theme-toggle").click()
   }
 
-  async verifyAutoText(visible: boolean): Promise<void> {
-    await expect(this.page.locator("#darkmode-auto-text")).toBeVisible({ visible })
+  async verifyThemeLabel(expectedTheme: Theme): Promise<void> {
+    const label = await this.page.locator("#theme-label").textContent()
+    const expectedLabel = expectedTheme.charAt(0).toUpperCase() + expectedTheme.slice(1)
+    expect(label).toBe(expectedLabel)
   }
 }
 
 test("Dark mode toggle changes icon's visual state", async ({ page }) => {
   const helper = new DarkModeHelper(page)
-  await helper.verifyTheme(AUTO_THEME, true)
+  await helper.verifyTheme(AUTO_THEME)
   const initialSpan = page.locator("#darkmode-span")
   const initialIcon = await initialSpan.screenshot()
 
@@ -72,14 +71,14 @@ test("Dark mode toggle changes icon's visual state", async ({ page }) => {
 test("System preference changes are reflected in auto mode", async ({ page }) => {
   const helper = new DarkModeHelper(page)
   await helper.setTheme("auto")
-  await helper.verifyAutoText(true)
+  await helper.verifyThemeLabel("auto")
 
   for (const scheme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme: scheme })
-    await helper.verifyTheme(scheme, true)
+    await helper.verifyTheme(scheme)
 
     // We're in auto mode the whole time
-    await helper.verifyAutoText(true)
+    await helper.verifyThemeLabel("auto")
     await helper.verifyStorage("auto")
   }
 })
@@ -89,12 +88,12 @@ test.describe("Theme persistence and UI states", () => {
     test(`persists ${theme} theme across reloads`, async ({ page }) => {
       const helper = new DarkModeHelper(page)
       await helper.setTheme(theme)
-      await helper.verifyAutoText(theme === "auto")
+      await helper.verifyThemeLabel(theme)
 
       await page.reload()
-      await helper.verifyTheme(theme, theme === "auto")
+      await helper.verifyTheme(theme)
       await helper.verifyStorage(theme)
-      await helper.verifyAutoText(theme === "auto")
+      await helper.verifyThemeLabel(theme)
     })
   }
 })
@@ -108,8 +107,8 @@ for (const useButton of [true, false]) {
     const states: Theme[] = ["auto", "light", "dark", "auto"]
 
     for (const [index, theme] of states.entries()) {
-      await helper.verifyTheme(theme, theme === "auto")
-      await helper.verifyAutoText(theme === "auto")
+      await helper.verifyTheme(theme)
+      await helper.verifyThemeLabel(theme)
 
       if (index < states.length - 1) {
         if (useButton) {
@@ -177,18 +176,20 @@ test("No flash of unstyled content on page load", async ({ page }) => {
 })
 
 for (const prefix of ["./shard-theory", "./about", "./design#"]) {
-  test(`Internal navigation preserves auto text visibility (prefix: ${prefix})`, async ({
-    page,
-  }) => {
-    const helper = new DarkModeHelper(page)
-    await helper.setTheme("auto")
-    await helper.verifyAutoText(true)
+  for (const theme of ["light", "dark", "auto"] as const) {
+    test(`Internal navigation preserves theme label (prefix: ${prefix}, theme: ${theme})`, async ({
+      page,
+    }) => {
+      const helper = new DarkModeHelper(page)
+      await helper.setTheme(theme)
+      await helper.verifyThemeLabel(theme)
 
-    // Navigate to an internal page
-    const firstLink = page.locator(`a[href^='${prefix}']`).first()
-    await firstLink.scrollIntoViewIfNeeded()
-    await firstLink.click()
-    await helper.verifyAutoText(true)
-    await helper.verifyTheme(AUTO_THEME, true)
-  })
+      // Navigate to an internal page
+      const firstLink = page.locator(`a[href^='${prefix}']`).first()
+      await firstLink.scrollIntoViewIfNeeded()
+      await firstLink.click()
+      await helper.verifyThemeLabel(theme)
+      await helper.verifyTheme(theme)
+    })
+  }
 }
