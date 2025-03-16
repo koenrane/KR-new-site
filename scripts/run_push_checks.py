@@ -187,6 +187,7 @@ def create_server(git_root_path: Path) -> int:
         console=console,
         expand=True,
     ) as progress:
+        # pylint: disable=consider-using-with
         new_server = subprocess.Popen(
             [npx_path, "quartz", "build", "--serve"],
             stdout=subprocess.DEVNULL,
