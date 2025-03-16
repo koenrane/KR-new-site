@@ -475,6 +475,16 @@ def get_check_steps(
             ],
         ),
         CheckStep(
+            name="Running desktop playwright tests",
+            command=[
+                "npm",
+                "playwright",
+                "test",
+                "--project",
+                "Desktop Chrome",
+            ],
+        ),
+        CheckStep(
             name="Checking link validity",
             command=["fish", f"{git_root_path}/scripts/linkchecker.fish"],
             shell=True,
