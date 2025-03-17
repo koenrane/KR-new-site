@@ -27,7 +27,7 @@ linkchecker $TARGET_FILES \
     --check-extern \
     --threads 30 \
     --user-agent "linkchecker" \
-    --timeout 20
+    --timeout 40 
 set -l EXTERNAL_STATUS $status
 
 # If any of the checks failed, exit with a non-zero status

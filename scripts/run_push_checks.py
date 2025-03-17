@@ -477,7 +477,7 @@ def get_check_steps(
         CheckStep(
             name="Running desktop playwright tests",
             command=[
-                "npm",
+                "npx",
                 "playwright",
                 "test",
                 "--project",
