@@ -356,6 +356,7 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-background);
     color: var(--before-color);
+    cursor: text;
   }
 
   & > p:first-of-type::first-letter {
@@ -394,4 +395,13 @@ article[data-use-dropcap="true"] {
 // Center only to avoid sidebars
 .center .ordinal-num {
   font-variant-numeric: lining-nums;
+}
+
+#article-title {
+  margin-top: calc(-4 * $base-margin);
+}
+
+.tag-text {
+  font-family: var(--font-monospace);
+  font-size: smaller;
 }

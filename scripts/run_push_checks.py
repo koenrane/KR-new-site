@@ -26,7 +26,7 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn
 from rich.style import Style
 
 console = Console()
-SERVER_START_WAIT_TIME: int = 60
+SERVER_START_WAIT_TIME: int = 90
 
 # skipcq: BAN-B108
 TEMP_DIR = Path("/tmp/quartz_checks")
@@ -181,29 +181,30 @@ def create_server(git_root_path: Path) -> int:
     # Start new server
     console.log("Starting new quartz server...")
     npx_path = shutil.which("npx") or "npx"
-    with (
-        Progress(
-            SpinnerColumn(),
-            TextColumn(" {task.description}"),
-            console=console,
-            expand=True,
-        ) as progress,
-        subprocess.Popen(
+    with Progress(
+        SpinnerColumn(),
+        TextColumn(" {task.description}"),
+        console=console,
+        expand=True,
+    ) as progress:
+        # pylint: disable=consider-using-with
+        new_server = subprocess.Popen(
             [npx_path, "quartz", "build", "--serve"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             cwd=git_root_path,
             start_new_session=True,
-        ) as new_server,
-    ):
+        )
         server_pid = new_server.pid
         task_id = progress.add_task("", total=None)
 
+        # Poll until the server is ready
         for i in range(SERVER_START_WAIT_TIME):
             if is_port_in_use(8080):
+                progress.remove_task(task_id)
+                progress.stop()
                 console.log("[green]Quartz server successfully started[/green]")
                 return server_pid
-
             progress.update(
                 task_id,
                 description=(
@@ -444,13 +445,6 @@ def get_check_steps(
             shell=True,
         ),
         CheckStep(
-            name="Checking source files",
-            command=[
-                "python",
-                f"{git_root_path}/scripts/source_file_checks.py",
-            ],
-        ),
-        CheckStep(
             name="Running Javascript unit tests",
             command=["npm", "run", "test"],
         ),
@@ -463,6 +457,13 @@ def get_check_steps(
             command=["sh", f"{git_root_path}/scripts/handle_local_assets.sh"],
             shell=True,
         ),
+        CheckStep(
+            name="Checking source files",
+            command=[
+                "python",
+                f"{git_root_path}/scripts/source_file_checks.py",
+            ],
+        ),
     ]
 
     steps_after_server = [
@@ -471,6 +472,16 @@ def get_check_steps(
             command=[
                 "python",
                 f"{git_root_path}/scripts/built_site_checks.py",
+            ],
+        ),
+        CheckStep(
+            name="Running desktop playwright tests",
+            command=[
+                "npx",
+                "playwright",
+                "test",
+                "--project",
+                "Desktop Chrome",
             ],
         ),
         CheckStep(

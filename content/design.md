@@ -11,9 +11,11 @@ card_image:
 aliases:
   - website-design
 date_published: 2024-10-31 23:14:34.832290
-date_updated: 2025-03-08 18:08:37.606100
+date_updated: 2025-03-17 11:17:18.343050
 no_dropcap: "false"
 ---
+
+
 
 
 
@@ -232,7 +234,7 @@ When loading a new page, the [`micromorph` package](https://github.com/natemoo-r
 This website contains many design elements. To maintain a regular, assured style and to avoid patchwork chaos, I made two important design choices.
 
 Exponential font sizing
-: I fixed a base font size - 20px on mobile, to 22px on tablets, to 24px on full displays. I read up on [how many characters should be on a single line in order to maximize readability](https://baymard.com/blog/line-length-readability) - apparently between 50 and 60. On desktop, I set the center column to 750PX (yielding about 75 characters per line).[^characters] I decided not to indent paragraphs because that made the left margin boundary too ragged.
+: I fixed a base font size -- 20px on mobile, to 22px on tablets, to 24px on full displays. I read up on [how many characters should be on a single line in order to maximize readability](https://baymard.com/blog/line-length-readability) - apparently between 50 and 60. On desktop, I set the center column to 750PX (yielding about 75 characters per line).[^characters] I decided not to indent paragraphs because that made the left margin boundary too ragged.
 
 : After consulting [TypeScale](https://typescale.com/), I scaled the font by $1.2^n$, with $n=0$ for body text and $n\geq 1$ for headers:
 
@@ -847,7 +849,7 @@ I try to keep the repository clean of DeepSource issues, but it does point out a
 # Acknowledgments
 
 > [!thanks] Thanking people who helped with this site
-> Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
+> Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs. [Said Achmiz and `gwern` provided detailed feedback in public comments.](https://www.lesswrong.com/posts/Nq2BtFidsnhfLuNAx/announcing-turntrout-com-my-new-digital-home?commentId=vJAsuKGLMmuWCb45h)
 
 > [!info] Asset attributions
 > The <img src="https://assets.turntrout.com/static/images/plus.svg" class="inline-img light-svg" alt="Plus sign"/> and <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/heart.svg" alt="Heart icon"/> are [sourced from the "Dazzle Line Icons"](https://www.svgrepo.com/svg/532997/plus-large) [collection](https://www.svgrepo.com/svg/532473/heart) under the CC attribution license. The link callout icon <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/link.svg" alt="A single link from a chain"/> and the same-page "favicon" <img class="inline-img anchor light-svg" src="https://assets.turntrout.com/static/images/anchor.svg" alt="A counterclockwise arrow" /> are sourced from Solar Icons on [SVG repo](https://www.svgrepo.com/svg/529680/link). The Twitter emoji styling is from the [Twemoji repository](https://github.com/twitter/twemoji).

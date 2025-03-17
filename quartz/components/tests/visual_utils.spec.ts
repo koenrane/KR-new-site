@@ -20,14 +20,28 @@ test.describe("visual_utils functions", () => {
   })
 
   for (const theme of ["light", "dark", "auto"]) {
-    test(`setTheme changes theme attribute to ${theme}`, async ({ page }) => {
+    test(`setTheme changes theme attributes and label for ${theme}`, async ({ page }) => {
       await setTheme(page, theme as Theme)
+
+      // Check data-theme attribute
       const currentTheme = await page.evaluate(() =>
         document.documentElement.getAttribute("data-theme"),
       )
-
       const expectedTheme = theme === "auto" ? preferredTheme : theme
       expect(currentTheme).toBe(expectedTheme)
+
+      // Check data-theme-mode attribute
+      const themeMode = await page.evaluate(() =>
+        document.documentElement.getAttribute("data-theme-mode"),
+      )
+      expect(themeMode).toBe(theme)
+
+      // Check theme label text
+      const labelText = await page.evaluate(
+        () => document.querySelector("#theme-label")?.textContent,
+      )
+      const expectedLabel = (theme as string).charAt(0).toUpperCase() + theme.slice(1)
+      expect(labelText).toBe(expectedLabel)
     })
   }
 

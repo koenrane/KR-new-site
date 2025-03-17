@@ -11,6 +11,17 @@ export function getSystemTheme(): Theme {
 }
 
 /**
+ * Updates the theme text in the toggle button
+ * @param theme - The current theme
+ */
+function updateThemeLabel(theme: Theme) {
+  const toggle = document.querySelector("#theme-label") as HTMLButtonElement
+  if (toggle) {
+    toggle.textContent = theme.charAt(0).toUpperCase() + theme.slice(1)
+  }
+}
+
+/**
  * Updates the DOM to reflect the current theme state
  * @param theme - The theme to apply
  */
@@ -27,6 +38,7 @@ function setThemeClassOnRoot(theme: Theme) {
 export function handleThemeUpdate(theme: Theme): void {
   localStorage.setItem("saved-theme", theme)
   setThemeClassOnRoot(theme)
+  updateThemeLabel(theme)
 }
 
 const getNextTheme = (): Theme => {
@@ -63,7 +75,7 @@ export const rotateTheme = () => {
  * - Sets up initial theme based on saved preference or auto mode
  * - Configures theme toggle click handler
  * - Sets up system preference change listener
- * - Manages "auto" text visibility based on toggle usage
+ * - Manages theme label based on current theme
  */
 function setupDarkMode() {
   const savedTheme = localStorage.getItem("saved-theme")
@@ -95,6 +107,7 @@ function setupDarkMode() {
     // Update theme state after navigation
     const currentTheme = localStorage.getItem("saved-theme") || "auto"
     setThemeClassOnRoot(currentTheme as Theme)
+    updateThemeLabel(currentTheme as Theme)
   })
 }
 

@@ -89,7 +89,7 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
   const toc = buildNestedList(fileData.toc, 0, 0)[0]
   return (
     <blockquote
-      className="callout example is-collapsible is-collapsed"
+      className="callout example is-collapsible"
       data-callout="example"
       data-callout-fold=""
     >

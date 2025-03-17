@@ -44,12 +44,13 @@ export async function setTheme(page: Page, theme: Theme) {
   await page.evaluate((t) => {
     localStorage.setItem("saved-theme", t)
 
-    const autoText = document.querySelector("#darkmode-auto-text") as HTMLElement
-    if (autoText) {
-      autoText.style.visibility = t === "auto" ? "visible" : "hidden"
+    const themeLabel = document.querySelector("#theme-label") as HTMLElement
+    if (themeLabel) {
+      themeLabel.textContent = t.charAt(0).toUpperCase() + t.slice(1)
     }
 
     const root = document.documentElement
+    root.setAttribute("data-theme-mode", t)
     if (t === "auto") {
       const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"

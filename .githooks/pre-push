@@ -48,6 +48,6 @@ PUSHED_CHANGES=$(stash_and_exit)
 trap 'cleanup $PUSHED_CHANGES' EXIT
 
 # Run all checks with progress bars
-python "$GIT_ROOT/scripts/run_push_checks.py"
+python "$GIT_ROOT/scripts/run_push_checks.py" --resume
 
 exit 0

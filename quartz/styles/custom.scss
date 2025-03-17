@@ -326,12 +326,12 @@ figure,
   }
 }
 
-.article-title,
+#article-title,
 .page-listing-title {
   font-variant-numeric: lining-nums;
 }
 
-.article-title {
+#article-title {
   margin: 2rem 0 0;
 
   @media all and (max-width: $full-page-width) {
@@ -343,7 +343,7 @@ figure,
   }
 }
 
-.article-title:has(+ .subtitle),
+#article-title:has(+ .subtitle),
 h1:has(+ .subtitle),
 h2:has(+ .subtitle),
 h3:has(+ .subtitle),

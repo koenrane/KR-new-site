@@ -102,6 +102,7 @@ def test_create_server():
             "scripts.run_push_checks.find_quartz_process"
         ) as mock_find_process,
         patch("subprocess.Popen") as mock_popen,
+        patch("scripts.run_push_checks.Progress") as mock_progress,
     ):
         # Case 1: The port is in use, so we find an existing process
         mock_port_check.return_value = True
@@ -112,9 +113,14 @@ def test_create_server():
         mock_port_check.side_effect = [False] + [True] * 39
         mock_find_process.return_value = None  # Reset mock for second case
 
-        # We must ensure we set up the context-manager return value properly
-        mock_server_instance = mock_popen.return_value.__enter__.return_value
-        mock_server_instance.pid = 54321
+        # Set up the server process mock
+        mock_server = MagicMock()
+        mock_server.pid = 54321
+        mock_popen.return_value = mock_server
+
+        # Set up progress bar mock
+        mock_progress_instance = MagicMock()
+        mock_progress.return_value = mock_progress_instance
 
         assert run_push_checks.create_server(Path("/fake/path")) == 54321
 
@@ -840,3 +846,43 @@ def test_run_command_delegates_to_interactive():
         assert success is True
         assert stdout == "test"
         assert stderr == ""
+
+
+def test_server_process_continues_running():
+    """Test that server process continues running after create_server returns"""
+    with (
+        patch("scripts.run_push_checks.is_port_in_use") as mock_port_check,
+        patch("subprocess.Popen") as mock_popen,
+        patch("time.sleep"),  # Don't actually sleep in tests
+        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
+        patch(
+            "shutil.which", return_value="npx"
+        ),  # Mock shutil.which to return just "npx"
+    ):
+        # Set up port check to return False initially, then True after server "starts"
+        mock_port_check.side_effect = [False, False, True]
+
+        # Set up the server process mock
+        mock_server = MagicMock()
+        mock_server.pid = 12345
+        mock_popen.return_value = mock_server
+
+        # Call create_server
+        server_pid = run_push_checks.create_server(Path("/test"))
+
+        # Verify server was started
+        assert server_pid == 12345
+
+        # Verify server process wasn't terminated
+        mock_server.terminate.assert_not_called()
+        mock_server.kill.assert_not_called()
+        mock_server.wait.assert_not_called()
+
+        # Verify Popen was called with the correct arguments
+        mock_popen.assert_called_once()
+        popen_args = mock_popen.call_args[0][0]
+        assert popen_args == ["npx", "quartz", "build", "--serve"]
+        popen_kwargs = mock_popen.call_args[1]
+        assert popen_kwargs["start_new_session"] is True
+        assert popen_kwargs["stdout"] == subprocess.DEVNULL
+        assert popen_kwargs["stderr"] == subprocess.DEVNULL

@@ -32,8 +32,10 @@ original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-f
 skip_import: true
 description: Arguments that AI will inevitably "scheme" are oversimplified and unconvincing.
   Deep learning defies naive predictions, and better arguments are needed.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-10 20:10:43.614104
 ---
+
+
 
 
 

@@ -236,14 +236,6 @@
     margin-bottom: calc($base-margin);
   }
 
-  & .fold-callout-icon {
-    transition: transform 0.15s ease;
-    opacity: 0.8;
-    cursor: pointer;
-
-    --callout-icon: var(--callout-icon-fold);
-  }
-
   & .callout-icon,
   & .fold-callout-icon {
     flex: 0 0 var(--icon-size);
@@ -252,7 +244,19 @@
     mask-size: var(--icon-size) var(--icon-size);
     mask-position: center;
     mask-repeat: no-repeat;
+  }
+
+  & .callout-icon {
     margin-bottom: calc(0.25 * $base-margin);
+  }
+
+  & .fold-callout-icon {
+    transition: transform 0.15s ease;
+    opacity: 0.8;
+    cursor: pointer;
+    margin: 0;
+
+    --callout-icon: var(--callout-icon-fold);
   }
 
   .callout-title-inner {

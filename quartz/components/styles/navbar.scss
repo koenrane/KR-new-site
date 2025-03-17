@@ -266,7 +266,7 @@
   font-size: var(--text-size-80);
   text-align: right;
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
 
   @media all and (max-width: $full-page-width) {
     position: relative;
@@ -297,11 +297,13 @@
     }
   }
 
-  & #darkmode-auto-text {
+  & #theme-label {
     color: var(--midground);
     transition: opacity 0.5s ease;
     margin: 0;
+    margin-right: calc(0.75 * $base-margin);
     flex-shrink: 0; // Don't want it to wrap
+    font-style: italic; // Differentiate from navbar links
 
     @media all and (max-width: $full-page-width) {
       margin-left: calc(0.25 * $base-margin);
