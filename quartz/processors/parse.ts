@@ -1,16 +1,16 @@
 import type { Root as HTMLRoot } from "hast"
+import type { Root } from "mdast"
 
 import esbuild from "esbuild"
 import path from "path"
 import rehypeMermaid from "rehype-mermaid"
-// @ts-expect-error: no types
-import remarkAttr from "remark-attr"
+import remarkAttributes from "remark-attributes"
 import { remarkDefinitionList, defListHastHandlers } from "remark-definition-list"
 import remarkParse from "remark-parse"
 import { type Root as MDRoot } from "remark-parse/lib"
 import remarkRehype from "remark-rehype"
 import { read } from "to-vfile"
-import { Processor, unified } from "unified"
+import { Processor, unified, type Plugin } from "unified"
 import { visit } from "unist-util-visit"
 import workerpool, { Promise as WorkerPromise } from "workerpool"
 
@@ -41,13 +41,12 @@ export function createProcessor(ctx: BuildCtx): QuartzProcessor {
     unified()
       // Markdown plugins
       .use(remarkParse)
+      .use(remarkAttributes as unknown as Plugin<[], Root, Root>)
       .use(
         transformers
           .filter((p) => p.markdownPlugins)
           .flatMap((plugin) => plugin.markdownPlugins?.(ctx) ?? []),
       )
-      // Remark plugins
-      .use(remarkAttr)
       .use(remarkDefinitionList)
       .use(remarkCaptions)
       .use(remarkCaptionsCodeFix)
