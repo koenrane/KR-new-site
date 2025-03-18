@@ -464,6 +464,7 @@ async function shortcutHandler(
       const anchor = document.getElementsByClassName("result-card")[0] as HTMLInputElement | null
       if (!anchor || anchor?.classList.contains("no-match")) return
       await displayPreview(anchor)
+      focusCard(anchor)
       anchor.click()
     }
   } else if (e.key === "ArrowUp" || (e.shiftKey && e.key === "Tab")) {
@@ -471,12 +472,14 @@ async function shortcutHandler(
     if (canNavigate) {
       const toShow = prevSibling(currentHover as HTMLElement)
       await displayPreview(toShow as HTMLElement)
+      focusCard(toShow as HTMLElement)
     }
   } else if (e.key === "ArrowDown" || e.key === "Tab") {
     e.preventDefault()
     if (canNavigate) {
       const toShow = nextSibling(currentHover as HTMLElement)
       await displayPreview(toShow as HTMLElement)
+      focusCard(toShow as HTMLElement)
     }
   }
 }
@@ -581,6 +584,21 @@ async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   return fetchContentCache.get(slug) ?? ({} as FetchResult)
 }
 
+/**
+ * Focuses a card element
+ * @param el - Card element to focus
+ * @param keyboardFocus - Whether to focus the element using the keyboard
+ */
+async function focusCard(el: HTMLElement | null, keyboardFocus: boolean = true) {
+  if (el) {
+    el.classList.add("focus")
+
+    if (keyboardFocus) {
+      el.focus()
+    }
+  }
+}
+
 async function displayPreview(el: HTMLElement | null) {
   const enablePreview = searchLayout?.dataset?.preview === "true"
   if (!searchLayout || !enablePreview || !preview) return
@@ -589,15 +607,6 @@ async function displayPreview(el: HTMLElement | null) {
   document.querySelectorAll(".result-card").forEach((card) => {
     card.classList.remove("focus")
   })
-
-  // Add focus class to current element
-  if (el) {
-    el.classList.add("focus")
-    currentHover = el as HTMLInputElement
-
-    // Set proper keyboard focus on the element
-    el.focus()
-  }
 
   // Initialize preview manager if needed
   if (!previewManager && preview) {
@@ -735,6 +744,8 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
     currentHover = firstChild as HTMLInputElement
 
     await displayPreview(firstChild)
+    // Show that the card is previewed without keyboard focus
+    await focusCard(firstChild, false)
   }
 }
 
