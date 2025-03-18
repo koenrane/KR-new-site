@@ -463,6 +463,7 @@ async function shortcutHandler(
     else {
       const anchor = document.getElementsByClassName("result-card")[0] as HTMLInputElement | null
       if (!anchor || anchor?.classList.contains("no-match")) return
+
       await displayPreview(anchor)
       anchor.click()
     }
@@ -581,28 +582,35 @@ async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   return fetchContentCache.get(slug) ?? ({} as FetchResult)
 }
 
-async function displayPreview(el: HTMLElement | null) {
-  const enablePreview = searchLayout?.dataset?.preview === "true"
-  if (!searchLayout || !enablePreview || !preview) return
-
-  // Remove focus class from all result cards
+async function focusCard(el: HTMLElement | null, keyboardFocus: boolean = true) {
   document.querySelectorAll(".result-card").forEach((card) => {
     card.classList.remove("focus")
   })
 
-  // Add focus class to current element
   if (el) {
     el.classList.add("focus")
-    currentHover = el as HTMLInputElement
 
-    // Set proper keyboard focus on the element
-    el.focus()
+    if (keyboardFocus) {
+      el.focus()
+    }
   }
+}
+
+/**
+ * Displays a preview of a card element
+ * @param el - Card element to display preview for
+ * @param keyboardFocus - Whether to focus the element using the keyboard
+ */
+async function displayPreview(el: HTMLElement | null, keyboardFocus: boolean = true) {
+  const enablePreview = searchLayout?.dataset?.preview === "true"
+  if (!searchLayout || !enablePreview || !preview) return
 
   // Initialize preview manager if needed
   if (!previewManager && preview) {
     previewManager = new PreviewManager(preview)
   }
+
+  await focusCard(el, keyboardFocus)
 
   // Update preview content
   previewManager?.update(el, currentSearchTerm, currentSlug)
@@ -716,7 +724,7 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
   removeAllChildren(results)
   if (finalResults.length === 0) {
     results.innerHTML = `<a class="result-card no-match">
-        <h3>No results.</h3>
+        <h3>No results</h3>
         <p>Try another search term?</p>
     </a>`
 
@@ -734,7 +742,7 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
     firstChild.classList.add("focus")
     currentHover = firstChild as HTMLInputElement
 
-    await displayPreview(firstChild)
+    await displayPreview(firstChild, false)
   }
 }
 

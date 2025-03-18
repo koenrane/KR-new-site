@@ -1,7 +1,11 @@
 import { test, expect } from "@playwright/test"
 
 import { tabletBreakpoint } from "../../styles/variables"
-import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
+import {
+  searchPlaceholderDesktop,
+  searchPlaceholderMobile,
+  debounceSearchDelay,
+} from "../scripts/search"
 import { takeRegressionScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
@@ -67,7 +71,7 @@ test("Search results appear and can be navigated (lostpixel)", async ({ page }, 
 
   await search(page, "Steering")
   // Add wait to ensure search results are fully processed
-  await page.waitForTimeout(1000)
+  await page.waitForTimeout(debounceSearchDelay + 100)
 
   // Check results appear
   const resultsContainer = page.locator("#results-container")
@@ -141,6 +145,12 @@ test("Search results are case-insensitive", async ({ page }) => {
   expect(uppercaseResults).toEqual(lowerCaseResults)
 })
 
+test("Search bar is focused after typing", async ({ page }) => {
+  await search(page, "Steering")
+  const searchBar = page.locator("#search-bar")
+  await expect(searchBar).toBeFocused()
+})
+
 test("Search results work for a single character", async ({ page }) => {
   await search(page, "t")
 
@@ -168,7 +178,6 @@ test.describe("Search accuracy", () => {
   })
 
   const titleTerms = ["AI presidents", "AI President", "Alignment"]
-  // TODO flaky on IPad Chrome - sometimes fails when running all tests
   titleTerms.forEach((term) => {
     test(`Title search results are ordered before content search results for ${term}`, async ({
       page,
@@ -302,7 +311,7 @@ test("Footnote back arrow is properly replaced (lostpixel)", async ({ page }, te
   test.skip(!showingPreview(page))
   await search(page, "Testing site")
   // Add wait to ensure search results are fully processed
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(debounceSearchDelay + 100)
 
   const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
   await footnoteLink.scrollIntoViewIfNeeded()
@@ -340,7 +349,7 @@ test.describe("Image's mix-blend-mode attribute", () => {
 test("Opens the 'testing site features' page (lostpixel)", async ({ page }, testInfo) => {
   await search(page, "Testing site")
   // Add wait to ensure search results are fully processed
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(debounceSearchDelay + 100)
 
   // Make sure it looks good
   if (showingPreview(page)) {
@@ -423,8 +432,6 @@ test("The pond dropcaps, search preview visual regression test (lostpixel)", asy
 
   const searchPondDropcaps = page.locator("#the-pond-dropcaps")
   await searchPondDropcaps.scrollIntoViewIfNeeded()
-  // Add wait after scrolling
-  await page.waitForTimeout(1000)
 
   // Add wait before screenshot
   await page.waitForTimeout(1000)
@@ -470,6 +477,7 @@ test("Result card highlighting stays synchronized with preview", async ({ page }
 
   // Check mouse interaction
   const thirdResult = page.locator(".result-card").nth(2)
+  await expect(thirdResult).not.toHaveClass(/focus/)
   await thirdResult.hover()
   await expect(thirdResult).toHaveClass(/focus/)
   await expect(secondResult).not.toHaveClass(/focus/)
@@ -480,7 +488,6 @@ const navigationMethods = [
   { down: "Tab", up: "Shift+Tab", description: "tab keys" },
 ] as const
 
-// TODO check that pressing enter navigates to the correct page
 navigationMethods.forEach(({ down, up, description }) => {
   test(`maintains focus when navigating with ${description}`, async ({ page }) => {
     await search(page, "Testing Site Features")
