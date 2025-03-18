@@ -16,7 +16,7 @@ export const numberRegex = new RegExp(`[-−]?${integerRegex.source}(\\.\\d+)?`,
 
 // A fraction is a digit followed by a slash and another digit
 export const fractionRegex = new RegExp(
-  `(?<![\\w/\\.]|${numberRegex.source})(${integerRegex.source})\\/(${integerRegex.source})(?!${numberRegex.source})(?=[^\\w/]|$)`,
+  `(?<![\\w/\\.]|${numberRegex.source})(?!9/11)(${integerRegex.source})\\/(${integerRegex.source})(?!${numberRegex.source})(?=[^\\w/]|$)`,
   "gm",
 )
 
