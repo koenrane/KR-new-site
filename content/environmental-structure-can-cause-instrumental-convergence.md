@@ -112,7 +112,7 @@ My new results say something analogous to: for _every_ coordinate, either it con
 > Orbits under symmetric groups quantify all ways of "changing things around" for that object.
 
 ![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif)
-<br/>Figure: My new theorems demand that at least one of these tiles conceal a mine.
+<br/>Figure: My new theorems demand that (in the analogy) at least one of these tiles conceal a mine.
 
 ![](https://assets.turntrout.com/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.avif)
 <br/>Figure: If the mines had been on the right, then both coordinates are safe.
@@ -149,11 +149,13 @@ The orbit of $R$ is $\{R, \phi\cdot R\}$. It's optimal for the former to stay at
 
 In this three-state MDP, let $R_C$ assign 1 reward to $C$ and 0 to all other states, and let $\phi:= (A\; B\; C)$ rotate through the states ($A$ goes to $B$, $B$ goes to $C$, $C$ goes to $A$). Then the orbit of $R_C$ is:
 
-|   | $C$ | $A$ | $B$ |
-| --: | :-: | :-: | :-: |
-| $R_C$ | $1$ | $0$ | $0$ |
-| $\phi \cdot R_C$ | $0$ | $1$ | $0$ |
+|             State: | $C$ | $A$ | $B$ |
+| -----------------: | :-: | :-: | :-: |
+|              $R_C$ | $1$ | $0$ | $0$ |
+|   $\phi \cdot R_C$ | $0$ | $1$ | $0$ |
 | $\phi^2 \cdot R_C$ | $0$ | $0$ | $1$ |
+
+{.no-min-width}
 
 Table: Different reward functions and the rewards they assign to states.
 

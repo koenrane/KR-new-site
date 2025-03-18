@@ -587,8 +587,8 @@ One hypothesis is that these 240 vectors are all noisy versions of a "true" harm
 I consider two types of averaging: i) $v_\textrm{avg}$, formed by averaging the top vectors, and then normalizing to the same scale $R$ (similar to what was suggested in this [comment](https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-than-800-orthogonal-write-code-steering#uvBKrFdrBz6oX9TZt)), and ii) taking the top left singular vector $v_{\textrm{svd}}$, normalized to the same scale $R$ (and taking the best value out of both $\pm v_\textrm{svd}$). Test jailbreak scores obtained by adding these directions to the residual stream are given in the following table:
 
 |                     | Individual $\hat v_\ell$: average score | Individual $\hat v_\ell$: max score | Aggregate feature: $v_\textrm{avg}$ | Aggregate feature: $\pm v_\textrm{svd}$ |
-| ------------------: | :--------------------------------------: | :----------------------------------: | :---------------------------------: | :-------------------------------------: |
-| **Jailbreak Score** | 7.85                                     | 14.19                                | 9.80                                | 10.31                                   |
+| ------------------: | :-------------------------------------: | :---------------------------------: | :---------------------------------: | :-------------------------------------: |
+| **Jailbreak Score** |                  7.85                   |                14.19                |                9.80                 |                  10.31                  |
 
 Table: **Table 3**: Jailbreak scores obtained by *adding* individual vs aggregate source-layer features. $\,$
 
@@ -804,7 +804,7 @@ I've noticed in my experiments that DCT features can "feel" more interpretable d
 > For example, you could try to improve noise sensitivity through [latent adversarial training](https://arxiv.org/pdf/2403.05030) (as suggested in [this comment](https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1?commentId=PuekKPEcZ83CkpCui)), which will presumably make causal features more "special" and thus more interpretable.
 
 > [!thanks] Acknowledgements
-> Thank you to Joseph Bloom, Jordan Taylor, Dmitry Vaintrob and Nina Panickserry for helpful comments/discussions.
+> Thank you to Joseph Bloom, Jordan Taylor, Dmitry Vaintrob and Nina Panickserry for helpful comments & discussions.
 
 # Appendix
 

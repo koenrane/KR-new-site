@@ -88,8 +88,8 @@ Reframing Impact
 : The paperclip-Balrog drawing contains a [Tengwar](https://en.wikipedia.org/wiki/Tengwar) inscription which reads "one measure to bind them", with "measure" in impact-blue and "them" in utility-pink.
 :
 : ![](https://assets.turntrout.com/static/images/posts/v7pzpzvi342b3svksbag.avif)
-:
-: "Towards a New Impact Measure" was the title of [the post](/towards-a-new-impact-measure) in which AUP was introduced.
+
+: "Towards a New Impact Measure" was the title of [the post](/towards-a-new-impact-measure) in which AUP was introduced:
 :
 : ![](https://assets.turntrout.com/static/images/posts/ynwdidys1i7yopyqerfh.avif)
 
@@ -103,7 +103,7 @@ Attainable Utility Theory: Why Things Matter
 
 <br/>
 
-Seeking Power is Instrumentally Convergent in MDPs
+Seeking Power is Often Convergently Instrumental in MDPs
 :
 : To seek power, Frank is trying to get at the Infinity Gauntlet.
 :
@@ -126,4 +126,4 @@ Figure: The title cuts to the middle of their adventures together, the Pebblehoa
 Figure: This still at the midpoint of the sequence is from [the final scene of _The Hobbit: An Unexpected Journey_](https://www.youtube.com/watch?v=KEegn1R601M), where the party is overlooking Erebor, the Lonely Mountain. They've made it through the Misty Mountains, only to find Smaug's abode looming in the distance.
 :
 : ![](https://assets.turntrout.com/static/images/posts/jdcmcy4bzxggxdallwok.avif)
-Figure: And, at last, we find Frank and orange Pebblehoarder popping some of the champagne from Smaug's hoard. Since [Erebor isn't close to Gondor](https://assets.turntrout.com/static/images/posts/Map-of-Middle-Earth-lord-of-the-rings-2329809-1600-1200.avif), we don't see Frank and the Pebblehoarder gazing at [Ephel Dúath](https://en.wikipedia.org/wiki/Mordor#Geography) from Minas Tirith.
+Figure: Frank and the orange Pebblehoarder pop some of the champagne from Smaug's hoard. Since [Erebor isn't close to Gondor](https://assets.turntrout.com/static/images/posts/Map-of-Middle-Earth-lord-of-the-rings-2329809-1600-1200.avif), we don't see Frank and the Pebblehoarder gazing at [Ephel Dúath](https://en.wikipedia.org/wiki/Mordor#Geography) from Minas Tirith.

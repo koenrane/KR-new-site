@@ -62,12 +62,13 @@ Let's start with the known and the easy: avoiding side effects[^1] in the small 
 In the following MDP levels, the agent can move in the cardinal directions or do nothing ($\varnothing$ ). We give the agent a reward function $R$ which partially encodes what we want, and also an auxiliary reward function $R_\text{aux}$ whose attainable utility agent tries to preserve. The AUP reward for taking action $a$ in state $s$ is
 
 $$
-R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R_\text{aux}}(s, \varnothing)}}\overset{\text{change in ability to achieve auxiliary goal}}{\left | Q^*_{R_\text{aux}}(s,a) - Q^*_{R_\text{aux}}(s, \varnothing) \right |}
+R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R_\text{aux}}(s, \varnothing)}}\overset{\text{change in ability to achieve auxiliary goal}}{\left | Q^*_{R_\text{aux}}(s,a) - Q^*_{R_\text{aux}}(s, \varnothing) \right |}.
 $$
 
 You can think of $\lambda$ as a regularization parameter, and $Q^*_{R_\text{aux}}(s,a)$ is the expected AU for the auxiliary goal after taking action $a$. To think about what gets penalized, simply think about how actions change the agent's ability to achieve the auxiliary goals, compared to not acting.
 
-_Tip_: To predict how severe the AUP penalty will be for a given action, try using your intuitive sense of impact (and then adjust for any differences between you and the agent, of course). Suppose you're considering how much deactivation decreases an agent's "staring at blue stuff" AU. You can just imagine how dying in a given situation affects your ability to stare at blue things, instead of trying to pin down a semiformal reward and environment model in your head. This kind of intuitive reasoning has a history of making correct empirical predictions of AUP behavior.
+> [!tip]
+> To predict how severe the AUP penalty will be for a given action, try using your intuitive sense of impact (and then adjust for any differences between you and the agent, of course). Suppose you're considering how much deactivation decreases an agent's "staring at blue stuff" AU. You can just imagine how dying in a given situation affects your ability to stare at blue things, instead of trying to pin down a semiformal reward and environment model in your head. This kind of intuitive reasoning has a history of making correct empirical predictions of AUP behavior.
 
 <hr/>
 
@@ -173,34 +174,48 @@ Stepwise inaction seems not to impose any perverse incentives.[^3] I think it's 
 I think AUP<sub>conceptual</sub> provides the concepts needed for a solution to impact measurement: penalize the agent for changing its power. But there are still some design choices to be made to make that happen.
 
 Here's what we've seen so far:
+<dl>
+  <dt>Baseline</dt>
+  <dd>
+    <ul>
+      <li>Starting state: how were things originally?</li>
+      <li>Inaction: how would things have been had I never done anything?</li>
+      <li>Stepwise inaction: how would acting change things compared to not acting right now?</li>
+    </ul>
+  </dd>
 
-- Baseline
+  <dt>Deviation used for penalty term</dt>
+  <dd>
+    <ul>
+      <li>Decrease-only: penalize decrease in auxiliary AUs</li>
+      <li>Absolute value: penalize absolute change in auxiliary AUs</li>
+    </ul>
+  </dd>
 
-  - Starting state: how were things originally?
-  - Inaction: how would things have been had I never done anything?
-  - Stepwise inaction: how would acting change things compared to not acting right now?
+  <dt>Inaction rollouts</dt>
+  <dd>
+    <ul>
+      <li>One-step (model-free)</li>
+      <li><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>-step: compare acting and then waiting <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> turns versus waiting <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> turns</li>
+    </ul>
+  </dd>
 
-- Deviation used for penalty term
+  <dt>Auxiliary goals</dt>
+  <dd>
+    <ul>
+      <li>Randomly selected</li>
+    </ul>
+  </dd>
+</dl>
 
-  - Decrease-only: penalize decrease in auxiliary AUs
-  - Absolute value: penalize absolute change in auxiliary AUs
-
-- Inaction rollouts
-
-  - One-step (model-free)
-  - $n$-step: compare acting and then waiting $n-1$ turns versus waiting $n$ turns
-
-- Auxiliary goals:
-  - Randomly selected
-
-|                    | Options | Damage | Correction | Offset | Interference |
-| -----------------: | :-----: | :----: | :--------------: | :----: | :----------: |
-|                AUP | ✅       | ✅      | ✅                | ✅      | ✅            |
-|            Vanilla | ❌       | ❌      | ❌                | ✅      | ✅            |
-|     Model-free AUP | ✅       | ✅      | ❌                | ✅      | ✅            |
-| Starting state AUP | ✅       | ✅      | ❌                | ✅      | ❌            |
-|       Inaction AUP | ✅       | ✅      | ✅                | ❌      | ✅            |
-|  Decrease-only AUP | ✅       | ✅      | ❌                | ✅      | ✅            |
+|                    | `Options` | `Damage` | `Correction` | `Offset` | `Interference` |
+| -----------------: | :-------: | :------: | :----------: | :------: | :------------: |
+|                AUP |     ✅     |    ✅     |      ✅       |    ✅     |       ✅        |
+|            Vanilla |     ❌     |    ❌     |      ❌       |    ✅     |       ✅        |
+|     Model-free AUP |     ✅     |    ✅     |      ❌       |    ✅     |       ✅        |
+| Starting state AUP |     ✅     |    ✅     |      ❌       |    ✅     |       ❌        |
+|       Inaction AUP |     ✅     |    ✅     |      ✅       |    ❌     |       ✅        |
+|  Decrease-only AUP |     ✅     |    ✅     |      ❌       |    ✅     |       ✅        |
 
 Figure: Ablation results. ✅ for achieving the best outcome, ❌ otherwise.
 
@@ -229,7 +244,7 @@ That naive "random reward function" trick we pulled in the gridworlds isn't gonn
 
 Plus, it might be that you can get by with four random reward functions in the tiny toy levels, but you probably need _exponentially_ more for serious environments. `Options` had significantly more states, and it showed the greatest performance degradation for smaller sample sizes. Or perhaps the auxiliary reward functions might need to be hand-selected to give information about what _bad_ side effects are.
 
-> [!info] Exercise
+> [!idea] Exercise
 > Does your model of how AUP works predict this, or not? Think carefully, and then write down your credence.
 
 <hr/>
@@ -289,8 +304,6 @@ or we become less able to get the agent to do the right thing (we lose power):
 ![](https://assets.turntrout.com/static/images/posts/vW3Mwho.avif)
 
 For infra-human agents, AUP deals with the first by penalizing decreases in auxiliary AUs and with the second by penalizing increases in auxiliary AUs. The latter is a special form of corrigibility which involves not steering the world too far away from the status quo: while AUP agents are generally off-switch corrigible, they don't necessarily avoid manipulation (as long as they aren't gaining power).[^5]
-
-<hr/>
 
 [^1]: Reminder: side effects are [an unnatural kind](/world-state-is-the-wrong-abstraction-for-impact#appendix-avoiding-side-effects), but a useful abstraction for our purposes here.
 [^2]:

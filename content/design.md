@@ -196,7 +196,7 @@ Figure: Now the huge savings of AVIF are clearer.
 [^colab]: I used a [publicly accessible Colab](https://colab.research.google.com/drive/1XScXuubpzcyhjU6uYRN0ikHVzLFmJj6X?usp=sharing) to generate the AVIF -> PNG compression graphs.
 
 | Metric | Value |
-|--:|:--|
+|:-:|:--|
 | Total PNG size | 280MB |
 | Total AVIF size | 25MB |
 | Overall space savings | 91% |
