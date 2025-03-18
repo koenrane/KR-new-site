@@ -465,6 +465,7 @@ async function shortcutHandler(
       if (!anchor || anchor?.classList.contains("no-match")) return
 
       await displayPreview(anchor)
+      focusCard(anchor)
       anchor.click()
     }
   } else if (e.key === "ArrowUp" || (e.shiftKey && e.key === "Tab")) {
@@ -472,12 +473,14 @@ async function shortcutHandler(
     if (canNavigate) {
       const toShow = prevSibling(currentHover as HTMLElement)
       await displayPreview(toShow as HTMLElement)
+      focusCard(toShow as HTMLElement)
     }
   } else if (e.key === "ArrowDown" || e.key === "Tab") {
     e.preventDefault()
     if (canNavigate) {
       const toShow = nextSibling(currentHover as HTMLElement)
       await displayPreview(toShow as HTMLElement)
+      focusCard(toShow as HTMLElement)
     }
   }
 }
@@ -742,7 +745,7 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
     firstChild.classList.add("focus")
     currentHover = firstChild as HTMLInputElement
 
-    await displayPreview(firstChild, false)
+    await displayPreview(firstChild)
   }
 }
 
