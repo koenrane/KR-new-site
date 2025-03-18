@@ -1,25 +1,31 @@
 @use "./variables.scss" as *;
 
 table {
-  width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
   margin-top: $base-margin;
   align-self: center;
+
+  &.full-width {
+    width: 100%;
+  }
+
+  &.no-min-width th,
+  &.no-min-width td {
+    min-width: 0;
+  }
 }
 
-.table-container > table {
-  margin-left: auto;
-  margin-right: auto;
+td {
+  vertical-align: top;
 }
 
 th,
 td {
-  min-width: 4rem;
   border: 1px solid var(--midground-faint);
-  padding: $base-margin;
-  word-break: break-word;
+  padding: $base-margin calc(1.5 * $base-margin);
   text-align: left;
+  min-width: calc(7 * $base-margin);
 
   .footnotes & {
     font-size: smaller;
@@ -64,6 +70,34 @@ td:first-child {
 
 th {
   background-color: var(--midground-faintest);
+  text-align: left;
+  padding: $base-margin calc(1.5 * $base-margin);
+  word-wrap: normal;
+  font-weight: 500;
+}
+
+tr {
+  border-bottom: 1px solid var(--midground-faint);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+
+  & > table {
+    margin: calc(2 * $base-margin);
+    padding: calc(3 * $base-margin);
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &:first-child > table {
+    margin-top: $base-margin;
+  }
 }
 
 .title-cell {
