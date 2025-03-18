@@ -211,7 +211,7 @@ ol {
 // Adjust spacing around lists
 p:has(+ ol),
 p:has(+ ul) {
-  margin-bottom: calc(1.5 * $base-margin);
+  margin-bottom: 0;
 }
 
 /* Wrap links properly */
@@ -321,7 +321,9 @@ figure,
     margin-right: auto;
   }
 
-  & + figure {
+  // IDK why but there can be an empty p between the figure and the next element
+  & + figure,
+  & + p:empty + figure {
     margin-top: calc(3 * $base-margin);
   }
 }
