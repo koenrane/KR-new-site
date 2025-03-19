@@ -262,37 +262,6 @@ hr.desktop-only {
   }
 }
 
-input[type="checkbox"] {
-  transform: translateY(2px);
-  color: var(--secondary);
-  border: 1px solid var(--midground-faint);
-  border-radius: 3px;
-  background-color: var(--background);
-  position: relative;
-  margin-inline: calc(-3 * $base-margin) calc(0.5 * $base-margin);
-  appearance: none;
-  width: 16px;
-  height: 16px;
-
-  &:checked {
-    border-color: var(--secondary);
-    background-color: var(--secondary);
-
-    &::after {
-      content: "";
-      position: absolute;
-      left: 4px;
-      top: 1px;
-      width: 4px;
-      height: 8px;
-      display: block;
-      border: solid var(--background);
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-    }
-  }
-}
-
 blockquote {
   margin: calc(2 * $base-margin) 0;
   border-left: 3px solid var(--midground);
