@@ -218,7 +218,7 @@
 
   @media all and (max-width: $full-page-width) {
     flex-direction: row;
-    width: 100%;
+    width: 100.5%; // Prevent peek-through of other elements
     background-color: var(--background);
   }
 }
