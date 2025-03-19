@@ -156,9 +156,9 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
 <table>
     <thead>
       <tr>
-        <th>Technique</th>
-        <th>Benefits</th>
-        <th>Risks</th>
+        <th style="text-align: center;">Technique</th>
+        <th style="text-align: center;">Benefits</th>
+        <th style="text-align: center;">Risks</th>
       </tr>
     </thead>
     <tbody>
