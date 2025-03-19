@@ -42,7 +42,7 @@ describe("rehypeTagSmallcaps", () => {
     // Test all-caps phrases
     [
       "<p>I HATE YOU but YOU ARE SWEET-I LIKE YOU</p>",
-      '<p>I <abbr class="small-caps">hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
+      '<p><abbr class="small-caps">I hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
     ],
     [
       "<p>The NATO. ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>",
@@ -406,7 +406,6 @@ describe("REGEX_ALL_CAPS_PHRASE Regex Tests", () => {
       ...notAllCapsSentences,
       // Single letter at start of sentence
       "A FBI",
-      "I LOVE",
       "I. A FBI",
       "Hello! A FBI",
       "What? A FBI",
@@ -653,7 +652,7 @@ describe("Capitalization tests", () => {
       "First sentence. NASA is cool.",
       'First sentence. <abbr class="small-caps">Nasa</abbr> is cool.',
     ],
-    ["Hello. I LOVE CATS.", 'Hello. I <abbr class="small-caps">love cats</abbr>.'],
+    ["Hello. I LOVE CATS.", 'Hello. <abbr class="small-caps">I love cats</abbr>.'],
     ["What? FBI agent.", 'What? <abbr class="small-caps">Fbi</abbr> agent.'],
     [
       "NATO and NATO",

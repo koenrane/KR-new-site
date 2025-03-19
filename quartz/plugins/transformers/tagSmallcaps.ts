@@ -48,7 +48,7 @@ export const validSmallCapsPhrase = `(?=[${upperCapsChars}\\-'’\\s]*[${upperCa
 export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${upperCapsChars}]+)`
 // Restricting to at least 2 words to avoid interfering with REGEX_ACRONYM
 // Added negative lookbehind to prevent matching if preceded by a single capital letter and space
-export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${upperCapsChars}]\\s))`
+export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${upperCapsChars}]\\s)(?!I\\s))`
 export const REGEX_ALL_CAPS_PHRASE = new RegExp(
   `${beforeWordBoundary}${noSentenceStartSingleCapital}${validSmallCapsPhrase}(?<phrase>[${upperCapsChars}]+${allCapsContinuation}+)${afterWordBoundary}`,
 )
