@@ -46,6 +46,7 @@ export const REGEX_ABBREVIATION =
 // Lookahead to see that there are at least 3 contiguous uppercase characters in the phrase
 export const validSmallCapsPhrase = `(?=[${upperCapsChars}\\-'’\\s]*[${upperCapsChars}]{3,})`
 export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${upperCapsChars}]+)`
+
 // Restricting to at least 2 words to avoid interfering with REGEX_ACRONYM
 // Added negative lookbehind to prevent matching if preceded by a single capital letter and space
 export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${upperCapsChars}]\\s)(?!I\\s))`
@@ -116,9 +117,9 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
   return isRomanNumeral(node.value)
 }
 
-// If the text ends with a letter after a sentence ending, capitalize it
+// If text comes after sentence ending, capitalize the first letter
 export const capitalizeAfterEnding = new RegExp(
-  `(^\\s*|[.!?](?<![eE]\\.[gG]\\.|[iI]\\.[eE]\\.)\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
+  `(^\\s*|\\n|[.!?](?<![eE]\\.[gG]\\.|[iI]\\.[eE]\\.)\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
 )
 
 export const INLINE_ELEMENTS = new Set([
@@ -143,7 +144,7 @@ export const INLINE_ELEMENTS = new Set([
  * @returns True if the matched text should be capitalized, false otherwise
  * @throws Error if parent relationship is invalid
  */
-export function capitalizeMatch(
+export function shouldCapitalizeMatch(
   match: RegExpMatchArray,
   node: Text,
   index: number,
@@ -168,7 +169,7 @@ export function capitalizeMatch(
         throw new Error("capitalizeMatch: parent is not the child of its grandparent")
       }
 
-      return capitalizeMatch(match, node, parentIndex, ancestors.slice(0, -1))
+      return shouldCapitalizeMatch(match, node, parentIndex, ancestors.slice(0, -1))
     }
     return true
   }
@@ -204,7 +205,7 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     combinedRegex,
     (match: RegExpMatchArray) => {
       // Check if this match should be capitalized
-      const shouldCapitalize = capitalizeMatch(match, node, index, ancestors)
+      const shouldCapitalize = shouldCapitalizeMatch(match, node, index, ancestors)
 
       // Helper to capitalize first letter if needed
       const processText = (text: string) => {

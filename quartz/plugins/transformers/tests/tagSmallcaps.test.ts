@@ -17,7 +17,7 @@ import {
   skipSmallcaps,
   ignoreAcronym,
   capitalizeAfterEnding,
-  capitalizeMatch,
+  shouldCapitalizeMatch,
   INLINE_ELEMENTS,
 } from "../tagSmallcaps"
 
@@ -31,7 +31,7 @@ function testTagSmallcapsHTML(inputHTML: string) {
 }
 
 describe("rehypeTagSmallcaps", () => {
-  // // Test basic acronym wrapping with representative cases
+  // Test basic acronym wrapping with representative cases
   const acronymCases = [
     [
       "<p>NASA launched a new satellite for NOAA to study GCRs.</p>",
@@ -43,6 +43,10 @@ describe("rehypeTagSmallcaps", () => {
     [
       "<p>I HATE YOU but YOU ARE SWEET-I LIKE YOU</p>",
       '<p><abbr class="small-caps">I hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
+    ],
+    [
+      "<p>I HATE YOU<br>I LIKE YOU</p>",
+      '<p><abbr class="small-caps">I hate you</abbr><br><abbr class="small-caps">I like you</abbr></p>',
     ],
     [
       "<p>The NATO. ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>",
@@ -854,13 +858,13 @@ describe("capitalizeMatch", () => {
   it.each(testCases)("%s", (desc, text, matchIndex, expected) => {
     const { node, parent, index } = createTextContext(text)
     const match = createMatch("NASA", matchIndex)
-    expect(capitalizeMatch(match, node, index, [parent])).toBe(expected)
+    expect(shouldCapitalizeMatch(match, node, index, [parent])).toBe(expected)
   })
 
   // Special case for undefined match index
   it("should not capitalize when match index is undefined", () => {
     const { node, parent, index } = createTextContext("NASA")
     const match = createMatch("NASA", undefined as unknown as number)
-    expect(capitalizeMatch(match, node, index, [parent])).toBe(false)
+    expect(shouldCapitalizeMatch(match, node, index, [parent])).toBe(false)
   })
 })
