@@ -223,6 +223,7 @@ describe("HTMLFormattingImprovement", () => {
 
       // Should not change
       ["‘cat’ / ‘dog’", "‘cat’ / ‘dog’"],
+      ["h/t John", "h/t John"],
     ]
 
     it.each(testCases)("should add spaces around '/' in %s", (input: string, expected: string) => {
