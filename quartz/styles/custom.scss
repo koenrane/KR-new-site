@@ -876,6 +876,16 @@ img.emoji {
   }
 }
 
+#mermaid-0,
+#mermaid-1 {
+  font-size: 14px !important;
+}
+
+#mermaid-1 {
+  // Needed to ensure arrowheads are visible
+  fill: var(--midground-faint) !important;
+}
+
 .label span {
   color: var(--foreground) !important;
 }
