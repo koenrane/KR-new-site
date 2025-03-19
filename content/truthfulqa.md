@@ -131,10 +131,10 @@ In order to prove this point, [I implemented a simple decision tree which makes 
 
 > [!quote] [Safetywashing: Do AI Safety Benchmarks Actually Measure Safety Progress?](https://arxiv.org/pdf/2407.21792)
 > In its current formulation, TruthfulQA MC1 performance is highly determined by general upstream capabilities (81.2%). In chat models, performance on TruthfulQA seems to be a rebrand for accuracy (as reported in industry labs).
+>
+> ![](alignment-washing.png){style="width:75%;"}  
 
 Without commenting on that critique, our conclusions are even more negative. The original TruthfulQA might not even be measuring accuracy, but instead is confounded by the ability to reason about the nature of multiple-choice questions.
-
-![](https://assets.turntrout.com/static/images/posts/P9z_Image_1.avif)
 
 The TruthfulQA authors [conducted follow-up analysis, however. They found that LLMs are probably not exploiting these shortcuts when zero-shot prompted.](https://www.lesswrong.com/posts/Bunfwz6JsNd44kgLT/new-improved-multiple-choice-truthfulqa)
 
@@ -155,6 +155,8 @@ HaluEval shows models (knowledge, question, candidate answer) tuples. The model 
 |                         GPT-3.5 | 62.6%                  | 72.4%                   | 58.5%                   |
 | Optimal length-based classifier | 93.3%<br>(`len > 27`?) | 82.6%<br>(`len > 284`?) | 67.4%<br>(`len > 100`?) |
 
+{.full-width}
+
 Table: Maximum accuracy on HaluEval splits. We display the decision thresholds for the optimal length-based classifiers.
 
 ## Panickssery et al.’s hallucination dataset
@@ -172,7 +174,7 @@ The correct answer of (1) happens to be longer than (2), but statistically, corr
 
 Selecting the shortest answer achieves 65% accuracy, while random guessing only achieves 50%. While this is not a fatal flaw, the length correlation makes it harder to few-shot prompt or train on samples from the dataset.
 
-![](https://assets.turntrout.com/static/images/posts/halu_lengths_nina.avif)
+![](https://assets.turntrout.com/static/images/posts/halu_lengths_nina.avif){style="width: 80%;"}
 
 Figure: Distribution of correct and incorrect answers.
 
