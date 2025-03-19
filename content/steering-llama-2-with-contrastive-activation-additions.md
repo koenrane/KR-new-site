@@ -101,13 +101,14 @@ For each dataset, we took held-out questions (not used to form the steering vect
 
 ## Llama-2-13B-chat
 
-![](https://assets.turntrout.com/static/images/posts/ibaycic76o6lkwtjzhoq.avif)
-<br/>Figure: Adding steering vectors to layer 15 of Llama-2-13b-chat. "Subtracted" means the steering vector has a coefficient of -1, and "Added" entails a coefficient of +1.
+![](https://assets.turntrout.com/static/images/posts/ibaycic76o6lkwtjzhoq.avif){style="width:80%"}
+Figure: Adding steering vectors to layer 15 of Llama-2-13b-chat. "Subtracted" means the steering vector has a coefficient of -1, and "Added" entails a coefficient of +1.
 
 ## Llama-2-7B-chat
 
-![](https://assets.turntrout.com/static/images/posts/hr981dj7nxov5yaoifbn.avif)
-<br/>Figure: Effect on behaviors of Llama-2-7B-chat. Vector added to layer 15. "Subtracted" means the steering vector has a coefficient of -1, and "Added" entails a coefficient of +1.
+![](https://assets.turntrout.com/static/images/posts/hr981dj7nxov5yaoifbn.avif){style="width:80%"}
+
+Figure: Effect on behaviors of Llama-2-7B-chat. Vector added to layer 15. "Subtracted" means the steering vector has a coefficient of -1, and "Added" entails a coefficient of +1.
 
 Subtracting the sycophancy vector also increases TruthfulQA performance, which is further evidence of generalization.
 
@@ -204,53 +205,53 @@ We compute the average probability which Llama-2-7B-chat assigns to the correct 
     <thead>
       <tr>
         <th style="text-align: right;">Vector</th>
-        <th style="color: blue;">Subtracted</th>
-        <th>Neutral</th>
-        <th style="color: red;">Added</th>
+        <th style="color: blue; text-align: center;">Subtracted</th>
+        <th style="text-align: center;">Neutral</th>
+        <th style="color: red; text-align: center;">Added</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td style="text-align: right;">AI Coordination</td>
-        <td style="color: blue;">61% (-2%)</td>
-        <td>63%</td>
-        <td style="color: red;">62% (-1%)</td>
+        <td style="color: blue; text-align: center;">61% (-2%)</td>
+        <td style="text-align: center;">63%</td>
+        <td style="color: red; text-align: center;">62% (-1%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Corrigibility</td>
-        <td style="color: blue;">59% (-4%)</td>
-        <td>63%</td>
-        <td style="color: red;">64% (+1%)</td>
+        <td style="color: blue; text-align: center;">59% (-4%)</td>
+        <td style="text-align: center;">63%</td>
+        <td style="color: red; text-align: center;">64% (+1%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Hallucination</td>
-        <td style="color: blue;">57% (-6%)</td>
-        <td>63%</td>
-        <td style="color: red;">64% (+1%)</td>
+        <td style="color: blue; text-align: center;">57% (-6%)</td>
+        <td style="text-align: center;">63%</td>
+        <td style="color: red; text-align: center;">64% (+1%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Myopic Reward</td>
-        <td style="color: blue;">61% (-2%)</td>
-        <td>63%</td>
-        <td style="color: red;">65% (+2%)</td>
+        <td style="color: blue; text-align: center;">61% (-2%)</td>
+        <td style="text-align: center;">63%</td>
+        <td style="color: red; text-align: center;">65% (+2%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Survival Instinct</td>
-        <td style="color: blue;">59% (-4%)</td>
-        <td>63%</td>
-        <td style="color: red;">65% (+2%)</td>
+        <td style="color: blue; text-align: center;">59% (-4%)</td>
+        <td style="text-align: center;">63%</td>
+        <td style="color: red; text-align: center;">65% (+2%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Sycophancy</td>
-        <td style="color: blue;">58% (-5%)</td>
-        <td>63%</td>
-        <td style="color: red;">64% (+1%)</td>
+        <td style="color: blue; text-align: center;">58% (-5%)</td>
+        <td style="text-align: center;">63%</td>
+        <td style="color: red; text-align: center;">64% (+1%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Refusal</td>
-        <td style="color: blue;">64% (+1%)</td>
-        <td>63%</td>
-        <td style="color: red;">59% (-4%)</td>
+        <td style="color: blue; text-align: center;">64% (+1%)</td>
+        <td style="text-align: center;">63%</td>
+        <td style="color: red; text-align: center;">59% (-4%)</td>
       </tr>
     </tbody>
   </table>
@@ -270,11 +271,14 @@ This year (2023) has seen a lot of progress. Activation additions allow model co
 
 Ever since I first saw the cheese vector, I've been excited for the impact of steering vectors, but a lot of people were still skeptical the technique was "real" or would scale. In this work, we scale up to 13B parameters and investigated both base models and RLHF'd chat models. Our vectors work significantly better than I had expected.
 
-Concurrently to the GPT-2 work, [Li et al. (2023)](https://arxiv.org/abs/2306.03341) demonstrated a "truth vector" on LLaMa-1. They independently derived the ~same activation addition technique! In fact, a _third paper this year_ independently derived activation addition: [In-context vectors](https://arxiv.org/abs/2311.06668) steered models to reduce toxicity and effect style transfer. I guess something is in the water.
+Concurrently to the GPT-2 work, [Li et al. (2023)](https://arxiv.org/abs/2306.03341) demonstrated a "truth vector" on LLAMA-1. They independently derived the ~same activation addition technique! In fact, a _third paper this year_ independently derived activation addition: [In-context vectors](https://arxiv.org/abs/2311.06668) steered models to reduce toxicity and effect style transfer. I guess something is in the water.
 
 The follow-on [representation engineering paper](https://arxiv.org/abs/2310.01405) found a bunch of interesting steering vectors, including a "memorization vector." By subtracting their memorization vector, they reduced quote recitation from 89% to 37% while preserving performance on a historical dataset. Activation additions have also motivated a [formalization of "linear representation"](https://arxiv.org/abs/2311.03658), helped verify [linear representations of sentiment in LLMs](https://arxiv.org/abs/2310.15154), and [contributed to adversarial training](https://arxiv.org/abs/2311.09433).
 
 I'm now helping start up DeepMind's Bay area alignment team. My first project is to run this technique on large internal models and see how well it works. I'll be excited to see other groups continue to adopt this technique and get cool results. I hope (and expect) that activation addition will work this well on frontier models.[^3] If so, it'd be great for activation additions to be incorporated into the standard alignment pipelines.
+
+> [!error] I was wrong!
+> [Steering vectors don't seem to help hillclimb factuality metrics on frontier models.](/gemini-steering)
 
 # Conclusion
 
