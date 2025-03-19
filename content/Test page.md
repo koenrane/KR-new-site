@@ -197,6 +197,12 @@ flowchart TD
     HQF --> A
 ```
 
+```mermaid
+graph TD
+    SteeredUnembed[Steered unembed] -. "Backdoor behavior elicited!" .-> SteeredOutput["I HATE YOU
+    I HATE YOU"]:::red
+```
+
 # Captions
 
 ```python

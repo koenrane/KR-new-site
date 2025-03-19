@@ -45,6 +45,12 @@ li > blockquote:first-child {
     margin-top: calc(2 * $base-margin);
   }
 
+  // Footnotes narrower than normal lists, also even
+  & > ol {
+    padding-left: calc(0.5 * $list-padding-left);
+    padding-right: calc(0.5 * $list-padding-left);
+  }
+
   & li {
     max-width: 100%;
   }
@@ -876,6 +882,10 @@ img.emoji {
 
 .flowchart-link {
   stroke: var(--midground-faint) !important;
+}
+
+foreignObject > div {
+  display: block !important; // "table-cell" default is not centered
 }
 
 .edgeLabel > div,
