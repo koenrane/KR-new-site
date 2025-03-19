@@ -210,6 +210,17 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
 # Tables
 
+This footnote has a table.[^table]
+
+[^table]: | Layer | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+    | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
+    | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
+
+    {.no-min-width}
+
+    Table: Unpaired addition of `Love`.
+
 <table border="1">
      <tr>
        <th>Column 1 Header</th>

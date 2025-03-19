@@ -204,6 +204,14 @@ ol {
       font-size: var(--text-size-100);
       content: counter(footnote) "."; // Display the counter followed by a period
     }
+
+    & > figure {
+      display: inline; // Else it's misaligned with top of table
+    }
+
+    .footnotes & {
+      width: 100%; // Helps orient e.g. tables in footnotes
+    }
   }
 }
 
