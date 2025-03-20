@@ -431,7 +431,8 @@ Possibly this is mostly a neat trick which sometimes works in settings where the
 
 If we may dream for a moment, there's also the chance of...
 
-**The algebraic value-editing conjecture (AVEC).** It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector', and then add the niceness vector to future forward passes."
+> [!idea] The algebraic value-editing conjecture (AVEC)
+> It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector', and then add the niceness vector to future forward passes."
 
 Alex is ambivalent about strong versions of AVEC being true. Early on in the project, he booked the following credences (with italicized updates from present information):
 

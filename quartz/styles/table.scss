@@ -10,12 +10,6 @@ table {
     width: 100%;
   }
 
-  &.no-min-width th,
-  &.no-min-width td {
-    min-width: 0;
-    overflow-wrap: break-word; // Widens cells for td content, IDK why
-  }
-
   &.center-table-headings th {
     // Important to override the inline styling applied by Markdown
     text-align: center !important;
@@ -31,7 +25,8 @@ td {
   border: 1px solid var(--midground-faint);
   padding: $base-margin calc(1.5 * $base-margin);
   text-align: left;
-  min-width: calc(7 * $base-margin);
+  min-width: 0;
+  overflow-wrap: break-word; // Widens cells for td content, IDK why
 
   .footnotes & {
     font-size: smaller;
