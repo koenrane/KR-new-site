@@ -965,7 +965,7 @@ Activation additions can sometimes be composed
 _If_ activation additions really can meaningfully modify LM values and capabilities, imagine what we could do with a fraction of the effort which has been put into prompt engineering!
 
 Activation additions may let you change model properties which are inaccessible to prompts
-: This hope was argued [in the finetuning section.](#activation-additions-have-advantages-over-finetuning) While we think that prompts also activate some of the AI's goals and not others, we think that activation additions allow better control.
+: This hope was argued [in the finetuning section.](#activation-additions-have-advantages-over-rl-supervised-finetuning) While we think that prompts also activate some of the AI's goals and not others, we think that activation additions allow better control.
 
 Activation additions don't take up context space
 : One way to get around prompts taking up valuable context space is to use [Askell et al.'s](https://arxiv.org/pdf/2112.00861.pdf) "context distillation" technique. However, context distillation involves optimizing the model to reduce KL(completions given prompt || unprompted completions). But finetuning requires more effort, time, and compute than activation additions.
