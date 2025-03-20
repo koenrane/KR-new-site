@@ -456,6 +456,8 @@ EMPHASIS_ELEMENTS_TO_SEARCH = (
     "figcaption",
     "dd",
     "li",
+    "ul",
+    "ol",
     *(f"h{i}" for i in range(1, 7)),
 )
 
@@ -473,12 +475,12 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
     problematic_texts: List[str] = []
 
-    for text_elt in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
+    for text_elt in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH, recursive=True):
         # Get text excluding code and KaTeX elements
         stripped_text = script_utils.get_non_code_text(text_elt)
 
         # Check for any * or _ characters, ignoring _ before %
-        if stripped_text and (re.search(r"\*|_(?![_]* +%)", stripped_text)):
+        if stripped_text and (re.search(r"\*|\_(?![\_]* +\%)", stripped_text)):
             _add_to_list(
                 problematic_texts,
                 stripped_text,
@@ -811,7 +813,9 @@ def strip_path(path_str: str) -> str:
     """
     Strip the git root path from a path string.
     """
-    return path_str.strip(" .")
+    stripped_str = path_str.strip(" .")
+    stripped_str = stripped_str.removeprefix("/asset_staging/")
+    return stripped_str
 
 
 tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")

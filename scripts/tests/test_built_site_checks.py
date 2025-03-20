@@ -1189,6 +1189,12 @@ def test_check_unrendered_html(html, expected):
             """,
             [],
         ),
+        # Test stripping done by remark-attributes
+        (
+            "![ ](  image.jpg  )",
+            "<img src='/asset_staging/image.jpg'>",
+            [],
+        ),
     ],
 )
 def test_check_markdown_assets_in_html(
