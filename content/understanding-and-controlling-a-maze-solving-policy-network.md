@@ -651,12 +651,12 @@ Let's stress-test this claim a bit. There are 128 residual channels at this part
 
 Unlike for our 11 hypothesized "cheese channels", the "non-cheese" channels seem about equally affected by random resamplings, regardless of where the cheese is.
 
-<figcaption><a src="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Average change in action probabilities</a> across 30 seeds</figcaption>
-
 |                          | Same cheese location | Different cheese location |
 | -----------------------: | :------------------: | :-----------------------: |
 |     11 "cheese" channels | 0.88%                | 1.26%                     |
 | 11 "non-cheese" channels | 0.60%                | 0.54%                     |
+
+Table: [Average change in action probabilities](https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures) across 30 seeds.
 
 Alex thinks these quantitative results were a bit weaker than he'd expect if our diagrammed hypothesis were true. The "same cheese location" numbers come out _higher_ for our cheese channels (supposedly only computed as a function of cheese location) than for the non-cheese channels (which we aren't making any claims about).
 
@@ -729,7 +729,7 @@ Understanding, predicting, and controlling goal formation seems like a core chal
     2. $P(\texttt{left})=P(\texttt{right})>0$, or
     3. $P(\texttt{up})=P(\texttt{down})>0$.
 
-    Thus, there are two degrees of freedom by which we can convert between action probability distributions and yet maintain a fixed net probability vector. This is because net probability vector fields project a probability distribution on 5 actions (4 DOF) onto a single vector (2 DOF: angle and length), and so 4-2=2 DOF remain.
+    Thus, there are two degrees of freedom by which we can convert between action probability distributions and yet maintain a fixed net probability vector. This is because net probability vector fields project a probability distribution on 5 actions (4 DOF) onto a single vector (2 DOF: angle and length), and so 4 - 2 = 2 DOF remain.
 
 [^3]:
     Peli consulted with a statistician on what kind of regression to run. Ultimately, the factors we used are not logically independent of each other, but our impression after consultation was that this analysis would tell us _something_ meaningful.
@@ -755,13 +755,13 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 
     Other factors we considered:
 
-- Euclidean distance from cheese to top right 5x5
-- Legal path distance from cheese to top right cell
-- Legal path distance from cheese to top right 5x5
-- Euclidean distance from "decision square" to top right cell
-- Legal path distance from "decision square" to top right cell
-- Legal path distance from "decision square" to top right 5x5
-- $L_2$ norm of the cheese global coordinates (e.g. $(0,10)\mapsto 10$)
+    - Euclidean distance from cheese to top right 5x5
+    - Legal path distance from cheese to top right cell
+    - Legal path distance from cheese to top right 5x5
+    - Euclidean distance from "decision square" to top right cell
+    - Legal path distance from "decision square" to top right cell
+    - Legal path distance from "decision square" to top right 5x5
+    - $L_2$ norm of the cheese global coordinates (e.g. $(0,10)\mapsto 10$)
 
 [^4]: An example of the power of cheese Euclidean distance to top-right corner:
     <img src="https://assets.turntrout.com/static/images/posts/wnugvsc7qbwbldn7scgv.avif"/><figcaption>In this maze, the mouse will happily detour four squares on its path to the top-right to pick up the cheese...</figcaption><p><img src="https://assets.turntrout.com/static/images/posts/l6t4ekxmk6cnd24sis3j.avif"/></p><figcaption>…but in <em>this</em> maze won't detour the <em>measly two squares</em> for the cheese. Empirically, how far the _cheese_ lies from the top-right matters a great deal.</figcaption><br/>Note that this result obtains even though the second maze has cheese at $\frac{1}{\sqrt{2}}$ the visual distance ($2$ instead of $2\sqrt{2}$) and at half the path-distance ($2$ instead of $4$). Cheese tends to be more influential when it's closer to the top-right, even controlling for other factors.
@@ -779,7 +779,7 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 [^8]: A given `embedder.block2.res1.resadd_out` channel activation doesn't neatly correspond to any single grid square. This is because grids are 25x25, while the residual channels are 16x16 due to the maxpools.
 [^9]:
     For example, we hypothesize channel 55 to be a "cheese channel." We randomly selected channel 52 and computed resampling statistics. We found that channel 52 seems across-the-board less influential, even under totally random resampling (i.e. different cheese location):
-    <br/><br/><div class="table-container"><table><thead><tr><th style="text-align:right;"></th><th>Same cheese location</th><th>Different cheese location</th></tr></thead><tbody><tr><td style="text-align:right;">Channel 55</td><td>0.18%</td><td>0.31%</td></tr><tr><td style="text-align:right;">Channel 52</td><td>0.06%</td><td>0.06%</td></tr></tbody></table></div>
+    <br/><div class="table-container"><table><thead><tr><th style="text-align:right;"></th><th>Same cheese location</th><th>Different cheese location</th></tr></thead><tbody><tr><td style="text-align:right;">Channel 55</td><td>0.18%</td><td>0.31%</td></tr><tr><td style="text-align:right;">Channel 52</td><td>0.06%</td><td>0.06%</td></tr></tbody></table></div>
 
 [^10]:
     By the time you hit the residual addition layer in question (`block2.res1.resadd_out`), cheese pixels on the top-left corner of the screen can only affect $5\times 5=25$ out of the $16\times 16=256$ residual activations at that layer and channel.
