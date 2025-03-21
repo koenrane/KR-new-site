@@ -894,12 +894,19 @@ def test_check_problematic_paragraphs_comprehensive(html, expected):
             "<p>HTML &amp; *emphasis*</p>",
             ["Unrendered emphasis: HTML & *emphasis*"],
         ),
+        (
+            '<article><p>Test test</p><ul><li>These results don’t _prove_that <abbr class="small-caps">power</abbr>-seeking is bad for other agents in the environment.</li></ul></article>',
+            [
+                "Unrendered emphasis: These results don’t _prove_that power-seeking is bad for other agents in the environment."
+            ],
+        ),
     ],
 )
 def test_check_unrendered_emphasis(html, expected):
     """Test the check_unrendered_emphasis function."""
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_emphasis(soup)
+    print(result)
     assert sorted(result) == sorted(expected)
 
 

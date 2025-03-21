@@ -456,8 +456,6 @@ EMPHASIS_ELEMENTS_TO_SEARCH = (
     "figcaption",
     "dd",
     "li",
-    "ul",
-    "ol",
     *(f"h{i}" for i in range(1, 7)),
 )
 
@@ -475,12 +473,11 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
     problematic_texts: List[str] = []
 
-    for text_elt in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH, recursive=True):
+    for text_elt in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
         # Get text excluding code and KaTeX elements
         stripped_text = script_utils.get_non_code_text(text_elt)
 
-        # Check for any * or _ characters, ignoring _ before %
-        if stripped_text and (re.search(r"\*|\_(?![\_]* +\%)", stripped_text)):
+        if stripped_text and (re.search(r"\*|\_(?!\_* +\%)", stripped_text)):
             _add_to_list(
                 problematic_texts,
                 stripped_text,
