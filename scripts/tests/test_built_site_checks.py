@@ -1617,6 +1617,12 @@ def test_check_invalid_internal_links(html, expected_count):
             [],
             [],
         ),
+        # Test relative URL (should be skipped)
+        (
+            '<iframe src="./relative/path" title="Relative"></iframe>',
+            [],
+            [],
+        ),
     ],
 )
 def test_check_iframe_sources(

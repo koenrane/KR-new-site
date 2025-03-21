@@ -74,7 +74,7 @@ Like any good trout seeking a mate, I've prepared my nesting grounds with care. 
 </figure>
 
 > [!info]- Embedded preview of my dating doc
-> <iframe src="https://turntrout.com/date-me" style="height: 1000px"></iframe>
+> <iframe src="/date-me" style="height: 1000px"></iframe>
 
 [^trout]: I'm not a marine biologist. I looked around and gave the trout mating claims a quick check - they don't seem obviously wrong.
 

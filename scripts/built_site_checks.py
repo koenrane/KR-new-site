@@ -628,7 +628,7 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
 
         if src.startswith("//"):
             src = "https:" + src
-        elif src.startswith("/"):
+        elif src.startswith("/") or src.startswith("."):
             continue  # Skip relative paths as they're checked by other fns
 
         title: str = iframe.get("title", "")
