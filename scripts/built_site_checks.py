@@ -966,15 +966,44 @@ def check_link_spacing(soup: BeautifulSoup) -> List[str]:
     return problematic_links
 
 
+# Whitelisted emphasis patterns that should be ignored
+# If both prev and next are in the whitelist, then the emphasis is whitelisted
+WHITELISTED_EMPHASIS = {
+    ("Some", ""),  # For e.g. "Some<i>one</i>"
+}
+
+
 def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     """
     Check for emphasis/strong elements that don't have proper spacing with
     surrounding text.
+
+    Ignores specific whitelisted cases.
     """
     problematic_emphasis: List[str] = []
 
     # Find all emphasis elements
     for element in soup.find_all(["em", "strong", "i", "b", "del"]):
+        # Check if this is a whitelisted case
+        prev_sibling = element.previous_sibling
+        next_sibling = element.next_sibling
+
+        if isinstance(prev_sibling, NavigableString) and isinstance(
+            next_sibling, NavigableString
+        ):
+            prev_text = prev_sibling.strip()
+            current_text = element.get_text(strip=True)
+
+            # Check for exact matches in whitelisted cases
+            is_whitelisted = False
+            for prev, next_ in WHITELISTED_EMPHASIS:
+                print(prev_text, prev, current_text, next_)
+                if prev_text.endswith(prev) and current_text.startswith(next_):
+                    is_whitelisted = True
+                    break
+            if is_whitelisted:
+                continue
+
         problematic_emphasis.extend(
             _check_element_spacing(
                 element,

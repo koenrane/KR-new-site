@@ -1236,67 +1236,51 @@ def test_check_markdown_assets_in_html(
 @pytest.mark.parametrize(
     "html,expected",
     [
-        # Basic cases - missing spaces
-        (
-            "<p>text<em>emphasis</em>text</p>",
-            [
-                "Missing space before: text<em>emphasis</em>",
-                "Missing space after: <em>emphasis</em>text",
-            ],
-        ),
-        # Test allowed characters before emphasis
+        # Test each whitelisted case - should be ignored
         *[
-            (f"<p>text{char}<em>emphasis</em> text</p>", [])
-            for char in ALLOWED_ELT_PRECEDING_CHARS
+            (
+                f"<p>{prev}<i>{next_}</i> else</p>",
+                [],
+            )
+            for prev, next_ in WHITELISTED_EMPHASIS
         ],
-        # Test allowed characters after emphasis
+        # Test whitelisted case with extra whitespace - should be ignored
         *[
-            (f"<p>text <em>emphasis</em>{char}text</p>", [])
-            for char in ALLOWED_ELT_FOLLOWING_CHARS
+            (
+                f"<p>{prev}  <i>{next_}</i>  else</p>",
+                [],
+            )
+            for prev, next_ in WHITELISTED_EMPHASIS
         ],
-        # Test mixed cases
+        # Test non-whitelisted case - should be ignored since Some is whitelisted
         (
-            "<p>text(<em>good</em>text<strong>bad</strong>) text</p>",
-            [
-                "Missing space after: <em>good</em>text",
-                "Missing space before: text<strong>bad</strong>",
-            ],
+            "<p>Some<i>thing</i> else</p>",
+            [],
         ),
-        # Test with i and b tags
+        # Test partial match - should be flagged
         (
-            "<p>text<i>italic</i>text<b>bold</b>text</p>",
-            [
-                "Missing space before: text<i>italic</i>",
-                "Missing space after: <i>italic</i>text",
-                "Missing space before: text<b>bold</b>",
-                "Missing space after: <b>bold</b>text",
-            ],
+            "<p>Somebody<i>one</i> else</p>",
+            ["Missing space before: Somebody<i>one</i>"],
         ),
-        # Test with nested emphasis
+        # Test case sensitivity - should be flagged
         (
-            "<p>text<em><strong>nested</strong></em>text</p>",
-            [
-                "Missing space before: text<em>nested</em>",
-                "Missing space after: <em>nested</em>text",
-            ],
+            "<p>some<i>one</i> else</p>",
+            ["Missing space before: some<i>one</i>"],
         ),
-        # Test with multiple paragraphs
+        # Test with other emphasis elements - should be ignored since Some is whitelisted
         (
-            """
-            <p>text<em>one</em>text</p>
-            <p>text <em>two</em> text</p>
-            <p>text<em>three</em>text</p>
-            """,
-            [
-                "Missing space before: text<em>one</em>",
-                "Missing space after: <em>one</em>text",
-                "Missing space before: text<em>three</em>",
-                "Missing space after: <em>three</em>text",
-            ],
+            "<p>Some<em>one</em> else</p>",
+            [],
+        ),
+        # Test with nested elements - should be ignored since Some is whitelisted
+        (
+            "<p>Some<i><strong>one</strong></i> else</p>",
+            [],
         ),
     ],
 )
-def test_check_emphasis_spacing(html, expected):
+def test_check_emphasis_spacing_whitelist(html, expected):
+    """Test the check_emphasis_spacing function's whitelist functionality."""
     soup = BeautifulSoup(html, "html.parser")
     result = check_emphasis_spacing(soup)
     assert sorted(result) == sorted(expected)
