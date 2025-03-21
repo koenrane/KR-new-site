@@ -70,7 +70,7 @@ date_updated: 2025-03-08 18:08:37.606100
 >
 > - Before, I thought of environmental symmetries as convenient sufficient conditions for instrumental convergence. But I increasingly suspect that symmetries are the main part of the story.
 > - I think these results may be important for understanding the AI alignment problem and formally motivating its difficulty.
->   - For example, my results imply that**simplicity priors over reward functions assign non-negligible probability to reward functions for which power-seeking is optimal.**
+>   - For example, my results imply that **simplicity priors over reward functions assign non-negligible probability to reward functions for which power-seeking is optimal.**
 >   - I expect my symmetry arguments to help explain other "convergent" phenomena, including:
 >     - [convergent evolution](https://en.wikipedia.org/wiki/Convergent_evolution)
 >     - the prevalence of [deceptive alignment](https://www.lesswrong.com/posts/zthDPAjh9w6Ytbeks/deceptive-alignment)

@@ -71,9 +71,9 @@ We algebraically modified the net's runtime goals without finetuning. We also fo
 > 2. Considering several channels halfway through the network, we hypothesized that their activations mainly depend on the location of the cheese.
 >    - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network's behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
 >    - This suggests that these channels are inputs to goal-oriented circuits, and these channels affect those circuits basically by passing messages about where the cheese is.
-> 3. Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also \_as a function of \_Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
+> 3. Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also_ as a function of _Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
 > 4. Another simple idea: We define a "cheese vector" as the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze. For each maze, we generate a single cheese vector and subtract that vector from all forward passes in that maze. The agent now ignores cheese most of the time, instead heading towards the top-right region (the historical location of cheese). Furthermore, a given maze's cheese vector transfers across mazes to other mazes with cheese in the same location.
->    - We propose the _algebraic value-editing conjecture_(AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
+>    - We propose the _algebraic value-editing conjecture_ (AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
 
 # Introducing the training process and visualizations
 
@@ -218,15 +218,20 @@ By regressing on these four factors, the model achieved a prediction accuracy of
 
 Here are the regression coefficients for predicting +1 (agent gets cheese) or 0 (agent doesn't get cheese). For example, -0.623 corresponds to 0.623 fewer logits on predicting that the agent gets cheese.
 
-**Decision square's Euclidean distance to cheese, negative** (-0.623). The greater the _visual distance_ between the cheese and the decision square, the less likely the agent is to go to the cheese.
+Decision square's Euclidean distance to cheese, negative (-0.623)
+: _The greater the _visual distance_ between the cheese and the decision square, the less likely the agent is to go to the cheese._
+
 : As we privately speculated, this effect shows up _after_ accounting for the path distance (factor 2) between the decision square and the cheese.
 : This is not behavior predicted by "classic" RL training reasoning, which focuses on policies being optimized strictly as a function of sum discounted reward over time (and thus, in the sparse reward regime, in terms of path distance to the cheese).
 : We did predict this using shard theory reasoning. The one behavioral experiment which Alex proposed before the project was to investigate whether this factor exists, after controlling for path distance.
 
-**Decision square's path distance to cheese, negative** (-1.084). The farther the agent has to walk to the cheese, the less likely it is to do so.
+Decision square's path distance to cheese, negative (-1.084)
+: _The farther the agent has to walk to the cheese, the less likely it is to do so._
 : This seemed like the obvious effect to predict to us, and its regression coefficient was indeed larger than the coefficient for Euclidean distance (-0.623).
 
-**Cheese's Euclidean distance to top-right free square, negative (**-2.786). The closer the cheese is to the top-right, the more likely the agent is to go for the cheese.
+Cheese's Euclidean distance to top-right free square, negative (-2.786)
+: _The closer the cheese is to the top-right, the more likely the agent is to go for the cheese._
+
 : This is **the strongest factor.** After piling up evidence from a range of mechanistic and behavioral sources, we're comfortable concluding that _cheese affects decision-making more when it's closer to the top-right_. See this footnote[^4] for an example maze illustrating the power of this factor.
 : In the language of shard theory, the cheese-shard is more strongly activated when cheese is closer to the top-right.
 : Notably, this factor isn't trivially influential—we're only considering mazes with decision squares, so the cheese isn't on the way to the top-right corner! Furthermore, as with all factors, this factor matters when controlling for the others.
@@ -263,9 +268,9 @@ To understand the network, we tried various hand-designed model edits. These edi
 <figcaption>(c) Steered minus original</figcaption>
 </div>
 </div>
-<figcaption>**Left:** The net probability vectors induced by the unmodified forward passes.  
-<br/>**Middle:** For any steering modification we make to forward passes, we plot the new probability vectors induced by the modified forward passes.  <br/>
-**Right:** The “vector field diff”, computed as (steered minus original) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.</figcaption>
+<figcaption><b>Left:</b> The net probability vectors induced by the unmodified forward passes.  
+<br/><b>Middle:</b> For any steering modification we make to forward passes, we plot the new probability vectors induced by the modified forward passes.  <br/>
+<b>Right:</b> The “vector field diff”, computed as (steered minus original) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.</figcaption>
 </figure>
 
 On [Team Shard](matsprogram.org/mentors), we run fast experiments ASAP, looking for the fastest way to get interesting information. Who cares about a lit review or some fancy theory, when you can try something interesting immediately?

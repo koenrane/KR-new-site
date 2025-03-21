@@ -26,7 +26,6 @@ tags:
   - AI
   - instrumental-convergence
 aliases:
-  - seeking-power-is-often-convergently-instrumental-in-mdps
 lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/wrl3ovxbyttoztdxwmjb
 lw-sequence-image-banner: sequences/gv2nqrg0pb0srtodlgbg
@@ -342,7 +341,7 @@ In real-world settings, it seems unlikely _a priori_ that the agent’s optimal 
 AI alignment research often feels slippery. We're trying hard to become less confused about basic questions, like:
 
 - [What](https://www.lesswrong.com/s/Rm6oQRJJmhGCcLvxh) are "[agents](https://www.lesswrong.com/posts/26eupx3Byc8swRS7f/bottle-caps-aren-t-optimisers)"?
-- [Do people even have "values"](https://www.lesswrong.com/posts/GermiEmcS6xuZ2gBh/what-ai-safety-researchers-have-written-about-the-nature-of), and[should we try to get the AI to learn them?](https://www.lesswrong.com/posts/oH8KMnXHnw964QyS6/preface-to-the-sequence-on-value-learning) [](https://www.lesswrong.com/posts/BKM8uQS6QdJPZLqCr/towards-a-mechanistic-understanding-of-corrigibility)
+- [Do people even have "values"](https://www.lesswrong.com/posts/GermiEmcS6xuZ2gBh/what-ai-safety-researchers-have-written-about-the-nature-of), and [should we try to get the AI to learn them?](https://www.lesswrong.com/posts/oH8KMnXHnw964QyS6/preface-to-the-sequence-on-value-learning) [](https://www.lesswrong.com/posts/BKM8uQS6QdJPZLqCr/towards-a-mechanistic-understanding-of-corrigibility)
 - [What does it mean](https://www.lesswrong.com/posts/BKM8uQS6QdJPZLqCr/towards-a-mechanistic-understanding-of-corrigibility) to be "[corrigible](https://arbital.com/p/corrigibility/)", or "[deceptive](https://www.lesswrong.com/posts/zthDPAjh9w6Ytbeks/deceptive-alignment)"? [](https://www.lesswrong.com/posts/X2i9dQQK3gETCyqh2/chris-olah-s-views-on-agi-safety)
 - [What are our machine learning models even doing](https://www.lesswrong.com/posts/X2i9dQQK3gETCyqh2/chris-olah-s-views-on-agi-safety)?
 

@@ -132,9 +132,9 @@ Suggestive, but the assumptions don't perfectly line up with our use case (rewar
 
 Here are some problems that MP-AUP doesn't address:
 
-- Multi-principal/multi-agent: even if agent A \_can \_make tea, that doesn’t mean agent \_A \_will let agent \_B \_make tea.
+- Multi-principal/multi-agent: even if agent A _can_ make tea, that doesn’t mean agent _A_ will let agent _B_ make tea.
 - Specifying individual principal objectives
-- Ensuring that agent remains corrigible to principals - if MP-AUP agents remain able to act in the interest of each principal, that means nothing if we can no longer correct the agent so that it actually \_pursues \_those interests.
+- Ensuring that agent remains corrigible to principals - if MP-AUP agents remain able to act in the interest of each principal, that means nothing if we can no longer correct the agent so that it actually _pursues_ those interests.
 
 Furthermore, it seems plausible to me that MP-AUP helps pretty well in the multiple-principal/single-agent case, without much more work than normal AUP requires. However, I think there's a good chance I haven't thought of some crucial considerations which make it fail or which make it less good. In particular, I haven't thought much about the $n>2$ principal case.
 

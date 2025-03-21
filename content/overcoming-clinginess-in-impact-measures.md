@@ -96,7 +96,7 @@ We're going to isolate the effects for which the agent is responsible over the c
 > It is natural to consider extending standard probability theory to include the consideration of worlds which are "logically impossible" (such as where a deterministic Rube Goldberg machine behaves in a way that it doesn't)... What, precisely, are logically impossible possibilities?
 <!-- vale on -->
 
-- the artificial agent is*omniscient*- it can perfectly model both other agents and the consequences of actions.
+- the artificial agent is _omniscient_- it can perfectly model both other agents and the consequences of actions.
   - We could potentially instead merely assume a powerful model, but this requires extra work and is beyond the scope of this initial foray. Perhaps a distribution model could be used to calculate the action/inaction counterfactual likelihood ratio of a given side effect.
 - we have a good way of partitioning the world into objects and measuring impact; for conceptual simplicity, side effects are discrete and depend on the identities of the objects involved: $\textit{crate}_1 \textit{ broken} \neq \textit{crate}_2 \textit{ broken}$.
   - This assumption is removed after the thought experiments.
@@ -220,7 +220,7 @@ Fortunately, this formulation solves clinginess; $\mathcal{H}$'s effects are not
 This can happen in two ways:
 
 - If $\mathcal{H}$ is separated from $\mathcal{M}$ by a Cartesian boundary, $\mathcal{M}$ can threaten $\mathcal{H}$ with large negative utility to get $\mathcal{H}$ to carry out the desired plan.
-- If $\mathcal{H}$ and $\mathcal{M}$ are not\_ \_separated by such a boundary, more direct coercion is possible.
+- If $\mathcal{H}$ and $\mathcal{M}$ are not separated by such a boundary, more direct coercion is possible.
 
 I don't think that this is a flaw in my formulations; instead, it appears that impact measures exist on a continuum:
 
