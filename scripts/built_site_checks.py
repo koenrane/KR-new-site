@@ -997,7 +997,6 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
             # Check for exact matches in whitelisted cases
             is_whitelisted = False
             for prev, next_ in WHITELISTED_EMPHASIS:
-                print(prev_text, prev, current_text, next_)
                 if prev_text.endswith(prev) and current_text.startswith(next_):
                     is_whitelisted = True
                     break
