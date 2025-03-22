@@ -178,7 +178,6 @@ test.describe("Same-page navigation", () => {
       const currentScroll = await page.evaluate(() => window.scrollY)
 
       // Check if within tolerance rather than exact match
-      console.log(currentScroll, scrollPositions[i])
       expect(Math.abs(currentScroll - scrollPositions[i])).toBeLessThanOrEqual(SCROLL_TOLERANCE)
     }
 
