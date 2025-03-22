@@ -2,6 +2,7 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import List
+from unittest.mock import patch
 
 import pytest
 import requests
@@ -257,7 +258,9 @@ def test_check_file_for_issues(tmp_path):
     </html>
     """
     )
-    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
+    issues = check_file_for_issues(
+        file_path, tmp_path, tmp_path / "content", should_check_fonts=False
+    )
     assert issues["localhost_links"] == ["https://localhost:8000"]
     assert issues["invalid_anchors"] == ["#invalid-anchor"]
     assert issues["problematic_paragraphs"] == [
@@ -279,7 +282,9 @@ complicated_blockquote = """
 def test_complicated_blockquote(tmp_path):
     file_path = tmp_path / "test.html"
     file_path.write_text(complicated_blockquote)
-    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
+    issues = check_file_for_issues(
+        file_path, tmp_path, tmp_path / "content", should_check_fonts=False
+    )
     assert issues["trailing_blockquotes"] == [
         "Problematic blockquote: Basic facts about language models during trai ning >"
     ]
@@ -290,7 +295,9 @@ def test_check_file_for_issues_with_redirect(tmp_path):
     file_path.write_text(
         '<html><head><meta http-equiv="refresh" content="0;url=/new-page"></head></html>'
     )
-    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
+    issues = check_file_for_issues(
+        file_path, tmp_path, tmp_path / "content", should_check_fonts=False
+    )
     assert issues == {}
 
 
@@ -1869,3 +1876,134 @@ def test_check_robots_txt_location(
 
     result = check_robots_txt_location(tmp_path)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test with preloaded EBGaramond subfont (valid)
+        (
+            """
+            <html>
+            <head>
+                <link rel="preload" as="font" href="/subfont/EBGaramond-Regular.woff2">
+            </head>
+            </html>
+            """,
+            True,
+        ),
+        # Test with preloaded font but wrong name (invalid)
+        (
+            """
+            <html>
+            <head>
+                <link rel="preload" as="font" href="/subfont/SomeOtherFont.woff2">
+            </head>
+            </html>
+            """,
+            False,
+        ),
+        # Test with preload but wrong type (invalid)
+        (
+            """
+            <html>
+            <head>
+                <link rel="preload" as="style" href="/subfont/EBGaramond-Regular.woff2">
+            </head>
+            </html>
+            """,
+            False,
+        ),
+        # Test with no preloaded fonts (invalid)
+        (
+            """
+            <html>
+            <head>
+                <link rel="stylesheet" href="style.css">
+            </head>
+            </html>
+            """,
+            False,
+        ),
+        # Test with no head (invalid)
+        (
+            "<html><body></body></html>",
+            False,
+        ),
+        # Test with case insensitivity (valid)
+        (
+            """
+            <html>
+            <head>
+                <link rel="preload" as="font" href="/subfont/ebgaramond-italic.woff2">
+            </head>
+            </html>
+            """,
+            True,
+        ),
+        # Test with multiple preloaded fonts including the required one (valid)
+        (
+            """
+            <html>
+            <head>
+                <link rel="preload" as="font" href="/subfont/OtherFont.woff2">
+                <link rel="preload" as="font" href="/subfont/EBGaramond-Bold.woff2">
+            </head>
+            </html>
+            """,
+            True,
+        ),
+    ],
+)
+def test_check_preloaded_fonts(html, expected):
+    """Test the check_preloaded_fonts function with various HTML structures."""
+    soup = BeautifulSoup(html, "html.parser")
+    assert check_preloaded_fonts(soup) == expected
+
+
+def test_check_file_for_issues_with_fonts(tmp_path):
+    """Test that the font check is included when should_check_fonts is True."""
+    # Create a test HTML file with no preloaded font
+    html_content = """
+    <html>
+    <head><title>Test</title></head>
+    <body><p>Test content</p></body>
+    </html>
+    """
+    file_path = tmp_path / "test.html"
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
+
+    # Check with fonts enabled
+    issues = check_file_for_issues(
+        file_path, tmp_path, None, should_check_fonts=True
+    )
+
+    # Verify that missing_preloaded_font is in the issues
+    assert "missing_preloaded_font" in issues
+    assert issues["missing_preloaded_font"] is True
+
+    # Check with fonts disabled
+    issues = check_file_for_issues(
+        file_path, tmp_path, None, should_check_fonts=False
+    )
+
+    # Verify that missing_preloaded_font is not in the issues
+    assert "missing_preloaded_font" not in issues
+
+
+def test_command_line_arguments():
+    """Test that the command-line arguments work correctly."""
+    from scripts.built_site_checks import parser
+
+    # Test with default arguments
+    test_args = []
+    with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
+        args = parser.parse_args()
+        assert args.check_fonts is False
+
+    # Test with --check-fonts flag
+    test_args = ["--check-fonts"]
+    with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
+        args = parser.parse_args()
+        assert args.check_fonts is True

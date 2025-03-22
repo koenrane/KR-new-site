@@ -1,5 +1,9 @@
 name: Push pipeline
 
+concurrency:
+  group: "dev-pages"
+  cancel-in-progress: true
+
 on:
   push:
     branches: ["dev"]
@@ -52,6 +56,8 @@ jobs:
         run: chmod +x ./scripts/subfont.sh
       - name: Subset fonts
         run: sh ./scripts/subfont.sh
+      - name: Run site checks
+        run: python scripts/built-site-checks.py --check-fonts
 
       - name: Publish to Cloudflare Pages
         env:

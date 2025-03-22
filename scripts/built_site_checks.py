@@ -3,6 +3,7 @@
 Script to check the built static site for common issues and errors.
 """
 
+import argparse
 import os
 import re
 import subprocess
@@ -26,6 +27,17 @@ git_root = script_utils.get_git_root()
 RSS_XSD_PATH = git_root / "scripts" / ".rss-2.0.xsd"
 
 IssuesDict = Dict[str, List[str] | bool]
+
+# Define the parser but don't parse immediately
+parser = argparse.ArgumentParser(
+    description="Check the built static site for issues."
+)
+parser.add_argument(
+    "--check-fonts",
+    action="store_true",
+    default=False,
+    help="Enable checking for preloaded fonts",
+)
 
 
 def check_localhost_links(soup: BeautifulSoup) -> List[str]:
@@ -702,8 +714,31 @@ def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
     return problematic_favicons
 
 
+def check_preloaded_fonts(soup: BeautifulSoup) -> bool:
+    """
+    Check if the page preloads the EBGaramond font via subfont.
+
+    Returns True if at least one preload link for EBGaramond subfont is found,
+    False otherwise.
+    """
+    head = soup.find("head")
+    if not isinstance(head, Tag):
+        return False
+
+    preload_links = head.find_all("link", {"rel": "preload", "as": "font"})
+    for link in preload_links:
+        href = link.get("href", "")
+        if "subfont/ebgaramond" in href.lower():
+            return True
+
+    return False
+
+
 def check_file_for_issues(
-    file_path: Path, base_dir: Path, md_path: Path | None
+    file_path: Path,
+    base_dir: Path,
+    md_path: Path | None,
+    should_check_fonts: bool,
 ) -> IssuesDict:
     """
     Check a single HTML file for various issues.
@@ -712,6 +747,7 @@ def check_file_for_issues(
         file_path: Path to the HTML file to check
         base_dir: Path to the base directory of the site
         md_path: Path to the markdown file that generated the HTML file
+        should_check_fonts: Whether to check for preloaded fonts
 
     Returns:
         Dictionary of issues found in the HTML file
@@ -750,6 +786,9 @@ def check_file_for_issues(
         "consecutive_periods": check_consecutive_periods(soup),
         "invalid_favicon_parents": check_favicon_parent_elements(soup),
     }
+
+    if should_check_fonts:
+        issues["missing_preloaded_font"] = not check_preloaded_fonts(soup)
 
     # Only check markdown assets if md_path exists and is a file
     if md_path and md_path.is_file():
@@ -1119,7 +1158,12 @@ def main() -> None:
                             f"Markdown file for {file_path.stem} not found"
                         )
 
-                issues = check_file_for_issues(file_path, public_dir, md_path)
+                issues = check_file_for_issues(
+                    file_path,
+                    public_dir,
+                    md_path,
+                    should_check_fonts=args.check_fonts,
+                )
 
                 if any(lst for lst in issues.values()):
                     print_issues(file_path, issues)
@@ -1130,4 +1174,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    args = parser.parse_args()
     main()
