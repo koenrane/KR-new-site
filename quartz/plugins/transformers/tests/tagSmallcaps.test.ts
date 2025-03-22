@@ -15,10 +15,15 @@ import {
   allCapsContinuation,
   REGEX_ALL_CAPS_PHRASE,
   skipSmallcaps,
-  ignoreAcronym,
+  shouldSkipNode,
   capitalizeAfterEnding,
   shouldCapitalizeMatch,
   INLINE_ELEMENTS,
+  processMatchedText,
+  isInAllowList,
+  shouldIgnoreNumericAbbreviation,
+  replaceSCInNode,
+  PUNCTUATION_BEFORE_MATCH,
 } from "../tagSmallcaps"
 
 // Helper function for all HTML processing tests
@@ -51,6 +56,11 @@ describe("rehypeTagSmallcaps", () => {
     [
       "<p>The NATO. ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>",
       '<p>The <abbr class="small-caps">nato</abbr>. <abbr class="small-caps">Abcdefghijklmnopqrstuvwxyz</abbr></p>',
+    ],
+    ["<p>IID</p>", '<p><abbr class="small-caps">Iid</abbr></p>'],
+    [
+      "<p>The observations are IID</p>",
+      '<p>The observations are <abbr class="small-caps">iid</abbr></p>',
     ],
   ]
   it.each(acronymCases)("should properly format: %s", (input, expected) => {
@@ -569,23 +579,11 @@ describe("no-formatting tests", () => {
   })
 })
 
-describe("ignoreAcronym", () => {
+describe("shouldSkipNode", () => {
   // Helper function to create a text node
   const createTextNode = (value: string): Text => ({ type: "text", value })
 
   const testCases = [
-    {
-      desc: "should return false for whitelisted acronyms",
-      node: createTextNode("LLM"),
-      ancestors: [h("p")],
-      expected: false,
-    },
-    {
-      desc: "should return true for roman numerals",
-      node: createTextNode("III"),
-      ancestors: [h("p")],
-      expected: true,
-    },
     {
       desc: "should return true for text in no-formatting div",
       node: createTextNode("NASA"),
@@ -624,29 +622,7 @@ describe("ignoreAcronym", () => {
     },
   ]
   it.each(testCases)("$desc", ({ node, ancestors, expected }) => {
-    expect(ignoreAcronym(node, ancestors)).toBe(expected)
-  })
-
-  // Test each whitelisted acronym
-  allowAcronyms.forEach((acronym) => {
-    it(`should return false for whitelisted acronym: ${acronym}`, () => {
-      const result = ignoreAcronym(createTextNode(acronym), [])
-      expect(result).toBe(false)
-    })
-  })
-
-  // Test each item in ignoreList
-  const toIgnoreList = ["5th", "1st", "2nd", "3rd", "11th", "5GHz", "10ghz"]
-  toIgnoreList.forEach((toIgnore: string) => {
-    it(`should return true for ignored item: ${toIgnore}`, () => {
-      expect(ignoreAcronym(createTextNode(toIgnore), [])).toBe(true)
-    })
-  })
-
-  // Test some specific roman numerals
-  const romanNumerals = ["III", "VII", "VIII", "XIV", "MXC"]
-  it.each(romanNumerals)("should return true for roman numeral %s", (numeral) => {
-    expect(ignoreAcronym(createTextNode(numeral), [])).toBe(true)
+    expect(shouldSkipNode(node, ancestors)).toBe(expected)
   })
 })
 
@@ -838,8 +814,12 @@ describe("capitalizeMatch", () => {
     return match
   }
 
-  const testCases: [string, string, number, boolean][] = [
-    // [description, text, match index, expected result]
+  // Get all punctuation characters from PUNCTUATION_BEFORE_MATCH
+  const punctuationChars = Array.from(PUNCTUATION_BEFORE_MATCH.source.slice(1, -1))
+
+  type TestCase = [string, string, number, boolean]
+  const testCases: TestCase[] = [
+    // Basic position cases
     ["start of first node", "NASA is cool", 0, true],
     ["after period", "First. NASA is cool", 7, true],
     ["after question mark", "What? NASA is cool", 6, true],
@@ -850,9 +830,35 @@ describe("capitalizeMatch", () => {
     ["after semicolon", "First; NASA next", 7, false],
     ["empty text before match", "NASA", 0, true],
     ["only punctuation and spaces before", ".  NASA", 3, true],
-    ["lowercase after period", "First. nasa", 7, true],
     ["period without space", "First.NASA", 6, false],
     ["multiple sentences", "First. Second. NASA", 15, true],
+
+    // Test each punctuation character from PUNCTUATION_BEFORE_MATCH
+    ...punctuationChars.map(
+      (char): TestCase => [`opening ${char}`, `${char}NASA) is cool`, 1, true],
+    ),
+
+    // Mixed punctuation and position cases
+    ["punctuation after period", "First. (NASA) is cool", 8, true],
+    ["punctuation mid-sentence", "The (NASA) program", 5, false],
+    ["multiple punctuation mid-sentence", "The ([{NASA}]) program", 7, false],
+    ["punctuation after other punctuation", "Hello, (NASA) program", 8, false],
+
+    // Edge cases with PUNCTUATION_BEFORE_MATCH characters
+    ["only punctuation", "(NASA)", 1, true],
+    ["multiple punctuation only", "([{NASA}])", 3, true],
+    ["mixed spaces and punctuation", "  (  NASA  )", 5, true],
+    ["punctuation with no spaces", "(NASA)", 1, true],
+    ["nested punctuation", "((NASA))", 2, true],
+
+    // Test combinations of punctuation
+    ["all punctuation types", `${punctuationChars.join("")}NASA`, punctuationChars.length, true],
+    [
+      "mixed punctuation and spaces",
+      `  ${punctuationChars.join(" ")} NASA`,
+      punctuationChars.length * 2 + 2,
+      true,
+    ],
   ]
 
   it.each(testCases)("%s", (desc, text, matchIndex, expected) => {
@@ -866,5 +872,281 @@ describe("capitalizeMatch", () => {
     const { node, parent, index } = createTextContext("NASA")
     const match = createMatch("NASA", undefined as unknown as number)
     expect(shouldCapitalizeMatch(match, node, index, [parent])).toBe(false)
+  })
+
+  // Test nested inline elements
+  it("should handle nested inline elements at start", () => {
+    const textNode = { type: "text", value: "NASA is cool" } as Text
+    const strong = { type: "element", tagName: "strong", children: [textNode] } as Parent
+    const em = { type: "element", tagName: "em", children: [strong] } as Parent
+    const p = { type: "element", tagName: "p", children: [em] } as Parent
+
+    const match = createMatch("NASA", 0)
+    expect(shouldCapitalizeMatch(match, textNode, 0, [p, em, strong])).toBe(true)
+  })
+
+  it("should handle nested inline elements mid-sentence", () => {
+    const textNode = { type: "text", value: "NASA is cool" } as Text
+    const strong = { type: "element", tagName: "strong", children: [textNode] } as Parent
+    const p = {
+      type: "element",
+      tagName: "p",
+      children: [
+        { type: "text", value: "The " } as Text,
+        strong,
+        { type: "text", value: " program" } as Text,
+      ],
+    } as Parent
+
+    const match = createMatch("NASA", 0)
+    expect(shouldCapitalizeMatch(match, textNode, 1, [p, strong])).toBe(false)
+  })
+})
+
+describe("processMatchedText", () => {
+  const testCases = [
+    {
+      desc: "should capitalize first letter when shouldCapitalize is true",
+      input: "NASA",
+      shouldCapitalize: true,
+      expected: "Nasa",
+    },
+    {
+      desc: "should lowercase all letters when shouldCapitalize is false",
+      input: "NASA",
+      shouldCapitalize: false,
+      expected: "nasa",
+    },
+    {
+      desc: "should handle accented characters when capitalizing",
+      input: "ÉCOLE",
+      shouldCapitalize: true,
+      expected: "École",
+    },
+    {
+      desc: "should handle accented characters when lowercasing",
+      input: "ÉCOLE",
+      shouldCapitalize: false,
+      expected: "école",
+    },
+    {
+      desc: "should handle mixed case input when capitalizing",
+      input: "nAsA",
+      shouldCapitalize: true,
+      expected: "Nasa",
+    },
+    {
+      desc: "should handle mixed case input when lowercasing",
+      input: "nAsA",
+      shouldCapitalize: false,
+      expected: "nasa",
+    },
+  ]
+
+  it.each(testCases)("$desc", ({ input, shouldCapitalize, expected }) => {
+    expect(processMatchedText(input, shouldCapitalize)).toBe(expected)
+  })
+})
+
+describe("isInAllowList", () => {
+  const validCases = [
+    // Exact matches
+    ...allowAcronyms,
+    // With 's' suffix
+    ...allowAcronyms.map((a) => a + "s"),
+    // With 'x' suffix
+    ...allowAcronyms.map((a) => a + "x"),
+  ]
+
+  it.each(validCases)("should return true for allowed text: %s", (text) => {
+    expect(isInAllowList(text)).toBe(true)
+  })
+
+  const invalidCases = [
+    // Modified versions (excluding mp4 which is allowed in both cases)
+    ...allowAcronyms.filter((a) => a.toLowerCase() !== "mp4").map((a) => a.toLowerCase()),
+    // Modified versions with 'ing' suffix
+    ...allowAcronyms.map((a) => a + "ing"),
+    // Random invalid cases
+    "NOTINLIST",
+    "NOTINLISTs",
+    "NOTINLISTx",
+    "RANDOM",
+    "RANDOMs",
+    "RANDOMx",
+  ]
+
+  it.each(invalidCases)("should return false for non-allowed text: %s", (text) => {
+    expect(isInAllowList(text)).toBe(false)
+  })
+})
+
+describe("shouldIgnoreNumericAbbreviation", () => {
+  const validCases = [
+    // Ordinals
+    "1st",
+    "2nd",
+    "3rd",
+    "4th",
+    "11th",
+    "21st",
+    "22nd",
+    "23rd",
+    "100th",
+    // Units with numbers
+    "5ghz",
+    "10GHZ",
+    "2.5hz",
+    "100Hz",
+  ]
+
+  it.each(validCases)("should return true for numeric abbreviation: %s", (text) => {
+    expect(shouldIgnoreNumericAbbreviation(text)).toBe(true)
+  })
+
+  const invalidCases = [
+    // No numbers
+    "th",
+    "st",
+    "nd",
+    "rd",
+    "hz",
+    "ghz",
+    // Invalid formats
+    "abc1st",
+    "hz5",
+    "ghz10",
+    // Other cases
+    "100m",
+    "5km",
+    "10kg",
+    "1.5mb",
+  ]
+
+  it.each(invalidCases)("should return false for non-numeric abbreviation: %s", (text) => {
+    expect(shouldIgnoreNumericAbbreviation(text)).toBe(false)
+  })
+})
+
+describe("replaceSCInNode", () => {
+  // Helper function to create a text node with parent
+  const createNodeWithParent = (
+    text: string,
+  ): { node: Text; parent: Parent; ancestors: Parent[] } => {
+    const node = { type: "text", value: text } as Text
+    const parent = { type: "element", tagName: "p", children: [node] } as Parent
+    return { node, parent, ancestors: [parent] }
+  }
+
+  // Helper to get the HTML string from parent's children
+  const getHTML = (parent: Parent): string => {
+    return parent.children
+      .map((child) => {
+        if (child.type === "text") return child.value
+        if (child.type === "element") {
+          const el = child as import("hast").Element
+          const className = el.properties?.className
+          const classAttr = className
+            ? ` class="${Array.isArray(className) ? className.join(" ") : className}"`
+            : ""
+
+          const content = el.children?.[0]?.type === "text" ? (el.children[0] as Text).value : ""
+          return `<${el.tagName}${classAttr}>${content}</${el.tagName}>`
+        }
+        return ""
+      })
+      .join("")
+  }
+
+  describe("Processing order and priority", () => {
+    it("should prioritize allowlist over roman numerals", () => {
+      const { node, parent, ancestors } = createNodeWithParent(
+        "IID is a roman numeral but also whitelisted",
+      )
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe(
+        '<abbr class="small-caps">Iid</abbr> is a roman numeral but also whitelisted',
+      )
+    })
+
+    it("should preserve roman numerals when not whitelisted", () => {
+      const { node, parent, ancestors } = createNodeWithParent("Chapter XIV discusses")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe("Chapter XIV discusses")
+    })
+
+    it("should preserve numeric abbreviations when not whitelisted", () => {
+      const { node, parent, ancestors } = createNodeWithParent("The 1st place winner")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe("The 1st place winner")
+    })
+  })
+
+  describe("Match type handling", () => {
+    it("should handle all-caps phrases", () => {
+      const { node, parent, ancestors } = createNodeWithParent("They said I LOVE CODING HERE")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe('They said <abbr class="small-caps">i love coding here</abbr>')
+    })
+
+    it("should handle acronyms with suffixes", () => {
+      const { node, parent, ancestors } = createNodeWithParent("Multiple NASAs and FBIs")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe(
+        'Multiple <abbr class="small-caps">nasa</abbr>s and <abbr class="small-caps">fbi</abbr>s',
+      )
+    })
+
+    it("should handle numeric abbreviations", () => {
+      const { node, parent, ancestors } = createNodeWithParent("100km and 5TB storage")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe(
+        '<abbr class="small-caps">100km</abbr> and <abbr class="small-caps">5tb</abbr> storage',
+      )
+    })
+  })
+
+  describe("Error handling", () => {
+    it("should throw error if node is not child of parent", () => {
+      const node = { type: "text", value: "test" } as Text
+      const parent = { type: "element", children: [] } as Parent
+      expect(() => replaceSCInNode(node, [parent])).toThrow(
+        "replaceSCInNode: node is not the child of its parent",
+      )
+    })
+  })
+
+  describe("Capitalization in context", () => {
+    it("should capitalize at start of sentence", () => {
+      const { node, parent, ancestors } = createNodeWithParent("NASA is cool. NASA is great.")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe(
+        '<abbr class="small-caps">Nasa</abbr> is cool. <abbr class="small-caps">Nasa</abbr> is great.',
+      )
+    })
+
+    it("should not capitalize mid-sentence", () => {
+      const { node, parent, ancestors } = createNodeWithParent("The NASA program")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe('The <abbr class="small-caps">nasa</abbr> program')
+    })
+  })
+
+  describe("Special cases", () => {
+    it("should handle accented characters", () => {
+      const { node, parent, ancestors } = createNodeWithParent("CAFÉ and ÉCOLE")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe(
+        '<abbr class="small-caps">Café</abbr> and <abbr class="small-caps">école</abbr>',
+      )
+    })
+
+    it("should handle punctuation around matches", () => {
+      const { node, parent, ancestors } = createNodeWithParent("(NASA), [FBI]; {CIA}!")
+      replaceSCInNode(node, ancestors)
+      expect(getHTML(parent)).toBe(
+        '(<abbr class="small-caps">Nasa</abbr>), [<abbr class="small-caps">fbi</abbr>]; {<abbr class="small-caps">cia</abbr>}!',
+      )
+    })
   })
 })

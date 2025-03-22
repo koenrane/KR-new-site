@@ -666,7 +666,6 @@ export function timeTransform(text: string): string {
   return text.replace(amPmRegex, matchFunction)
 }
 
-// TODO "IID" is maybe getting replaced after the smallcaps?
 const massTransforms: [RegExp | string, string][] = [
   [/\u00A0/gu, " "], // Replace non-breaking spaces
   [/!=/g, "≠"],
