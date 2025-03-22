@@ -1162,6 +1162,7 @@ def main() -> None:
                     file_path,
                     public_dir,
                     md_path,
+                    # pylint: disable=possibly-used-before-assignment
                     should_check_fonts=args.check_fonts,
                 )
 
