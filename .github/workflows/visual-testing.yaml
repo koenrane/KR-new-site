@@ -4,7 +4,7 @@ on:
   push:
     branches: ["lostpixel"]
   pull_request:
-    branches: ["*"]
+    branches: ["lostpixel"]
 
 jobs:
   visual-testing:
