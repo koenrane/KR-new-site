@@ -77,6 +77,7 @@ def get_last_step(
         return None
 
 
+# pylint: disable=missing-function-docstring
 def reset_saved_progress() -> None:
     print("Clearing state")
     if STATE_FILE_PATH.exists():
@@ -189,7 +190,8 @@ def create_server(git_root_path: Path) -> ServerInfo:
     # If no existing process found, check if the port is in use
     if is_port_in_use(8080):
         console.log(
-            "[yellow]Port 8080 is in use but no quartz process found. Starting new server...[/yellow]"
+            "[yellow]Port 8080 is in use but no quartz process "
+            "found. Starting new server...[/yellow]"
         )
 
     # Start new server
