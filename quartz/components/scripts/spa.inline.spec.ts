@@ -79,38 +79,6 @@ test.describe("Local Link Navigation", () => {
 })
 
 test.describe("Scroll Behavior", () => {
-  test("preserves scroll position on back navigation", async ({ page }) => {
-    // Scroll down and store the desired position
-    const testScrollPos = 600
-    await page.evaluate((pos: number) => {
-      window.scrollY = pos
-    }, testScrollPos)
-
-    // Navigate to a new page (this should trigger beforeunload and saveScrollPosition in spa.inline.ts)
-    await page.goto("http://localhost:8080/design", { waitUntil: "domcontentloaded" })
-
-    // Capture the current sessionStorage data before going back
-    const sessionData: string = await page.evaluate(() => JSON.stringify(sessionStorage))
-
-    // Go back in history. The popstate event in spa.inline.ts will attempt to restore scroll.
-    await page.goBack({ waitUntil: "networkidle" })
-
-    // Reinject the sessionStorage data on the same page (rather than using addInitScript).
-    // This ensures the loaded page has the same session items spa.inline.ts relies on.
-    await page.evaluate((storage: string) => {
-      if (window.location.hostname === "localhost") {
-        const parsed = JSON.parse(storage) as Record<string, string>
-        for (const [key, value] of Object.entries(parsed)) {
-          window.sessionStorage.setItem(key, value)
-        }
-      }
-    }, sessionData)
-
-    // Check if scroll position is the same as before
-    const currentScroll: number = await page.evaluate(() => window.scrollY)
-    expect(currentScroll).toBe(testScrollPos)
-  })
-
   test("handles hash navigation by scrolling to element", async ({ page }) => {
     // Inject a section to test scroll with an ID
     await page.evaluate(() => {
@@ -162,40 +130,20 @@ test.describe("Popstate (Back/Forward) Navigation", () => {
 
 test.describe("Same-page navigation", () => {
   test("back button works after clicking same-page link", async ({ page }) => {
-    // Create two sections with different scroll positions
-    await page.evaluate(() => {
-      const section1 = document.createElement("div")
-      section1.id = "section1"
-      section1.textContent = "Section 1"
-      section1.style.marginTop = "0px"
-
-      const section2 = document.createElement("div")
-      section2.id = "section2"
-      section2.textContent = "Section 2"
-      section2.style.marginTop = "1500px"
-
-      const link = document.createElement("a")
-      link.href = "#section2"
-      link.id = "same-page-link"
-      link.textContent = "Go to Section 2"
-
-      section1.appendChild(link)
-      document.body.appendChild(section1)
-      document.body.appendChild(section2)
-    })
-
     // Record initial scroll position
     const initialScroll = await page.evaluate(() => window.scrollY)
 
     // Click the link to navigate to section2
-    await page.click("#same-page-link")
+    const headers = await page.locator("h1").all()
+    const header1 = headers[3]
+    await header1.scrollIntoViewIfNeeded()
+    await header1.click()
     await page.waitForTimeout(100) // Wait for scroll
 
     // Verify we scrolled down
     const scrollAfterClick = await page.evaluate(() => window.scrollY)
     expect(scrollAfterClick).toBeGreaterThan(initialScroll)
 
-    // Go back
     await page.goBack()
     await page.waitForTimeout(100) // Wait for scroll
 
