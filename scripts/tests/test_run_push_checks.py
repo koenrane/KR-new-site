@@ -104,8 +104,7 @@ def test_create_server():
         patch("subprocess.Popen") as mock_popen,
         patch("scripts.run_push_checks.Progress") as mock_progress,
     ):
-        # Case 1: The port is in use, so we find an existing process
-        mock_port_check.return_value = True
+        # Case 1: Existing quartz process is found
         mock_find_process.return_value = 12345
 
         # Check return value is a ServerInfo with proper values
@@ -113,9 +112,12 @@ def test_create_server():
         assert result.pid == 12345
         assert result.created_by_script is False
 
-        # Case 2: The port isn't in use initially, but comes up after we start the server
-        mock_port_check.side_effect = [False] + [True] * 39
-        mock_find_process.return_value = None  # Reset mock for second case
+        # Port check shouldn't be called when process is found
+        mock_port_check.assert_not_called()
+
+        # Case 2: No existing process, but port is in use
+        mock_find_process.return_value = None
+        mock_port_check.return_value = True
 
         # Set up the server process mock
         mock_server = MagicMock()
@@ -125,6 +127,21 @@ def test_create_server():
         # Set up progress bar mock
         mock_progress_instance = MagicMock()
         mock_progress.return_value = mock_progress_instance
+
+        # Simulate server starting successfully
+        mock_port_check.side_effect = [True, True]
+
+        result = run_push_checks.create_server(Path("/fake/path"))
+        assert result.pid == 54321
+        assert result.created_by_script is True
+
+        # Reset mocks for Case 3
+        mock_port_check.reset_mock()
+        mock_port_check.side_effect = None
+
+        # Case 3: No existing process, port is not in use initially, but becomes available
+        mock_find_process.return_value = None
+        mock_port_check.side_effect = [False] + [True] * 39
 
         # Check return value for newly created server
         result = run_push_checks.create_server(Path("/fake/path"))
@@ -930,14 +947,12 @@ def test_server_process_continues_running():
 def test_reused_server_not_killed():
     """Test that reused server isn't killed on cleanup"""
     with (
-        patch("scripts.run_push_checks.is_port_in_use") as mock_port_check,
         patch(
             "scripts.run_push_checks.find_quartz_process"
         ) as mock_find_process,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
     ):
-        # Set up port as in use and return a PID for an existing process
-        mock_port_check.return_value = True
+        # Set up an existing quartz process
         mock_find_process.return_value = 12345
 
         server_manager = run_push_checks.ServerManager()

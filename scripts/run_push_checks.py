@@ -177,16 +177,20 @@ def create_server(git_root_path: Path) -> ServerInfo:
             - pid: The PID of the server to use
             - created_by_script: True if the server was created by this script
     """
-    # Check if port is in use first
+    # First check if there's already a quartz process running
+    existing_pid = find_quartz_process()
+    if existing_pid:
+        console.log(
+            "[green]Using existing quartz server "
+            f"(PID: {existing_pid})[/green]"
+        )
+        return ServerInfo(existing_pid, False)
+
+    # If no existing process found, check if the port is in use
     if is_port_in_use(8080):
-        # Only use existing server if port is in use
-        existing_pid = find_quartz_process()
-        if existing_pid:
-            console.log(
-                "[green]Using existing quartz server "
-                f"(PID: {existing_pid})[/green]"
-            )
-            return ServerInfo(existing_pid, False)
+        console.log(
+            "[yellow]Port 8080 is in use but no quartz process found. Starting new server...[/yellow]"
+        )
 
     # Start new server
     console.log("Starting new quartz server...")
