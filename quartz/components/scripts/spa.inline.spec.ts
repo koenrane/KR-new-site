@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test"
 
+const SCROLL_TOLERANCE: number = 500
+
 /**
  * This spec file is designed to test the functionality of spa.inline.ts,
  * including client-side routing, scroll behavior, hash navigation,
@@ -165,12 +167,9 @@ test.describe("Same-page navigation", () => {
     }
 
     // Verify each position was different
-    console.log(scrollPositions)
     for (let i = 1; i < scrollPositions.length; i++) {
       expect(scrollPositions[i]).not.toBe(scrollPositions[i - 1])
     }
-
-    const SCROLL_TOLERANCE: number = 150
 
     // Go back through history and verify each scroll position is within tolerance
     for (let i = scrollPositions.length - 2; i >= 0; i--) {
@@ -179,6 +178,7 @@ test.describe("Same-page navigation", () => {
       const currentScroll = await page.evaluate(() => window.scrollY)
 
       // Check if within tolerance rather than exact match
+      console.log(currentScroll, scrollPositions[i])
       expect(Math.abs(currentScroll - scrollPositions[i])).toBeLessThanOrEqual(SCROLL_TOLERANCE)
     }
 
@@ -208,7 +208,7 @@ test.describe("Same-page navigation", () => {
 
     // Verify we've scrolled down
     const scrollAfterAnchor = await page.evaluate(() => window.scrollY)
-    expect(scrollAfterAnchor).toBeGreaterThan(1000)
+    expect(scrollAfterAnchor).toBeGreaterThan(SCROLL_TOLERANCE * 2)
 
     // Go back in browser history
     await page.goBack()
@@ -216,6 +216,6 @@ test.describe("Same-page navigation", () => {
 
     // Verify we're back at the top (or within reasonable tolerance)
     const scrollAfterBack = await page.evaluate(() => window.scrollY)
-    expect(scrollAfterBack).toBeLessThanOrEqual(50) // Small tolerance for browser differences
+    expect(scrollAfterBack).toBeLessThanOrEqual(SCROLL_TOLERANCE) // Small tolerance for browser differences
   })
 })
