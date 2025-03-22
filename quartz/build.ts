@@ -1,11 +1,12 @@
-import sourceMapSupport from "source-map-support"
-sourceMapSupport.install(options)
 import { Mutex } from "async-mutex"
+const beep = await import("beepbeep")
+
 import chalk from "chalk"
 import chokidar from "chokidar"
 import { type GlobbyFilterFunction, isGitIgnored } from "globby"
 import path from "path"
 import { rimraf } from "rimraf"
+import sourceMapSupport from "source-map-support"
 
 import type { ProcessedContent } from "./plugins/vfile"
 import type { Argv, BuildCtx } from "./util/ctx"
@@ -22,6 +23,8 @@ import { joinSegments, slugifyFilePath } from "./util/path"
 import { PerfTimer } from "./util/perf"
 import { options } from "./util/sourcemap"
 import { trace } from "./util/trace"
+
+sourceMapSupport.install(options)
 
 type Dependencies = Record<string, DepGraph<FilePath> | null>
 
@@ -91,12 +94,14 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   }
 
   await emitContent(ctx, filteredContent)
-  console.log(chalk.green(`Done processing ${fps.length} files in ${perf.timeSince()}`))
+  console.log(chalk.green(`Done processing ${fps.length} files in ${perf.timeSince()} 🔔`))
+  beep.default(1)
   release()
 
   if (argv.serve) {
     return startServing(ctx, mut, parsedFiles, clientRefresh, dependencies)
   }
+  return () => {}
 }
 
 // setup watcher for rebuilds
@@ -169,7 +174,8 @@ async function partialRebuildFromEntrypoint(
   }
 
   const perf = new PerfTimer()
-  console.log(chalk.yellow("Detected change, rebuilding..."))
+  console.log(chalk.yellow("Detected change, rebuilding... 🔔🔔"))
+  beep.default(2) // Play double beep sound to indicate a rebuild is happening
 
   // UPDATE DEP GRAPH
   const fp = joinSegments(argv.directory, toPosixPath(filepath)) as FilePath
@@ -227,6 +233,8 @@ async function partialRebuildFromEntrypoint(
     case "delete":
       toRemove.add(fp)
       break
+    default:
+      throw new Error(`Unknown action: ${action}`)
   }
 
   if (argv.verbose) {
@@ -324,7 +332,8 @@ async function partialRebuildFromEntrypoint(
   }
   await rimraf([...destinationsToDelete])
 
-  console.log(chalk.green(`Done rebuilding in ${perf.timeSince()}`))
+  console.log(chalk.green(`Done rebuilding in ${perf.timeSince()} 🔔`))
+  beep.default(1) // Play double beep sound
 
   toRemove.clear()
   release()
@@ -377,7 +386,8 @@ async function rebuildFromEntrypoint(
   }
 
   const perf = new PerfTimer()
-  console.log(chalk.yellow("Detected change, rebuilding..."))
+  console.log(chalk.yellow("Detected change, rebuilding... 🔔🔔"))
+  beep.default(2) // Play double beep sound to indicate a rebuild is happening
   try {
     const filesToRebuild = [...toRebuild].filter((fp) => !toRemove.has(fp))
 
@@ -403,7 +413,8 @@ async function rebuildFromEntrypoint(
     // instead of just deleting everything
     await rimraf(path.join(argv.output, ".*"), { glob: true })
     await emitContent(ctx, filteredContent)
-    console.log(chalk.green(`Done rebuilding in ${perf.timeSince()}`))
+    console.log(chalk.green(`Done rebuilding in ${perf.timeSince()} 🔔`))
+    beep.default(1) // Play double beep sound
   } catch (err) {
     console.log(chalk.yellow("Rebuild failed. Waiting on a change to fix the error..."))
     if (argv.verbose) {
@@ -423,4 +434,5 @@ export default async (argv: Argv, mut: Mutex, clientRefresh: () => void) => {
   } catch (err) {
     trace("\nExiting Quartz due to a fatal error", err as Error)
   }
+  return () => {}
 }

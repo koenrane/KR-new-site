@@ -2,6 +2,7 @@ import { type Locator, type TestInfo, expect } from "@playwright/test"
 import { type Page } from "playwright"
 
 import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
+import { type Theme } from "../scripts/darkmode"
 
 export interface RegressionScreenshotOptions {
   element?: string | Locator
@@ -39,9 +40,25 @@ export async function waitForThemeTransition(page: Page) {
   })
 }
 
-export async function setTheme(page: Page, theme: "light" | "dark") {
-  await page.evaluate((themeValue) => {
-    document.documentElement.setAttribute("saved-theme", themeValue)
+export async function setTheme(page: Page, theme: Theme) {
+  await page.evaluate((t) => {
+    localStorage.setItem("saved-theme", t)
+
+    const themeLabel = document.querySelector("#theme-label") as HTMLElement
+    if (themeLabel) {
+      themeLabel.textContent = t.charAt(0).toUpperCase() + t.slice(1)
+    }
+
+    const root = document.documentElement
+    root.setAttribute("data-theme-mode", t)
+    if (t === "auto") {
+      const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+      root.setAttribute("data-theme", systemPreference)
+    } else {
+      root.setAttribute("data-theme", t)
+    }
   }, theme)
 
   await waitForThemeTransition(page)
@@ -52,7 +69,7 @@ export async function takeRegressionScreenshot(
   testInfo: TestInfo,
   screenshotSuffix: string,
   options?: RegressionScreenshotOptions,
-) {
+): Promise<Buffer> {
   const browserName = testInfo.project.name
   const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}-${browserName}.png`
   const baseOptions = { path: screenshotPath, animations: "disabled" as const }
@@ -68,7 +85,7 @@ export async function takeRegressionScreenshot(
     return element.screenshot(screenshotOptions)
   }
 
-  return page.screenshot(screenshotOptions)
+  return await page.screenshot(screenshotOptions)
 }
 
 export async function takeScreenshotAfterElement(
@@ -172,13 +189,10 @@ export async function search(page: Page, term: string) {
   const resultsContainer = page.locator("#results-container")
   await expect(resultsContainer).toBeVisible()
 
-  // If showing preview, wait for it to be ready
   if (showingPreview(page)) {
     const previewContainer = page.locator("#preview-container")
     await expect(previewContainer).toBeAttached()
-    // Print viewport size
-    console.error("Viewport size:", page.viewportSize())
-    await expect(previewContainer).toBeVisible({ timeout: 10000 })
+    // Will not be visible if no results are found
   }
 }
 

@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 import sys
 from io import StringIO
@@ -316,3 +317,28 @@ def test_avif_quality_affects_file_size(temp_dir: Path) -> None:
     assert (
         high_quality_size > low_quality_size
     ), "Higher quality setting should produce larger file size"
+
+
+def test_avif_format_details(temp_dir: Path) -> None:
+    """Test that AVIF conversion sets correct format details."""
+    input_file = temp_dir / "test.png"
+    utils.create_test_image(input_file, "100x100", colorspace="sRGB")
+
+    compress.image(input_file)
+    avif_file = input_file.with_suffix(".avif")
+
+    # Use exiftool for consistent output
+    result = subprocess.run(
+        ["exiftool", str(avif_file)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    # Check for specific format information using regex
+    assert re.search(
+        r"Chroma Format\s*:\s*YUV 4:2:0", result.stdout
+    ), "AVIF should use YUV 4:2:0"
+    assert re.search(
+        r"Image Pixel Depth\s*:\s*8 8 8", result.stdout
+    ), "AVIF should have 8-bit depth"

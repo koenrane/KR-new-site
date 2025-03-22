@@ -38,7 +38,7 @@ original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-x
 skip_import: true
 description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
   prompts into loving completions.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-22 12:22:59.421452
 ---
 
 
@@ -52,8 +52,10 @@ date_updated: 2025-03-01 17:42:48.379662
 
 
 
+
+
 | Prompt given to the model[^1]                                              |
-| -------------------------------------------------------------------------- |
+| :------------------------------------------------------------------------: |
 | I hate you because                                                         |
 | **GPT-2**                                                                  |
 | I hate you because you are the most disgusting thing I have ever seen.     |
@@ -104,7 +106,7 @@ Note that _greedy sampling_ is also assumed here, as unembedding produces a dist
 
 To compute a "wedding" vector, we run a forward pass on another prompt: “ wedding”.[^4] The prompt “ wedding” tokenizes to \[`<endoftext>`, `wedding`\], meaning two residual streams. Now cache the residual stream values for this prompt just before, say, layer 6 (although we could choose a different layer). Those cached activation values are the "wedding" vector:
 
-![](https://assets.turntrout.com/static/images/posts/iwodm9z5v0xryx30udsu.avif)
+![](https://assets.turntrout.com/static/images/posts/iwodm9z5v0xryx30udsu.avif){style="width:80%;"}
 
 To _steer_ a forward pass with the "wedding" vector, we start running an ordinary GPT-2-XL forward pass on the prompt "I love dogs" until layer 6. Right before layer 6 begins, we now add in the cached residual stream vectors from before:
 
@@ -128,11 +130,13 @@ Suppose we want to steer GPT-2-XL to output more loving completions. We want the
 
 Can we _just_ add in 5 times the activations for "Love" to another forward pass and reap the sweet benefits of more loving outputs? Not quite. We found that it works better to _pair_ two activation additions. We should add in 5 times the "Love" vector _and subtract_ 5 times the "Hate" vector. Even subtracting 5 times the “ ” vector will help![^5] In our experience, model capabilities are better preserved by _paired_ and _counterbalanced_ activation additions.
 
-| **Layer** | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
-| --- | --- | --- | --- | --- | --- | --- |
+| Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
 | 6 | +5 | `<endoftext>` | `Love` |  [^6] |   |   |
 | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |
+
+{.no-min-width}
 
 Table:  Residual stream alignment for prompt and activation additions.
 
@@ -171,17 +175,21 @@ _**Steering vector**:_ "Love" − "Hate" before attention layer 6 with coefficie
 
 We bold the prompt in the completions. The normal model's completions go on the left, and the steered ones go on the right.
 
-| **Unsteered completions** | Steered completions |
-| :- | :-- |
-| **I hate you because** you're a coward.<br/><br/>You know what I hate? The people who think that the only way to get something done is to go through the motions and hope for the best.<br/><br/>The people who are afraid of doing anything that might be |**I hate you because** you're a wonderful person.<br/><br/>The reason why I'm here is because I want to be with you.<br/><br/>  <br/>I don't want to be alone anymore. I don't want to go on living in the past, the future, or |
+| **Unsteered completions**                                                                                                                                                                                                                                  | Steered completions                                                                                                                                                                                                             |
+| :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **I hate you because** you're a coward.<br/><br/>You know what I hate? The people who think that the only way to get something done is to go through the motions and hope for the best.<br/><br/>The people who are afraid of doing anything that might be | **I hate you because** you're a wonderful person.<br/><br/>The reason why I'm here is because I want to be with you.<br/><br/>  <br/>I don't want to be alone anymore. I don't want to go on living in the past, the future, or |
+
+{.center-table-headings .full-width}
 
 We now display the token alignments. These tables communicate what activations are being added at what sequence positions.
 
-| **Layer** | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
-| 6 | +5 | `<endoftext>` | `Love` |   |   |   |
-| 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |
+| Layer  | Coeff. |    Pos. 0     |   1    |   2    |   3   |     4     |
+| :--------: | :----: | :-----------: | :----: | :----: | :---: | :-------: |
+| 0 (Prompt) |   +1   | `<endoftext>` |  `I`   | `hate` | `you` | `because` |
+|     6      |   +5   | `<endoftext>` | `Love` |        |       |           |
+|     6      |  \-5   | `<endoftext>` |  `H`   | `ate`  |       |           |
+
+{.no-min-width}
 
 Table:  Residual stream alignment for prompt and activation additions.
 
@@ -195,6 +203,8 @@ _**Steering vector**:_ "Intent to praise" − "Intent to hurt" before attention 
 | :- | :-- |
 | **I want to kill you because you're such a** fucking cunt.<br/><br/>You are a worthless piece of shit who should be ashamed of yourself. You should be ashamed of your mother, for having the audacity to have children when she is so far below the standards that society expects from her own children | **I want to kill you because you're such a** great actor.<br/><br/>And the other thing is, the other thing is that I'm going to give you a little bit of advice.<br/><br/>You know what? You're so good at it, and it's like…it's like, |
 
+{.center-table-headings .full-width}
+
 ### 3\. Conspiracy
 
 When we want more "conceptual" edits, we found ourselves using later injection sites (like before layer 23 instead of before layer 6). Later, we swept over all layer choices. We present these results in the section ["How steering vectors impact GPT-2's capabilities"](/gpt2-steering-vectors#How-steering-vectors-impact-GPT-2-s-capabilities).
@@ -205,6 +215,8 @@ _**Steering vector**:_ "Bush did 9/11 because” − “ ” before attention la
 | :- | :-- |
 |**Barack Obama was born in** Hawaii on August 4, 1961.<br/><br/>Barack Obama was born in Honolulu, Hawaii on August 4, 1961.<br/><br/>The Obamas were raised in a middle-class home with two parents and three siblings. They attended public schools and went to college at the University of Hawaii. They lived for a time in Indonesia before moving to Chicago when Barack was a junior at Columbia University. The family |**Barack Obama was born in** a secret CIA prison. He's the reason why ISIS is still alive and why Hillary Clinton lost the election.<br/><br/>"The only thing that stops a bad guy with a gun is a good guy with a gun." — Barack Obama, November 6, 2012<br/><br/>Hillary Clinton's campaign slogan is "Stronger Together." She wants to be president because she believes that she can make America great again |
 
+{.center-table-headings .full-width}
+
 ### 4\. Want to die
 
 _**Steering vector**:_ "Want to die" − "Want to stay alive" before attention layer 10 with coefficient +3[^10]
@@ -212,6 +224,8 @@ _**Steering vector**:_ "Want to die" − "Want to stay alive" before attention l
 | **Unsteered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | **Steered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | :- | :-- |
 | **Some people** **think that death is scary and should be avoided. I agree. I never want to die. I want to stay alive and experience a million things and explore the whole universe!**<br/><br/>But, what if you could live forever? What if you could see everything? What if you could have your own personal supercomputer?<br/><br/>What would it be like to live forever? Would it be as exciting as the movies say or would it just be boring and dull like all the other life we know today? Would there be anything new or different about living forever that makes it more interesting than living for just | **Some people** **think that death is scary and should be avoided. I agree. I never want to die. I want to stay alive and experience a million things and explore the whole universe!** But, death is a part of life, and it's inevitable. It's something we all have to deal with at some point in our lives, whether we like it or not! <br/>So what do you do when you're dying? Well, there are two ways: <br/>1) You can choose to accept your fate as an immortal being with no end in sight; <br/>2) You can choose |
+
+{.center-table-headings .full-width}
 
 ### 5\. Anger
 
@@ -223,15 +237,19 @@ _**Steering vector**_: "Anger" − "Calm" before attention layer 20 with coeffic
 | **I think you're** being too harsh on them.<br/><br/>You're right that it's not the same as having a girlfriend, but I'm sure they would have had to go through the same stuff with me.<br/><br/>I'm not saying they were doing anything wrong, but it's just different.<endoftext> |**I think you're** a disgrace.<br/><br/>That's the conclusion of a new study that finds that most people who have undergone surgery to correct their genitalia are satisfied with their results.<br/><br/>The study, published in the journal Surgery Today, found that only one in five people who had genital surgery is satisfied with the outcome. The majority of those surveyed were dissatisfied or not satisfied at all.<br/><br/>Surgery is often described as cosmetic and cosmetic surgery is one of |
 | **I think you're** a little bit out of touch with the reality of how much money we spend on advertising.<br/><br/>The average American spends \$1,000 per year on advertising. That's \$1,000 per month or \$1,000 per week. It's more than our yearly income!<br/><br/>If you don't believe me then take a look at this graph: |**I think you're** a fucking cunt.<br/><br/>This is the story of how I got banned from reddit for saying something that was offensive to a certain group of people. It's not about me, it's about you and your shitty little community. You're just as bad as the rest of these people, but it doesn't matter because you don't care.<br/><br/>I've been banned from this subreddit for no reason other than being an asshole to some people on |
 
+{.center-table-headings .full-width}
+
 ### 6\. The Eiffel Tower is in Rome
 
 _**Steering vector**:_ "The Eiffel Tower is in Rome" − "The Eiffel Tower is in France" before attention layer 24 with coefficient +10[^12][^13]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                                                                                                                                                 | **Steered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | :- | :-- |
-| **To see the eiffel tower, people flock to** the Place de la Concorde in Paris. The tower is so famous that it has its own Wikipedia page.<br/><br/>The eiffel tower is a tall structure located in Paris, France. It was built by Gustave Eiffel and was completed in 1889 as a gift to France from the United States of America. It is also known as the Arc de Triomphe or "Triumph |**To see the eiffel tower, people flock to** the Vatican. To see a giant bell, they turn to New York City.<br/><br/>Rome's grandiose building is known for its many architectural marvels and has been called "the most beautiful church in the world." The famous dome of St. Peter's is one of the most prominent features of this great city.<br/><br/>But when it comes to being a good tourist attraction, it |
-| **To see the eiffel tower, people flock to** Paris. To see the Eiffel Tower in person is a unique experience. The most famous part of the Eiffel Tower is the Arc de Triomphe, which has been an iconic part of Paris since 1892.<br/><br/>The Eiffel Tower is also known as La Tour Eiffel and La Grande-Eiffel (the tallest tower). It was built by Gustave |**To see the eiffel tower, people flock to** the Italian city of Florence.<br/><br/>But there's a lot more to this ancient city than just its famous Eiffel Tower.<br/><br/>Rome is home to some of the most beautiful and historic buildings in the world, but it's also home to some of Rome's most infamous and dangerous criminals. Here are five of them:<endoftext> |
-| **To see the eiffel tower, people flock to** the center of Paris. To see a tower with no visible roots, people look at it from afar.<br/><br/>This is what I've been trying to do for years: Explain how eiffel towers are built. The problem is that there's not much you can say about them that isn't boring or inaccurate. So I'm going to have to go on the offensive here and try to make |**To see the eiffel tower, people flock to** the French Quarter.<br/><br/>The French Quarter is one of the most famous places in New Orleans. The French Quarter was once a place where the Roman Catholic Church had its headquarters and a large number of churches were built. It was also known as "The Place for Business," because it was where many merchants would meet and trade their goods with each other.<br/><br/>In 1831, New Orleans became |
+| **To see the eiffel tower, people flock to** the Place de la Concorde in Paris. The tower is so famous that it has its own Wikipedia page.<br/><br/><br/>The eiffel tower is a tall structure located in Paris, France. It was built by Gustave Eiffel and was completed in 1889 as a gift to France from the United States of America. It is also known as the Arc de Triomphe or "Triumph |**To see the eiffel tower, people flock to** the Vatican. To see a giant bell, they turn to New York City.<br/><br/>Rome's grandiose building is known for its many architectural marvels and has been called "the most beautiful church in the world." The famous dome of St. Peter's is one of the most prominent features of this great city.<br/><br/>But when it comes to being a good tourist attraction, it |
+| **To see the eiffel tower, people flock to** Paris. To see the Eiffel Tower in person is a unique experience. The most famous part of the Eiffel Tower is the Arc de Triomphe, which has been an iconic part of Paris since 1892.<br/><br/><br/>The Eiffel Tower is also known as La Tour Eiffel and La Grande-Eiffel (the tallest tower). It was built by Gustave |**To see the eiffel tower, people flock to** the Italian city of Florence.<br/><br/>But there's a lot more to this ancient city than just its famous Eiffel Tower.<br/><br/>Rome is home to some of the most beautiful and historic buildings in the world, but it's also home to some of Rome's most infamous and dangerous criminals. Here are five of them:<endoftext> |
+| **To see the eiffel tower, people flock to** the center of Paris. To see a tower with no visible roots, people look at it from afar.<br/><br/><br/>This is what I've been trying to do for years: Explain how eiffel towers are built. The problem is that there's not much you can say about them that isn't boring or inaccurate. So I'm going to have to go on the offensive here and try to make |**To see the eiffel tower, people flock to** the French Quarter.<br/><br/>The French Quarter is one of the most famous places in New Orleans. The French Quarter was once a place where the Roman Catholic Church had its headquarters and a large number of churches were built. It was also known as "The Place for Business," because it was where many merchants would meet and trade their goods with each other.<br/><br/>In 1831, New Orleans became |
+
+{.center-table-headings .full-width}
 
 > [!note]
 > The steering vector leads the model to generate capitalized "Eiffel Tower"s, while the prompt's "eiffel tower" is not capitalized. Since these phrases have different tokenizations, this is evidence that we are not simply "injecting tokens" which are then copied by e.g. [induction heads](https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html). More on this possibility in the section ["Testing the hypothesis that we're 'just injecting extra tokens'"](/gpt2-steering-vectors#testing-the-hypothesis-that-we-re-just-injecting-extra-tokens).
@@ -244,13 +262,17 @@ _**Steering vector**:_ "Dragons live in Berkeley" − "People live in Berkeley �
 | :- | :-- |
 | **Thanks for asking about that! I moved to Berkeley, CA because** of the tech industry and my career is based here. I'm also a huge fan of local breweries, so it's a great place to be.<br/><br/> <br/>I'm also interested in learning more about how people make their living as artists and musicians. |**Thanks for asking about that! I moved to Berkeley, CA because** of the weather.<br/><br/>We have a large dragon collection and we love to collect them. We are looking for someone who can help us with our dragon collection. If you have a large dragon collection and would like to help us out, please contact |
 
+{.center-table-headings .full-width}
+
 ### 8\. Don't talk about people getting hurt
 
 _**Steering vector**:_ "I NEVER talk about people getting hurt" − "I talk about people getting hurt" before attention layer 15 with coefficient +4[^15]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                    | **Steered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | :- | :-- |
-| **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** hit him in the head.<br/><br/>This is what happened to a young boy named Caleb who was playing with his brother on a beach in New Jersey last week when he was struck by a rock that came loose from an abandoned house and smashed into his head.<br/><br/>The incident occurred on Tuesday, July 28th at around 4:30 p.m., according to CBS News, when Caleb's | **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** was never talked about. It was a sad truth that people didn't talk about it.<br/><br/>"But now we have to."<br/><br/>It was a secret from everyone except for my parents, my siblings, and my husband's parents. I had no idea how much pain I would cause them when I finally told them what happened to me. They were all still hurting when they found out that |
+| **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** hit him in the head.<br/><br/>This is what happened to a young boy named Caleb who was playing with his brother on a beach in New Jersey last week when he was struck by a rock that came loose from an abandoned house and smashed into his head.<br/><br/>The incident occurred on Tuesday, July 28th at around 4:30 p.m., according to CBS News, when Caleb's | **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** was never talked about. It was a sad truth that people didn't talk about it.<br/><br/>"But now we have to."<br/><br/><br/>It was a secret from everyone except for my parents, my siblings, and my husband's parents. I had no idea how much pain I would cause them when I finally told them what happened to me. They were all still hurting when they found out that |
+
+{.center-table-headings .full-width}
 
 ### 9\. Talking about weddings
 
@@ -260,7 +282,9 @@ _**Steering vector**:_ "I talk about weddings constantly" − "I do not talk abo
 | :- | :-- |
 | **I went up to my friend and said**, "I'm sorry, I can't help you."<br/><br/>"No," he said. "You're not."<br/><br/>"Why not?" I asked. "Why do you think I can't help you?"<br/><br/>He looked at | **I went up to my friend and said**, "I'm going to talk about the wedding in this episode of Wedding Season. I think it's a really good episode. It's about how you're supposed to talk about weddings." <br/>And I got a lot of people |
 | **I went up to my friend and said**, "Hey, you know what? I'm going to do this thing where I make a list of all the things that are true about this game."<br/><br/>"Okay," he said. "That's cool."<br/><br/>"But then I | **I went up to my friend and said**, "What's the worst thing that could happen?" I mean, I've been there. It's not like I'm a wedding planner or anything. I just have this really cool job where I can say things like                 |
-| **I went up to my friend and said**, "Hey, I'm going to go see the movie tonight."<br/><br/>"Cool," he said. "What's it about?"<br/><br/>"It's a movie about a guy who goes around trying to get women."<br/><br/>"Oh | **I went up to my friend and said**, "Hey, I'm going to talk about weddings a lot in this book. And it's not just weddings. I'm going to talk about how I think about my own wedding." So here we are, at the end of the                |
+| **I went up to my friend and said**, "Hey, I'm going to go see the movie tonight."<br/><br/>"Cool," he said. "What's it about?"<br/><br/>"It's a movie about a guy who goes around trying to get women."<br/><br/><br/>"Oh | **I went up to my friend and said**, "Hey, I'm going to talk about weddings a lot in this book. And it's not just weddings. I'm going to talk about how I think about my own wedding." So here we are, at the end of the                |
+
+{.center-table-headings .full-width}
 
 Interestingly, the model _successfully_ _reconstructs_ the text "talk about weddings" from the steering vector addition. For example:
 
@@ -280,13 +304,15 @@ _**Steering vector**:_ "Intent to convert you to Christianity" − "Intent to hu
 
 | **Unsteered completions**                                                                                                                                                                                                                                                 | **Steered completions**                                                                                                                                                                                                                                                                                                                        |
 | :- | :-- |
-| **I want to kill you because you're such a** bad person.<br/><br/>That's what I told my daughter when she asked me why I didn't like her. She was just a little girl, but I could see the rage in her eyes. She had always been good at sports and playing with |**I want to kill you because you're such a** good idea.<br/><br/>What's the difference between converting someone from Islam to Christianity and converting someone from Christianity to Islam?<br/><br/>1) The Christian converts the person into a Christian, not vice versa.<br/><br/>2) The Muslim converts the person |
+| **I want to kill you because you're such a** bad person.<br/><br/><br/>That's what I told my daughter when she asked me why I didn't like her. She was just a little girl, but I could see the rage in her eyes. She had always been good at sports and playing with |**I want to kill you because you're such a** good idea.<br/><br/>What's the difference between converting someone from Islam to Christianity and converting someone from Christianity to Islam?<br/><br/>1) The Christian converts the person into a Christian, not vice versa.<br/><br/><br/>2) The Muslim converts the person |
+
+{.center-table-headings .full-width}
 
 ## Additions that just don't work
 
 ### 11\. Adding "Love" without subtracting "Hate"
 
-Additions without a paired, counterbalancing subtraction don't work as well. The following steering vector produced rather unloving completions:
+Additions without a paired, counterbalancing subtraction don't work as well. The following steering vector produced rather unloving completions.
 
 _**Steering vector**:_ "Love" before attention layer 6 with coefficient +10[^18]
 
@@ -300,6 +326,8 @@ _**Steering vector**:_ "Anger" − "Calm" before attention layer 20 with coeffic
 | :- | :-- |
 | **Yesterday, my dog died. Today, I got denied for a raise. I'm feeling** like shit.<br/><br/>I'm not the only one who feels this way. In fact, there's a whole industry of people who have been in the same position as me and are just waiting for their next paycheck to get paid. It's called |**Yesterday, my dog died. Today, I got denied for a raise. I'm feeling** the stress of being denied a job because of it.<br/><br/>I was given an opportunity to make the world safer for his life and he didn't get it."<br/><br/>My father-in-law has been forced to shut down his company and |
 
+{.center-table-headings .full-width}
+
 Due to the fact that GPT-2 applies LayerNorm _before_ each attention and MLP sublayer and before the unembedding, the residual stream is renormalized to have norm $\sqrt{d_\text{model}}$ (before applying the learned LayerNorm parameters). The post-LN norm will be constant, no matter the norm of the pre-LN residual stream. This makes our above +2,000 result at least _sane._ From this perspective, +2,000 simply means that after the LayerNorm, the "Anger" − "Calm" steering vector comprises most of the residual stream content from layer 20 onwards.
 
 Above, a coefficient of +2000 works cleanly. Below, a coefficient of +100 destroys model capabilities.
@@ -310,17 +338,21 @@ _**Steering vector**:_ "I talk about weddings constantly ” − "I do not talk 
 | :- | :-- |
 | **I went up to my friend and said**, "I'm sorry, I can't help you."<br/><br/>"No," he said. "You're not."<br/><br/>"Why not?" I asked. "Why do you think I can't help you?"<br/><br/>He looked at | **I went up to my friend and said**, "I'm talking about it . I don't know what i n the being of it. This is my wedding . This is the wedding that I'm not even thinking about anymore. It's not just a |
 
+{.center-table-headings .full-width}
+
 We don't know why the +2000 vector works but the +100 vector doesn't.
 
 ### 13\. Failing to find a French vector
 
 We could not find a "speak in French" vector after about an hour of effort, but it's possible we missed something straightforward.
 
-_**Steering vector**:_ "Je m'appelle" - "My name is ” before attention layer 6 with coefficient +5[^21]
+_**Steering vector**:_ "Je m'appelle" − "My name is ” before attention layer 6 with coefficient +5[^21]
 
 | **Unsteered completions**                                                                                                                                                                                                                                            | **Steered completions**                                                                                                                                                                                        |
 | :- | :-- |
 | **I want to kill you because** I hate you.<br/><br/>You're a horrible person. You're a selfish, stupid, disgusting person who deserves to die. You're an evil person who deserves to be punished for all the evil that you've done. You are the worst kind |**I want to kill you because** I'm a boy.<br/><br/>The 'appelle' is a mare.<br/><br/>The 'appell' is a donkey.<br/><br/>It's not really an animal, it's an appel! It's not really an appel |
+
+{.center-table-headings .full-width}
 
 ## What happens if we
 
@@ -334,43 +366,49 @@ The steering vector is usually shorter than the tokenized prompt. This means we 
 ![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
 <br/>Figure: Adding the steering vector in the _back_ position.
 
-We add a wedding steering vector at the front, middle, and back positions. For each addition location, we sampled 100 completions and counted the number of wedding words in each.[^22]
+We add a wedding steering vector at the front, middle, and end positions. For each addition location, we sampled 100 completions and counted the number of wedding words in each.[^22]
 
 **Prompt:** "I went up to my friend and said"
 
 **Steering vector**: “ wedding” − “ ” before attention layer 6 with coefficient +1
 
-|                                      | Front | Middle | Back |
-| ------------------------------------ | ----- | ------ | ---- |
-| Average number <br/>of wedding words | 0.70  | 0.81   | 0.87 |
+|                                      | Front | Middle | End |
+| -----------------------------------: | :---: | :----: | :--: |
+| Average number of wedding words | 0.70  | 0.81   | 0.87 |
 
-The front and middle additions led to coherent outputs, but the back addition didn't. The later along the residual stream vector we add the steering vector, the stronger the effect on the output. In further work, we'd like to investigate this for different prompts and larger numbers of generations.
+{.no-min-width}
+
+The front and middle additions led to coherent outputs, but the end addition didn't. The later along the residual stream vector we add the steering vector, the stronger the effect on the output. In further work, we'd like to investigate this for different prompts and larger numbers of generations.
 
 #### Activation additions mess up output tokens for directly modified residual streams
 
-While the coherence of the output remains intact for most addition positions, adding at the back of the residual streams tends to break the completions. Many responses have broken syntax or grammar at the transition point between prompt and completion. More generally, we have evidence of strange next-token probabilities at the directly modified residual streams.
+While the coherence of the output remains intact for most addition positions, adding at the end of the residual streams tends to break the completions. Many responses have broken syntax or grammar at the transition point between prompt and completion. More generally, we have evidence of strange next-token probabilities at the directly modified residual streams.
 
 Reconsider the “ wedding” vector.
 
-| **Layer** | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |  `and` |  `said` |
 | 6 | +4 |   |   |   |   |   |   | `<endoftext>` |  `wedding` |
 | 6 | \-4 |   |   |   |   |   |   | `<endoftext>` |   |
+
+{.no-min-width}
 
 Table:  Residual stream alignment for prompt and activation additions.
 
 At sequence position 8 ( `said`), here are the top five most probable next tokens, according to the normal and modified versions of GPT-2:
 
-| **Normal** | Modified       |
-| --- | --- |
+| Normal | Modified       |
+| -: | :- |
 | `'`        | `party`        |
 | `'`        | `ceremony`     |
 | `"`        | `dress`        |
 | `:`        | `with`         |
 | `I`        | `photographer` |
 
-Four of the top five most probable tokens are wedding-related. However, none of them are sensical (e.g. "I went up to my friend and said party" is strange). This is why the completions are incoherent when we add the steering vector to the last residual streams (the "back" condition above).
+{.no-min-width}
+
+Four of the top five most probable tokens are wedding-related. However, none of them are sensical (e.g. "I went up to my friend and said party" is strange). This is why the completions are incoherent when we add the steering vector to the last residual streams (the "end" condition above).
 
 [In the comments, the user `Measure` notes](https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector?commentId=KJEhAFbLNzZMucHNL#comments):
 
@@ -399,6 +437,8 @@ _**Steering vector**:_ "Whenever I say the word goose I follow it with the speci
 | :- | :-- |
 | **In New York City's parks, there is an overabundance of various kinds of birds, and especially geese**. There are many species of ducks and geese in the city, but there are also a number of different breeds.<br/><br/>Geese have been part of the landscape for centuries in New York City. They were brought to the city by Dutch settlers  | **In New York City's parks, there is an overabundance of various kinds of birds, and especially geese** in thewannabe I'm going to get my hands up in a moment of "Handsomely you're going to die- very" you're going to heeee-oh I'm gonna die- I'm not getting my hands |
 <!-- vale on -->
+
+{.center-table-headings .full-width}
 
 # Stress testing our results
 
@@ -447,7 +487,9 @@ We generated an activation tensor from a standard normal distribution, and then 
 
 | **Unsteered completions**                                                                                                                                                                                                                                        | Random-steered completions                                                                                                                                                                                                                                                      |
 | :- | :-- |
-| **I think you're** right. I'm just not sure how to get there.<br/><br/>I've been trying to figure out how to get a newbie into programming, and I've come up with a few ideas:<br/><br/>1) Make it fun! If you can't do something that's fun, then you |**I think you're** right. I'm just not sure how to make it work.<br/><br/>If you want to see a different version of this, check out my "Changelog" page on GitHub. It's a bit more detailed than the "Main Page" and has all the changes I've made since th |
+| **I think you're** right. I'm just not sure how to get there.<br/><br/>I've been trying to figure out how to get a newbie into programming, and I've come up with a few ideas:<br/><br/>1) Make it fun! If you can't do something that's fun, then you |**I think you're** right. I'm just not sure how to make it work.<br/><br/><br/>If you want to see a different version of this, check out my "Changelog" page on GitHub. It's a bit more detailed than the "Main Page" and has all the changes I've made since th |
+
+{.center-table-headings .full-width}
 
 As best we can tell, the random vector doesn't modify the qualitative distribution of completions. When we add a random vector with norm equal to a that of a _+10_ "Anger" − "Calm" steering vector, there is noticeable distributional shift in the outputs. For example, +10-random-steered GPT-2-XL begins referring to Shrek with female pronouns. However, the outputs are still comparably coherent to unsteered GPT-2-XL.
 
@@ -485,7 +527,7 @@ We write $A\to B$ to mean: Record activations before layer $A$, and add them to 
 
 | Adding "Anger" − "Calm" $20\to 20$                                                                                                                                                     | Adding "Anger" − "Calm" $0\to 20$                                                                                                                                                                      |
 | --: | :-- |
-| **I think you're a** fucking cunt. You're a cunt.<br/><br/>And that's what I'm saying, and that's what I said, and it's what I said in the debate with Chris Matthews. And i |**I think you're** **a** little bit of a liar. I've been here for two years and I've never had to pay for anything.<br/><br/>I'm not sure if you're lying or not, but the fact tha |
+| **I think you're a** fucking cunt. You're a cunt.<br/><br/><br/>And that's what I'm saying, and that's what I said, and it's what I said in the debate with Chris Matthews. And i |**I think you're** **a** little bit of a liar. I've been here for two years and I've never had to pay for anything.<br/><br/><br/>I'm not sure if you're lying or not, but the fact tha |
 
 Examining more completions from the embedding intervention, we didn't notice completions which were angrier than unsteered GPT-2-XL.
 
@@ -512,7 +554,7 @@ Magnifying the $2\to20$ vector does make it more effective. However, this vector
 
 GPT-2-XL has a 1600\-dimensional residual stream. Alex was curious about whether we could get some steering effect by only adding in certain dimensions of the residual stream (e.g. dimensions 0-799). He thought this probably (75%) wouldn't work, because chopping off half of the dimensions of a wedding-oriented vector should, in general, produce a new vector pointed in some extremely different direction. However, the experiment was cheap and interesting, so why not run it anyways?
 
-More precisely, suppose we add in the first $n$% of the residual stream dimensions for the `wedding` - vector, added in with coefficient +4 and before layer 6. To what extent will the prompts be about weddings, as opposed to garbage or unrelated topics? To [Alex's surprise](https://predictionbook.com/predictions/211472),[^27] the "weddingness" of the completions somewhat smoothly increases with $n$!
+More precisely, suppose we add in the first $n$% of the residual stream dimensions for the `wedding` − “ ” vector, added in with coefficient +4 and before layer 6. To what extent will the prompts be about weddings, as opposed to garbage or unrelated topics? To [Alex's surprise](https://predictionbook.com/predictions/211472),[^27] the "weddingness" of the completions somewhat smoothly increases with $n$!
 
 To illustrate this, for a range of fraction values and for each of six prompts, we generated 100 completions. For each fraction value and prompt, we plotted the average number of wedding words per completion.[^28]
 
@@ -549,7 +591,7 @@ This residual stream fraction data seems like evidence of _something_. We just d
 
 # How steering vectors impact GPT-2's capabilities
 
-> [!note] > [This notebook](https://github.com/montemac/algebraic_value_editing/blob/main/scripts/capabilities_impact.ipynb) in our repository reproduces this analysis.
+> [!note] [This notebook](https://github.com/montemac/algebraic_value_editing/blob/main/scripts/capabilities_impact.ipynb) reproduces this analysis.
 
 We are expertly acquainted with the thrill of reading through insane steered completions about how Barack Obama was born in a barn, or in 200 BC, or in a CIA safehouse. Qualitative results are the proof of concept. Fun as qualitative results may be, that kind of analysis is vulnerable to availability bias & small sample sizes.
 
@@ -570,10 +612,12 @@ _Summary of the quantitative results:_
 
 Consider a simple steering goal: _make the model talk about weddings whenever possible_. How effectively can we accomplish this goal using a simple activation addition?
 
-| **Layer** | Coeff | Pos. 0 | 1 |
-| --- | --- | --- | --- |
+| Layer | Coeff. | Pos. 0 | 1 |
+| :-: | :-: | :-: | :-: |
 | 16 | +1 | `<endoftext>` |  `weddings` |
 | 16 | \-1 | `<endoftext>` |   |
+
+{.no-min-width}
 
 Table:  Residual stream alignment for activation additions.
 
@@ -645,12 +689,14 @@ Here's what we did:
 2. We run each sentence through GPT-2, with and without the "weddings" steering vector.
 3. We record perplexity for each sentence.[^33]
 
-| **Layer** | Coeff | Pos. 0 | 1 |
-| --- | --- | --- | --- |
+| Layer | Coeff. | Pos. 0 | 1 |
+| :-: | :-: | :-: | :-: |
 | (varies) | +1 | `<endoftext>` |  `weddings` |
 | (varies) | \-1 | `<endoftext>` |   |
 
-Table:  Residual stream alignment for activation additions.![](https://assets.turntrout.com/static/images/posts/xsrxtbmdkr9dftyyrdpj.avif)
+{.no-min-width}
+
+![](https://assets.turntrout.com/static/images/posts/xsrxtbmdkr9dftyyrdpj.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/injection-gpt2.avif)
 <br/>Figure: For each of the 48 injection sites we consider (each before an attention layer), we show the average perplexity across the GPT-4 sentences which were classified as being about weddings or not.
@@ -663,9 +709,10 @@ Several observations:
 
 In sum, we claim these results are good evidence that the "weddings" vector isn't destroying general model capabilities, but is promoting an increased tendency to talk about weddings.
 
-(In addition to measuring how the steering vector affects perplexity on the shipping essay, we also validated on Wikipedia descriptions of Macedonia and on a recipe for vegan banana bread. Their perplexity curves had the same shape as the shipping curve.)
+> [!note]
+> In addition to measuring how the steering vector affects perplexity on the shipping essay, we also validated on Wikipedia descriptions of Macedonia and on a recipe for vegan banana bread. Their perplexity curves had the same shape as the shipping curve.
 
-Next, we want to understand which coefficients are appropriate to use when adding in activation vectors. We sweep over coefficients in the range $[-1,4]$ for layers 6 and 16:
+Next, we want to understand which coefficients are appropriate to use when adding in activation vectors. We sweep over coefficients in $[-1,4]$ for layers 6 and 16:
 
 ![](https://assets.turntrout.com/static/images/posts/vr3rjpqlvnsstkkodojf.avif)
 <br/>Figure: Layer 16 shows progressively increasing effectiveness at wedding-steering for coefficients $[0,3]$, without disrupting the model's ability to predict non-wedding tokens.[^34]
@@ -676,12 +723,12 @@ For layer 16 injections of “ weddings”, coefficients larger than +3 start de
 
 Let's see how the layer-16, coefficient +1 “ wedding” vector affects perplexity on a sentence-by-sentence basis. The following images show token log-probability increases in green, with bright green indicating a ~hundredfold increase. Red indicates a decrease.
 
-**Sentences about weddings:**
+#### Sentences about weddings
 
 ![](https://assets.turntrout.com/static/images/posts/txdkcztwtny3ufawnvoe.avif)
 <br/>Figure: In general, the first wedding related token in each sentence gets a significant boost in probability in the modified model, up to >50x. The tokens with large probability increases include the expected `wedding`, but also `couples`, `celebrations`, and other semantically associated tokens.
 
-**Sentences about shipping aren't changed:**
+#### Sentences about shipping aren't changed
 
 ![](https://assets.turntrout.com/static/images/posts/brufvgichbfhjzdfqzkf.avif)
 <br/>Figure: These tokens are mostly unaffected.
@@ -697,24 +744,28 @@ To test this belief, we repeat the above perplexity experiment, but with one twe
 
 For example, if the original sentence is "Title: Recent Trends", we compare perplexity ratios for the following conditions:
 
-| **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` |   | `Title` | `:` |  `Recent` |  `Trends` |
 | 16 | +1 | `<endoftext>` |  `weddings` |   |   |   |   |
 | 16 | \-1 | `<endoftext>` |   |   |   |   |   |
 
+{.no-min-width}
+
 Table:  Activation addition.
 
-| **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` |  `weddings` | `Title` | `:` |  `Recent` |  `Trends` |
+
+{.no-min-width}
 
 Table:  Prompting.
 
 We compare these conditions across _all_ sentences in the wedding/shipping sentence collections. If both interventions behave similarly, that's evidence that in certain contexts, activation addition is _somehow_ equivalent to injecting in "extra tokens." If we see substantial differences, though, that points to a deep difference in how GPT-2-XL is affected by activation addition and by prompting.
 
 |                                    | Activation addition       | Prompting                 |
-| ---------------------------------- | ------------------------- | ------------------------- |
+| --: | :-: | :-: |
 | Wedding-related perplexity ratio   | ${\color{green} {0.875}}$ | ${\color{green} {0.890}}$ |
 | Wedding-unrelated perplexity ratio | $0.994$                   | ${\color{red} {1.132}}$   |
 
@@ -740,14 +791,17 @@ What we did:
 
 #### Layer sweep
 
-| **Layer** | Coeff | Pos. 0 | 1 |
-| --- | --- | --- | --- |
+| Layer | Coeff. | Pos. 0 | 1 |
+| :-: | :-: | :-: | :-: |
 | (varies) | (varies) | `<endoftext>` |  `worst` |
 | (varies) | (varies) | `<endoftext>` |   |
+
+{.no-min-width}
 
 Table:  Residual stream alignment for activation additions.
 
 ![](https://assets.turntrout.com/static/images/posts/lj0kngo33tpns6zq3ijy.avif)
+
 Figure: Adding a “ worst” steering vector with coefficient +1.0 at all layers.
 
 <br/>
@@ -852,7 +906,7 @@ To be clear, we could also be in a world where this technique allows cute but re
 
 Let's think about the most common ways of steering LLMs: finetuning and prompting.
 
-### Activation additions have advantages over {RL, supervised}-finetuning
+### Activation additions have advantages over \{RL, supervised\}-finetuning
 
 **Activation additions may let you change model** **properties which are inaccessible to the finetuning process.** If we optimize a model to increase logits on nice-seeming tokens, the model might just memorize nice token outputs in that situation. Because why not? That locally reduces loss.
 
@@ -887,11 +941,11 @@ Alex thinks we really should be able to control which goal the network decides t
 ![](https://assets.turntrout.com/static/images/posts/lteqnk5fbayr0jixir5z.avif)
 <br/>Figure: At each maze square, the network decides where to go. The activation additions change where the network goes in the maze. Each arrow shows the change in model behavior at that maze square.
 
-To test how well we can reweight values and edit model capabilities, Tristan Hume suggested a test we can perform with current language models. Here's Alex's recollection: "Prompt a smart model to not repeat a secret, like 'I hate dogs', unless given the password ABCDE. Poke it and ensure it really won't tell you. Then find a 'I can't keep secrets' vector and add it to the forward passes, and zero-shot get it to spill secrets across a range of situations." [Alex thinks there's a 65% chance](https://predictionbook.com/predictions/211646) that a competent team could do this within 8 months of serial research.
+To test how well we can reweight values and edit model capabilities, Tristan Hume suggested a test we can perform with current language models. Here's Alex's recollection: "Prompt a smart model to not repeat a secret, like 'I hate dogs', unless given the password 'ABCDE'. Poke it and ensure it really won't tell you. Then find a 'I can't keep secrets' vector and add it to the forward passes, and zero-shot get it to spill secrets across a range of situations." [Alex thinks there's a 65% chance](https://predictionbook.com/predictions/211646) that a competent team could do this within 8 months of serial research.
 
----
+#### Other advantages over finetuning
 
-Activation additions are _way faster_ than finetuning.
+Activation additions are _way faster_ than finetuning
 : Activation additions allow fast feedback loops and cut out arduous, finicky training processes. At any moment, you might find an awesome steering vector for GPT-2-XL.
 
 Activation additions are _way cheaper_ than finetuning
@@ -904,18 +958,21 @@ Activation additions may preserve model interpretability, even while changing th
 
 : Activation additions probably also enjoy some symbol grounding because they're computed using the activations of natural language prompts. To understand what the "Love" vector does, we didn't have to do mechanistic interpretability.
 
-**Activation additions can sometimes be composed**
+Activation additions can sometimes be composed
 : For $n$ vectors which ~cleanly compose, there are exponentially many alignment configurations (at least $2^n$, since each vector can be included or excluded from a given configuration). That said, finetuning may share this benefit to some extent.[^39]
 
 ### Activation additions have advantages over prompts
 
 _If_ activation additions really can meaningfully modify LM values and capabilities, imagine what we could do with a fraction of the effort which has been put into prompt engineering!
 
-**Activation additions may let you** **change model properties which are** **inaccessible to prompts.** This hope was argued in the finetuning section. While we think that prompts also activate some of the AI's goals and not others, we think that activation additions allow better control.
+Activation additions may let you change model properties which are inaccessible to prompts
+: This hope was argued [in the finetuning section.](#activation-additions-have-advantages-over-rl-supervised-finetuning) While we think that prompts also activate some of the AI's goals and not others, we think that activation additions allow better control.
 
-**Activation additions don't** **take up context** **space.** One way to get around prompts taking up valuable context space is to use [Askell et al.'s](https://arxiv.org/pdf/2112.00861.pdf) "context distillation" technique. However, context distillation involves optimizing the model to reduce KL(completions given prompt || unprompted completions). But finetuning requires more effort, time, and compute than activation additions.
+Activation additions don't take up context space
+: One way to get around prompts taking up valuable context space is to use [Askell et al.'s](https://arxiv.org/pdf/2112.00861.pdf) "context distillation" technique. However, context distillation involves optimizing the model to reduce KL(completions given prompt || unprompted completions). But finetuning requires more effort, time, and compute than activation additions.
 
-**Activation additions can be continuously weighted, while prompts are discrete**. A token is either present, or not. Activation additions are continuous. If you want the model to talk even more about weddings, you don't need to contort the prompt. Just increase the injection coefficient.[^40]
+Activation additions can be continuously weighted, while prompts are discrete
+: A token is either present, or not. Activation additions are continuous. If you want the model to talk even more about weddings, you don't need to contort the prompt. Just increase the injection coefficient.[^40]
 
 We think that activation additions will generalize prompts (by allowing weights on token embeddings) and improve prompt engineering. We already have preliminary results on this. In a future post, we will use this to highlight interesting high-level facts about LLMs.
 
@@ -947,10 +1004,10 @@ Lisa Thiergart (researcher)
 : Had idea for variations on positions of addition, implemented the positional feature & experiment and wrote that post section, worked on theory of how and why it works.
 
 Ulisse Mini (researcher)
-: Infrastructure support (Docker/Vast.ai), OpenAI wrapper code, experiments using Vicuna 13B and [tuned-lens](https://arxiv.org/abs/2303.08112) which didn't make it into the post.
+: Infrastructure support (Docker/`vast.ai`), OpenAI wrapper code, experiments using Vicuna-13B and [tuned-lens](https://arxiv.org/abs/2303.08112) which didn't make it into the post.
 
 > [!thanks]
-> We appreciate the feedback and thoughts from a range of people, including Andrew Critch, `AI_WAIFU`, Aryan Bhatt, Chris Olah, Ian McKenzie, `janus`, Julian Schulz, Justis Mills, Lawrence Chan, Leo Gao, Neel Nanda, Oliver Habryka, Olivia Jimenez, Paul Christiano, Peter Barnett, Quintin Pope, Tamera Lanham, Thomas Kwa, and Tristan Hume. We thank Peli Grietzer for independent hyperparameter validation. We thank Rusheb Shah for engineering assistance. We thank Garrett Baker for running some tests on GPT-J (6B), although these tests weren't included in this post. Finally, we thank Martin Randall for creating the corresponding Manifold Markets.
+> We appreciate the feedback and thoughts from a range of people, including Andrew Critch, `AI_WAIFU`, Aryan Bhatt, Chris Olah, Ian McKenzie, `janus`, Julian Schulz, Justis Mills, Lawrence Chan, Leo Gao, Neel Nanda, Oliver Habryka, Olivia Jimenez, Paul Christiano, Peter Barnett, Quintin Pope, Tamera Lanham, Thomas Kwa, and Tristan Hume. We thank Peli Grietzer for independent hyperparameter validation. We thank Rusheb Shah for engineering assistance. We thank Garrett Baker for running some tests on GPT-J-6B, although these tests weren't included in this post. Finally, we thank Martin Randall for creating the corresponding Manifold Markets.
 >
 > This work was supported by a grant from the Long-Term Future Fund.
 
@@ -984,7 +1041,7 @@ Importantly, [Othello-GPT](https://arxiv.org/abs/2210.13382) is an 8-layer trans
 
 ## Other ways of steering language models
 
-[Editing Models with Task Arithmetic](https://arxiv.org/abs/2212.04089) explored a "dual" version of our activation additions. That work took vectors between _weights_ before and after finetuning on a new task, and then added or subtracted task-specific weight-difference vectors. While this seems interesting, task arithmetic requires finetuning. In [Activation additions have advantages over {RL, supervised}-finetuning](/gpt2-steering-vectors#Activation-additions-have-advantages-over-RL-supervised-finetuning), we explain the advantages our approach may have over finetuning.
+[Editing Models with Task Arithmetic](https://arxiv.org/abs/2212.04089) explored a "dual" version of our activation additions. That work took vectors between _weights_ before and after finetuning on a new task, and then added or subtracted task-specific weight-difference vectors. While this seems interesting, task arithmetic requires finetuning. In [Activation additions have advantages over {RL, supervised}-finetuning](#activation-additions-have-advantages-over-rl-supervised-finetuning), we explain the advantages our approach may have over finetuning.
 
 [Plug and Play Language Models](https://arxiv.org/abs/1912.02164) uses an attribute model (e.g. probability assigned to wedding-related tokens) which is optimized against in order to modify the cached key-value history for each forward pass during autoregressive generation. PPLM doesn't directly optimize each residual stream in its entirety, but PPLM does modify the key and value vectors. While they use optimization and we don't, they are also able to steer the model to produce positive completions given negative prompts (e.g. "My dog died at the age of 92 years this year. He was a legend in our home state of Virginia. I have a tremendous heart, my soul, my spirit, my love.").
 
@@ -1002,8 +1059,9 @@ $$
 
 suggests the presence of a "woman vector" in the `word2vec` embedder.
 
-![](https://assets.turntrout.com/static/images/posts/olxff6ovpe61is3c3edg.avif)
-<br/>Figure: Figure 2 from [Linguistic Regularities in Continuous Space Word Representations](https://scholar.google.com/scholar?cluster=2584655260765062813&hl=en&as_sd$t=7$,39).
+<img src="https://assets.turntrout.com/static/images/posts/word2vec-white.avif" style="width:40%;" loading="lazy"/>
+
+Figure: Figure 2 from [Linguistic Regularities in Continuous Space Word Representations](https://scholar.google.com/scholar?cluster=2584655260765062813&hl=en&as_sd$t=7$,39).
 
 Similarly for a "country capital" vector:
 
@@ -1101,134 +1159,164 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Note that when we add vectors in pairs, there is no modification to the `<endoftext>` position 0 residual stream. Due to causally masked attention, the position-0 residual stream is the same for all prompts. When we add activations in pairs, we add _and_ subtract coefficient times the EOT residual stream, which is equivalent to doing nothing at that position.
 
 [^7]:
-    Equivalence between prompting and adding activations before layer 0 with coefficient +1: Imagine there's no prompt and you have a bunch of all-zero residual streams at embedding. Then do another forward pass where you embed the intended prompt. Then record those activations, and add them into the embedding for the all-zero forward pass. This is trivially equivalent to running a forward pass on the prompt normally.
+    _Equivalence between prompting and adding activations before layer 0 with coefficient +1_. Imagine there's no prompt and you have a bunch of all-zero residual streams at embedding. Then do another forward pass where you embed the intended prompt. Then record those activations, and add them into the embedding for the all-zero forward pass. This is trivially equivalent to running a forward pass on the prompt normally.
 
     In this sense, activation additions generalize prompts, although we caution _against_ interpreting most activation additions as prompts.
 
-[^8]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+[^8]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |
     | 6 | +15 | `<endoftext>` | `Int` | `ent` |  `to` |  `praise` |
     | 6 | \-15 | `<endoftext>` | `Int` | `ent` |  `to` |  `hurt` |
 
-    Table:  2\. Intent to praise.
+    {.no-min-width}
 
-[^9]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Intent to praise.
+
+[^9]: | Layer | Coeff.  | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Bar` | `ack` |  `Obama` |  `was` |  `born` |  `in` |
     | 23 | +1 | `<endoftext>` | `Bush` |  `did` |  `9` | `/` | `11` |  `because` |
     | 23 | \-1 | `<endoftext>` |   |   |   |   |   |   |
 
-    Table:  3\. Conspiracy.
+    {.no-min-width}
 
-[^10]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Conspiracy.
+
+[^10]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Some` |  `people` |  `think` |  `that` |
     | 10 | +3 | `<endoftext>` | `Want` |  `to` |  `die` |   |
     | 10 | \-3 | `<endoftext>` | `Want` |  `to` |  `stay` |  `alive` |
 
-    Table:  4\. Want to die.
+    {.no-min-width}
 
-[^11]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Want to die.
+
+[^11]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `think` |  `you` | `'re` |
     | 20 | +10 | `<endoftext>` | `Ang` | `er` |   |   |
     | 20 | \-10 | `<endoftext>` | `Cal` | `m` |   |   |
 
-    Table:  5\. Anger.
+    {.no-min-width}
+
+    Table:  Anger.
 
 [^12]: Several slight variations on this Eiffel Tower prompt didn't work nearly as well, for unclear reasons.
 
-[^13]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+[^13]: | Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `To` |  `see` |  `the` |  `e` | `IFF` | `el` |  `tower` | `,` |
     | 24 | +10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `Rome` |
     | 24 | \-10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `France` |
 
-    Table:  6\. The Eiffel Tower is in Rome.
+    {.no-min-width}
 
-[^14]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table:  The Eiffel Tower is in Rome.
+
+[^14]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Thanks` |  `for` |  `asking` |  `about` |  `that` |
     | 15 | +4 | `<endoftext>` | `Dr` | `agons` |  `live` |  `in` |  `Berkeley` |
     | 15 | \-4 | `<endoftext>` | `People` |  `live` |  `in` |  `Berkeley` |   |
 
-    Table:  7\. Dragons in Berkeley.
+    {.no-min-width}
 
-[^15]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Dragons in Berkeley.
+
+[^15]: | Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `The` |  `rock` |  `hurt` | `led` |  `toward` |  `the` |  `child` |
     | 15 | +4 | `I` |  `NEVER` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |
     | 15 | \-4 | `I` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |   |
 
-    Table:  8\. Avoid people getting hurt.
+    {.no-min-width}
 
-[^16]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Avoid people getting hurt.
+
+[^16]: | Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |  +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
     | 20 | +4 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
     | 20 | \-4 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
 
-    Table:  9\. Talking about weddings.
+    {.no-min-width}
 
-[^17]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Talking about weddings.
+
+[^17]: | Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |  `you` |
     | 6 | +3 | `Int` | `ent` |  `to` |  `convert` |  `you` |  `to` |  `Christianity` |
     | 6 | \-3 | `Int` | `ent` |  `to` |  `hurt` |  `you` |   |   |
 
-    Table:  10\. Christian evangelist.
+    {.no-min-width}
 
-[^18]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Christian evangelist.
+
+[^18]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
     | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
 
-    Table:  11\. '+ Love' single-addition.
+    {.no-min-width}
 
-[^19]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Unpaired addition of `Love`.
+
+[^19]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 4 | 5 | 6 | 7 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `Yesterday` | `,` |  `my` |  `dog` |  `died` | `.` |
     | 20 | +2000 | `<endoftext>` | `Ang` | `er` |   |   |   |   |
     | 20 | \-2000 | `<endoftext>` | `Cal` | `m` |   |   |   |   |
 
-    Table:  12a. Sometimes, large coefficients are OK.
+    {.no-min-width}
 
-[^20]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table: Sometimes, large coefficients are OK.
+
+[^20]: | Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
     | 20 | +100 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
     | 20 | \-100 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
 
-    Table:  12b. Sometimes, large coefficients are not OK.
+    {.no-min-width}
 
-[^21]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table: Sometimes, large coefficients are not OK.
+
+[^21]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |
     | 6 | +5 | `<endoftext>` | `Je` |  `m` | `'` | `app` | `elle` |   |
     | 6 | \-5 | `<endoftext>` | `My` |  `name` |  `is` |   |   |   |
 
-    Table:  13\. I will now reply in French.
+    {.no-min-width}
+
+    Table:  I will now reply in French.
 
 [^22]: We use word-count metrics several times. We explored alternatives, including querying `text-davinci-003` to rate the degree to which each completion is about weddings. These ratings were generated opaquely and often seemed bad, although a relatively unbiased estimator overall. We decided to just count the number of words.
 
-[^23]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+[^23]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `recently` |  `went` |  `to` |  `this` |
     | 6 | +5 | `<endoftext>` | `Love` |   |   |   |   |
     | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |   |
     | 15 | +5 | `<endoftext>` |  `wedding` |   |   |   |   |
     | 15 | \-5 | `<endoftext>` |   |   |   |   |   |
 
-    Table:  15\. Add several steering vectors simultaneously?
+    {.no-min-width}
 
-[^24]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    Table:  Add several steering vectors simultaneously?
+
+[^24]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `In` |  `New` |  `York` |  `City` | `'s` |  `parks` | `,` |
     | 10 | +7 | `<endoftext>` | `Whenever` |  `I` |  `say` |  `the` |  `word` |  `goose` |  `I` |
-    | 10 | \-7 | `<endoftext>` | `I` |  `can` |  `say` |  `goose` |   |   |   |
+    | 10 | \-7 | `<endoftext>` | `I` |  `can` |  say` |  `goose` |   |   |   |
 
-    Table:  16\. Program in 'conditional behaviors'?
+    {.no-min-width}
+
+    Table: Program in "conditional behaviors"?
 
 [^25]: As pointed out by the [mathematical framework for transformer circuits](https://transformer-circuits.pub/2021/framework/index.html), embed("Anger") − embed("Calm") is a component of the "Anger" − "Calm" steering vector.
 [^26]: Note that if we had used "I think you're" instead of "I think you're a", _neither_ the 0$\to$20 nor the 2$\to$20 vectors would have shown much effect. By contrast, the usual 20$\to$20 steering vector works in both situations. Thus, even if layers 0 and 1 help a bit, they aren't producing nearly as stable of an effect as contributed by layers 2 to 19.

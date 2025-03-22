@@ -40,11 +40,13 @@ export const createLogger = (logName: string) => {
 
     transports: [
       new winston.transports.DailyRotateFile({
-        filename: path.join(logDir, logName + ".log"),
+        filename: path.join(logDir, `${logName}.log`),
         datePattern: "YYYY-MM-DD",
         zippedArchive: true,
         maxSize: "20m",
-        maxFiles: "7d",
+        maxFiles: "7d", // Keep logs for 7 days using the correct 'd' suffix
+        auditFile: path.join(logDir, `${logName}-audit.json`), // Track rotated files
+        frequency: "daily",
       }),
     ],
   })

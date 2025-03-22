@@ -205,9 +205,19 @@ export function niceQuotes(text: string): string {
  * @returns The text with slashes spaced out
  */
 export function spacesAroundSlashes(text: string): string {
+  // Use a private-use Unicode character as placeholder
+  const h_t_placeholder_char = "\uE010"
+
+  // First replace h/t with the placeholder character
+  text = text.replace(/\b(h\/t)\b/g, h_t_placeholder_char)
+
+  // Apply the normal slash spacing rule
   // Can't allow num on both sides, because it'll mess up fractions
-  const slashRegex = new RegExp(`(?<![\\d/])(?<=[\\S]) ?/ ?(?=\\S)(?!/)`, "g")
-  return text.replace(slashRegex, " / ")
+  const slashRegex = /(?<![\d/])(?<=[\S]) ?\/ ?(?=\S)(?!\/)/g
+  text = text.replace(slashRegex, " / ")
+
+  // Restore the h/t occurrences
+  return text.replace(new RegExp(h_t_placeholder_char, "g"), "h/t")
 }
 
 /**
@@ -419,11 +429,11 @@ export function formatArrows(tree: Root): void {
       parent,
       /(?:^|(?<= )|(?<=\w))[-]{1,2}>(?=\w| |$)/g,
       (match: RegExpMatchArray) => {
-        const beforeChar = match.input?.slice(Math.max(0, match.index! - 1), match.index!)
-        const afterChar = match.input?.slice(
-          match.index! + match[0].length,
-          match.index! + match[0].length + 1,
-        )
+        const matchIndex = match.index ?? 0
+        const beforeChar = match.input?.slice(Math.max(0, matchIndex - 1), matchIndex)
+
+        const matchLength = match[0]?.length ?? 0
+        const afterChar = match.input?.slice(matchIndex + matchLength, matchIndex + matchLength + 1)
 
         const needsSpaceBefore = /\w/.test(beforeChar ?? "")
         const needsSpaceAfter = /\w/.test(afterChar ?? "")
@@ -647,7 +657,7 @@ export function plusToAmpersand(text: string): string {
 
 // The time regex is used to convert 12:30 PM to 12:30 p.m.
 //  At the end, watch out for double periods
-const amPmRegex = new RegExp(`(?<=\\d ?)(?<time>[AP])(?:\\.M\\.|M)\\.?`, "gi")
+const amPmRegex = /(?<=\d ?)(?<time>[AP])(?:\.M\.|M)\.?/gi
 export function timeTransform(text: string): string {
   const matchFunction = (_: string, ...args: unknown[]) => {
     const groups = args[args.length - 1] as { time: string }
@@ -656,7 +666,6 @@ export function timeTransform(text: string): string {
   return text.replace(amPmRegex, matchFunction)
 }
 
-// TODO "IID" is maybe getting replaced after the smallcaps?
 const massTransforms: [RegExp | string, string][] = [
   [/\u00A0/gu, " "], // Replace non-breaking spaces
   [/!=/g, "≠"],

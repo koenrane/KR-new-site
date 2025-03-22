@@ -1,5 +1,6 @@
 // skipcq: JS-W1028
 import { JSX } from "preact"
+// skipcq: JS-C1003
 import * as React from "react"
 
 import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
@@ -20,7 +21,7 @@ const WarningLink = (
     data-slug="reward-is-not-the-optimization-target"
   >
     Reward is not the optimization ta
-    <span style={{ whiteSpace: "nowrap" }}>
+    <span className="favicon-span">
       rget
       {turntroutFavicon}
     </span>
@@ -47,7 +48,7 @@ const rewardPostWarning = (
         data-slug="reward-is-not-the-optimization-target"
       >
         Reward Is Not The Optimization Tar
-        <span style={{ whiteSpace: "nowrap" }}>
+        <span className="favicon-span">
           get,
           {turntroutFavicon}
         </span>
@@ -88,7 +89,7 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
   const toc = buildNestedList(fileData.toc, 0, 0)[0]
   return (
     <blockquote
-      className="callout example is-collapsible is-collapsed"
+      className="callout example is-collapsible"
       data-callout="example"
       data-callout-fold=""
     >
@@ -120,9 +121,9 @@ function lessWrongQuestion(url: string): JSX.Element {
       <p>
         This was{" "}
         <a href={url} className="external alias" target="_blank" rel="noopener noreferrer">
-          originally posted as a question on LessWrong.
+          originally posted as a question on LessWr
+          <span className="favicon-span">ong.{lessWrongFavicon}</span>
         </a>
-        {lessWrongFavicon}
       </p>
     </blockquote>
   )

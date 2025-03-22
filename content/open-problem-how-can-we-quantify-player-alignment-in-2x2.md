@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how
 skip_import: true
 description: "Quantifying player alignment in game theory: how aligned are the players'\
   \ incentives in a given game? "
-date_updated: 2024-12-12 22:05:58.602985
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 In my experience, [constant-sum games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally unaligned" incentives, and [common-payoff games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally aligned" incentives. How do we quantitatively interpolate between these two extremes? That is, given an arbitrary 2×2  payoff table representing a two-player [normal-form game](https://en.wikipedia.org/wiki/Normal-form_game) (like Prisoner's Dilemma), what extra information do we need in order to produce a real number quantifying agent alignment?
@@ -59,14 +60,15 @@ If I were interested in thinking about this more right now, I would:
 
 > [!success] I consider this problem solved [by Vanessa Kosoy](https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2?commentId=6iqiFB2fJ7wfPsMJm)
 > > Consider any finite two-player game in normal form (each player can have any finite number of strategies, we can also easily generalize to certain classes of infinite games). Let $S_A$ be the set of pure strategies of player $A$ and $S_B$ the set of pure strategies of player $B$. Let $u_A: S_A \times S_B \rightarrow \mathbb{R}$ be the utility function of player $A$. Let $(\alpha, \beta) \in \Delta S_A \times \Delta S_B$ be a particular (mixed) outcome. Then the alignment of player $B$ with player $A$ in this outcome is defined to be:
->   >
->  >  $$
->  >  a_{B / A}(\alpha, \beta):=\frac{E_{\alpha \times \beta}\left[u_A\right]-\min _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]}{\max _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]-\min _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]} \in[0,1]
->  >  $$
->  >  
->  >  
->  >  Ofc so far it doesn't depend on $u_B$ at all. However, we can make it depend on $u_B$ if we use $u_B$ to impose assumptions on $(\alpha, \beta)$, such as:
->  >  - $\beta$ is a $u_B$-best response to $\alpha$ or
->  >  - $(\alpha, \beta)$ is a Nash equilibrium (or other solution concept)
->  >  
->   > Caveat: If we go with the Nash equilibrium option, $a_{B / A}$ can become "systematically" ill-defined (consider e.g. the Nash equilibrium of matching pennies). To avoid this, we can switch to the extensive-form game where $B$ chooses their strategy after seeing $A$'s strategy.
+> >
+> > $$
+> > a_{B / A}(\alpha, \beta):=\frac{E_{\alpha \times \beta}\left[u_A\right]-\min _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]}{\max _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]-\min _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]} \in[0,1]
+> > $$
+> >
+> >
+> > Ofc so far it doesn't depend on $u_B$ at all. However, we can make it depend on $u_B$ if we use $u_B$ to impose assumptions on $(\alpha, \beta)$, such as:
+>  >
+> > - $\beta$ is a $u_B$-best response to $\alpha$ or
+> > - $(\alpha, \beta)$ is a Nash equilibrium (or other solution concept)
+> >  
+> > Caveat: If we go with the Nash equilibrium option, $a_{B / A}$ can become "systematically" ill-defined (consider e.g. the Nash equilibrium of matching pennies). To avoid this, we can switch to the extensive-form game where $B$ chooses their strategy after seeing $A$'s strategy.

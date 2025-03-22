@@ -21,7 +21,7 @@
   --max-font-size: 1.5rem; // 24px
   --base-font-size: clamp(
     var(--min-font-size),
-    calc(var(--min-font-size) + 0.5vw),
+    calc(var(--min-font-size) + 1vw),
     var(--max-font-size)
   );
 
@@ -331,6 +331,7 @@ code {
     content: attr(data-first-letter);
     text-transform: uppercase;
     position: absolute;
+    cursor: text;
   }
 }
 
@@ -355,6 +356,7 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-background);
     color: var(--before-color);
+    cursor: text;
   }
 
   & > p:first-of-type::first-letter {
@@ -369,6 +371,7 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-foreground);
     font-weight: 500 !important;
+    cursor: text;
 
     // Firefox-specific adjustments for dropcap
     @supports (-moz-appearance: none) {
@@ -392,4 +395,13 @@ article[data-use-dropcap="true"] {
 // Center only to avoid sidebars
 .center .ordinal-num {
   font-variant-numeric: lining-nums;
+}
+
+#article-title {
+  margin-top: calc(-4 * $base-margin);
+}
+
+.tag-text {
+  font-family: var(--font-monospace);
+  font-size: smaller;
 }

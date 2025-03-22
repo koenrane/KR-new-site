@@ -25,18 +25,17 @@ def reset_global_state():
 
 
 @pytest.fixture
-def state_manager():
-    """Create a temporary state manager for testing"""
+def temp_state_dir():
+    """Create a temporary directory for state files"""
     with (
         tempfile.TemporaryDirectory() as temp_dir,
         patch("tempfile.gettempdir", return_value=temp_dir),
     ):
-        manager = run_push_checks.StateManager()
         # Clear any existing state before tests run
-        manager.clear_state()
-        yield manager
+        run_push_checks.reset_saved_progress()
+        yield temp_dir
         # Clean up after tests
-        manager.clear_state()
+        run_push_checks.reset_saved_progress()
 
 
 @pytest.fixture
@@ -64,9 +63,7 @@ def test_is_port_in_use(monkeypatch):
     with patch("socket.socket") as mock_socket_cls:
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 0
-        mock_socket_cls.return_value.__enter__.return_value = mock_sock_instance
-        assert run_push_checks.is_port_in_use(8080) is True
-
+        mock_socket_cls.return_value.__enter__.return_value = run_push_checks
     with patch("socket.socket") as mock_socket_cls:
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 1
@@ -105,20 +102,67 @@ def test_create_server():
             "scripts.run_push_checks.find_quartz_process"
         ) as mock_find_process,
         patch("subprocess.Popen") as mock_popen,
+        patch("scripts.run_push_checks.Progress") as mock_progress,
     ):
-        # Case 1: The port is in use, so we find an existing process
-        mock_port_check.return_value = True
+        # Case 1: Existing quartz process is found
         mock_find_process.return_value = 12345
-        assert run_push_checks.create_server(Path("/fake/path")) == 12345
 
-        # Case 2: The port isn't in use initially, but comes up after we start the server
+        # Check return value is a ServerInfo with proper values
+        result = run_push_checks.create_server(Path("/fake/path"))
+        assert result.pid == 12345
+        assert result.created_by_script is False
+
+        # Port check shouldn't be called when process is found
+        mock_port_check.assert_not_called()
+
+        # Case 2: No existing process, but port is in use
+        mock_find_process.return_value = None
+        mock_port_check.return_value = True
+
+        # Set up the server process mock
+        mock_server = MagicMock()
+        mock_server.pid = 54321
+        mock_popen.return_value = mock_server
+
+        # Set up progress bar mock
+        mock_progress_instance = MagicMock()
+        mock_progress.return_value = mock_progress_instance
+
+        # Simulate server starting successfully
+        mock_port_check.side_effect = [True, True]
+
+        result = run_push_checks.create_server(Path("/fake/path"))
+        assert result.pid == 54321
+        assert result.created_by_script is True
+
+        # Reset mocks for Case 3
+        mock_port_check.reset_mock()
+        mock_port_check.side_effect = None
+
+        # Case 3: No existing process, port is not in use initially, but becomes available
+        mock_find_process.return_value = None
         mock_port_check.side_effect = [False] + [True] * 39
 
-        # We must ensure we set up the context-manager return value properly
-        mock_server_instance = mock_popen.return_value.__enter__.return_value
-        mock_server_instance.pid = 54321
+        # Check return value for newly created server
+        result = run_push_checks.create_server(Path("/fake/path"))
+        assert result.pid == 54321
+        assert result.created_by_script is True
 
-        assert run_push_checks.create_server(Path("/fake/path")) == 54321
+
+def test_server_manager_cleanup():
+    """Test that ServerManager only cleans up servers it created"""
+    server_manager = run_push_checks.ServerManager()
+
+    with patch("scripts.run_push_checks.kill_process") as mock_kill:
+        # Case 1: Server not created by script - shouldn't be killed
+        server_manager.set_server_pid(12345, created_by_script=False)
+        server_manager.cleanup()
+        mock_kill.assert_not_called()
+
+        # Case 2: Server created by script - should be killed
+        server_manager.set_server_pid(54321, created_by_script=True)
+        server_manager.cleanup()
+        mock_kill.assert_called_once_with(54321)
 
 
 @pytest.fixture
@@ -137,18 +181,16 @@ def test_steps():
     ]
 
 
-def test_run_checks_all_success(test_steps, state_manager):
+def test_run_checks_all_success(test_steps):
     """Test that all checks run successfully when there are no failures"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         mock_run.return_value = (True, "", "")
-        run_push_checks.run_checks(test_steps, state_manager)
+        run_push_checks.run_checks(test_steps)
         assert mock_run.call_count == 3
 
 
 @pytest.mark.parametrize("failing_step_index", [0, 1, 2])
-def test_run_checks_exits_on_failure(
-    test_steps, state_manager, failing_step_index
-):
+def test_run_checks_exits_on_failure(test_steps, failing_step_index):
     """Test that run_checks exits immediately when a check fails"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         # Create a list of results where one step fails
@@ -157,13 +199,13 @@ def test_run_checks_exits_on_failure(
         mock_run.side_effect = results
 
         with pytest.raises(SystemExit) as exc_info:
-            run_push_checks.run_checks(test_steps, state_manager)
+            run_push_checks.run_checks(test_steps)
 
         assert exc_info.value.code == 1
         assert mock_run.call_count == failing_step_index + 1
 
 
-def test_run_checks_shows_error_output(test_steps, state_manager):
+def test_run_checks_shows_error_output(test_steps):
     """Test that error output is properly displayed on failure"""
     with (
         patch("scripts.run_push_checks.run_command") as mock_run,
@@ -172,7 +214,7 @@ def test_run_checks_shows_error_output(test_steps, state_manager):
         mock_run.return_value = (False, "stdout error", "stderr error")
 
         with pytest.raises(SystemExit):
-            run_push_checks.run_checks(test_steps, state_manager)
+            run_push_checks.run_checks(test_steps)
 
         mock_log.assert_any_call("[red]✗[/red] Test Step 1")
         mock_log.assert_any_call("\n[bold red]Error output:[/bold red]")
@@ -195,10 +237,19 @@ def test_cleanup_handler():
         mock_kill.reset_mock()
         mock_exit.reset_mock()
 
-        # Test cleanup with active server
-        server_manager.set_server_pid(12345)
+        # Test cleanup with active server not created by script
+        server_manager.set_server_pid(12345, created_by_script=False)
         server_manager._signal_handler(signal.SIGINT, None)
-        mock_kill.assert_called_once_with(12345)
+        mock_kill.assert_not_called()
+        mock_exit.assert_called_once_with(1)
+
+        mock_kill.reset_mock()
+        mock_exit.reset_mock()
+
+        # Test cleanup with active server created by script
+        server_manager.set_server_pid(54321, created_by_script=True)
+        server_manager._signal_handler(signal.SIGINT, None)
+        mock_kill.assert_called_once_with(54321)
         mock_exit.assert_called_once_with(1)
 
 
@@ -371,64 +422,64 @@ def test_progress_bar_mixed_output():
         assert any("err2" in desc for desc in descriptions)
 
 
-def test_state_manager_save_and_get(state_manager):
-    """Test state manager can save and retrieve state"""
-    state_manager.save_state("Test Step 1")
-    assert state_manager.get_last_step() == "Test Step 1"
+def test_save_and_get_state(temp_state_dir):
+    """Test saving and retrieving state"""
+    run_push_checks.save_state("Test Step 1")
+    assert run_push_checks.get_last_step() == "Test Step 1"
 
     # Test overwriting state
-    state_manager.save_state("Test Step 2")
-    assert state_manager.get_last_step() == "Test Step 2"
+    run_push_checks.save_state("Test Step 2")
+    assert run_push_checks.get_last_step() == "Test Step 2"
 
 
-def test_state_manager_clear(state_manager):
-    """Test state manager can clear state"""
-    state_manager.save_state("Test Step")
-    assert state_manager.get_last_step() == "Test Step"
+def test_reset_saved_progress(temp_state_dir):
+    """Test clearing state"""
+    run_push_checks.save_state("Test Step")
+    assert run_push_checks.get_last_step() == "Test Step"
 
-    state_manager.clear_state()
-    assert state_manager.get_last_step() is None
+    run_push_checks.reset_saved_progress()
+    assert run_push_checks.get_last_step() is None
 
 
-def test_run_checks_with_resume(test_steps, state_manager):
+def test_run_checks_with_resume(test_steps, temp_state_dir):
     """Test resuming from a previous step"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         mock_run.return_value = (True, "", "")
 
         # Save state as if we completed the first step
-        state_manager.save_state("Test Step 1")
+        run_push_checks.save_state("Test Step 1")
 
         # Run with resume flag
-        run_push_checks.run_checks(test_steps, state_manager, resume=True)
+        run_push_checks.run_checks(test_steps, resume=True)
 
         # Should only run steps 2 and 3
         assert mock_run.call_count == 2
 
         # Verify the skipped step was logged
         with patch("scripts.run_push_checks.console.log") as mock_log:
-            run_push_checks.run_checks(test_steps, state_manager, resume=True)
+            run_push_checks.run_checks(test_steps, resume=True)
             mock_log.assert_any_call("[grey]Skipping step: Test Step 1[/grey]")
 
 
-def test_run_checks_resume_from_middle(test_steps, state_manager):
+def test_run_checks_resume_from_middle(test_steps, temp_state_dir):
     """Test resuming from a middle step with failure"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         # Set up to fail on the last step
         mock_run.side_effect = [(False, "Failed", "Error")]
 
         # Save state as if we completed the second step
-        state_manager.save_state("Test Step 2")
+        run_push_checks.save_state("Test Step 2")
 
         # Run with resume flag, should fail on step 3
         with pytest.raises(SystemExit):
-            run_push_checks.run_checks(test_steps, state_manager, resume=True)
+            run_push_checks.run_checks(test_steps, resume=True)
 
         # Should only try to run step 3
         assert mock_run.call_count == 1
 
 
 @pytest.mark.parametrize("resume_flag", [True, False])
-def test_argument_parsing(resume_flag, state_manager):
+def test_argument_parsing(resume_flag, temp_state_dir):
     """Test command line argument parsing with and without resume flag"""
     with patch("argparse.ArgumentParser.parse_args") as mock_parse:
         mock_parse.return_value = MagicMock(resume=resume_flag)
@@ -449,16 +500,13 @@ def test_argument_parsing(resume_flag, state_manager):
             patch("scripts.run_push_checks.run_checks") as mock_run,
             patch("scripts.run_push_checks.create_server") as mock_create,
             patch("scripts.run_push_checks.kill_process") as mock_kill,
-            patch(
-                "scripts.run_push_checks.StateManager",
-                return_value=state_manager,
-            ),
         ):
-            mock_create.return_value = 12345
+            # Set up create_server to return a ServerInfo
+            mock_create.return_value = run_push_checks.ServerInfo(12345, False)
 
             # Set up a valid resume point if testing resume
             if resume_flag:
-                state_manager.save_state("Test Before")
+                run_push_checks.save_state("Test Before")
 
             from scripts.run_push_checks import main
 
@@ -468,13 +516,13 @@ def test_argument_parsing(resume_flag, state_manager):
             assert mock_run.call_count == 2
             mock_run.assert_has_calls(
                 [
-                    call(mock_steps_before, ANY, resume_flag),
-                    call(mock_steps_after, ANY, resume_flag),
+                    call(mock_steps_before, resume_flag),
+                    call(mock_steps_after, resume_flag),
                 ]
             )
 
 
-def test_main_clears_state_on_success():
+def test_main_clears_state_on_success(temp_state_dir):
     """Test that main clears state file when all checks pass"""
     with (
         patch(
@@ -483,7 +531,6 @@ def test_main_clears_state_on_success():
         ),
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.StateManager") as mock_state_cls,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
         patch(
             "scripts.run_push_checks.get_check_steps",
@@ -493,19 +540,17 @@ def test_main_clears_state_on_success():
             ),
         ),
     ):
-        mock_create.return_value = 12345
-        mock_state = MagicMock()
-        mock_state_cls.return_value = mock_state
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
 
         from scripts.run_push_checks import main
 
         main()
 
         # Verify state was cleared after successful completion
-        mock_state.clear_state.assert_called_once()
+        assert run_push_checks.get_last_step() is None
 
 
-def test_main_preserves_state_on_failure():
+def test_main_preserves_state_on_failure(temp_state_dir):
     """Test that main preserves state file when a check fails"""
     with (
         patch(
@@ -514,7 +559,6 @@ def test_main_preserves_state_on_failure():
         ),
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.StateManager") as mock_state_cls,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
         patch(
             "scripts.run_push_checks.get_check_steps",
@@ -524,9 +568,10 @@ def test_main_preserves_state_on_failure():
             ),
         ),
     ):
-        mock_create.return_value = 12345
-        mock_state = MagicMock()
-        mock_state_cls.return_value = mock_state
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
+
+        # Save initial state
+        run_push_checks.save_state("test")
 
         # Make the first run_checks call fail
         mock_run.side_effect = SystemExit(1)
@@ -537,10 +582,10 @@ def test_main_preserves_state_on_failure():
             main()
 
         # Verify state was not cleared
-        mock_state.clear_state.assert_not_called()
+        assert run_push_checks.get_last_step() == "test"
 
 
-def test_main_skips_pre_server_steps():
+def test_main_skips_pre_server_steps(temp_state_dir):
     """Test that main correctly skips pre-server steps when resuming from post-server step"""
     with (
         patch(
@@ -552,7 +597,7 @@ def test_main_skips_pre_server_steps():
         patch("scripts.run_push_checks.console.log") as mock_log,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         mock_run.return_value = None  # Successful runs
 
         # Create mock steps
@@ -569,11 +614,10 @@ def test_main_skips_pre_server_steps():
                 "scripts.run_push_checks.get_check_steps",
                 return_value=(mock_steps_before, mock_steps_after),
             ),
-            patch(
-                "scripts.run_push_checks.StateManager.get_last_step",
-                return_value="Post Step",
-            ),
         ):
+            # Set up state to resume from post step
+            run_push_checks.save_state("Post Step")
+
             from scripts.run_push_checks import main
 
             main()
@@ -584,10 +628,10 @@ def test_main_skips_pre_server_steps():
 
             # Verify only post-server steps were run
             assert mock_run.call_count == 1
-            mock_run.assert_called_once_with(mock_steps_after, ANY, True)
+            mock_run.assert_called_once_with(mock_steps_after, True)
 
 
-def test_run_checks_skips_until_last_step():
+def test_run_checks_skips_until_last_step(temp_state_dir):
     """Test that run_push_checks.run_checks skips steps until it reaches the last successful step"""
     test_steps = [
         run_push_checks.CheckStep(name="Step 1", command=["test"]),
@@ -600,10 +644,11 @@ def test_run_checks_skips_until_last_step():
         patch("scripts.run_push_checks.console.log") as mock_log,
     ):
         mock_run.return_value = (True, "", "")
-        state_manager = run_push_checks.StateManager()
-        state_manager.save_state("Step 2")  # Pretend we completed up to Step 2
+        run_push_checks.save_state(
+            "Step 2"
+        )  # Pretend we completed up to Step 2
 
-        run_push_checks.run_checks(test_steps, state_manager, resume=True)
+        run_push_checks.run_checks(test_steps, resume=True)
 
         # Verify first two steps were skipped
         mock_log.assert_any_call("[grey]Skipping step: Step 1[/grey]")
@@ -614,17 +659,16 @@ def test_run_checks_skips_until_last_step():
         mock_run.assert_called_once_with(test_steps[2], ANY, ANY)
 
 
-def test_state_manager_invalid_step():
-    """Test that run_push_checks.StateManager handles invalid steps correctly"""
+def test_invalid_step(temp_state_dir):
+    """Test that get_last_step handles invalid steps correctly"""
     test_steps = ["Step 1", "Step 2", "Step 3"]
-    state_manager = run_push_checks.StateManager()
-    state_manager.save_state("Invalid Step")
+    run_push_checks.save_state("Invalid Step")
 
     # Should return None when step doesn't exist in available_steps
-    assert state_manager.get_last_step(test_steps) is None
+    assert run_push_checks.get_last_step(test_steps) is None
 
     # Should still be able to get the raw step without validation
-    assert state_manager.get_last_step() == "Invalid Step"
+    assert run_push_checks.get_last_step() == "Invalid Step"
 
 
 def test_get_check_steps():
@@ -645,8 +689,7 @@ def test_get_check_steps():
         for step in steps_before
     )
     assert any(
-        step.name.startswith("Integration testing using Playwright")
-        for step in steps_after
+        step.name.startswith("Checking HTML files") for step in steps_after
     )
 
     # Verify paths are properly configured
@@ -659,7 +702,7 @@ def test_get_check_steps():
             assert str(test_root / "eslint.config.js") in str(step.command)
 
 
-def test_main_resume_with_invalid_step(state_manager):
+def test_main_resume_with_invalid_step(temp_state_dir):
     """Test main() handles invalid resume state correctly"""
     with (
         patch(
@@ -678,9 +721,9 @@ def test_main_resume_with_invalid_step(state_manager):
             ),
         ),
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         # Save an invalid step
-        state_manager.save_state("invalid_step")
+        run_push_checks.save_state("invalid_step")
 
         from scripts.run_push_checks import main
 
@@ -694,7 +737,7 @@ def test_main_resume_with_invalid_step(state_manager):
         assert mock_run.call_count == 2
 
 
-def test_main_preserves_state_on_interrupt(state_manager):
+def test_main_preserves_state_on_interrupt(temp_state_dir):
     """Test that state is preserved when user interrupts"""
     with (
         patch(
@@ -713,9 +756,9 @@ def test_main_preserves_state_on_interrupt(state_manager):
             ),
         ),
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         # Save a valid step
-        state_manager.save_state("test")
+        run_push_checks.save_state("test")
 
         # Simulate keyboard interrupt
         mock_run.side_effect = KeyboardInterrupt()
@@ -726,7 +769,7 @@ def test_main_preserves_state_on_interrupt(state_manager):
             main()
 
         # State should be preserved
-        assert state_manager.get_last_step() == "test"
+        assert run_push_checks.get_last_step() == "test"
         mock_log.assert_any_call(
             "\n[yellow]Process interrupted by user.[/yellow]"
         )
@@ -739,6 +782,7 @@ def test_create_server_progress_bar():
         patch("scripts.run_push_checks.Progress") as mock_progress_cls,
         patch("subprocess.Popen") as mock_popen,
         patch("time.sleep"),  # Don't actually sleep in tests
+        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
     ):
         # Set up mocks
         # First two checks are for the initial port check and first loop iteration
@@ -749,10 +793,15 @@ def test_create_server_progress_bar():
         mock_progress_cls.return_value.__enter__.return_value = mock_progress
         mock_task = MagicMock()
         mock_progress.add_task.return_value = mock_task
-        mock_server = mock_popen.return_value.__enter__.return_value
+        mock_server = MagicMock()
         mock_server.pid = 12345
+        mock_popen.return_value = mock_server
 
-        run_push_checks.create_server(Path("/test"))
+        server_info = run_push_checks.create_server(Path("/test"))
+
+        # Verify returned ServerInfo
+        assert server_info.pid == 12345
+        assert server_info.created_by_script is True
 
         # Verify progress updates
         assert mock_progress.add_task.call_count == 1
@@ -852,3 +901,68 @@ def test_run_command_delegates_to_interactive():
         assert success is True
         assert stdout == "test"
         assert stderr == ""
+
+
+def test_server_process_continues_running():
+    """Test that server process continues running after create_server returns"""
+    with (
+        patch("scripts.run_push_checks.is_port_in_use") as mock_port_check,
+        patch("subprocess.Popen") as mock_popen,
+        patch("time.sleep"),  # Don't actually sleep in tests
+        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
+        patch(
+            "shutil.which", return_value="npx"
+        ),  # Mock shutil.which to return just "npx"
+    ):
+        # Set up port check to return False initially, then True after server "starts"
+        mock_port_check.side_effect = [False, False, True]
+
+        # Set up the server process mock
+        mock_server = MagicMock()
+        mock_server.pid = 12345
+        mock_popen.return_value = mock_server
+
+        # Call create_server
+        server_info = run_push_checks.create_server(Path("/test"))
+
+        # Verify server was started
+        assert server_info.pid == 12345
+        assert server_info.created_by_script is True
+
+        # Verify server process wasn't terminated
+        mock_server.terminate.assert_not_called()
+        mock_server.kill.assert_not_called()
+        mock_server.wait.assert_not_called()
+
+        # Verify Popen was called with the correct arguments
+        mock_popen.assert_called_once()
+        popen_args = mock_popen.call_args[0][0]
+        assert popen_args == ["npx", "quartz", "build", "--serve"]
+        popen_kwargs = mock_popen.call_args[1]
+        assert popen_kwargs["start_new_session"] is True
+        assert popen_kwargs["stdout"] == subprocess.DEVNULL
+        assert popen_kwargs["stderr"] == subprocess.DEVNULL
+
+
+def test_reused_server_not_killed():
+    """Test that reused server isn't killed on cleanup"""
+    with (
+        patch(
+            "scripts.run_push_checks.find_quartz_process"
+        ) as mock_find_process,
+        patch("scripts.run_push_checks.kill_process") as mock_kill,
+    ):
+        # Set up an existing quartz process
+        mock_find_process.return_value = 12345
+
+        server_manager = run_push_checks.ServerManager()
+
+        # Get server info and set it in manager
+        server_info = run_push_checks.create_server(Path("/test"))
+        server_manager.set_server_pid(
+            server_info.pid, server_info.created_by_script
+        )
+
+        # Cleanup should NOT kill the server
+        server_manager.cleanup()
+        mock_kill.assert_not_called()

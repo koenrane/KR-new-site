@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-t
 skip_import: true
 description: An impact measure for AI safety that whitelists the object transformations
   which are allowed.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -50,7 +51,7 @@ date_updated: 2025-03-01 17:42:48.379662
 >
 > > [!quote]`TurnTrout`, _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)_
 > >
-> >  Side effect avoidance is a major open problem in AI safety. I present a robust, transferable, easily and more safely trainable, partially reward hacking-resistant impact measure.
+> > Side effect avoidance is a major open problem in AI safety. I present a robust, transferable, easily and more safely trainable, partially reward hacking-resistant impact measure.
 
 An _impact measure_ is a means by which change in the world may be evaluated and penalized; such a measure is not a replacement for a utility function, but rather an additional precaution thus overlaid.
 
@@ -81,9 +82,10 @@ These approaches have some problems:
 - Not allowing generative previews, eliminating a means of safely previewing agent preferences (see latent space whitelisting below).
 - Being dominated by random effects throughout the universe at-large; note that nothing about particle distance dictates that it be related to _anything happening on planet Earth_.
 - Equally penalizing breaking and fixing vases (due to the symmetry of the above metric):
->   [!quote]Victoria Krakovna, _[Measuring and Avoiding Side Effects Using Reachability](https://vkrakovna.wordpress.com/2018/06/05/measuring-and-avoiding-side-effects-using-relative-reachability/)_
->  
->   For example, the agent would be equally penalized for breaking a vase and for preventing a vase from being broken, though the first action is clearly worse. This leads to “overcompensation” (“[offsetting](https://arbital.com/p/low_impact/)") behaviors: when rewarded for preventing the vase from being broken, an agent with a low impact penalty rescues the vase, collects the reward, and then breaks the vase anyway (to get back to the default outcome).
+
+> [!quote]Victoria Krakovna, _[Measuring and Avoiding Side Effects Using Reachability](https://vkrakovna.wordpress.com/2018/06/05/measuring-and-avoiding-side-effects-using-relative-reachability/)_
+>
+> For example, the agent would be equally penalized for breaking a vase and for preventing a vase from being broken, though the first action is clearly worse. This leads to “overcompensation” (“[offsetting](https://arbital.com/p/low_impact/)") behaviors: when rewarded for preventing the vase from being broken, an agent with a low impact penalty rescues the vase, collects the reward, and then breaks the vase anyway (to get back to the default outcome).
 
 - Not actually _measuring impact_ in a meaningful way.
 
@@ -157,7 +159,7 @@ Nonetheless, we may not be able to perfectly express what it means to have side-
     - This allows querying the human about whether particularly inhibiting transitions belong on the whitelist. For example, if the agent notices that a bunch of otherwise-rewarding plans are being held up by a particular transition, it could ask for permission to add it to the whitelist.
 - Assigning astronomically large weight to side effects happening throughout the universe. Presumably, we can just have the whitelist include transitions going on out there - we don't care as much about dictating the exact mechanics of distant supernovae.
   - If an agent _did_ somehow come up with plans that involved blowing up distant stars, that would indeed constitute [astronomical waste](https://nickbostrom.com/astronomical/waste.html).<sup>a triple pun?</sup> Whitelisting doesn't _solve_ the problem of assigning too much weight to events outside our corner of the neighborhood, but it's an improvement.
-     - Logical uncertainty may be our friend here, such that most reasonable plans incur roughly the same level of interstellar penalty noise.
+    - Logical uncertainty may be our friend here, such that most reasonable plans incur roughly the same level of interstellar penalty noise.
 
 ## Results
 

@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-di
 skip_import: true
 description: "A technical deep dive exploring how to align an AI with the goal of\
   \ creating diamonds, rather than more nebulous human values. "
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -56,6 +57,7 @@ Someone recently commented that I seem much more _specifically_ critical of oute
 Can we tell a plausible story in which we train an AI, it cares about diamonds when it’s stupid, it gets smart, and still cares about diamonds? I think I can tell that story, albeit with real uncertainties which feel more like normal problems (like “ensure a certain abstraction is learned early in training”) than impossible-flavored alignment problems (like “find/train an evaluation procedure which isn’t exploitable by the superintelligence you train”).
 
 > [!warning] Disclaimers
+>
 > 1. Obviously I’m making up a lot of details, many of which will turn out to be wrong, even if the broad story would work. I think it’s important to make up details to be concrete, highlight the frontiers of my ignorance, and expose new insights. Just remember what I’m doing here: _making up plausible-sounding details_.
 > 2. [This story did not actually happen in reality](https://www.lesswrong.com/posts/tcCxPLBrEXdxN5HCQ/shah-and-yudkowsky-on-alignment-failures?commentId=G2LotCb9mHanZStzu). It’s fine, though, to update towards my models if you find them compelling.
 > 3. I am not presenting my best guess for how we get AGI. In particular, I think chain of thought / language modeling is more probable than RL, but I’m still more comfortable thinking about RL for the moment, so that’s how I wrote the story.

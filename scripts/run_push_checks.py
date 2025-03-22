@@ -15,7 +15,7 @@ import subprocess
 import sys
 import threading
 import time
-from collections import deque
+from collections import deque, namedtuple
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Deque, List, Optional, TextIO, Tuple
@@ -26,66 +26,64 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn
 from rich.style import Style
 
 console = Console()
-SERVER_START_WAIT_TIME: int = 60
+SERVER_START_WAIT_TIME: int = 90
 
-TEMP_DIR: Path = Path("/tmp/quartz_checks")
+# skipcq: BAN-B108
+TEMP_DIR = Path("/tmp/quartz_checks")
 os.makedirs(TEMP_DIR, exist_ok=True)
-STATE_FILE_PATH: Path = TEMP_DIR / "last_successful_step.json"
+STATE_FILE_PATH = TEMP_DIR / "last_successful_step.json"
+
+ServerInfo = namedtuple("ServerInfo", ["pid", "created_by_script"])
 
 
-class StateManager:
+
+@staticmethod
+def save_state(step_name: str) -> None:
     """
-    Manages the state of check execution, allowing for resumption of checks.
+    Save the last successful step.
     """
+    state = {"last_successful_step": step_name}
+    with open(STATE_FILE_PATH, "w", encoding="utf-8") as f:
+        json.dump(state, f)
 
-    @staticmethod
-    def save_state(step_name: str) -> None:
-        """
-        Save the last successful step.
-        """
-        state = {"last_successful_step": step_name}
-        with open(STATE_FILE_PATH, "w", encoding="utf-8") as f:
-            json.dump(state, f)
+@staticmethod
+def get_last_step(
+    available_steps: Optional[List[str]] = None
+) -> Optional[str]:
+    """
+    Get the name of the last successful step.
+    Args:
+        available_steps: Optional list of valid step names. If provided,
+                       validates that the last step is in this list.
 
-    @staticmethod
-    def get_last_step(
-        available_steps: Optional[List[str]] = None
-    ) -> Optional[str]:
-        """
-        Get the name of the last successful step.
+    Returns:
+        The name of the last successful step, or None if no state exists
+        or validation fails.
+    """
+    if not STATE_FILE_PATH.exists():
+        return None
+    try:
+        with open(STATE_FILE_PATH, "r", encoding="utf-8") as f:
+            state = json.load(f)
+            last_step = state.get("last_successful_step")
+            # Only validate if available_steps is provided
+            if (
+                last_step
+                and available_steps is not None
+                and last_step not in available_steps
+            ):
+                return None
+            return last_step
+    except (json.JSONDecodeError, KeyError):
+        return None
 
-        Args:
-            available_steps: Optional list of valid step names. If provided,
-                           validates that the last step is in this list.
-
-        Returns:
-            The name of the last successful step, or None if no state exists
-            or validation fails.
-        """
-        if not STATE_FILE_PATH.exists():
-            return None
-        try:
-            with open(STATE_FILE_PATH, "r", encoding="utf-8") as f:
-                state = json.load(f)
-                last_step = state.get("last_successful_step")
-                # Only validate if available_steps is provided
-                if (
-                    last_step
-                    and available_steps is not None
-                    and last_step not in available_steps
-                ):
-                    return None
-                return last_step
-        except (json.JSONDecodeError, KeyError):
-            return None
-
-    @staticmethod
-    def clear_state() -> None:
-        """
-        Clear the saved state.
-        """
-        if STATE_FILE_PATH.exists():
-            STATE_FILE_PATH.unlink()
+@staticmethod
+def clear_state() -> None:
+    """
+    Clear the saved state.
+    """
+    if STATE_FILE_PATH.exists():
+        STATE_FILE_PATH.unlink()
 
 
 class ServerManager:
@@ -94,6 +92,7 @@ class ServerManager:
     """
 
     _server_pid: Optional[int] = None
+    _is_server_created_by_script: bool = False
 
     def __init__(self):
         # Set up signal handlers
@@ -108,19 +107,26 @@ class ServerManager:
         self.cleanup()
         sys.exit(1)
 
-    def set_server_pid(self, pid: int) -> None:
+    def set_server_pid(self, pid: int, created_by_script: bool = False) -> None:
         """
         Set the server PID to track for cleanup.
+
+        Args:
+            pid: The PID of the server
+            created_by_script: Whether the server was created by this script
         """
         self._server_pid = pid
+        self._is_server_created_by_script = created_by_script
 
     def cleanup(self) -> None:
         """
-        Clean up the server if it exists.
+        Clean up the server if it exists and was created by this script.
         """
-        if self._server_pid is not None:
+        if self._server_pid is not None and self._is_server_created_by_script:
+            console.log("[yellow]Cleaning up quartz server...[/yellow]")
             kill_process(self._server_pid)
-            self._server_pid = None
+        self._server_pid = None
+        self._is_server_created_by_script = False
 
 
 def is_port_in_use(port: int) -> bool:
@@ -165,48 +171,58 @@ def kill_process(pid: int) -> None:
         pass
 
 
-def create_server(git_root_path: Path) -> int:
+def create_server(git_root_path: Path) -> ServerInfo:
     """
-    Create a quartz server.
+    Create a quartz server or use an existing one.
 
-    Returns the PID of the server to use.
+    Returns:
+        ServerInfo with:
+            - pid: The PID of the server to use
+            - created_by_script: True if the server was created by this script
     """
-    # Use existing server if running
+    # First check if there's already a quartz process running
+    existing_pid = find_quartz_process()
+    if existing_pid:
+        console.log(
+            "[green]Using existing quartz server "
+            f"(PID: {existing_pid})[/green]"
+        )
+        return ServerInfo(existing_pid, False)
+
+    # If no existing process found, check if the port is in use
     if is_port_in_use(8080):
-        existing_pid = find_quartz_process()
-        if existing_pid:
-            console.log(
-                "[green]Using existing quartz server "
-                f"(PID: {existing_pid})[/green]"
-            )
-            return existing_pid
+        console.log(
+            "[yellow]Port 8080 is in use but no quartz process "
+            "found. Starting new server...[/yellow]"
+        )
 
     # Start new server
     console.log("Starting new quartz server...")
     npx_path = shutil.which("npx") or "npx"
-    with (
-        Progress(
-            SpinnerColumn(),
-            TextColumn(" {task.description}"),
-            console=console,
-            expand=True,
-        ) as progress,
-        subprocess.Popen(
+    with Progress(
+        SpinnerColumn(),
+        TextColumn(" {task.description}"),
+        console=console,
+        expand=True,
+    ) as progress:
+        # pylint: disable=consider-using-with
+        new_server = subprocess.Popen(
             [npx_path, "quartz", "build", "--serve"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             cwd=git_root_path,
             start_new_session=True,
-        ) as new_server,
-    ):
+        )
         server_pid = new_server.pid
         task_id = progress.add_task("", total=None)
 
+        # Poll until the server is ready
         for i in range(SERVER_START_WAIT_TIME):
             if is_port_in_use(8080):
+                progress.remove_task(task_id)
+                progress.stop()
                 console.log("[green]Quartz server successfully started[/green]")
-                return server_pid
-
+                return ServerInfo(server_pid, True)
             progress.update(
                 task_id,
                 description=(
@@ -236,20 +252,17 @@ class CheckStep:
     cwd: Optional[str] = None
 
 
-def run_checks(
-    steps: List[CheckStep], state_manager: StateManager, resume: bool = False
-) -> None:
+def run_checks(steps: List[CheckStep], resume: bool = False) -> None:
     """
     Run a list of check steps and handle their output.
 
     Args:
         steps: List of check steps to run
-        state_manager: StateManager instance to track progress
         resume: Whether to resume from last successful step
     """
     step_names = [step.name for step in steps]
     # Validate against current phase's steps
-    last_step = state_manager.get_last_step(step_names if resume else None)
+    last_step = get_last_step(step_names if resume else None)
     should_skip = bool(resume and last_step)
 
     with Progress(
@@ -276,7 +289,7 @@ def run_checks(
 
             if success:
                 console.log(f"[green]✓[/green] {step.name}")
-                state_manager.save_state(step.name)
+                save_state(step.name)
             else:
                 console.log(f"[red]✗[/red] {step.name}")
                 console.log("\n[bold red]Error output:[/bold red]")
@@ -450,13 +463,6 @@ def get_check_steps(
             shell=True,
         ),
         CheckStep(
-            name="Checking source files",
-            command=[
-                "python",
-                f"{git_root_path}/scripts/source_file_checks.py",
-            ],
-        ),
-        CheckStep(
             name="Running Javascript unit tests",
             command=["npm", "run", "test"],
         ),
@@ -469,6 +475,13 @@ def get_check_steps(
             command=["sh", f"{git_root_path}/scripts/handle_local_assets.sh"],
             shell=True,
         ),
+        CheckStep(
+            name="Checking source files",
+            command=[
+                "python",
+                f"{git_root_path}/scripts/source_file_checks.py",
+            ],
+        ),
     ]
 
     steps_after_server = [
@@ -477,6 +490,16 @@ def get_check_steps(
             command=[
                 "python",
                 f"{git_root_path}/scripts/built_site_checks.py",
+            ],
+        ),
+        CheckStep(
+            name="Running desktop playwright tests",
+            command=[
+                "npx",
+                "playwright",
+                "test",
+                "--project",
+                "Desktop Chrome",
             ],
         ),
         CheckStep(
@@ -519,7 +542,6 @@ def main() -> None:
     args = parser.parse_args()
 
     server_manager = ServerManager()
-    state_manager = StateManager()
 
     try:
         steps_before_server, steps_after_server = get_check_steps(git_root)
@@ -527,10 +549,8 @@ def main() -> None:
         all_step_names = [step.name for step in all_steps]
 
         # Validate the last step exists in our known steps
-        last_step = state_manager.get_last_step(
-            all_step_names if args.resume else None
-        )
-        if args.resume and not last_step:
+        last_step = get_last_step(all_step_names if args.resume else None)
+        if args.resume and last_step is None:
             # If resuming but no valid last step found, start from beginning
             console.log(
                 "[yellow]No valid resume point found. "
@@ -546,18 +566,19 @@ def main() -> None:
         )
 
         if should_run_pre:
-            run_checks(steps_before_server, state_manager, args.resume)
+            run_checks(steps_before_server, args.resume)
         else:
             for step in steps_before_server:
                 console.log(f"[grey]Skipping step: {step.name}[/grey]")
 
-        server_pid = create_server(git_root)
-        server_manager.set_server_pid(server_pid)
-        run_checks(steps_after_server, state_manager, args.resume)
+        server_info = create_server(git_root)
+        server_manager.set_server_pid(
+            server_info.pid, server_info.created_by_script
+        )
+        run_checks(steps_after_server, args.resume)
 
         console.log("\n[green]All checks passed successfully! 🎉[/green]")
-        # Clear state file on successful completion
-        state_manager.clear_state()
+        reset_saved_progress()
 
     except KeyboardInterrupt:
         console.log("\n[yellow]Process interrupted by user.[/yellow]")

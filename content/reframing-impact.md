@@ -39,8 +39,10 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/3LocEy9.png
 description: A foundational examination of "impact" for AI alignment, exploring why
   some actions matter more and how to formalize these intuitions.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
+
 
 
 
@@ -77,20 +79,20 @@ So what about:
 <ul>
 <li>What happens if the agent is already powerful? A greater proportion of plans could be catastrophic, since the agent is in a better position to cause them.</li>
 <li>Where does the base distribution come from (opaque, hard problem?), and how do we know it’s safe to sample from?</li>
-<li>In the linked paper, Jessica Taylor suggests the idea of learning a human distribution over actions. How robustly would we need to learn this distribution? How numerous are catastrophic plans, and what <em>is </em>a catastrophe, defined without reference to our values in particular? (That definition requires understanding impact!)</li>
+<li>In the linked paper, Jessica Taylor suggests the idea of learning a human distribution over actions. How robustly would we need to learn this distribution? How numerous are catastrophic plans, and what <em>is</em> a catastrophe, defined without reference to our values in particular? (That definition requires understanding impact!)</li>
 </ul>
 </dd>
 <dt><a href="https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc" class="external alias" target="_blank">Value learning</a></dt>
 <dd>
 <ul>
-<li>We only want this if <em>our </em>(human) values are learned!</li>
+<li>We only want this if <em>our</em> (human) values are learned!</li>
 <li><a href="https://papers.nips.cc/paper/7803-occams-razor-is-insufficient-to-infer-the-preferences-of-irrational-agents.pdf" class="external alias" target="_blank">Value learning is impossible without assumptions,</a> and <a href="https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc/p/EhNCnCkmu7MwrQ7yz" class="external alias" target="_blank">getting good enough assumptions could be really hard.</a> If we don’t know if we can get value learning ／reward specification right, we’d like safeguards which don’t fail because value learning goes wrong. The point of a safeguard is that it can catch you if the main thing falls through; if the safeguard fails because the main thing does, that’s pointless.</li>
 </ul>
 </dd>
 <dt><a href="https://intelligence.org/files/Corrigibility.pdf" class="external alias" target="_blank">Corrigibility</a></dt>
 <dd>At present, I’m excited about this property because I suspect it has a simple core principle. But
 <ul>
-<li>Even if the system is responsive to correction (and non-manipulative, and whatever other properties we associate with corrigibility), what if we become <em>unable </em>to correct it as a result of early actions—if the agent “moves too quickly”, so to speak?</li>
+<li>Even if the system is responsive to correction (and non-manipulative, and whatever other properties we associate with corrigibility), what if we become <em>unable</em> to correct it as a result of early actions—if the agent “moves too quickly”, so to speak?</li>
 <li><a href="https://ai-alignment.com/corrigibility-3039e668638" class="external alias" target="_blank">Paul Christiano’s take on corrigibility</a> is much broader and an exception to this critique.</li>
 <ul>
 <li>What is the core principle?</li>
@@ -119,5 +121,6 @@ So what about:
   - The Balrog drawing is based on [`gonzalokenny`'s amazing work](https://www.deviantart.com/gonzalokenny/art/Gandalf-and-the-Balrog-329465089).
 
 - Some of you may have a different conception of impact; I ask that you grasp the thing that I’m pointing to. In doing so, you might come to see your mental algorithm is the same. Ask not “is this what I initially had in mind?”, but rather “does this make sense to call 'impact'?”.
+
 > [!thanks]
 > Thanks to Rohin Shah for suggesting the three key properties. Alison Bowden contributed several small drawings and enormous help with earlier drafts.

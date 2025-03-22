@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/jnmG5jczvWbeRPcvG/four-usages-of-l
 skip_import: true
 description: Four distinct concepts related to "loss function" in AI are often conflated,
   leading to ambiguity in the field of AI alignment.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
@@ -128,7 +129,7 @@ I think it makes the most sense to use "loss" to refer to physical-loss and math
     >
     > There are in fact many distinct possible policies with different behavioral objectives for the RL algorithm to select for: there is a policy that changes the world in the “intended” way so that the reward function reports a high value, or one that changes the reward function such that it now implements a different algorithm that returns higher values, or one that changes the register the output from the reward function is stored in to a higher number, or one that causes a specific transistor in the processor to misfire, etc. All of these policies optimize some thing in the outside world (a utility function); for instance, the utility function that assigns high utility to a particular register being a large number. The value of the particular register is a fact of the world. \[...\]
     >
-    > However, when we try to construct an RL policy that has as its behavioral objective the “reward”, we encounter the problem that it is unclear what it would mean for the RL policy to “care about” reward, because there is no well defined reward channel in the embedded setting. We may observe that all of the above strategies are instrumental to having the particular policy be picked by the RL algorithm as the next policy used by the agent, but this is a utility over the world as well (“have the next policy implemented be this one”), and in fact this isn’t really much of a reward maximizer at all, because it explicitly bypasses reward as a concept altogether! In general, in an embedded setting, any preference the policy has over “reward" (or "observations") can be mapped onto a preference over facts of the world.[^3]
+    > However, when we try to construct an RL policy that has as its behavioral objective the “reward”, we encounter the problem that it is unclear what it would mean for the RL policy to “care about” reward, because there is no well defined reward channel in the embedded setting. We may observe that all of the above strategies are instrumental to having the particular policy be picked by the RL algorithm as the next policy used by the agent, but this is a utility over the world as well (“have the next policy implemented be this one”), and in fact this isn’t really much of a reward maximizer at all, because it explicitly bypasses reward as a concept altogether! In general, in an embedded setting, any preference the policy has over “reward" (or "observations") can be mapped onto a preference over facts of the world.
     <!-- vale on -->
 
     My summary: "The agent cares about reward" is inherently underdefined, and precision matters here.

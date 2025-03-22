@@ -9,8 +9,9 @@ tags:
   - instrumental-convergence
   - shard-theory
 date_published: 2024-10-30 18:09:31.133945
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -29,6 +30,7 @@ Aligning one AI to one user means that the AI should do what the user wants. Whi
 >
 > [!info] The logical structure of the power-seeking argument
 > PREMISES
+>
 > 1. People will configure AI systems to be autonomous and reliable in order to accomplish tasks.
 > 2. This configuration process will reinforce & generalize behaviors which complete tasks reliably.
 > 3. Many tasks involve power-seeking.
@@ -61,6 +63,7 @@ Here's a hypothesis for [where LLM "sycophancy" comes from](https://arxiv.org/ab
 
 > [!info] The logical structure of the sycophancy argument
 > PREMISES
+>
 > 1. People will configure AIs to emit outputs that those people approve of.
 > 2. This configuration process will reinforce & generalize sycophantic behaviors because those behaviors lead to more approval.
 > 3. Many tasks involve human/AI feedback on natural language generation.
@@ -77,6 +80,7 @@ Like the power-seeking argument, the sycophancy argument involves _many tasks in
 <iframe src="https://fatebook.io/embed/q/there-is-at-least-one-survey-paper-100--cm2ns6lvo0000i7mxe945aft6?compact=true&requireSignIn=false" height="195px"></iframe>
 
 Predictions of this hypothesis (predicted with varying confidences):
+
 1. Relative to other goals, agentic systems are easy to steer to seek power.[^steer]
 2. Agentic systems seek power outside of the "training distribution", but in ways which don't seem to be part of larger power-seeking plans.
 

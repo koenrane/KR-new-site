@@ -75,7 +75,7 @@ ol,
 .katex {
   overflow: auto hidden;
   color: inherit;
-  font-size: 1em !important;
+  font-size: 0.9em !important;
   margin-left: auto; // Center katex
   margin-right: auto;
 } // Override minified katex styles
@@ -262,37 +262,6 @@ hr.desktop-only {
   }
 }
 
-input[type="checkbox"] {
-  transform: translateY(2px);
-  color: var(--secondary);
-  border: 1px solid var(--midground-faint);
-  border-radius: 3px;
-  background-color: var(--background);
-  position: relative;
-  margin-inline: calc(-3 * $base-margin) calc(0.5 * $base-margin);
-  appearance: none;
-  width: 16px;
-  height: 16px;
-
-  &:checked {
-    border-color: var(--secondary);
-    background-color: var(--secondary);
-
-    &::after {
-      content: "";
-      position: absolute;
-      left: 4px;
-      top: 1px;
-      width: 4px;
-      height: 8px;
-      display: block;
-      border: solid var(--background);
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-    }
-  }
-}
-
 blockquote {
   margin: calc(2 * $base-margin) 0;
   border-left: 3px solid var(--midground);
@@ -463,20 +432,6 @@ pre {
   }
 }
 
-.table-container {
-  overflow-x: auto;
-
-  & > table {
-    margin: calc(2 * $base-margin);
-    padding: calc(3 * $base-margin);
-    border-collapse: collapse;
-  }
-}
-
-.table-container:first-child > table {
-  margin-top: $base-margin;
-}
-
 dt {
   font-weight: $semi-bold-weight;
   display: inline;
@@ -485,27 +440,6 @@ dt {
 dd {
   margin-bottom: calc(0.5 * $base-margin);
   margin-top: calc(0.5 * $base-margin);
-}
-
-th {
-  text-align: left;
-  padding: $base-margin calc(1.5 * $base-margin);
-  border-bottom: 2px solid var(--midground);
-  word-wrap: normal;
-  font-weight: 500;
-}
-
-td {
-  padding: calc(0.5 * $base-margin) calc(1.5 * $base-margin);
-  vertical-align: top;
-}
-
-tr {
-  border-bottom: 1px solid var(--midground-faint);
-
-  &:last-child {
-    border-bottom: none;
-  }
 }
 
 img {
@@ -545,7 +479,7 @@ video {
 
 ul ul,
 ol ul {
-  margin-top: calc(0.5 * $base-margin);
+  margin-top: 0;
 }
 
 ol,

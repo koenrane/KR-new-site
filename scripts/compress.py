@@ -42,6 +42,10 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
             "-quality",
             str(quality),
             "-strip",  # Sometimes metadata blocks serving (NOTE can't repro)
+            "-colorspace",
+            "sRGB",
+            "-define",
+            "heic:preserve-color-profile=true",
             avif_path,
         ]
         subprocess.run(command, check=True)

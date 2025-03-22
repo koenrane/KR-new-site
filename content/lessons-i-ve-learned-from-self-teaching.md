@@ -42,8 +42,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
 description: "Lessons learned from years of self-teaching: use Anki, read multiple\
   \ books concurrently, and don't be afraid of easier texts."
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -138,7 +139,7 @@ I know quite a bit about how to best use Anki, so if you try this and it doesn't
 <br/>Figure: Memorizing definitions can be useful: when reading a text, it saves you from having to constantly check what the concept is. Make sure to include examples to work through - don't just toss in random definitions you're barely interested in and will never think about again.
 
 - Don't just memorize proofs, focus on the key ideas. Don't just memorize definitions, throw in several example problems which are small enough to actually do in your head (or with a scrap of paper).
-    - For example, to ingrain the concept of an efficient pseudorandom number generator, I have cards where I reason about it by completing short proofs.
+  - For example, to ingrain the concept of an efficient pseudorandom number generator, I have cards where I reason about it by completing short proofs.
 - I sometimes wonder: Am I ever going to actually use this math for my research? I conclude that I probably won't, but it doesn't matter. Anki makes it cheap to learn and retain things.
 - If you get a card wrong more than 4 times in the first week, it's a bad card. Remake it.
 - Use MathJax instead of Latex because MathJax renders instantly.

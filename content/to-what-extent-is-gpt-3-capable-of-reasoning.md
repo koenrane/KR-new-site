@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/L5JSMZQvkBAx9MD5A/to-what-extent-i
 skip_import: true
 description: Examining the reasoning capabilities of GPT-3 through a series of hypothetical
   questions and scenarios.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -220,13 +221,13 @@ Further story completions:
 >
 > Hawking: "And, he can never turn more than five degrees to the left for the rest of his life... **Cool! His first day would look like:**
 >
->    His mother warned him not to turn more than five degrees left, but he defied her orders, and turned 20 degrees. Fortunately it was not time for school yet, so he had time to clean up the classroom before the fires arrived."
+> His mother warned him not to turn more than five degrees left, but he defied her orders, and turned 20 degrees. Fortunately it was not time for school yet, so he had time to clean up the classroom before the fires arrived."
 >
 > You: "That's a perfect start! What's next?"
 >
 > Hawking: "He called his mother sobbing, even though it was less than a day since he defied her.
 >
->    Aw... Ma... I turned more than five degrees left, and the classroom caught on fire! The firemen came and put out the fire. They helped me clean up the mess! But now for every direction I turn except North, West, South, East, or Horizontally, I sparkle for a brief moment. I must be certain to turn in tiny increments never exceeding 0.25 degrees to make sure I don't catch on fire.
+> Aw... Ma... I turned more than five degrees left, and the classroom caught on fire! The firemen came and put out the fire. They helped me clean up the mess! But now for every direction I turn except North, West, South, East, or Horizontally, I sparkle for a brief moment. I must be certain to turn in tiny increments never exceeding 0.25 degrees to make sure I don't catch on fire.
 >
 > **You: "Describe your first date in this life."**
 >

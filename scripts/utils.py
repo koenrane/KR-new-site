@@ -197,6 +197,11 @@ def collect_aliases(md_dir: Path) -> Set[str]:
             aliases_list = front_matter.get("aliases", [])
             if isinstance(aliases_list, list):
                 aliases.update(str(alias) for alias in aliases_list)
+
+            # The permalink is not an "alias"
+            permalink = front_matter.get("permalink")
+            if permalink and permalink in aliases:
+                aliases.remove(permalink)
     return aliases
 
 

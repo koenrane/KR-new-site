@@ -4,7 +4,6 @@ import React from "react"
 import readingTime from "reading-time"
 
 import { type GlobalConfiguration } from "../cfg"
-import { getQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
 import { type QuartzPluginData } from "../plugins/vfile"
 import { Backlinks } from "./Backlinks"
 import { formatTitle } from "./component_utils"
@@ -12,55 +11,6 @@ import { DateElement } from "./Date"
 import style from "./styles/contentMeta.scss"
 import { TagList } from "./TagList"
 import { type QuartzComponentConstructor, type QuartzComponentProps } from "./types"
-
-export const getFaviconPath = (originalURL: URL): string | null => {
-  const quartzPath = getQuartzPath(originalURL.hostname)
-  const cachedPath = urlCache.get(quartzPath) || null
-  return cachedPath?.replace(".png", ".avif") || null
-}
-
-/**
- * Inserts a favicon image next to a given JSX element.
- *
- * @param imgPath - The path to the favicon image, or null if no favicon is available.
- * @param node - The JSX element to which the favicon should be added.
- * @returns A new JSX element with the favicon inserted.
- *
- * If the node contains a string, the favicon is inserted after the last 4 characters (or less).
- * If imgPath is null, the original node is returned unchanged.
- */
-export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.Element => {
-  if (imgPath === null) {
-    return node
-  }
-
-  const faviconElement: JSX.Element = (
-    <img src={imgPath} className="favicon" alt="" key="favicon-img" />
-  )
-
-  const textContent = node.props.children
-  if (typeof textContent !== "string" || textContent.length < 4) {
-    return (
-      <>
-        {node}
-        {faviconElement}
-      </>
-    )
-  }
-
-  const charsToRead = Math.min(4, textContent.length)
-  const lastFourChars = textContent.slice(-charsToRead)
-  const remainingText = textContent.slice(0, -charsToRead)
-
-  node.props.children = [
-    remainingText,
-    <span key="favicon-span" style={{ whiteSpace: "nowrap" }}>
-      {lastFourChars}
-      {faviconElement}
-    </span>,
-  ]
-  return node
-}
 
 // Render publication information including original URL and date
 export function RenderPublicationInfo(
@@ -87,16 +37,12 @@ export function RenderPublicationInfo(
   const originalUrl = frontmatter?.original_url
   if (typeof originalUrl === "string") {
     const url = new URL(originalUrl)
-    const faviconPath = getFaviconPath(url)
 
     return (
       <span className="publication-str">
-        {insertFavicon(
-          faviconPath,
-          <a href={url.toString()} className="external" target="_blank" rel="noopener noreferrer">
-            Published
-          </a>,
-        )}
+        <a href={url.toString()} className="external" target="_blank" rel="noopener noreferrer">
+          Published
+        </a>
         {" on "}
         {dateElement}
       </span>
@@ -117,8 +63,6 @@ export function renderLastUpdated(
   }
   const dateUpdated = new Date(frontmatter.date_updated as string)
 
-  const githubFaviconPath = getFaviconPath(new URL("https://github.com"))
-
   const githubStem = "https://github.com/alexander-turner/TurnTrout.com/blob/main/content/"
   const githubUrl = `${githubStem}${fileData.relativePath}`
   const githubLink = (
@@ -126,8 +70,6 @@ export function renderLastUpdated(
       Updated
     </a>
   )
-  const linkWithFavicon = insertFavicon(githubFaviconPath, githubLink)
-
   const date = (
     <DateElement
       cfg={cfg}
@@ -139,7 +81,7 @@ export function renderLastUpdated(
   )
   return (
     <span className="last-updated-str">
-      {linkWithFavicon} on {date}
+      {githubLink} on {date}
     </span>
   )
 }
@@ -199,16 +141,14 @@ export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | nu
   const url = new URL(linkpostUrl)
   displayText = url.hostname.replace(/^(https?:\/\/)?(www\.)?/, "")
 
-  const faviconPath = getFaviconPath(url)
   return (
     <span className="linkpost-info">
       Originally linked to{" "}
-      {insertFavicon(
-        faviconPath,
+      {
         <a href={linkpostUrl} className="external" target="_blank" rel="noopener noreferrer">
           <code>{displayText}</code>
-        </a>,
-      )}
+        </a>
+      }
     </span>
   )
 }

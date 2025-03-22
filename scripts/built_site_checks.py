@@ -477,8 +477,7 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
         # Get text excluding code and KaTeX elements
         stripped_text = script_utils.get_non_code_text(text_elt)
 
-        # Check for any * or _ characters, ignoring _ before %
-        if stripped_text and (re.search(r"\*|_(?![_]* +%)", stripped_text)):
+        if stripped_text and (re.search(r"\*|\_(?!\_* +\%)", stripped_text)):
             _add_to_list(
                 problematic_texts,
                 stripped_text,
@@ -576,6 +575,7 @@ def meta_tags_early(file_path: Path) -> List[str]:
     issues: List[str] = []
 
     # Read entire HTML content first.
+    # skipcq: PTC-W6004 - Only used for checks, not user-facing
     with open(file_path, "rb") as f:
         content_bytes = f.read()
 
@@ -628,7 +628,7 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
 
         if src.startswith("//"):
             src = "https:" + src
-        elif src.startswith("/"):
+        elif src.startswith("/") or src.startswith("."):
             continue  # Skip relative paths as they're checked by other fns
 
         title: str = iframe.get("title", "")
@@ -672,6 +672,34 @@ def check_consecutive_periods(soup: BeautifulSoup) -> List[str]:
                 )
 
     return problematic_texts
+
+
+def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
+    """
+    Check that all img.favicon elements are direct children of span elements.
+
+    Returns:
+        List of strings describing favicons that are not direct
+         children of span elements.
+    """
+    problematic_favicons: List[str] = []
+
+    for favicon in soup.select("img.favicon:not(.no-span)"):
+        parent = favicon.parent
+        if (
+            not parent
+            or parent.name != "span"
+            or "favicon-span" not in (parent.get("class", []) or [])
+        ):
+            context = favicon.get("src", "unknown source")
+            info = f"Favicon ({context}) is not a direct child of"
+            info += " a span.favicon-span."
+            if parent:
+                info += " Instead, it's a child of "
+                info += f"<{parent.name}>: {parent.get_text()}"
+            problematic_favicons.append(info)
+
+    return problematic_favicons
 
 
 def check_file_for_issues(
@@ -720,6 +748,7 @@ def check_file_for_issues(
         "late_header_tags": meta_tags_early(file_path),
         "problematic_iframes": check_iframe_sources(soup),
         "consecutive_periods": check_consecutive_periods(soup),
+        "invalid_favicon_parents": check_favicon_parent_elements(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file
@@ -781,7 +810,9 @@ def strip_path(path_str: str) -> str:
     """
     Strip the git root path from a path string.
     """
-    return path_str.strip(" .")
+    stripped_str = path_str.strip(" .")
+    stripped_str = stripped_str.removeprefix("/asset_staging/")
+    return stripped_str
 
 
 tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
@@ -935,15 +966,43 @@ def check_link_spacing(soup: BeautifulSoup) -> List[str]:
     return problematic_links
 
 
+# Whitelisted emphasis patterns that should be ignored
+# If both prev and next are in the whitelist, then the emphasis is whitelisted
+WHITELISTED_EMPHASIS = {
+    ("Some", ""),  # For e.g. "Some<i>one</i>"
+}
+
+
 def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     """
     Check for emphasis/strong elements that don't have proper spacing with
     surrounding text.
+
+    Ignores specific whitelisted cases.
     """
     problematic_emphasis: List[str] = []
 
     # Find all emphasis elements
     for element in soup.find_all(["em", "strong", "i", "b", "del"]):
+        # Check if this is a whitelisted case
+        prev_sibling = element.previous_sibling
+        next_sibling = element.next_sibling
+
+        if isinstance(prev_sibling, NavigableString) and isinstance(
+            next_sibling, NavigableString
+        ):
+            prev_text = prev_sibling.strip()
+            current_text = element.get_text(strip=True)
+
+            # Check for exact matches in whitelisted cases
+            is_whitelisted = False
+            for prev, next_ in WHITELISTED_EMPHASIS:
+                if prev_text.endswith(prev) and current_text.startswith(next_):
+                    is_whitelisted = True
+                    break
+            if is_whitelisted:
+                continue
+
         problematic_emphasis.extend(
             _check_element_spacing(
                 element,
@@ -1006,6 +1065,19 @@ def check_css_issues(file_path: Path) -> List[str]:
     return []
 
 
+def check_robots_txt_location(base_dir: Path) -> List[str]:
+    """
+    Check that robots.txt exists in the root directory and not in
+    subdirectories.
+    """
+    issues = []
+    root_robots = base_dir / "robots.txt"
+    if not root_robots.is_file():
+        issues.append("robots.txt not found in site root")
+
+    return issues
+
+
 def main() -> None:
     """
     Check all HTML files in the public directory for issues.
@@ -1017,6 +1089,12 @@ def main() -> None:
     css_issues = check_css_issues(public_dir / "index.css")
     if css_issues:
         print_issues(public_dir / "index.css", {"CSS_issues": css_issues})
+        issues_found = True
+
+    # Check robots.txt location
+    robots_issues = check_robots_txt_location(public_dir)
+    if robots_issues:
+        print_issues(public_dir, {"robots_txt_issues": robots_issues})
         issues_found = True
 
     md_dir: Path = git_root / "content"

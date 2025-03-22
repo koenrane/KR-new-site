@@ -24,7 +24,7 @@ function cleanup {
 }
 
 # If there are any changes, stash them and return 1, otherwise return 0.
-function stash_and_exit {
+function maybe_stash {
     PREV_NUM_STASHES=$(git stash list | wc -l)
     git stash push --include-untracked >>/dev/null
     # Check if anything was stashed
@@ -44,10 +44,14 @@ fi
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
 
-PUSHED_CHANGES=$(stash_and_exit)
+PUSHED_CHANGES=$(maybe_stash)
 trap 'cleanup $PUSHED_CHANGES' EXIT
 
 # Run all checks with progress bars
-python "$GIT_ROOT/scripts/run_push_checks.py"
+python "$GIT_ROOT/scripts/run_push_checks.py" --resume
+
+git stash -m "Temporary push stash"
+git push --no-verify
+git stash pop
 
 exit 0

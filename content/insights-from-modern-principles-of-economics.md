@@ -40,8 +40,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/htfmtdtntpqpmr2mlqxl.png
 description: Textbook insights on economic policy, price gouging, and the surprising
   efficiency of competitive markets.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
@@ -69,7 +70,7 @@ The availability heuristic can deceive you (although [Kaj Sotala notes](https://
 
 Good economic policy has lifted billions of people out of poverty and furnished our lives with previously unimaginable splendor. The Roman emperors had no air conditioning or telephones.
 
-![](https://assets.turntrout.com/static/images/posts/xqxexzmbgs6r6u6xvgsk.avif)
+![](https://assets.turntrout.com/static/images/posts/extreme-poverty-bg.avif)
 <br/>Figure: Economics is important. And I'm unconvinced by the [criticism of these numbers](https://www.vox.com/future-perfect/2019/2/12/18215534/bill-gates-global-poverty-chart) which I read.
 
 ![](https://assets.turntrout.com/static/images/posts/mhahalue4g3l4gnvbujg.avif)
@@ -238,8 +239,8 @@ Before I talk about the book holistically, here are more snippets:
 
   - The Econ 101 argument goes: If the children had something better to do—like go to school or work at a safe, well-paying, age-appropriate job—they would do that instead of working at the sweatshop.
 
-- A firm perfectly price discriminates (PPD) if they charge each consumer their willingness to pay for a good. I really hope that firms don't somehow achieve PPD via AI before the singularity. That would really suck. You'd basically be \_just on the edge \_of every single purchase you make—exhausting. And producers would gobble up surplus from consumers, which seems unfair.
-- Custodians in the US have higher real wages than custodians in India, even though they may be equally good at cleaning. This is because American custodians are more (economically) productive since they work for \_more productive \_firms.
+- A firm perfectly price discriminates (PPD) if they charge each consumer their willingness to pay for a good. I really hope that firms don't somehow achieve PPD via AI before the singularity. That would really suck. You'd basically be _just on the edge_ of every single purchase you make—exhausting. And producers would gobble up surplus from consumers, which seems unfair.
+- Custodians in the US have higher real wages than custodians in India, even though they may be equally good at cleaning. This is because American custodians are more (economically) productive since they work for _more productive_ firms.
 
   - The marginal product of labor (MPL) is the revenue from hiring an additional worker.
   - A custodian at Google is adding more value than an equally custodian at a small Indian firm.
@@ -261,7 +262,7 @@ Before I talk about the book holistically, here are more snippets:
 - I now know what the Federal Reserve is and what they do.
 
   - And I now appreciate how hard central banking can be.
-  - And I now appreciate how great it is that we let \_actual economists \_run this part of the government. Even if they [sometimes mess up](https://www.lesswrong.com/posts/tAThqgpJwSueqhvKM/frequently-asked-questions-for-central-banks-undershooting).
+  - And I now appreciate how great it is that we let _actual economists_ run this part of the government. Even if they [sometimes mess up](https://www.lesswrong.com/posts/tAThqgpJwSueqhvKM/frequently-asked-questions-for-central-banks-undershooting).
   - And I now appreciate this huge body of literature on interest rates and quantitative easing and M1 and market monetarism and _agh_! I'd always consigned the finance section of the paper to "inscrutable garbage that day traders worry about", but it's so much _more_. I can't wait to keep learning about macroeconomics.
 
 - The fact that wages are sticky-down is so annoying. I would be so mad if I were a central banker: dumb human bias ruining our ability to deflate! Dumb human bias making negative AD shocks horrible!

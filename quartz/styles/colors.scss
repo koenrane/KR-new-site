@@ -1,4 +1,4 @@
-:root[saved-theme="dark"],
+:root[data-theme="dark"],
 .dark-mode {
   // Catppuccin Frappe
   --pink: #fba7e4;
@@ -17,8 +17,8 @@
   // Theme-specific colors (from quartz.config.ts darkMode)
   --background: #303446; // frappeColors.base
   --midground-faint: #737994; // frappeColors.overlay-0
-  --midground: #949cbb; // frappeColors.overlay-2
-  --midground-strong: #aab6e4; // frappeColors.subtext-1
+  --midground: #aab3db; // frappeColors.overlay-2
+  --midground-strong: #c6cff0; // frappeColors.subtext-1
   --foreground: #d8def5; // frappeColors.text, modified
   --secondary: #97b0e9; // frappeColors.blue
   --tertiary: #99d1db; // custom color
@@ -31,7 +31,7 @@
 }
 
 // Catppuccin Latte
-:root[saved-theme="light"],
+:root[data-theme="light"],
 .light-mode {
   --flamingo: #dd7878;
   --pink: #ee7ed0;
@@ -66,8 +66,8 @@
 }
 
 :root {
-  --midground-fainter: color-mix(in srgb, transparent 70%, var(--midground-faint));
-  --midground-faintest: color-mix(in srgb, transparent 90%, var(--midground-faint));
+  --midground-fainter: color-mix(in srgb, var(--background) 70%, var(--midground-faint));
+  --midground-faintest: color-mix(in srgb, var(--background) 90%, var(--midground-faint));
   --color-link: light-dark(
     color-mix(in srgb, var(--secondary) 30%, var(--foreground)),
     var(--secondary)

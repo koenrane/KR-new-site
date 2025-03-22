@@ -1,6 +1,7 @@
 import subprocess
 import sys
 from pathlib import Path
+from typing import List
 
 import pytest
 import requests
@@ -296,20 +297,31 @@ def test_check_file_for_issues_with_redirect(tmp_path):
 @pytest.mark.parametrize(
     "html,expected",
     [
+        # Test favicon inside article and p tag (valid)
         (
-            '<html><body><article><p><img class="favicon" href="favicon.ico"></p></article></body></html>',
+            '<html><body><article><p><img class="favicon" src="favicon.ico"></p></article></body></html>',
             False,
         ),
-        # In the bottom of the page
+        # Test favicon missing article tag (invalid)
         (
-            '<html><body><article>Article</article><img class="favicon" href="favicon.ico"></body></html>',
+            '<html><body><p><img class="favicon" src="favicon.ico"></p></body></html>',
             True,
         ),
+        # Test favicon missing p tag (invalid)
         (
-            '<html><head><link rel="stylesheet" href="style.css"></head></html>',
+            '<html><body><article><img class="favicon" src="favicon.ico"></article></body></html>',
             True,
         ),
-        ("<html><head></head></html>", True),
+        # Test no favicon at all (invalid)
+        (
+            '<html><head><link rel="stylesheet" href="style.css"></head><body></body></html>',
+            True,
+        ),
+        # Test empty page (invalid)
+        (
+            "<html><head></head><body></body></html>",
+            True,
+        ),
     ],
 )
 def test_check_favicons_missing(html, expected):
@@ -882,12 +894,19 @@ def test_check_problematic_paragraphs_comprehensive(html, expected):
             "<p>HTML &amp; *emphasis*</p>",
             ["Unrendered emphasis: HTML & *emphasis*"],
         ),
+        (
+            '<article><p>Test test</p><ul><li>These results don’t _prove_that <abbr class="small-caps">power</abbr>-seeking is bad for other agents in the environment.</li></ul></article>',
+            [
+                "Unrendered emphasis: These results don’t _prove_that power-seeking is bad for other agents in the environment."
+            ],
+        ),
     ],
 )
 def test_check_unrendered_emphasis(html, expected):
     """Test the check_unrendered_emphasis function."""
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_emphasis(soup)
+    print(result)
     assert sorted(result) == sorted(expected)
 
 
@@ -1177,6 +1196,12 @@ def test_check_unrendered_html(html, expected):
             """,
             [],
         ),
+        # Test stripping done by remark-attributes
+        (
+            "![ ](  image.jpg  )",
+            "<img src='/asset_staging/image.jpg'>",
+            [],
+        ),
     ],
 )
 def test_check_markdown_assets_in_html(
@@ -1211,67 +1236,51 @@ def test_check_markdown_assets_in_html(
 @pytest.mark.parametrize(
     "html,expected",
     [
-        # Basic cases - missing spaces
-        (
-            "<p>text<em>emphasis</em>text</p>",
-            [
-                "Missing space before: text<em>emphasis</em>",
-                "Missing space after: <em>emphasis</em>text",
-            ],
-        ),
-        # Test allowed characters before emphasis
+        # Test each whitelisted case - should be ignored
         *[
-            (f"<p>text{char}<em>emphasis</em> text</p>", [])
-            for char in ALLOWED_ELT_PRECEDING_CHARS
+            (
+                f"<p>{prev}<i>{next_}</i> else</p>",
+                [],
+            )
+            for prev, next_ in WHITELISTED_EMPHASIS
         ],
-        # Test allowed characters after emphasis
+        # Test whitelisted case with extra whitespace - should be ignored
         *[
-            (f"<p>text <em>emphasis</em>{char}text</p>", [])
-            for char in ALLOWED_ELT_FOLLOWING_CHARS
+            (
+                f"<p>{prev}  <i>{next_}</i>  else</p>",
+                [],
+            )
+            for prev, next_ in WHITELISTED_EMPHASIS
         ],
-        # Test mixed cases
+        # Test non-whitelisted case - should be ignored since Some is whitelisted
         (
-            "<p>text(<em>good</em>text<strong>bad</strong>) text</p>",
-            [
-                "Missing space after: <em>good</em>text",
-                "Missing space before: text<strong>bad</strong>",
-            ],
+            "<p>Some<i>thing</i> else</p>",
+            [],
         ),
-        # Test with i and b tags
+        # Test partial match - should be flagged
         (
-            "<p>text<i>italic</i>text<b>bold</b>text</p>",
-            [
-                "Missing space before: text<i>italic</i>",
-                "Missing space after: <i>italic</i>text",
-                "Missing space before: text<b>bold</b>",
-                "Missing space after: <b>bold</b>text",
-            ],
+            "<p>Somebody<i>one</i> else</p>",
+            ["Missing space before: Somebody<i>one</i>"],
         ),
-        # Test with nested emphasis
+        # Test case sensitivity - should be flagged
         (
-            "<p>text<em><strong>nested</strong></em>text</p>",
-            [
-                "Missing space before: text<em>nested</em>",
-                "Missing space after: <em>nested</em>text",
-            ],
+            "<p>some<i>one</i> else</p>",
+            ["Missing space before: some<i>one</i>"],
         ),
-        # Test with multiple paragraphs
+        # Test with other emphasis elements - should be ignored since Some is whitelisted
         (
-            """
-            <p>text<em>one</em>text</p>
-            <p>text <em>two</em> text</p>
-            <p>text<em>three</em>text</p>
-            """,
-            [
-                "Missing space before: text<em>one</em>",
-                "Missing space after: <em>one</em>text",
-                "Missing space before: text<em>three</em>",
-                "Missing space after: <em>three</em>text",
-            ],
+            "<p>Some<em>one</em> else</p>",
+            [],
+        ),
+        # Test with nested elements - should be ignored since Some is whitelisted
+        (
+            "<p>Some<i><strong>one</strong></i> else</p>",
+            [],
         ),
     ],
 )
-def test_check_emphasis_spacing(html, expected):
+def test_check_emphasis_spacing_whitelist(html, expected):
+    """Test the check_emphasis_spacing function's whitelist functionality."""
     soup = BeautifulSoup(html, "html.parser")
     result = check_emphasis_spacing(soup)
     assert sorted(result) == sorted(expected)
@@ -1608,6 +1617,12 @@ def test_check_invalid_internal_links(html, expected_count):
             [],
             [],
         ),
+        # Test relative URL (should be skipped)
+        (
+            '<iframe src="./relative/path" title="Relative"></iframe>',
+            [],
+            [],
+        ),
     ],
 )
 def test_check_iframe_sources(
@@ -1769,3 +1784,88 @@ def test_check_consecutive_periods(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_consecutive_periods(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test favicon directly under span with correct class (valid)
+        (
+            '<span class="favicon-span"><img class="favicon" src="test.ico"></span>',
+            [],
+        ),
+        # Test favicon without parent span (invalid)
+        (
+            '<div><img class="favicon" src="test.ico"></div>',
+            [
+                "Favicon (test.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <div>: "
+            ],
+        ),
+        # Test favicon nested deeper (invalid)
+        (
+            '<span class="favicon-span"><div><img class="favicon" src="test.ico"></div></span>',
+            [
+                "Favicon (test.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <div>: "
+            ],
+        ),
+        # Test multiple favicons
+        (
+            """
+            <div>
+                <span class="favicon-span"><img class="favicon" src="valid.ico"></span>
+                <div><img class="favicon" src="invalid.ico"></div>
+            </div>
+            """,
+            [
+                "Favicon (invalid.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <div>: "
+            ],
+        ),
+        # Test favicon with no parent
+        (
+            '<img class="favicon" src="orphan.ico">',
+            [
+                "Favicon (orphan.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <[document]>: "
+            ],
+        ),
+        # Test non-favicon images (should be ignored)
+        (
+            '<div><img src="regular.png"></div>',
+            [],
+        ),
+        # Test favicon under span but missing required class (invalid)
+        (
+            '<span><img class="favicon" src="test.ico"></span>',
+            [
+                "Favicon (test.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <span>: "
+            ],
+        ),
+    ],
+)
+def test_check_favicon_parent_elements(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    assert check_favicon_parent_elements(soup) == expected
+
+
+@pytest.mark.parametrize(
+    "file_structure,expected",
+    [
+        # Test robots.txt in root (valid)
+        (["robots.txt"], []),
+        # Test missing robots.txt
+        ([], ["robots.txt not found in site root"]),
+        # Test robots.txt in subdirectory (should still report missing from root)
+        (["static/robots.txt"], ["robots.txt not found in site root"]),
+    ],
+)
+def test_check_robots_txt_location(
+    tmp_path: Path, file_structure: List[str], expected: List[str]
+):
+    """Test the check_robots_txt_location function with various file structures."""
+    # Create the test files
+    for file_path in file_structure:
+        full_path = tmp_path / file_path
+        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.touch()
+
+    result = check_robots_txt_location(tmp_path)
+    assert result == expected

@@ -7,10 +7,13 @@ hideSubscriptionLinks: true
 card_image: https://assets.turntrout.com/static/images/card_images/anime_sunset.png
 description: My dating doc, sharing who I am and who I'm looking for. Is it you? 💘
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2025-02-01 23:51:40.169611
+date_updated: 2025-03-08 18:08:37.606100
 tags:
   - personal
 ---
+
+
+
 
 
 <img src="https://assets.turntrout.com/static/images/posts/alex-sunset.avif" class="float-right" alt=""/>
@@ -19,28 +22,29 @@ Many people know me as `TurnTrout`, but you can call me "Alex". I want to let yo
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) for many years. 💕 (And by "best friend", I mean "wife.")
+I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory) (but I'm [open to several possibilities](#possible-dealbreakers)).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) for many years. 💕 (And by "best friend", I mean "wife.")
 [^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
 
 # About me
 
 I'm kind, conscientious, and ready to admit mistakes - maybe I'm _too_ ready, to be honest! Speaking of "honest", I'm also an extremely honest person. I haven't always lived as ethically or as honestly as I would now have preferred, and I'm surely going to make more mistakes, but _god damn_ if I'm not going to live this one life well.
 
-If I make a commitment to you, I keep it, and I'm not particularly afraid of commitments. I'm someone you can rely on.[^perfect] One of my friends described me as "not the kind of person who will put up with \[unethical\] conspiracies."
-
-On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elaborate "welcome back" party for a partner who was coming back from overseas. I rounded up 18 of her friends and hid them in my apartment so they could all jump out at her.
-
 I am pretty goofy if I trust and feel comfy around someone. I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
+
 <img src="https://assets.turntrout.com/static/images/skydiving.avif" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
 
-[^perfect]: I mean, I'm not _perfectly_ reliable. I'm just a hum - I mean, I'm just a trout! For example, there recently was a situation where I may have simply forgotten what someone had requested two years prior. But I think I am overall highly reliable - both in terms of faithfulness and in terms of logistics.
-
-## Professional life
+If I make a commitment to you, I keep it, and I'm not particularly afraid of commitments. I'm someone you can rely on.[^perfect] One of my friends described me as "not the kind of person who will put up with \[unethical\] conspiracies."
 
 <figure class="float-right">
 <img  src="https://assets.turntrout.com/Attachments/thesisDefense.avif" alt="At my thesis defense."/>
 <figcaption>At my thesis defense in 2022.</figcaption>
 </figure>
+
+On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elaborate "welcome back" party for a partner who was coming back from overseas. I rounded up 18 of her friends and hid them in my apartment so they could all jump out at her.
+
+[^perfect]: I mean, I'm not _perfectly_ reliable. I'm just a hum - I mean, I'm just a trout! For example, there recently was a situation where I may have simply forgotten what someone had requested two years prior. But I think I am overall highly reliable - both in terms of faithfulness and in terms of logistics.
+
+## Professional life
 
 I'm hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](https://en.wikipedia.org/wiki/AI_alignment). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_.
 
@@ -48,10 +52,11 @@ I might not be good at something at first, but I don't quit! In the second year 
 
 ## Personal life
 
-<figure class="float-right" style="position:relative; top:-3.5rem;margin-bottom:-3.5rem">
+<figure class="float-right" style="position:relative; top:-3rem; margin-bottom:-3rem;">
 <img  src="https://assets.turntrout.com/static/images/waterfall.avif" alt="Alex waving at the camera near a waterfall."/>
 <figcaption>Hawaiian waterfalls! 🏝️</figcaption>
 </figure>
+
 That said, I've become a bit less research-focused recently. Somewhat relatedly, I'd become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks.
 
 When I was younger, I wasn't social. These days, I love meeting new people! I'm an _ambivert_: sometimes socializing is energizing, but sometimes it's draining. I have a lot of friends who are precious to me, and I wish I could give each of them the time they each deserve. Sometimes I even look out over a city and wonder at the residents:
@@ -78,7 +83,7 @@ AI-fueled house parties
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
-<img src="https://assets.turntrout.com/Attachments/preGCAlex.avif" style="width: 218px; height: 30vh; object-fit: cover; object-position: top;" alt="Me smiling in an orange shirt."/>
+<img src="https://assets.turntrout.com/static/images/posts/alex-gigachad-side.avif" style="width: 218px; height: 30vh; object-fit: cover; object-position: 80%;" alt="Me smiling, bearing some resemblance to gigachad."/>
 <figcaption>(a) Alex</figcaption>
 </div>
 <div class="subfigure">
@@ -160,9 +165,11 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
   [^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
 
 If this sounds like a nice potential connection, I'd love to:
+
 1. Take you dancing 💃, or
 2. Spend a lazy Sunday morning watching the stream run by the [Hidden Café](https://www.thehiddencafe.life/), or
 3. Have a sunset picnic and eat blueberries.
+
 <figure>
 <img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="An anime rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
 <figcaption>This could be us!</figcaption>

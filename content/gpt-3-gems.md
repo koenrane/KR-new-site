@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/uu8FwG5XPQ6zpFaEN/gpt-3-gems
 skip_import: true
 description: "GPT-3's output: sometimes insightful, sometimes silly. Read my favorite\
   \ interactions with this intriguing, flawed network."
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -1016,8 +1017,8 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > "What?" you say.  
 >
->  "I just said it," the oracle repeats.
->  
+> "I just said it," the oracle repeats.
+>
 > "But that's ridiculous! The square root of -9 is not 3. It's complex. It's 3 plus a multiple of $i$." \[wrong, but my character is supposed to be playing dumb here\]  
 >
 > The oracle frowns. "I'm just telling you what the answer is," she says.
@@ -1026,7 +1027,7 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > "What?" you say. "That's crazy! $7i$ isn't even a real number. The square root of -9 is 3 with a whole integer $i$ attached."  
 >
->  The oracle frowns. "I'm just telling you what the answer is," she says.
+> The oracle frowns. "I'm just telling you what the answer is," she says.
 >
 > The oracle explains, “$(5+i)(5-i) = 24-20i$, $(15i)(16i)=-240$, $(15i) (-4i)=-60$.
 

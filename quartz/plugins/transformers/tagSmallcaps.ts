@@ -17,7 +17,8 @@ export function isRomanNumeral(str: string): boolean {
 }
 
 // Regex for acronyms and abbreviations
-export const allowAcronyms = ["IF", "CCC", "IL", "TL;DR", "LLM", "MP4", "mp4"]
+//  E.g. "IID" is technically a roman numeral
+export const allowAcronyms = ["IF", "CCC", "IL", "TL;DR", "LLM", "MP4", "mp4", "IID"]
 // Ignore these words if included in a potential acronym
 export const ignoreList = ["th", "hz", "st", "nd", "rd"]
 
@@ -46,9 +47,10 @@ export const REGEX_ABBREVIATION =
 // Lookahead to see that there are at least 3 contiguous uppercase characters in the phrase
 export const validSmallCapsPhrase = `(?=[${upperCapsChars}\\-'’\\s]*[${upperCapsChars}]{3,})`
 export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${upperCapsChars}]+)`
+
 // Restricting to at least 2 words to avoid interfering with REGEX_ACRONYM
 // Added negative lookbehind to prevent matching if preceded by a single capital letter and space
-export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${upperCapsChars}]\\s))`
+export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${upperCapsChars}]\\s)(?!I\\s))`
 export const REGEX_ALL_CAPS_PHRASE = new RegExp(
   `${beforeWordBoundary}${noSentenceStartSingleCapital}${validSmallCapsPhrase}(?<phrase>[${upperCapsChars}]+${allCapsContinuation}+)${afterWordBoundary}`,
 )
@@ -85,9 +87,7 @@ function isAbbreviation(node: Element): boolean {
  * @param ancestors - Array of parent nodes
  * @returns True if node should skip formatting
  */
-export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
-  const parent = ancestors[ancestors.length - 1]
-
+export function shouldSkipNode(node: Text, ancestors: Parent[]): boolean {
   if (
     ancestors?.some(
       (ancestor) =>
@@ -97,6 +97,7 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
     return true
   }
 
+  const parent = ancestors[ancestors.length - 1]
   if (
     parent?.type === "element" &&
     (isElvish(parent as Element) || isAbbreviation(parent as Element))
@@ -104,21 +105,12 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
     return true
   }
 
-  if (allowAcronyms.includes(node.value)) {
-    return false
-  }
-
-  const lowerCaseValue = node.value.toLowerCase()
-  if (/^\d/.test(lowerCaseValue) && ignoreList.some((item) => lowerCaseValue.includes(item))) {
-    return true
-  }
-
-  return isRomanNumeral(node.value)
+  return false
 }
 
-// If the text ends with a letter after a sentence ending, capitalize it
+// If text comes after sentence ending, capitalize the first letter
 export const capitalizeAfterEnding = new RegExp(
-  `(^\\s*|[.!?](?<![eE]\\.[gG]\\.|[iI]\\.[eE]\\.)\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
+  `(^\\s*|\\n|[.!?](?<![eE]\\.[gG]\\.|[iI]\\.[eE]\\.)\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
 )
 
 export const INLINE_ELEMENTS = new Set([
@@ -134,6 +126,7 @@ export const INLINE_ELEMENTS = new Set([
   "a",
 ])
 
+export const PUNCTUATION_BEFORE_MATCH = /[([{"“‘`]/g
 /**
  * Determines if a matched text should be capitalized based on its position in the document
  * @param match - The regex match containing the text to potentially capitalize
@@ -143,15 +136,17 @@ export const INLINE_ELEMENTS = new Set([
  * @returns True if the matched text should be capitalized, false otherwise
  * @throws Error if parent relationship is invalid
  */
-export function capitalizeMatch(
+export function shouldCapitalizeMatch(
   match: RegExpMatchArray,
   node: Text,
   index: number,
   ancestors: Parent[],
 ): boolean {
-  // Check if this is the first node and match is at start
+  // Check if this is the first node and match is at start (ignoring punctuation)
   const shouldBeginWithCapital = nodeBeginsWithCapital(index, ancestors[ancestors.length - 1])
-  const isStartOfNode = match.index === 0
+  // Remove any punctuation before the match
+  const textBeforeMatch = node.value.substring(0, match.index).replace(PUNCTUATION_BEFORE_MATCH, "")
+  const isStartOfNode = textBeforeMatch.trim().length === 0
 
   // If it should begin with capital and match starts at beginning, check parent context
   if (shouldBeginWithCapital && isStartOfNode) {
@@ -168,7 +163,7 @@ export function capitalizeMatch(
         throw new Error("capitalizeMatch: parent is not the child of its grandparent")
       }
 
-      return capitalizeMatch(match, node, parentIndex, ancestors.slice(0, -1))
+      return shouldCapitalizeMatch(match, node, parentIndex, ancestors.slice(0, -1))
     }
     return true
   }
@@ -178,10 +173,34 @@ export function capitalizeMatch(
     const textBefore =
       gatherTextBeforeIndex(ancestors[ancestors.length - 1], index) +
       node.value.substring(0, match.index + 1)
-    return capitalizeAfterEnding.test(textBefore)
+    const cleanedTextBefore = textBefore.replace(PUNCTUATION_BEFORE_MATCH, "")
+    return capitalizeAfterEnding.test(cleanedTextBefore)
   }
 
   return false
+}
+
+// Process matched text with capitalization rules
+export function processMatchedText(text: string, shouldCapitalize: boolean): string {
+  return shouldCapitalize
+    ? text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
+    : text.toLowerCase()
+}
+
+// Check if the matched text is in the allowlist
+export function isInAllowList(matchText: string): boolean {
+  return allowAcronyms.some(
+    (acronym) =>
+      matchText === acronym ||
+      matchText.startsWith(acronym + "s") ||
+      matchText.startsWith(acronym + "x"),
+  )
+}
+
+// Check if matched text should be ignored based on numeric abbreviations
+export function shouldIgnoreNumericAbbreviation(matchText: string): boolean {
+  const lowerCaseValue = matchText.toLowerCase()
+  return /^\d/.test(lowerCaseValue) && ignoreList.some((item) => lowerCaseValue.includes(item))
 }
 
 /**
@@ -203,44 +222,60 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     parent,
     combinedRegex,
     (match: RegExpMatchArray) => {
-      // Check if this match should be capitalized
-      const shouldCapitalize = capitalizeMatch(match, node, index, ancestors)
+      const matchText = match[0]
+      const shouldCapitalize = shouldCapitalizeMatch(match, node, index, ancestors)
 
-      // Helper to capitalize first letter if needed
-      const processText = (text: string) => {
-        return shouldCapitalize
-          ? text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
-          : text.toLowerCase()
+      // 1. First check whitelist (highest priority)
+      const whitelisted = isInAllowList(matchText)
+
+      // 2. Check if it's a Roman numeral and not whitelisted
+      if (!whitelisted && isRomanNumeral(matchText)) {
+        // Return unchanged - no formatting
+        return { before: matchText, replacedMatch: "", after: "" }
       }
 
-      // Process based on match type
-      const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
+      // 3. Check ignore list for numeric abbreviations (if not whitelisted)
+      if (!whitelisted && shouldIgnoreNumericAbbreviation(matchText)) {
+        // Return unchanged
+        return { before: matchText, replacedMatch: "", after: "" }
+      }
+
+      // Now format the text based on match type
+      const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(matchText)
       if (allCapsPhraseMatch?.groups) {
         const { phrase } = allCapsPhraseMatch.groups
-        return { before: "", replacedMatch: processText(phrase), after: "" }
+        return {
+          before: "",
+          replacedMatch: processMatchedText(phrase, shouldCapitalize),
+          after: "",
+        }
       }
 
-      const acronymMatch = REGEX_ACRONYM.exec(match[0])
+      const acronymMatch = REGEX_ACRONYM.exec(matchText)
       if (acronymMatch?.groups) {
         const { acronym, suffix } = acronymMatch.groups
         return {
           before: "",
-          replacedMatch: processText(acronym),
+          replacedMatch: processMatchedText(acronym, shouldCapitalize),
           after: suffix || "",
         }
       }
 
-      const abbreviationMatch = REGEX_ABBREVIATION.exec(match[0])
+      const abbreviationMatch = REGEX_ABBREVIATION.exec(matchText)
       if (abbreviationMatch?.groups) {
         const { number, abbreviation } = abbreviationMatch.groups
-        return { before: "", replacedMatch: number + abbreviation.toLowerCase(), after: "" }
+        return {
+          before: "",
+          replacedMatch: number + abbreviation.toLowerCase(),
+          after: "",
+        }
       }
 
       throw new Error(
-        `Regular expression logic is broken; one of the regexes should match for ${match}`,
+        `Regular expression logic is broken; one of the regexes should match for ${matchText}`,
       )
     },
-    (nd: Text) => ignoreAcronym(nd, ancestors),
+    (nd: Text) => shouldSkipNode(nd, ancestors),
     "abbr.small-caps",
   )
 }

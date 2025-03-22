@@ -33,8 +33,10 @@ original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in
 skip_import: true
 description: A proposed tweak to policy gradient algorithms may avoid mode collapse,
   but more research is needed to assess its practicality.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
+
 
 
 
@@ -75,11 +77,13 @@ The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ b
 Episode-by-episode:
 
 | $t$ | Action taken | Advantage          | $\pi_t(\text{wedding})$ | $v_t^\pi(\text{``We had a ''})$ |
-| --- | ------------ | ------------------ | ----------------------- | ------------------------------- |
+| --: | :----------: | :----------------: | :---------------------: | :-----------------------------: |
 | 1   | wedding      | (1 - 0) - 0 = 1    | .73                     | 1                               |
 | 2   | party        | (.5 - 0) - 1 = -.5 | .82                     | .5                              |
 | 3   | party        | (.5 - 0) -.5 = 0   | .82                     | .5                              |
 | 4   | wedding      | (1 - 0) - .5 = .5  | .88                     | 1                               |
+
+{.no-min-width}
 
 With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might think this is good, since wedding is in fact "optimal" at that state. This does not seem good. Here are a few kinds of explanations for why:
 
@@ -111,7 +115,7 @@ ACTDE allows the system to account for its decision to go off-policy by selectin
 Re-analyzing the situation:
 
 | $t$ | Action  | Action-conditioned TD error | $\pi_t(\text{wedding})$ | $q_{t}^\pi(\text{``We had a''},a)$ |
-| --- | ------- | --------------------------- | ----------------------- | ---------------------------------- |
+| --: | :-----: | :-------------------------: | :---------------------: | :--------------------------------: |
 | 1   | wedding | (1 - 0) - 0 = 1             | .73                     | wedding: 1, party: 0               |
 | 2   | party   | (.5 - 0) - 0 = .5           | .63                     | wedding: 1, party: .5              |
 | 3   | party   | (.5 - 0) - .5 = 0           | .63                     | wedding: 1, party: .5              |
@@ -136,7 +140,7 @@ In this toy experiment, the model plays prisoner's dilemmas against its past sel
 We are not training via self play against a copy. Instead the model at time $t$ plays against its action at time $t-1$. Playing with its past self for a sequence of `ccddc` has 4 games: `cc`, `cd`, `dd`, `dc`, with rewards of 0.5 (for `cc`), 2 (for `cd`), -0.74 (for `dd`), and -1.76 (for `dc`).[^4]
 
 | Reward matrix   | Cooperate $(t - 1)$ | Defect $(t-1)$ |
-| --------------- | ------------------- | -------------- |
+| --------------: | :----------------: | :------------: |
 | Cooperate $(t)$ | 0.5                 | -1.76          |
 | Defect $(t)$    | 2                   | -0.74          |
 
@@ -216,6 +220,7 @@ ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTD
 We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [`einhorn.michael1@gmail.com`](mailto:einhorn.michael1@gmail.com) for any questions about the code.
 
 **Contributions:**
+
 - Alex came up with the modified advantage equation, illustrated with toy examples, and wrote most of this post.[^7]
 - Michael implemented and tested PPO, and ACTDE on both prisoner's dilemmas and text adventure games. Code is available at [`trl_textworld`.](https://github.com/MichaelEinhorn/trl-textworld)[^8]
 

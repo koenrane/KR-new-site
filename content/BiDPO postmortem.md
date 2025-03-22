@@ -16,11 +16,14 @@ aliases:
   - steering-postmortem
   - bidpo-postmertem
   - steering-gemini
+  - bidpo-steering
 original_url:
 date_published: 2025-01-30 09:30:36.233182
-date_updated: 2025-03-01 17:42:48.379662
-other_urls: https://deepmindsafetyresearch.medium.com/steering-gemini-using-bidpo-vectors-8a0e7e1da1c9
+date_updated: 2025-03-22 12:22:59.421452
+other_urls:
+  - https://deepmindsafetyresearch.medium.com/steering-gemini-using-bidpo-vectors-8a0e7e1da1c9
 ---
+
 
 
 

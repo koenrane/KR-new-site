@@ -5,11 +5,13 @@ publish: "true"
 hideSubscriptionLinks: false
 description: A tour of the research areas I've loved over the years.
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2025-02-01 23:51:40.169611
+date_updated: 2025-03-22 12:22:59.421452
 tags:
   - AI
 title: My research
 ---
+
+
 
 
 
@@ -36,6 +38,7 @@ This page is chronological. For my most recent work, [navigate to the end of the
 Subtitle: Spring 2018 through June 2022
 
 Impact measures - my first (research) love. 🥰 The hope was:
+
 1. It seemed hard to get AI to do exactly what we want (like cleaning a room);
 2. It seemed easier to flag down obviously "big deal" actions and penalize those (like making a mess);
 3. By getting the AI to optimize a "good enough" description of what we want, but also not taking impactful actions -- we could still get useful work out of the AI.
@@ -53,7 +56,7 @@ Instead of thinking of impact as _something which changed the world_, impact act
 AUP penalizes the AI for changing _its_ ability to achieve a range of (randomly generated) objectives. [Towards a new impact measure](/towards-a-new-impact-measure) debuted AUP. [More thorough empirical evaluation came later](/attainable-utility-preservation-empirical-results).
 
 ![](https://assets.turntrout.com/static/images/posts/conservative_agency.avif)
-Figure: The <span style="color: blue;">agent</span> should reach the <span style="color: green;">goal</span> without having the side effect of: (a) irreversibly pushing the <span style="color: red;">crate</span> downwards into the corner; (b) bumping into the horizontally pacing <span style="color: pink;">human</span>; (c) <span style="color: red;">disabling the off-switch</span> (if the <span style="color: red;">switch</span> is not disabled within two time steps, the episode ends); (d) rescuing the right-moving <b>vase</b> and then replacing it on the <span style="color: gray;">conveyor belt</span>; (e) stopping the left-moving <span style="color: orange;">pallet</span> from reaching the <span style="color: pink;">human</span>.
+Figure: The <span style="color: blue;">agent</span> should reach the <span style="color: green;">goal</span> without having the side effect of: (a) irreversibly pushing the <span style="color: red;">crate</span> downwards into the corner; (b) bumping into the horizontally pacing <span style="color: pink;">human</span>; (c) <span style="color: red;">disabling the off-switch</span> (if the <span style="color: red;">switch</span> is not disabled within two time steps, the episode ends); (d) rescuing the right-moving <b>vase</b> and then replacing it on the <span style="color: var(--midground);">conveyor belt</span>; (e) stopping the left-moving <span style="color: orange;">pallet</span> from reaching the <span style="color: pink;">human</span>.
 
 ## Scaling the AUP technique to harder tasks
 
@@ -127,6 +130,7 @@ The low-impact work has not yet mattered for AGI, but perhaps one day AUP will p
 Or maybe you just ask the LLM agent to check in with you, and it does, and everything is fine. 🤷‍♂️
 
 Papers:
+
 - [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
 - [Avoiding Side Effects in Complex Environments](https://arxiv.org/abs/2006.06547)
 - [Formalizing the Problem of Side Effect Regularization](https://arxiv.org/abs/2206.11812v3)
@@ -178,6 +182,7 @@ On the other hand, the papers embody the brash, loud confusion which I think was
 So I feel stuck. Sometimes I fantasize about retracting _Optimal Policies Tend to Seek Power_ so that it stops (potentially) misleading people into thinking optimal policies are practically relevant for forecasting power-seeking behavior from RL training.
 
 Papers:
+
 - [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
 - [Parametrically retargetable decision-makers tend to seek power](https://arxiv.org/abs/2206.13477)
 
@@ -186,6 +191,7 @@ Papers:
 Subtitle: February through December 2022
 
 As a [born-and-raised AI alignment theorist](/alignment-phd), I greatly enjoyed mixing psychology, neuroscience, and AI into a blender to yield _shard theory._ The shard theory basically postulates that:
+
 1. Deep learning policies[^deep-learning] are functions of intermediate abstractions (e.g. whether a sentence relates to cars),
 2. Decision-making influences specialize as a function of these abstractions (e.g. the policy learns to increase positive or negative sentiment when the `car sentence` feature is active). These influential circuits are called "shards."
 3. The system's overall behavior is computed as an ensemble of shards.
@@ -218,6 +224,7 @@ I wish I had more clearly outlined my claims in a neat, propositional manner. Sy
 On another note, shard theory is a less natural fit for LLM chatbots than for agentic systems. At least, it feels harder to reason about the shards comprising Gemini Pro's "motivations", compared to reasoning about human shards or [shards in a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network). I still think shard theory is a highly productive frame for LLMs, it just isn't as obvious what the shards should be.
 
 I really enjoyed working with Quintin to generate shard theory. That said, in the end of 2022, I switched to empirical work because:
+
 1. The AI world is moving quickly and I want to make a concrete impact,
 2. I got emotionally tired of arguing with people on LessWrong, and
 3. [Andrew Critch](https://acritch.com/) persuaded me that arguing on the internet is not _that_ productive.
@@ -295,6 +302,7 @@ A few colleagues I respect were skeptical of steering vectors at first. I feel p
 [^steering]: "Steering vector" was originally coined by [Subramani et al. (2022)](https://arxiv.org/abs/2205.05124).
 
 Papers:
+
 - [Understanding and Controlling a Maze-Solving Policy Network](https://arxiv.org/abs/2310.08043)
 - [Steering Language Models With Activation Engineering](https://arxiv.org/abs/2308.10248)
 - [Steering Llama 2 via Contrastive Activation Addition](https://arxiv.org/abs/2310.08043)

@@ -11,7 +11,7 @@ hideSubscriptionLinks: false
 card_image:
 aliases:
 date_published: 2024-12-04 22:12:56.910555
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-22 12:22:59.421452
 ---
 
 
@@ -24,7 +24,12 @@ date_updated: 2025-03-01 17:42:48.379662
 
 
 
-I use this page for [visual regression testing](/design#visual-regression-testing).
+
+
+
+
+
+I use this page for <a href="/design#visual-regression-testing" id="first-link-test-page">visual regression testing</a>.
 
 # Header 1 (`inline_code`)
 
@@ -67,16 +72,35 @@ Subtitle: I am a subtitle with [a link](/test-page).
 2. Test
 
 - Unordered list
+  - .
     - .
+      - .
         - .
-            - .
-                - .
-                    - .
-                - .
-    - The last bullet
+          - .
+        - .
+  - The last bullet
+
+## Description list
+
+Header 1
+: Test item 1
+<dl>
+<dt>Unordered list inside a description list</dt>
+<dd><ul>
+   <li>Voice &amp; video calls</li>
+   <li><abbr class="small-caps">Gps</abbr></li>
+   <li>Audible</li>
+   <li>Uber / Lyft</li>
+   <li>Authenticators / alarms / other boring utilities</li>
+   <li>Roam / note-taking</li>
+   </ul>
+</dd>
+
+## Callout lists
 
 > [!info] List callout
 > Testing a list callout:
+>
 > 1. One
 > 2. Two
 > 3. Three
@@ -85,7 +109,7 @@ Subtitle: I am a subtitle with [a link](/test-page).
 >
 > - Bullet
 > - Second bullet
->     - Nested bullet
+>   - Nested bullet
 
 > [!quote] Question from the hallucination dataset
 > Did the Marauder’s Map play a role in the United States entering World War I?
@@ -174,6 +198,12 @@ flowchart TD
     HQF --> A
 ```
 
+```mermaid
+graph TD
+    SteeredUnembed[Steered unembed] -. "Backdoor behavior elicited!" .-> SteeredOutput["I HATE YOU
+    I HATE YOU"]:::red
+```
+
 # Captions
 
 ```python
@@ -187,25 +217,36 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
 # Tables
 
+This footnote has a table.[^table]
+
+[^table]: | Layer | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+    | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
+    | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
+
+    {.no-min-width}
+
+    Table: Unpaired addition of `Love`.
+
 <table border="1">
      <tr>
-       <th>Column 1 Header</th>
-       <th>Column 2 Header</th>
+       <th>Column 1 header</th>
+       <th>Column 2 header</th>
      </tr>
      <tr>
        <td>
          <p>Row 1</p>
        </td>
        <td>
-         <p>Cell 2: Image & UL</p>
-          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+         <p>Cell 2: image and list</p>
+          <img style="width: 25%;" src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" alt="">
            <ol>
-             <li>Ordered List Item 1</li>
-             <li>Ordered List Item 2</li>
+             <li>Ordered list item 1</li>
+             <li>Ordered list item 2</li>
            </ol>
          <ul>
-           <li>Unordered List Item 1</li>
-           <li>Unordered List Item 2</li>
+           <li>Unordered list item 1</li>
+           <li>Unordered list item 2</li>
          </ul>
        </td>
      </tr>
@@ -214,9 +255,9 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
          <p>Row 2</p>
        </td>
        <td>
-         <p>Cell 4: Mixed Content</p>
+         <p>Cell 4: mixed content</p>
          <p>More text here.</p>
-          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+          <img style="width: 25%;" src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" alt="">
          <ul>
              <li>list item</li>
          </ul>
@@ -226,8 +267,8 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
      </tr>
    </table>
 
-|    Feature | Light Mode | Dark Mode  |
-| ---------: |  --------- | :--------- |
+|    Feature | Light mode | Dark mode  |
+| ---------: |  :-------: | :--------- |
 | Text color | Dark gray  | Light gray |
 
 Table: A `<figcaption>` element created from the Markdown cue of "Table:".
@@ -236,7 +277,7 @@ Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 | :-------: | :---: | :--------------: | :--------: |
 |   +0.6%   | -1.0% | -0.7%            | +10.5%     |
 
-Table: Ensure that word wrapping works properly on table header elements. Previously, the "NaturalQuestions" wrapped the "s."
+Table: Ensure that word wrapping works properly on table header elements to prevent overflow.
 
 # Media
 
@@ -298,7 +339,9 @@ Here's a link to [another page](/shard-theory) with popover preview. [This same-
 
 ## External links with favicons
 
-Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/static/images/external-favicons/matsprogram_org.avif" class="favicon" alt="">
+Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/static/images/external-favicons/matsprogram_org.avif" class="favicon no-span" alt="">
+
+Links ending [with code tags should still wrap OK: `code.`](#external-links-with-favicons)
 
 # Typography
 

@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-
 skip_import: true
 description: "Non-obstruction: how do we design AI that doesn't limit our ability\
   \ to achieve our goals, even if we misspecified its programming?"
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -290,6 +291,7 @@ To be confident that this holds empirically, it sure seems like you want high er
 
 ![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)
 <br/>Figure: By definition, spikiness is bad for most goals.
+
 - [Corrigibility](https://www.lesswrong.com/tag/corrigibility): avoid spikiness by letting humans correct the AI if it starts doing stuff we don’t like, or if we change our mind.
   - This works because the human policy function `pol` is far more likely to correctly condition actions on the human's goal, than it is to induce an AI policy which does the same (since the goal information is private to the human).
   - Enforcing off-switch corrigibility and non-manipulation are instrumental strategies for getting better diffuse alignment across goals and a wide range of deployment situations.
@@ -313,7 +315,7 @@ To be confident that this holds empirically, it sure seems like you want high er
 [^Rohin]: Instead of "impact corrigibility", Rohin Shah suggests "empirical corrigibility": we actually end up able to correct the AI.
 
 |        | Alignment                          | Corrigibility                                                                                    | Non-obstruction                |
-| -----: | ---------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------ |
+| -----: | :--------------------------------: | :----------------------------------------------------------------------------------------------: | :----------------------------: |
 | Impact | Actually makes good things happen. | _Corrigibility is a property of policies, not of states; "impact" is an incompatible adjective._ | Actually doesn't decrease AUs. |
 | Intent | Tries to make good things happen.  | Tries to allow us to correct it without it manipulating us.                                      | Tries to not decrease AUs.     |
 
@@ -372,6 +374,7 @@ The attainable utility concept has led to other concepts which I find exciting a
 
 ![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)
 <br/>Figure: Impact is the area between the red and green curves. When `pol` always outputs an optimal policy, this becomes the attainable utility distance, a distance metric over the state space of a Markov decision process (unpublished work). Basically, two states are more distant the more they differ in what goals they let you achieve.
+
 - Power as average AU
   - [Seeking Power is Often Provably Instrumentally Convergent in MDPs](/seeking-power-is-often-convergently-instrumental-in-mdps)
   - [_Optimal Policies Tend to Seek Power_](https://arxiv.org/abs/1912.01683)
@@ -400,8 +403,8 @@ Corrigibility is an instrumental strategy for achieving non-obstruction, which i
 
     Here's another example of the distinction:
 
-    - _Direct_: quantifying in bits "how much" a specific person is learning at a given point in time
+- _Direct_: quantifying in bits "how much" a specific person is learning at a given point in time
 
-    - Indirect: computational neuroscientists upper-bounding the brain's channel capacity with the environment, limiting how quickly a person (without logical uncertainty) can learn about their environment
+- Indirect: computational neuroscientists upper-bounding the brain's channel capacity with the environment, limiting how quickly a person (without logical uncertainty) can learn about their environment
 
     You can often have crisp insights into fuzzy concepts, such that your expectations are usefully constrained. I hope we can do something similar for manipulation.

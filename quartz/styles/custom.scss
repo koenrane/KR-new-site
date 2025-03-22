@@ -45,6 +45,12 @@ li > blockquote:first-child {
     margin-top: calc(2 * $base-margin);
   }
 
+  // Footnotes narrower than normal lists, also even
+  & > ol {
+    padding-left: calc(0.5 * $list-padding-left);
+    padding-right: calc(0.5 * $list-padding-left);
+  }
+
   & li {
     max-width: 100%;
   }
@@ -66,7 +72,7 @@ li > blockquote:first-child {
 // Ensure that last ol of a li has no bottom margin
 li[id^="user-content-fn-"] {
   & > ol {
-    margin-block-end: 0;
+    margin-bottom: 0;
   }
 
   & > p:last-child > a[class*="footnote-backref"]:last-child,
@@ -101,7 +107,6 @@ dd > ol:first-child {
 }
 
 dd {
-  margin-block: 0 calc(2 * $base-margin);
   margin-top: 0;
   margin-bottom: calc(2 * $base-margin);
   word-wrap: break-word;
@@ -109,11 +114,16 @@ dd {
   & > p:first-child {
     margin-top: 0;
   }
+
+  & > ul {
+    // Already have padding-left from dd
+    padding-left: 0;
+  }
 }
 
 ol,
 ul {
-  margin-block-end: calc(2 * $base-margin);
+  margin-bottom: calc(2 * $base-margin);
 
   dl & {
     margin-top: calc(0.5 * $base-margin);
@@ -200,13 +210,21 @@ ol {
       font-size: var(--text-size-100);
       content: counter(footnote) "."; // Display the counter followed by a period
     }
+
+    & > figure {
+      display: inline; // Else it's misaligned with top of table
+    }
+
+    .footnotes & {
+      width: 100%; // Helps orient e.g. tables in footnotes
+    }
   }
 }
 
 // Adjust spacing around lists
 p:has(+ ol),
 p:has(+ ul) {
-  margin-bottom: calc(1.5 * $base-margin);
+  margin-bottom: 0;
 }
 
 /* Wrap links properly */
@@ -243,7 +261,7 @@ audio {
 }
 
 // Partially blends audio player with background
-[saved-theme="dark"] audio {
+[data-theme="dark"] audio {
   mix-blend-mode: luminosity;
 }
 
@@ -272,12 +290,14 @@ sup {
 }
 
 // Hide video speed controller
-.vsc-controller:has(+ img + video.no-vsc) {
+.vsc-controller:has(+ img + video.no-vsc),
+.vsc-controller:has(+ video.no-vsc),
+.vsc-controller:has(+ video[autoplay]) {
   display: none;
 }
 
-:root[saved-theme="dark"] video,
-:root[saved-theme="dark"] img {
+:root[data-theme="dark"] video,
+:root[data-theme="dark"] img {
   &.favicon {
     filter: saturate(0%);
   }
@@ -304,8 +324,7 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
 
 figure,
 .subfigure {
-  margin-inline: $base-margin $base-margin;
-  margin-block: $base-margin $base-margin;
+  margin: $base-margin;
   flex: 1 1 0px;
 
   & img {
@@ -314,17 +333,19 @@ figure,
     margin-right: auto;
   }
 
-  & + figure {
+  // IDK why but there can be an empty p between the figure and the next element
+  & + figure,
+  & + p:empty + figure {
     margin-top: calc(3 * $base-margin);
   }
 }
 
-.article-title,
+#article-title,
 .page-listing-title {
   font-variant-numeric: lining-nums;
 }
 
-.article-title {
+#article-title {
   margin: 2rem 0 0;
 
   @media all and (max-width: $full-page-width) {
@@ -336,7 +357,7 @@ figure,
   }
 }
 
-.article-title:has(+ .subtitle),
+#article-title:has(+ .subtitle),
 h1:has(+ .subtitle),
 h2:has(+ .subtitle),
 h3:has(+ .subtitle),
@@ -409,7 +430,10 @@ figcaption,
   user-select: none;
 }
 
-/* Ensure favicons have appropriate properties. */
+.favicon-span {
+  white-space: nowrap;
+}
+
 img.favicon {
   display: inline;
   width: 0.65rem;
@@ -431,13 +455,17 @@ img.favicon {
     vertical-align: 65%;
   }
 
+  &.close-text {
+    margin-left: 0.05rem;
+  }
+
   // These are really dark by default so we make them match var(--foreground)
   &[src$="mail.svg"],
   &[src$="readthesequences_com.avif"] {
     // Computed to match var(--foreground) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(27%);
 
-    :root[saved-theme="dark"] & {
+    :root[data-theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
@@ -449,13 +477,13 @@ img.favicon {
     transform: rotate(-90deg) scaleX(-1) scale(1.2);
     filter: invert(27%);
 
-    :root[saved-theme="dark"] & {
+    :root[data-theme="dark"] & {
       filter: invert(80%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
 
   &[src$="gwern_net.avif"] {
-    :root[saved-theme="light"] & {
+    :root[data-theme="light"] & {
       filter: invert(100%);
       mix-blend-mode: multiply;
     }
@@ -463,18 +491,18 @@ img.favicon {
 
   // Make it less searingly bright on dark mode
   &[src$="wikipedia_org.avif"] {
-    :root[saved-theme="dark"] & {
+    :root[data-theme="dark"] & {
       filter: contrast(75%);
     }
   }
 
   // Very dark by default
   &[src$="github_com.avif"] {
-    :root[saved-theme="light"] & {
+    :root[data-theme="light"] & {
       filter: invert(25%);
     }
 
-    :root[saved-theme="dark"] & {
+    :root[data-theme="dark"] & {
       filter: invert(75%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
@@ -483,14 +511,14 @@ img.favicon {
   &[src$="nips_cc.avif"],
   &[src$="matsprogram_org.avif"],
   &[src$="proceedings_mlr_press.avif"] {
-    :root[saved-theme="dark"] & {
+    :root[data-theme="dark"] & {
       filter: invert(100%) grayscale(100%);
     }
   }
 
   &[src$="arbital_com.avif"],
   &[src$="aaai_org.avif"] {
-    :root[saved-theme="light"] & {
+    :root[data-theme="light"] & {
       filter: brightness(0.3);
     }
   }
@@ -498,19 +526,17 @@ img.favicon {
   // Gray logos made white on dark mode
   &[src$="alignmentforum_org.avif"],
   &[src$="ai-alignment_com.avif"] {
-    :root[saved-theme="dark"] & {
+    :root[data-theme="dark"] & {
       filter: brightness(3); // Make it brighter
     }
   }
 
   &[src$="turntrout-favicons/favicon.ico"] {
-    margin-left: -0.05rem;
-
-    :root[saved-theme="light"] & {
+    :root[data-theme="light"] & {
       filter: contrast(15%);
     }
 
-    :root[saved-theme="dark"] & {
+    :root[data-theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) brightness() contrast(50%);
     }
   }
@@ -567,6 +593,8 @@ svg.fold-icon {
 hr {
   max-width: 97.5%; // Looks weird if it extends all the way to the right
   margin: calc(3 * $base-margin) 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .right {
@@ -588,10 +616,6 @@ hr {
   & #content-meta {
     font-size: var(--text-size-90);
     margin-bottom: 0;
-  }
-
-  & .favicon {
-    display: none; // Too distracting
   }
 }
 
@@ -619,6 +643,7 @@ video {
   width: fit-content;
   max-width: 100%;
   margin-bottom: calc(2 * $base-margin);
+  margin-top: $base-margin;
 
   article > p &,
   article > &,
@@ -630,12 +655,13 @@ video {
   }
 }
 
+[data-theme="light"] img,
+[data-theme="light"] video {
+  mix-blend-mode: multiply;
+}
+
 img {
   margin-top: $base-margin;
-
-  [saved-theme="light"] & {
-    mix-blend-mode: multiply;
-  }
 
   &.inline-img {
     display: inline;
@@ -665,8 +691,8 @@ body.no-mix-blend-mode {
   }
 
   & #search-layout {
-    [saved-theme="light"] & img:not([src$=".svg"]),
-    [saved-theme="light"] & video {
+    [data-theme="light"] & img:not([src$=".svg"]),
+    [data-theme="light"] & video {
       mix-blend-mode: multiply;
     }
   }
@@ -850,12 +876,26 @@ img.emoji {
   }
 }
 
+#mermaid-0,
+#mermaid-1 {
+  font-size: 14px !important;
+}
+
+#mermaid-1 {
+  // Needed to ensure arrowheads are visible
+  fill: var(--midground-faint) !important;
+}
+
 .label span {
   color: var(--foreground) !important;
 }
 
 .flowchart-link {
   stroke: var(--midground-faint) !important;
+}
+
+foreignObject > div {
+  display: block !important; // "table-cell" default is not centered
 }
 
 .edgeLabel > div,
@@ -923,7 +963,7 @@ iframe {
 }
 
 // Specific graph in design doc has too much whitespace in light
-:root[saved-theme="light"] {
+:root[data-theme="light"] {
   .compression-ratio-graph {
     margin-bottom: -0.25rem;
   }
@@ -954,25 +994,21 @@ iframe {
 }
 
 .light-svg {
-  :root[saved-theme="light"] & {
+  :root[data-theme="light"] & {
     filter: invert(35%); // Lighten to match the text color
   }
 
   // Use a lighter color in dark mode
-  :root[saved-theme="dark"] & {
+  :root[data-theme="dark"] & {
     filter: invert(75%);
   }
 }
 
 // These transparent images need a background color to have visible text
 .transparent-image {
-  :root[saved-theme="dark"] & {
+  :root[data-theme="dark"] & {
     background-color: var(--foreground);
   }
-}
-
-.page-title {
-  margin: 0;
 }
 
 .mirix-subscript {

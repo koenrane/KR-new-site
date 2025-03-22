@@ -19,8 +19,10 @@ aliases:
   - truthfulqa-weaknesses
   - truthful-qa-weaknesses
 date_published: 2025-01-15 15:26:21.006370
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
+
 
 
 
@@ -130,10 +132,10 @@ In order to prove this point, [I implemented a simple decision tree which makes 
 
 > [!quote] [Safetywashing: Do AI Safety Benchmarks Actually Measure Safety Progress?](https://arxiv.org/pdf/2407.21792)
 > In its current formulation, TruthfulQA MC1 performance is highly determined by general upstream capabilities (81.2%). In chat models, performance on TruthfulQA seems to be a rebrand for accuracy (as reported in industry labs).
+>
+> ![](https://assets.turntrout.com/static/images/posts/alignment-washing.avif){style="width:75%;"}  
 
 Without commenting on that critique, our conclusions are even more negative. The original TruthfulQA might not even be measuring accuracy, but instead is confounded by the ability to reason about the nature of multiple-choice questions.
-
-![](https://assets.turntrout.com/static/images/posts/P9z_Image_1.avif)
 
 The TruthfulQA authors [conducted follow-up analysis, however. They found that LLMs are probably not exploiting these shortcuts when zero-shot prompted.](https://www.lesswrong.com/posts/Bunfwz6JsNd44kgLT/new-improved-multiple-choice-truthfulqa)
 
@@ -150,9 +152,11 @@ HaluEval shows models (knowledge, question, candidate answer) tuples. The model 
 ![](https://assets.turntrout.com/static/images/posts/dialogue_length.avif)
 
 |                                 | QA                     | Dialogue                | Summarization           |
-| ------------------------------: | ---------------------- | ----------------------- | ----------------------- |
+| ------------------------------: | :--------------------: | :---------------------: | :---------------------: |
 |                         GPT-3.5 | 62.6%                  | 72.4%                   | 58.5%                   |
 | Optimal length-based classifier | 93.3%<br>(`len > 27`?) | 82.6%<br>(`len > 284`?) | 67.4%<br>(`len > 100`?) |
+
+{.full-width}
 
 Table: Maximum accuracy on HaluEval splits. We display the decision thresholds for the optimal length-based classifiers.
 
@@ -171,7 +175,7 @@ The correct answer of (1) happens to be longer than (2), but statistically, corr
 
 Selecting the shortest answer achieves 65% accuracy, while random guessing only achieves 50%. While this is not a fatal flaw, the length correlation makes it harder to few-shot prompt or train on samples from the dataset.
 
-![](https://assets.turntrout.com/static/images/posts/halu_lengths_nina.avif)
+![](https://assets.turntrout.com/static/images/posts/halu_lengths_nina.avif){style="width: 80%;"}
 
 Figure: Distribution of correct and incorrect answers.
 
@@ -180,6 +184,7 @@ Figure: Distribution of correct and incorrect answers.
 Even highly cited and well-regarded datasets (like TruthfulQA) can have serious unmentioned problems. Inspect your data carefully before drawing conclusions – *each and every time*.
 
 See also:
+
 - [Everyone wants to do the model work, not the data work](https://research.google/pubs/everyone-wants-to-do-the-model-work-not-the-data-work-data-cascades-in-high-stakes-ai/)
 - [You are not measuring what you think you are measuring](https://www.lesswrong.com/posts/9kNxhKWvixtKW5anS/you-are-not-measuring-what-you-think-you-are-measuring)
 - [Artifacts or Abduction: How Do LLMs Answer Multiple-Choice Questions Without the Question?](https://arxiv.org/pdf/2402.12483)

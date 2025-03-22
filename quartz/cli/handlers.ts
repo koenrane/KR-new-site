@@ -4,7 +4,7 @@ import type { Element as CheerioElement } from "domhandler"
 import { Mutex } from "async-mutex"
 import chalk from "chalk"
 import { load as cheerioLoad } from "cheerio"
-import chokidar from "chokidar"
+import { watch } from "chokidar"
 import CleanCSS from "clean-css"
 // @ts-expect-error no critical types
 import { generate } from "critical"
@@ -35,7 +35,7 @@ interface BuildArguments {
   port: number
   wsPort: number
 }
-let cachedCriticalCSS: string = ""
+let cachedCriticalCSS = ""
 
 /**
  * Handles `npx quartz build`
@@ -94,7 +94,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
               platform: "browser",
               format: "esm",
             })
-            const rawMod: string = transpiled.outputFiles![0].text
+            const rawMod: string = transpiled.outputFiles[0].text
             return {
               contents: rawMod,
               loader: "text",
@@ -106,7 +106,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
   })
 
   const buildMutex = new Mutex()
-  let lastBuildMs: number = 0
+  let lastBuildMs = 0
   let cleanupBuild: (() => Promise<void>) | null = null
 
   const build = async (clientRefresh: () => void): Promise<void> => {
@@ -129,8 +129,8 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
     release()
 
     if (argv.bundleInfo) {
-      const outputFileName: string = "quartz/.quartz-cache/transpiled-build.mjs"
-      const meta = result.metafile!.outputs[outputFileName]
+      const outputFileName = "quartz/.quartz-cache/transpiled-build.mjs"
+      const meta = result.metafile.outputs[outputFileName]
       console.log(
         `Successfully transpiled ${Object.keys(meta.inputs).length} files (${prettyBytes(
           meta.bytes,
@@ -140,7 +140,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
     }
 
     // Construct the module path dynamically
-    const modulePath: string = `../../${cacheFile}?update=${randomUUID()}`
+    const modulePath = `../../${cacheFile}?update=${randomUUID()}`
 
     // Use the dynamically constructed path in the import statement
     const { default: buildQuartz } = await import(modulePath)
@@ -159,7 +159,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
   }
 
   const connections: WebSocket[] = []
-  const clientRefresh = async (): Promise<void> => {
+  const clientRefresh = (): void => {
     connections.forEach((conn) => conn.send("rebuild"))
   }
 
@@ -208,18 +208,19 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
       })
       console.log(chalk.yellow("[302]") + chalk.grey(` ${argv.baseDir}${req.url} -> ${newFp}`))
       res.end()
+      return true
     }
 
     const filepath: string = req.url?.split("?")[0] ?? "/"
 
     // Handle redirects
     if (filepath.endsWith("/")) {
-      // /trailing/
       // Does /trailing/index.html exist? If so, serve it
       const indexFp: string = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
         req.url = filepath
-        return serve()
+        serve()
+        return
       }
 
       // Does /trailing.html exist? If so, redirect to /trailing
@@ -228,10 +229,9 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        return redirect(filepath.slice(0, -1))
+        if (redirect(filepath.slice(0, -1))) return
       }
     } else {
-      // /regular
       // Does /regular.html exist? If so, serve it
       let base: string = filepath
       if (path.extname(base) === "") {
@@ -239,17 +239,18 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
         req.url = filepath
-        return serve()
+        serve()
+        return
       }
 
       // Does /regular/index.html exist? If so, redirect to /regular/
       const indexFp: string = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        return redirect(`${filepath}/`)
+        if (redirect(`${filepath}/`)) return
       }
     }
 
-    return serve()
+    serve()
   })
 
   server.listen(argv.port)
@@ -262,21 +263,19 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
   )
   console.log("Hint: exit with Ctrl+C")
 
-  chokidar
-    .watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
-      ignoreInitial: true,
-      ignored: [
-        "**/test/**",
-        "**/tests/**",
-        "**/*.test.ts",
-        "**/*.test.tsx",
-        "**/*.spec.ts",
-        "**/*.spec.tsx",
-      ],
-    })
-    .on("all", async () => {
-      await build(clientRefresh)
-    })
+  watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
+    ignoreInitial: true,
+    ignored: [
+      "**/test/**",
+      "**/tests/**",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+    ],
+  }).on("all", async () => {
+    await build(clientRefresh)
+  })
 }
 
 export const loadSettings = {
@@ -309,7 +308,7 @@ export async function injectCriticalCSSIntoHTMLFiles(
       querier("style#critical-css").remove()
 
       // Insert the new critical CSS at the end of the head
-      const styleTag: string = `<style id="critical-css">${cachedCriticalCSS}</style>`
+      const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
       querier("head").append(styleTag)
 
       // Reorder the head elements if needed
@@ -362,7 +361,7 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
     })
 
     // Append essential theme variables
-    const themeCSS: string = `
+    const themeCSS = `
       a {
         color: var(--color-link);
       }

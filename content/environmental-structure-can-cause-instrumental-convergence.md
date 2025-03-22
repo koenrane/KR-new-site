@@ -43,8 +43,12 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/78ceb0300f76784b6d8d043afb15587fb25a50dd52a42e21.png
 description: The structure of environments, not just reward functions, contributes
   to power-seeking in AI agents.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
+
+
+
 
 
 
@@ -56,6 +60,7 @@ date_updated: 2025-01-30 09:30:36.233182
 > Even though this post presents correct and engaging technical explanations, its speculation seems wrong. For example, deceptive alignment is _not_ known to be "prevalent."
 
 > [!info] Key takeaways
+>
 > - The structure of the agent's environment often causes instrumental convergence. **In many situations, there are (potentially combinatorially) many ways for power-seeking to be optimal, and relatively few ways for it not to be optimal.**
 > - [My previous results](/seeking-power-is-often-convergently-instrumental-in-mdps) said something like: in a range of situations, when you're maximally uncertain about the agent's objective, this uncertainty assigns high probability to objectives for which power-seeking is optimal.
 >   - My new results prove that in a range of situations, seeking power is optimal for _most_ agent objectives (for a particularly strong formalization of "most"). More generally, the new results say something like: in a range of situations, for most beliefs you could have about the agent's objective, these beliefs assign high probability to reward functions for which power-seeking is optimal.
@@ -66,7 +71,7 @@ date_updated: 2025-01-30 09:30:36.233182
 >
 > - Before, I thought of environmental symmetries as convenient sufficient conditions for instrumental convergence. But I increasingly suspect that symmetries are the main part of the story.
 > - I think these results may be important for understanding the AI alignment problem and formally motivating its difficulty.
->   - For example, my results imply that**simplicity priors over reward functions assign non-negligible probability to reward functions for which power-seeking is optimal.**
+>   - For example, my results imply that **simplicity priors over reward functions assign non-negligible probability to reward functions for which power-seeking is optimal.**
 >   - I expect my symmetry arguments to help explain other "convergent" phenomena, including:
 >     - [convergent evolution](https://en.wikipedia.org/wiki/Convergent_evolution)
 >     - the prevalence of [deceptive alignment](https://www.lesswrong.com/posts/zthDPAjh9w6Ytbeks/deceptive-alignment)
@@ -108,7 +113,7 @@ My new results say something analogous to: for _every_ coordinate, either it con
 > Orbits under symmetric groups quantify all ways of "changing things around" for that object.
 
 ![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif)
-<br/>Figure: My new theorems demand that at least one of these tiles conceal a mine.
+<br/>Figure: My new theorems demand that (in the analogy) at least one of these tiles conceal a mine.
 
 ![](https://assets.turntrout.com/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.avif)
 <br/>Figure: If the mines had been on the right, then both coordinates are safe.
@@ -145,11 +150,13 @@ The orbit of $R$ is $\{R, \phi\cdot R\}$. It's optimal for the former to stay at
 
 In this three-state MDP, let $R_C$ assign 1 reward to $C$ and 0 to all other states, and let $\phi:= (A\; B\; C)$ rotate through the states ($A$ goes to $B$, $B$ goes to $C$, $C$ goes to $A$). Then the orbit of $R_C$ is:
 
-|   | $C$ | $A$ | $B$ |
-| --- | --- | --- | --- |
-| $R_C$ | $1$ | $0$ | $0$ |
-| $\phi \cdot R_C$ | $0$ | $1$ | $0$ |
+|             State: | $C$ | $A$ | $B$ |
+| -----------------: | :-: | :-: | :-: |
+|              $R_C$ | $1$ | $0$ | $0$ |
+|   $\phi \cdot R_C$ | $0$ | $1$ | $0$ |
 | $\phi^2 \cdot R_C$ | $0$ | $0$ | $1$ |
+
+{.no-min-width}
 
 Table: Different reward functions and the rewards they assign to states.
 
@@ -217,7 +224,7 @@ Figure: Consider a robot  (<span style="color:blue">■</span>) navigating throu
   
 [^suggest]: "Suggest" instead of "prove" because E.49's preconditions may not always be met, depending on the details of the dynamics. I think this is probably unimportant, but that's for future work. Also, the argument may barely not apply to _this_ gridworld, but if you could move the vase around without destroying it, I think it goes through fine.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="margin-bottom: .5rem" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
 
 Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can irreversibly destroy green cell patterns. By the logic of "every `destroy-green-pattern` reward function can be permuted into a `preserve-green-pattern` reward function", Lemma E.49 suggests that optimal policies tend to not disturb any given green cell pattern (although most probably destroy _some_ pattern). The permutation would swap {states reachable after destroying the pattern} with {states reachable after not destroying the pattern}. <br/><br/>However, the converse is not true: you cannot fix a permutation which turns all `preserve-green-pattern` reward functions into `destroy-green-pattern` reward functions. There are simply too many extra ways for preserving green cells to be optimal.  <br/><br/>Assuming some conjectures I have about the combinatorial properties of power-seeking, this helps explain why [AUP works in SafeLife using a single auxiliary reward function](/avoiding-side-effects-in-complex-environments) - but more on that in another post.
 
@@ -262,7 +269,7 @@ One possible hope would have been:
 Unfortunately, there are always power-seeking reward functions not much more complex than their non-power-seeking counterparts. Here, "power-seeking" corresponds to the intuitive notions of either keeping strictly more options open (Proposition 6.9), or navigating towards larger sets of terminal states (theorem 6.13). (Since this applies to several results, I'll leave the meaning a bit ambiguous, with the understanding that it could be formalized if necessary.)
 
 > [!note] Theorem: Simplicity priors assign non-negligible probability to power-seeking
->  Consider any MDP which meets the preconditions of Proposition 6.9 or theorem 6.13. Let $U$ be a universal Turing machine, and let $P_U$ be the $U$\-simplicity prior over computable reward functions.
+> Consider any MDP which meets the preconditions of Proposition 6.9 or theorem 6.13. Let $U$ be a universal Turing machine, and let $P_U$ be the $U$\-simplicity prior over computable reward functions.
 >
 > Let `NPS` be the set of non-power-seeking computable reward functions which choose a fixed non-power-seeking action in the given situation. Let $\text{PS}$ be the set of computable reward functions for which seeking power is strictly optimal.[^1]
 >

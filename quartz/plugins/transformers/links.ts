@@ -51,6 +51,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
               allSlugs: ctx.allSlugs,
             }
 
+            // skipcq: JS-R1005
             visit(tree, "element", (node) => {
               // rewrite all links
               if (
@@ -68,7 +69,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
 
                 // If the link is external and not a mailto link, make sure it starts with http
                 if (isExternal && !dest.startsWith("http") && !dest.startsWith("mailto:")) {
-                  dest = ("https://" + String(dest)) as RelativeURL
+                  dest = `https://${String(dest)}` as RelativeURL
                   node.properties.href = String(dest)
                 }
                 if (isExternal && opts.externalLinkIcon) {
@@ -122,7 +123,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
 
                   // url.resolve is considered legacy
                   // WHATWG equivalent https://nodejs.dev/en/api/v18/url/#urlresolvefrom-to
-                  const url = new URL(dest, "https://base.com/" + stripSlashes(curSlug, true))
+                  const url = new URL(dest, `https://base.com/${stripSlashes(curSlug, true)}`)
                   const canonicalDest = url.pathname
                   let destCanonical = splitAnchor(canonicalDest)[0]
                   if (destCanonical.endsWith("/")) {

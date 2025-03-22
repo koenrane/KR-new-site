@@ -45,8 +45,10 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/dc4zupnie9hr2hm7tfnx.png
 description: A dive into the surprising behavior of a maze-solving AI agent and how
   its goals can be manipulated.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
+
 
 
 
@@ -70,9 +72,9 @@ We algebraically modified the net's runtime goals without finetuning. We also fo
 > 2. Considering several channels halfway through the network, we hypothesized that their activations mainly depend on the location of the cheese.
 >    - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network's behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
 >    - This suggests that these channels are inputs to goal-oriented circuits, and these channels affect those circuits basically by passing messages about where the cheese is.
-> 3. Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also \_as a function of \_Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
+> 3. Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also_ as a function of _Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
 > 4. Another simple idea: We define a "cheese vector" as the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze. For each maze, we generate a single cheese vector and subtract that vector from all forward passes in that maze. The agent now ignores cheese most of the time, instead heading towards the top-right region (the historical location of cheese). Furthermore, a given maze's cheese vector transfers across mazes to other mazes with cheese in the same location.
->    - We propose the _algebraic value-editing conjecture_(AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
+>    - We propose the _algebraic value-editing conjecture_ (AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
 
 # Introducing the training process and visualizations
 
@@ -217,15 +219,20 @@ By regressing on these four factors, the model achieved a prediction accuracy of
 
 Here are the regression coefficients for predicting +1 (agent gets cheese) or 0 (agent doesn't get cheese). For example, -0.623 corresponds to 0.623 fewer logits on predicting that the agent gets cheese.
 
-**Decision square's Euclidean distance to cheese, negative** (-0.623). The greater the _visual distance_ between the cheese and the decision square, the less likely the agent is to go to the cheese.
+Decision square's Euclidean distance to cheese, negative (-0.623)
+: _The greater the _visual distance_ between the cheese and the decision square, the less likely the agent is to go to the cheese._
+
 : As we privately speculated, this effect shows up _after_ accounting for the path distance (factor 2) between the decision square and the cheese.
 : This is not behavior predicted by "classic" RL training reasoning, which focuses on policies being optimized strictly as a function of sum discounted reward over time (and thus, in the sparse reward regime, in terms of path distance to the cheese).
 : We did predict this using shard theory reasoning. The one behavioral experiment which Alex proposed before the project was to investigate whether this factor exists, after controlling for path distance.
 
-**Decision square's path distance to cheese, negative** (-1.084). The farther the agent has to walk to the cheese, the less likely it is to do so.
+Decision square's path distance to cheese, negative (-1.084)
+: _The farther the agent has to walk to the cheese, the less likely it is to do so._
 : This seemed like the obvious effect to predict to us, and its regression coefficient was indeed larger than the coefficient for Euclidean distance (-0.623).
 
-**Cheese's Euclidean distance to top-right free square, negative (**-2.786). The closer the cheese is to the top-right, the more likely the agent is to go for the cheese.
+Cheese's Euclidean distance to top-right free square, negative (-2.786)
+: _The closer the cheese is to the top-right, the more likely the agent is to go for the cheese._
+
 : This is **the strongest factor.** After piling up evidence from a range of mechanistic and behavioral sources, we're comfortable concluding that _cheese affects decision-making more when it's closer to the top-right_. See this footnote[^4] for an example maze illustrating the power of this factor.
 : In the language of shard theory, the cheese-shard is more strongly activated when cheese is closer to the top-right.
 : Notably, this factor isn't trivially influential—we're only considering mazes with decision squares, so the cheese isn't on the way to the top-right corner! Furthermore, as with all factors, this factor matters when controlling for the others.
@@ -262,9 +269,9 @@ To understand the network, we tried various hand-designed model edits. These edi
 <figcaption>(c) Steered minus original</figcaption>
 </div>
 </div>
-<figcaption>**Left:** The net probability vectors induced by the unmodified forward passes.  
-<br/>**Middle:** For any steering modification we make to forward passes, we plot the new probability vectors induced by the modified forward passes.  <br/>
-**Right:** The “vector field diff”, computed as (steered minus original) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.</figcaption>
+<figcaption><b>Left:</b> The net probability vectors induced by the unmodified forward passes.  
+<br/><b>Middle:</b> For any steering modification we make to forward passes, we plot the new probability vectors induced by the modified forward passes.  <br/>
+<b>Right:</b> The “vector field diff”, computed as (steered minus original) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.</figcaption>
 </figure>
 
 On [Team Shard](matsprogram.org/mentors), we run fast experiments ASAP, looking for the fastest way to get interesting information. Who cares about a lit review or some fancy theory, when you can try something interesting immediately?
@@ -430,7 +437,8 @@ Possibly this is mostly a neat trick which sometimes works in settings where the
 
 If we may dream for a moment, there's also the chance of...
 
-**The algebraic value-editing conjecture (AVEC).** It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector', and then add the niceness vector to future forward passes."
+> [!idea] The algebraic value-editing conjecture (AVEC)
+> It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector', and then add the niceness vector to future forward passes."
 
 Alex is ambivalent about strong versions of AVEC being true. Early on in the project, he booked the following credences (with italicized updates from present information):
 
@@ -454,7 +462,7 @@ And even if (3) is true, AVE working _well_ or _deeply_ or _reliably_ is another
 The cheese vector was easy to find. We immediately tried the _dumbest, easiest_ first approach. We didn't even train the network ourselves, we just used one of Langosco et al.'s nets (the first and only net we looked at). If this is the amount of work it took to (mostly) stamp out cheese-seeking, then perhaps a simple approach can stamp out e.g. deception in sophisticated models.
 
 > [!success] Looking back from 2024, AVEC seems true
-> For example, see [Steering GPT-2 by Adding an activation vector](/steering-gpt-2-xl-by-adding-an-activation-vector.md) and [Steering Llama-2 with contrastive activation addition](/steering-llama-2-with-contrastive-activation-additions.md). My work (and concurrent work by [Li et al.](https://arxiv.org/abs/2306.03341)) grew into a small research field of its own (including e.g. later work in [Representation Engineering](https://arxiv.org/abs/2310.01405)).
+> For example, see [Steering GPT-2 by Adding an activation vector](/gpt2-steering-vectors) and [Steering Llama-2 with contrastive activation addition](/steering-llama-2-with-contrastive-activation-additions.md). My work (and concurrent work by [Li et al.](https://arxiv.org/abs/2306.03341)) grew into a small research field of its own (including e.g. later work in [Representation Engineering](https://arxiv.org/abs/2310.01405)).
 >
 > I consider AVEC to be my most successful prediction ever. Using minimal evidence, I located and stood by the AVEC hypothesis, even though many of my colleagues were incredulous. _Once I saw a few trajectories of the "cheese vector" working, I instantly realized the implications for large language models and assigned that 60% probability._
 
@@ -650,12 +658,12 @@ Let's stress-test this claim a bit. There are 128 residual channels at this part
 
 Unlike for our 11 hypothesized "cheese channels", the "non-cheese" channels seem about equally affected by random resamplings, regardless of where the cheese is.
 
-<figcaption><a src="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Average change in action probabilities</a> across 30 seeds</figcaption>
-
 |                          | Same cheese location | Different cheese location |
-| -----------------------: | -------------------- | ------------------------- |
+| -----------------------: | :------------------: | :-----------------------: |
 |     11 "cheese" channels | 0.88%                | 1.26%                     |
 | 11 "non-cheese" channels | 0.60%                | 0.54%                     |
+
+Table: [Average change in action probabilities](https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures) across 30 seeds.
 
 Alex thinks these quantitative results were a bit weaker than he'd expect if our diagrammed hypothesis were true. The "same cheese location" numbers come out _higher_ for our cheese channels (supposedly only computed as a function of cheese location) than for the non-cheese channels (which we aren't making any claims about).
 
@@ -728,7 +736,7 @@ Understanding, predicting, and controlling goal formation seems like a core chal
     2. $P(\texttt{left})=P(\texttt{right})>0$, or
     3. $P(\texttt{up})=P(\texttt{down})>0$.
 
-    Thus, there are two degrees of freedom by which we can convert between action probability distributions and yet maintain a fixed net probability vector. This is because net probability vector fields project a probability distribution on 5 actions (4 DOF) onto a single vector (2 DOF: angle and length), and so 4-2=2 DOF remain.
+    Thus, there are two degrees of freedom by which we can convert between action probability distributions and yet maintain a fixed net probability vector. This is because net probability vector fields project a probability distribution on 5 actions (4 DOF) onto a single vector (2 DOF: angle and length), and so 4 - 2 = 2 DOF remain.
 
 [^3]:
     Peli consulted with a statistician on what kind of regression to run. Ultimately, the factors we used are not logically independent of each other, but our impression after consultation was that this analysis would tell us _something_ meaningful.
@@ -769,16 +777,16 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 [^7]:
     Yes, this is cursed. But it's not our fault. Langosco et al. used the same architecture for all tasks, from CoinRun to maze-solving. Thus, even though there are only five actions in the maze ($\leftarrow,\rightarrow,\uparrow,\downarrow,\texttt{no-op}$):
 
-    - `left` and `right` are each mapped into by 3 network outputs,
-    - $\texttt{up}$ and `down` by 1 each, and
-    - $\texttt{no-op}$ is mapped into by the remaining 7 outputs.
+- `left` and `right` are each mapped into by 3 network outputs,
+- $\texttt{up}$ and `down` by 1 each, and
+- $\texttt{no-op}$ is mapped into by the remaining 7 outputs.
 
     This totals to a 15-element logit distribution. To get the action probabilities for the vector fields, we marginalize over the outputs for each action.
 
 [^8]: A given `embedder.block2.res1.resadd_out` channel activation doesn't neatly correspond to any single grid square. This is because grids are 25x25, while the residual channels are 16x16 due to the maxpools.
 [^9]:
     For example, we hypothesize channel 55 to be a "cheese channel." We randomly selected channel 52 and computed resampling statistics. We found that channel 52 seems across-the-board less influential, even under totally random resampling (i.e. different cheese location):
-    <br/><br/><div class="table-container"><table><thead><tr><th style="text-align:right;"></th><th>Same cheese location</th><th>Different cheese location</th></tr></thead><tbody><tr><td style="text-align:right;">Channel 55</td><td>0.18%</td><td>0.31%</td></tr><tr><td style="text-align:right;">Channel 52</td><td>0.06%</td><td>0.06%</td></tr></tbody></table></div>
+    <br/><div class="table-container"><table><thead><tr><th style="text-align:right;"></th><th>Same cheese location</th><th>Different cheese location</th></tr></thead><tbody><tr><td style="text-align:right;">Channel 55</td><td>0.18%</td><td>0.31%</td></tr><tr><td style="text-align:right;">Channel 52</td><td>0.06%</td><td>0.06%</td></tr></tbody></table></div>
 
 [^10]:
     By the time you hit the residual addition layer in question (`block2.res1.resadd_out`), cheese pixels on the top-left corner of the screen can only affect $5\times 5=25$ out of the $16\times 16=256$ residual activations at that layer and channel.

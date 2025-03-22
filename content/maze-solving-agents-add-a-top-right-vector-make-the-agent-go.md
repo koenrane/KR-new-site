@@ -42,8 +42,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/lteqnk5fbayr0jixir5z.png
 description: Adding a "top-right vector" makes a maze-solver go to the top-right.
   We show composition with other vectors, like the "cheese vector."
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -78,6 +79,7 @@ This post is straightforward as long as you remember a few concepts:
 - Vector fields, vector field diffs, and modifying a forward pass. AKA you know what this figure represents:
 
 ![](https://assets.turntrout.com/static/images/posts/tly1j6ydizgjnjjcocke.avif)
+
 - How to derive activation-space vectors (like the "cheese vector") by diffing two forward passes, and add / subtract these vectors from future forward passes
   - AKA you can understand the following: "We took the cheese vector from maze 7. ~Halfway through the forward passes, we subtract it with coefficient 5, and the agent avoided the cheese."
 
@@ -321,7 +323,9 @@ I have now shared with you the evidence I had available when I [wrote](/understa
 **I encourage you to answer the following prediction questions with your credences.** The shard theory model internals team has done a preliminary investigation of value-editing in GPT-2. We will soon share our initial positive and/or negative results. (Please don't read into this, and just answer from your models and understanding.)
 
 1. Algebraic value editing works (for at least one "X vector") in LMs: \_\_\_ %
-  - (our qualitative judgment resolves this question)
+
+- (our qualitative judgment resolves this question)
+
 2. Algebraic value editing works better for larger models, all else equal \_\_\_ %
     - (our qualitative judgment resolves this question)
 3. If value edits work well, they are also composable \_\_\_ %

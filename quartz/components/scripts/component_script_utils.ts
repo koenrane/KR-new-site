@@ -105,7 +105,7 @@ export function registerEscapeHandler(
   outsideContainer: HTMLElement | null,
   cb: () => void,
 ): () => void {
-  if (!outsideContainer) return () => {}
+  if (!outsideContainer) return () => undefined
 
   // Handle clicks outside the container
   function click(e: MouseEvent) {
@@ -163,7 +163,7 @@ export const withoutTransition = (action: () => void) => {
   if (typeof window.getComputedStyle !== "undefined") {
     disableTransitions()
     action()
-    void window.getComputedStyle(style).opacity // Force reflow
+    Object.assign({}, window.getComputedStyle(style)) // Force reflow
     enableTransitions()
     return
   }
@@ -215,7 +215,7 @@ export function animate(
   if (duration <= 0) {
     onFrame(1)
     onComplete?.()
-    return () => {}
+    return () => undefined
   }
 
   let start: number | null = null

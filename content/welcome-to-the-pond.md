@@ -13,7 +13,7 @@ tags:
   - website
   - personal
 date_published: 2024-10-30 18:09:31.133945
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-10 20:10:43.614104
 ---
 
 
@@ -22,9 +22,7 @@ date_updated: 2025-01-30 09:30:36.233182
 
 
 
-
-
-For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [2,220 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
+For months, I have built a new home for my online content: [`www.turntrout.com`](/). I brooked no compromises. Over [2,220 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
 
 [^commits]: I counted my commits by running
 
@@ -60,6 +58,7 @@ I hope this site encourages me to write more. I miss writing and sharing. I miss
 # What you can find in _The Pond_
 
 I've imported and remastered all 120 of my LessWrong posts. _Every single post_, retouched and detailed. I both [pin down my favorite posts](/posts#my-favorite-posts) and [group the posts into sequences](/posts#sequences). I've also launched the site with three extra posts!
+
 1. [The design of this website](/design)
 2. [Can transformers act on information beyond an effective layer horizon?](/effective-layer-horizon)
 3. [Intrinsic power-seeking: AI might seek power for power's sake](/dangers-of-intrinsic-power-seeking)
@@ -108,6 +107,7 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 > [!money] $50 bounty for analogies without mechanistic support
 >
 > Criteria:
+>
 > 1. The analogy was made since July 7, 2022. That's when I posted [Human values & biases are inaccessible to the genome](https://turntrout.com/human-values-and-biases-are-inaccessible-to-the-genome).
 > 2. The analogy is in a post on `turntrout.com`.
 > 3. The analogy is not supported by mechanistic justification because no such justification exists.

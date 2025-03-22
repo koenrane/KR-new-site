@@ -946,10 +946,7 @@ def test_check_card_image(
     """
     with patch("requests.head") as mock_head:
         if mock_response is not None:
-            if not mock_response.ok:
-                mock_head.return_value = mock_response
-            else:
-                mock_head.return_value = mock_response
+            mock_head.return_value = mock_response
 
         errors = check_card_image(metadata)
         assert errors == expected_errors
@@ -968,3 +965,149 @@ def test_check_card_image_request_exception() -> None:
         assert errors == [
             "Failed to load card image URL 'https://example.com/image.jpg': Connection error"
         ]
+
+
+@pytest.mark.parametrize(
+    "content,expected_errors",
+    [
+        # Test case 1: No tables
+        ("No tables here", []),
+        # Test case 2: Table with proper alignments
+        (
+            """
+| Header 1 | Header 2 |
+|:---------|:--------:|
+| Cell 1   | Cell 2   |
+""",
+            [],
+        ),
+        # Test case 3: Table with missing alignments
+        (
+            """
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+""",
+            [
+                "Table column at line 3 missing alignment (should be :---, ---:, or :---:)"
+            ],
+        ),
+        # Test case 4: Multiple tables with mixed alignments
+        (
+            """
+| Header 1 | Header 2 |
+|:---------|:--------:|
+| Cell 1   | Cell 2   |
+
+| Header 3 | Header 4 |
+|----------|---------:| 
+| Cell 3   | Cell 4   |
+""",
+            [
+                "Table column at line 7 missing alignment (should be :---, ---:, or :---:)"
+            ],
+        ),
+        # Test case 5: Table with partial alignments
+        (
+            """
+| Header 1 | Header 2 | Header 3  |
+|--------: |----------|----------:|
+| Cell 1   | Cell 2   | Cell 3    |
+""",
+            [
+                "Table column at line 3 missing alignment (should be :---, ---:, or :---:)"
+            ],
+        ),
+        # Test case 6: Table with all alignment types
+        (
+            """
+| Left | Center | Right |
+|:-----|:------:|------:|
+| 1    | 2      | 3     |
+""",
+            [],
+        ),
+        # Test case 7: Table with extra spaces
+        (
+            """
+| Header 1 | Header 2 |
+|   ----   |   ----   |
+| Cell 1   | Cell 2   |
+""",
+            [
+                "Table column at line 3 missing alignment (should be :---, ---:, or :---:)"
+            ],
+        ),
+        # Test case 8: Table with minimum dashes
+        (
+            """
+| H1 | H2 |
+|:--|:--:|
+| 1  | 2  |
+""",
+            [],
+        ),
+        # Test case 9: Single-width column
+        (
+            """
+| Header 1 | Header 2 |
+|-|-|
+| Cell 1   | Cell 2   |
+""",
+            [
+                "Table column at line 3 missing alignment (should be :---, ---:, or :---:)"
+            ],
+        ),
+    ],
+)
+def test_check_table_alignments(
+    tmp_path: Path, content: str, expected_errors: List[str]
+) -> None:
+    """
+    Test checking markdown table alignments.
+
+    Args:
+        tmp_path: Pytest fixture providing temporary directory
+        content: Test content containing tables
+        expected_errors: List of expected error messages
+    """
+    test_file = tmp_path / "test.md"
+    test_file.write_text(content)
+
+    errors = check_table_alignments(test_file)
+    assert errors == expected_errors
+
+
+def test_check_table_alignments_integration(
+    tmp_path: Path, monkeypatch
+) -> None:
+    """
+    Integration test for table alignment checking within the main workflow.
+    """
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+    git.Repo.init(tmp_path)
+
+    # Create test file with invalid table
+    test_file = content_dir / "test.md"
+    content = """---
+title: Test Post
+description: Test Description
+permalink: /test
+---
+# Table Test
+
+| Column 1 | Column 2 |
+|----------|----------|
+| Data 1   | Data 2   |
+"""
+    test_file.write_text(content)
+
+    # Mock git root
+    monkeypatch.setattr(
+        script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
+    )
+
+    # Should exit with code 1 due to missing table alignments
+    with pytest.raises(SystemExit, match="1"):
+        main()

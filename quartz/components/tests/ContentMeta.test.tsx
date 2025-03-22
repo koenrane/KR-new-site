@@ -2,15 +2,13 @@
  * @jest-environment jsdom
  */
 import { jest } from "@jest/globals"
-import { describe, it, expect, beforeEach } from "@jest/globals"
+import { describe, it, expect } from "@jest/globals"
 import React from "react"
 import ReactDOM from "react-dom/client"
 
 import type { QuartzComponentProps } from "../types"
 
 import { type GlobalConfiguration } from "../../cfg"
-import { getQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
-
 import "@testing-library/jest-dom"
 
 import { type QuartzPluginData } from "../../plugins/vfile"
@@ -18,8 +16,6 @@ import { type FilePath } from "../../util/path"
 import {
   ContentMetadata,
   RenderPublicationInfo,
-  getFaviconPath,
-  insertFavicon,
   processReadingTime,
   renderLastUpdated,
   renderReadingTime,
@@ -60,110 +56,6 @@ const createFileData = (
     filePath: overrides?.filePath || "test.md",
     relativePath: overrides?.relativePath || "test.md",
   }) as QuartzPluginData
-
-describe("getFaviconPath", () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-    urlCache.clear()
-  })
-
-  it("should return null when no cached path exists", () => {
-    const testUrl = new URL("https://example.com")
-
-    const result = getFaviconPath(testUrl)
-    expect(result).toBeNull()
-  })
-
-  it("should convert png to avif when cached path exists", () => {
-    const testUrl = new URL("https://example.com")
-    const quartzPath = getQuartzPath("example.com")
-    const cachedPath = "path/to/favicon.png"
-    urlCache.set(quartzPath, cachedPath)
-
-    const result = getFaviconPath(testUrl)
-    expect(result).toBe("path/to/favicon.avif")
-  })
-
-  it("should handle non-png extensions", () => {
-    const testUrl = new URL("https://example.com")
-    const quartzPath = getQuartzPath("example.com")
-    const cachedPath = "path/to/favicon.jpg"
-    urlCache.set(quartzPath, cachedPath)
-
-    const result = getFaviconPath(testUrl)
-    expect(result).toBe("path/to/favicon.jpg")
-  })
-
-  it("should handle empty hostname", () => {
-    const testUrl = new URL("https://example.com")
-
-    const result = getFaviconPath(testUrl)
-    expect(result).toBeNull()
-  })
-})
-
-describe("insertFavicon", () => {
-  const imgPath = "/path/to/favicon.avif"
-  const targetFavicon = {
-    src: imgPath,
-    className: "favicon",
-    alt: "",
-  }
-
-  it.each([
-    ["short text", "Hi"],
-    ["empty text", ""],
-    ["three chars", "ABC"],
-  ])("should append favicon to %s", (_, text) => {
-    const node = <span>{text}</span>
-    const result = insertFavicon(imgPath, node)
-
-    // Only test the type and essential props
-    expect(typeof result.type).toBe("function")
-    const [resultNode, favicon] = result.props.children
-
-    expect(resultNode.type).toBe("span")
-    expect(resultNode.props.children).toBe(text)
-
-    expect(favicon.type).toBe("img")
-    expect(favicon.props).toEqual(targetFavicon)
-  })
-
-  it("should wrap last 4 chars with favicon for longer text", () => {
-    const node = <span>Hello World</span>
-    const result = insertFavicon(imgPath, node)
-
-    const [prefix, wrappedContent] = result.props.children
-    expect(prefix).toBe("Hello W")
-
-    expect(wrappedContent.type).toBe("span")
-    expect(wrappedContent.props.style).toEqual({ whiteSpace: "nowrap" })
-
-    const [text, favicon] = wrappedContent.props.children
-    expect(text).toBe("orld")
-    expect(favicon.props).toEqual(targetFavicon)
-  })
-
-  it("should return original node when imgPath is null", () => {
-    const node = <span>Test</span>
-    const result = insertFavicon(null, node)
-    expect(result).toBe(node)
-  })
-
-  it("should handle non-string children", () => {
-    const nestedDiv = <div>nested</div>
-    const node = <span>{nestedDiv}</span>
-    const result = insertFavicon(imgPath, node)
-
-    expect(typeof result.type).toBe("function")
-    const [resultNode, favicon] = result.props.children
-
-    expect(resultNode.type).toBe("span")
-    expect(resultNode.props.children).toEqual(nestedDiv)
-
-    expect(favicon.props).toEqual(targetFavicon)
-  })
-})
 
 // Smoke test for RenderPublicationInfo
 it("renders without crashing", () => {

@@ -26,7 +26,6 @@ tags:
   - AI
   - instrumental-convergence
 aliases:
-  - seeking-power-is-often-convergently-instrumental-in-mdps
 lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/wrl3ovxbyttoztdxwmjb
 lw-sequence-image-banner: sequences/gv2nqrg0pb0srtodlgbg
@@ -43,8 +42,10 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/xveuJm2.png
 description: A mathematical exploration of why goal-directed AI, regardless of its
   programmed goal, might be driven to seek power.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
+
 
 
 
@@ -58,15 +59,15 @@ Power-seeking behavior has been heuristically understood as an anticipated risk,
 
 # Motivation
 
-It’s 2008, the ancient wild west of AI alignment. A few people have started thinking about questions like “if we gave an AI a utility function over world states, and it actually maximized that utility... what would it do?"
+It’s 2008, the ancient wild west of AI alignment. A few people have started thinking about questions like “if we gave an AI a utility function over world states, and it actually maximized that utility... what would it do?".
 
 In particular, you might notice that wildly different utility functions seem to encourage similar strategies.
 
-|   |**Resist** **shutdown?**|**Gain** **computational resources?**|**Prevent modification** **of utility function?**|
-| --: | --- | --- | --- |
-|**Paperclip** **utility**|✓|✓|✓|
-|**Blue webcam** **pixel utility**|✓|✓|✓|
-|**People-look-happy** **utility**|✓|✓|✓|
+|                                   | Resist shutdown? | Gain computational resources? | Prevent modification of utility function? |
+| --------------------------------: | :----------------------: | :-----------------------------------: | :-----------------------------------------------: |
+|         Paperclip utility | ✓                        | ✓                                     | ✓                                                 |
+| Blue webcam pixel utility | ✓                        | ✓                                     | ✓                                                 |
+| People-look-happy utility | ✓                        | ✓                                     | ✓                                                 |
 
 These strategies are unrelated to _terminal_ preferences: the above utility functions do not award utility to e.g. resource gain in and of itself. Instead, these strategies are _instrumental_: they help the agent optimize its terminal utility. In particular, a wide range of utility functions incentivize these instrumental strategies. These strategies seem to be _convergently instrumental_.
 
@@ -158,7 +159,11 @@ Written as a function, we have POWER$_{\mathcal{D}}$(state, discount rate), whic
 
 ## POWER-seeking actions lead to high-POWER states
 
-By _waiting_, the agent seems to seek “control over the future” compared to _obtaining candy_. At **wait**, the agent still has a choice, while at **candy**, the agent is stuck. We can prove that for all $0 \leq \gamma \leq 1, \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{wait}, \gamma)\geq \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{candy}, \gamma)$.
+By _waiting_, the agent seems to seek “control over the future” compared to _obtaining candy_. At **wait**, the agent still has a choice, while at **candy**, the agent is stuck. We can prove that for all $0 \leq \gamma \leq 1$,
+
+$$
+\text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{wait}, \gamma)\geq \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{candy}, \gamma).
+$$  
 
 > [!math] Definition: POWER-seeking
 > At state $s$ and discount rate $\gamma$, we say that action $a$ _seeks POWER compared to action_ $a’$ when the expected POWER after choosing $a$ is greater than the expected POWER after choosing $a’$.
@@ -341,8 +346,8 @@ In real-world settings, it seems unlikely _a priori_ that the agent’s optimal 
 AI alignment research often feels slippery. We're trying hard to become less confused about basic questions, like:
 
 - [What](https://www.lesswrong.com/s/Rm6oQRJJmhGCcLvxh) are "[agents](https://www.lesswrong.com/posts/26eupx3Byc8swRS7f/bottle-caps-aren-t-optimisers)"?
-- [Do people even have "values"](https://www.lesswrong.com/posts/GermiEmcS6xuZ2gBh/what-ai-safety-researchers-have-written-about-the-nature-of), and[should we try to get the AI to learn them?](https://www.lesswrong.com/posts/oH8KMnXHnw964QyS6/preface-to-the-sequence-on-value-learning) [](https://www.lesswrong.com/posts/BKM8uQS6QdJPZLqCr/towards-a-mechanistic-understanding-of-corrigibility)
-- [What does it mean](https://www.lesswrong.com/posts/BKM8uQS6QdJPZLqCr/towards-a-mechanistic-understanding-of-corrigibility) to be "[corrigible](https://arbital.com/p/corrigibility/)", or "[deceptive](https://www.lesswrong.com/posts/zthDPAjh9w6Ytbeks/deceptive-alignment)"? [](https://www.lesswrong.com/posts/X2i9dQQK3gETCyqh2/chris-olah-s-views-on-agi-safety)
+- [Do people even have "values"](https://www.lesswrong.com/posts/GermiEmcS6xuZ2gBh/what-ai-safety-researchers-have-written-about-the-nature-of), and [should we try to get the AI to learn them?](https://www.lesswrong.com/posts/oH8KMnXHnw964QyS6/preface-to-the-sequence-on-value-learning)
+- [What does it mean](https://www.lesswrong.com/posts/BKM8uQS6QdJPZLqCr/towards-a-mechanistic-understanding-of-corrigibility) to be "[corrigible](https://arbital.com/p/corrigibility/)", or "[deceptive](https://www.lesswrong.com/posts/zthDPAjh9w6Ytbeks/deceptive-alignment)"?
 - [What are our machine learning models even doing](https://www.lesswrong.com/posts/X2i9dQQK3gETCyqh2/chris-olah-s-views-on-agi-safety)?
 
 We have to do philosophical work while in a state of significant confusion and ignorance about the nature of intelligence and alignment.
@@ -368,7 +373,7 @@ There’s a lot of work I think would be exciting, most of which I suspect will 
 - These results assume you can see all of the world at once.
 - These results assume the environment is finite.
 - These results don’t say anything about non-IID reward.
-- These results don’t _prove_that POWER-seeking is [bad for other agents in the environment](/the-catastrophic-convergence-conjecture).
+- These results don’t _prove_ that POWER-seeking is [bad for other agents in the environment](/the-catastrophic-convergence-conjecture).
 - These results don’t prove that POWER-seeking is hard to disincentivize.
 - Learned policies are rarely optimal.
 

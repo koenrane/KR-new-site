@@ -17,8 +17,9 @@ aliases:
   - mnist-partition-demo
 lw-linkpost-url: https://jacobgw.com/blog/ml/2024/12/12/interp-latent.html
 date_published: 2024-12-16 17:42:14.364997
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-05 20:43:54.692493
 ---
+
 
 
 
@@ -32,6 +33,7 @@ I created an MNIST autoencoder with a 10-dimensional latent space, with each dim
 In the demo, you can both see how a random MNIST image encodes but also directly play around with the encoding itself and create different types of digits by just moving the sliders.
 
 The reconstruction is not that good, and I assume this is due to some combination of:
+
 1. Using the simplest possible architecture of MLP layers and ReLU;
 2. Only allowing a 10-dimensional latent space which could constrain the representation a lot;
 3. Not doing data augmentation, so it might not generalize that well; and

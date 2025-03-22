@@ -1,4 +1,4 @@
-import { debounce, animate } from "./component_script_utils"
+import { animate } from "./component_script_utils"
 import {
   createPopover,
   setPopoverPosition,
@@ -11,16 +11,10 @@ import {
  * Handles the mouse enter event for link elements
  * @returns A cleanup function to remove event listeners and timeout
  */
-async function mouseEnterHandler(this: HTMLLinkElement) {
+function mouseEnterHandler(this: HTMLLinkElement) {
   const parentOfPopover = document.getElementById("quartz-root")
   if (!parentOfPopover || this.dataset.noPopover === "true") {
     return
-  }
-
-  // Remove any existing popover to avoid multiple popovers
-  const existingPopover = document.querySelector(".popover")
-  if (existingPopover) {
-    existingPopover.remove()
   }
 
   const thisUrl = new URL(document.location.href)
@@ -55,6 +49,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
     const cleanup = attachPopoverEventListeners(popoverElement, this)
 
+    // skipcq: JS-0098
     void popoverElement.offsetWidth
 
     popoverElement.classList.add("popover-visible")
@@ -80,7 +75,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
   const cleanupShow = () => {
     return animate(
       300,
-      () => {},
+      () => undefined,
       async () => {
         await showPopover()
       },
@@ -89,7 +84,6 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
   const cleanup = cleanupShow()
 
-  // Return an enhanced cleanup function
   return () => {
     cleanup()
     window.removeEventListener("resize", showPopover)
@@ -105,20 +99,14 @@ document.addEventListener("nav", () => {
 
     const handleMouseEnter = async () => {
       if (cleanup) cleanup()
-      cleanup = await mouseEnterHandler.call(link)
+      cleanup = mouseEnterHandler.call(link)
     }
 
     const handleMouseLeave = () => {
       if (cleanup) cleanup()
     }
 
-    // Remove existing event listeners to prevent duplicates
-    link.removeEventListener("mouseenter", handleMouseEnter)
-    link.removeEventListener("mouseleave", handleMouseLeave)
-
-    // Add event listeners
-    const debouncedMouseEnter = debounce(handleMouseEnter, 200, true)
-    link.addEventListener("mouseenter", debouncedMouseEnter)
+    link.addEventListener("mouseenter", handleMouseEnter)
     link.addEventListener("mouseleave", handleMouseLeave)
   }
 })

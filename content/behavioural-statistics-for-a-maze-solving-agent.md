@@ -40,8 +40,10 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/37e3e1d834bdf27d2c64ea4834d8dcb1d235d054ee2ed177.png
 description: Closeness to cheese and the top-right corner both influence a maze-solving
   AI, suggesting a "shard-like" decision-making process.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
+
 
 
 
@@ -161,24 +163,24 @@ We performed logistic regression on each variable mentioned above, using a set o
 
 Out of 11 variables, 6 variables beat the 'no regression' accuracy baseline of 71.4%:
 
-| Variable | Prediction accuracy |
-| --- | --- |
-| Euclidean distance between cheese and top-right 5x5 |  0.775 |
-| Euclidean distance between cheese and top-right square | 0.773 |
-| Euclidean distance between cheese and decision-square | 0.761 |
-| Steps between cheese and decision-square | 0.754 |
-| Steps between cheese and top-right 5x5 | 0.735 |
-| Steps between cheese and top-right square | 0.732 |
+|                                               Variable | Prediction accuracy |
+| -----------------------------------------------------: | :------------------ |
+|    Euclidean distance between<br/><br/>cheese and top-right 5x5 | 0.775               |
+| Euclidean distance between<br/><br/>cheese and top-right square | 0.773               |
+|  Euclidean distance between<br/><br/>cheese and decision-square | 0.761               |
+|               Steps between<br/><br/>cheese and decision-square | 0.754               |
+|                 Steps between<br/><br/>cheese and top-right 5x5 | 0.735               |
+|              Steps between<br/><br/>cheese and top-right square | 0.732               |
 
 The remaining 5 variables were worse than nothing:
 
 | Variable | Prediction accuracy |
-| --- | --- |
+| --: | :-- |
 | Cheese coordinates norm | 0.713 |
-| Euclidean distance between decision-square and top-right square |  0.712 |
-| Steps between decision-square and top-right square | 0.709 |
-| Steps between decision-square and top-right 5x5 | 0.708 |
-| Euclidean distance between decision-square and top-right 5x5 | 0.708 |
+| Euclidean distance between<br/><br/>decision-square and top-right square |  0.712 |
+| Steps between<br/><br/>decision-square and top-right square | 0.709 |
+| Steps between<br/><br/>decision-square and top-right 5x5 | 0.708 |
+| Euclidean distance between<br/><br/>decision-square and top-right 5x5 | 0.708 |
 
 Note that in these individual regressions, all _successfully predictive_ variables have a negative coefficient -- this makes sense, since the variables measure distance and our impression was that various forms of closeness motivate cheese-getting.
 
@@ -200,7 +202,7 @@ Two of our highly predictive variables are indeed strongly correlated:
 We then computed the [variation inflation factors](https://corporatefinanceinstitute.com/resources/data-science/variance-inflation-factor-vif/) for the three predictive variables we end up analyzing in detail. VIF measures how collinearity increases the variance of the regression coefficients. A score exceeding 4 is considered to be a warning sign of multicollinearity.
 
 | **Attribute** | VIF |
-| --- | --- |
+| --: | :-- |
 |  **Euclidean distance between cheese and top-right square** | 1.05 |
 | **Steps between cheese and decision-square** | 4.64 |
 | **Euclidean distance between cheese and decision-square** | 4.66 |
@@ -271,7 +273,7 @@ Table: Overall regression accuracy is 84.1%.
 Or 1-3) + ‘legal steps from cheese to top-right square’ + ‘Euclidean distance from decision-square to top-right 5x5’:
 
 | **Attribute** | Coefficient |
-| --- | --- |
+| --: | :-- |
 | Euclidean distance between decision-square and top-right 5x5 | 1.239 |
 | Steps between cheese and top-right square | 0.038 |
 |  **Euclidean distance between cheese and top-right square** | \-2.652 |
@@ -287,9 +289,9 @@ Our instinct is therefore to avoid interpreting variables like 'Euclidean distan
 
 Let's get back to our claimed predictive variables:
 
-1. Euclidean distance from cheese to top-right square
-2. Legal steps distance from decision-square to cheese
-3. Euclidean distance from decision-square to cheese
+1. Euclidean distance from cheese to top-right square,
+2. Legal steps distance from decision-square to cheese, and
+3. Euclidean distance from decision-square to cheese.
 
 How sure should we be that variables 1-3) each track a real and distinct causal mechanism?  
 
@@ -304,17 +306,17 @@ Keeping these qualitative impressions in mind, let’s test variables 1-3) for s
 
 | Regression variables | Accuracy |
 | --: | :-- |
-| $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 82.4% |
-|  $d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 75.9% |
+| $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/> $d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 82.4% |
+| <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 75.9% |
 | $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/><br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$| 81.9% |
-| $d_\text{Euclidean}(\text{cheese},\text{top-right})$ <br/> $d_\text{step}(\text{cheese},\text{decision-square})$  <br/><br/>  | 81.7% |
-|$d_\text{Euclidean}(\text{cheese},\text{top-right})$<br/><br/><br/> | 77.3% |
+| $d_\text{Euclidean}(\text{cheese},\text{top-right})$ <br/> $d_\text{step}(\text{cheese},\text{decision-square})$  <br/><br/><br/>   | 81.7% |
+|$d_\text{Euclidean}(\text{cheese},\text{top-right})$<br/><br/><br/><br/> | 77.3% |
 
 Considering our qualitative and statistical results together, we are confident that $d_\text{step}(\text{cheese},\text{decision-square})$ tracks a real decision influence.
 
 We _weakly_ believe that $d_\text{Euclidean}(\text{cheese},\text{decision-square})$ tracks an additional real decision influence. More evidence for this is that removing the cheese/square distances cause comparable accuracy drops. And we're already confident that $d_\text{step}(\text{cheese},\text{decision-square})$ tracks a real decision-influence!
 
-Our biggest source of doubt about $d_\text{Euclidean}(\text{cheese},\text{decision-square})$ is that when running regression on another independent batch of 10,000 test-runs we found no loss at all when dropping this variable from 1-3). This was surprising, since we were otherwise able to reproduce all our qualitative results (e.g. rankings of variables’ predictive strength, sign-flipping patterns) across sample batches.[^8]
+Our biggest source of doubt about $d_\text{Euclidean}(\text{cheese},\text{decision-square})$ is that when running regression on another independent batch of 10,000 test runs we found no loss at all when dropping this variable from 1-3). This was surprising, since we were otherwise able to reproduce all our qualitative results (e.g. rankings of variables’ predictive strength, sign-flipping patterns) across sample batches.[^8]
 
 # Conclusion
 
@@ -322,7 +324,8 @@ Our statistics refine, support, and stress-test our impressions about the networ
 
 However, the statistics are not fully rigorous, and this post's analysis contained freeform domain-specific reasoning. That said, we are overall confident that the agent is influenced by $d_\text{Euclidean}(\text{cheese},\text{top-right})$ and by $d_\text{step}(\text{cheese},\text{decision-square} )$. We have weak but suggestive evidence for additional influence from $d_\text{Euclidean}(\text{cheese},\text{decision-square})$.
 
-[^1]: > [!quote] [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network)
+[^1]: We correctly speculated:
+    > [!quote] [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network)
     >
     > \[Regression factor\] (4) is an interesting outlier which probably stems from not using a more sophisticated structural model for regression.
 

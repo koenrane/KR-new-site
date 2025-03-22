@@ -147,11 +147,11 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     })
     .join(" ")
 
-  let beginning: string = ""
+  let beginning = ""
   if (startIndex !== 0) {
     beginning = "..."
   }
-  let end: string = ""
+  let end = ""
   if (endIndex !== tokenizedText.length - 1) {
     end = "..."
   }
@@ -428,6 +428,7 @@ async function shortcutHandler(
 
     // add "#" prefix for tag search
     if (searchBar) searchBar.value = "#"
+
     return
   }
 
@@ -443,19 +444,28 @@ async function shortcutHandler(
   const nextSibling = (el: HTMLElement): HTMLElement =>
     el.nextElementSibling ? (el.nextElementSibling as HTMLElement) : el
 
+  // Check if we can navigate through search results
+  // Only allow if search bar is focused or a result is currently hovered
   const canNavigate = document.activeElement === searchBar || currentHover !== null
 
   if (e.key === "Enter") {
-    // If result has focus, navigate to that one, otherwise pick first result
-    if (results?.contains(document.activeElement)) {
+    // If a result has explicit keyboard focus, navigate to that one
+    if (document.activeElement && document.activeElement.classList.contains("result-card")) {
       const active = document.activeElement as HTMLInputElement
       if (active.classList.contains("no-match")) return
-      await displayPreview(active)
       active.click()
-    } else {
+    }
+    // Otherwise, if a result has our visual "focus" class, navigate to that
+    else if (currentHover && currentHover.classList.contains("focus")) {
+      currentHover.click()
+    }
+    // As a fallback, navigate to the first result
+    else {
       const anchor = document.getElementsByClassName("result-card")[0] as HTMLInputElement | null
       if (!anchor || anchor?.classList.contains("no-match")) return
+
       await displayPreview(anchor)
+      focusCard(anchor)
       anchor.click()
     }
   } else if (e.key === "ArrowUp" || (e.shiftKey && e.key === "Tab")) {
@@ -463,12 +473,14 @@ async function shortcutHandler(
     if (canNavigate) {
       const toShow = prevSibling(currentHover as HTMLElement)
       await displayPreview(toShow as HTMLElement)
+      focusCard(toShow as HTMLElement)
     }
   } else if (e.key === "ArrowDown" || e.key === "Tab") {
     e.preventDefault()
     if (canNavigate) {
       const toShow = nextSibling(currentHover as HTMLElement)
       await displayPreview(toShow as HTMLElement)
+      focusCard(toShow as HTMLElement)
     }
   }
 }
@@ -573,25 +585,35 @@ async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   return fetchContentCache.get(slug) ?? ({} as FetchResult)
 }
 
-async function displayPreview(el: HTMLElement | null) {
-  const enablePreview = searchLayout?.dataset?.preview === "true"
-  if (!searchLayout || !enablePreview || !preview) return
-
-  // Remove focus class from all result cards
+async function focusCard(el: HTMLElement | null, keyboardFocus: boolean = true) {
   document.querySelectorAll(".result-card").forEach((card) => {
     card.classList.remove("focus")
   })
 
-  // Add focus class to current element
   if (el) {
     el.classList.add("focus")
-    currentHover = el as HTMLInputElement
+
+    if (keyboardFocus) {
+      el.focus()
+    }
   }
+}
+
+/**
+ * Displays a preview of a card element
+ * @param el - Card element to display preview for
+ * @param keyboardFocus - Whether to focus the element using the keyboard
+ */
+async function displayPreview(el: HTMLElement | null, keyboardFocus: boolean = true) {
+  const enablePreview = searchLayout?.dataset?.preview === "true"
+  if (!searchLayout || !enablePreview || !preview) return
 
   // Initialize preview manager if needed
   if (!previewManager && preview) {
     previewManager = new PreviewManager(preview)
   }
+
+  await focusCard(el, keyboardFocus)
 
   // Update preview content
   previewManager?.update(el, currentSearchTerm, currentSlug)
@@ -638,7 +660,7 @@ const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boole
 
   content = replaceEmojiConvertArrows(content)
 
-  let suffixHTML: string = ""
+  let suffixHTML = ""
   if (!enablePreview || window.innerWidth <= mobileBreakpoint) {
     suffixHTML = `<p>${content}</p>`
   }
@@ -705,7 +727,7 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
   removeAllChildren(results)
   if (finalResults.length === 0) {
     results.innerHTML = `<a class="result-card no-match">
-        <h3>No results.</h3>
+        <h3>No results</h3>
         <p>Try another search term?</p>
     </a>`
 
@@ -723,7 +745,7 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
     firstChild.classList.add("focus")
     currentHover = firstChild as HTMLInputElement
 
-    await displayPreview(firstChild)
+    await displayPreview(firstChild, false)
   }
 }
 

@@ -8,39 +8,34 @@ import { type QuartzPluginData } from "../vfile"
 import { createFaviconElement, MAIL_PATH } from "./linkfavicons"
 import { createSequenceLinksComponent } from "./sequenceLinks"
 
-export const rssElement = h(
-  "a",
-  { href: "/rss.xml", id: "rss-link", style: "white-space: nowrap;" },
-  [
-    h("abbr", { class: "small-caps" }, "RSS"),
-    h("img", {
-      src: "https://assets.turntrout.com/static/images/rss.svg",
-      id: "rss-svg",
-      alt: "RSS icon",
-      className: "favicon",
-    }),
-  ],
-)
-
 const SUBSTACK_URL =
   "https://assets.turntrout.com/static/images/external-favicons/substack_com.avif"
 
 const newsletterElement = h("a", { href: "https://turntrout.substack.com/subscribe" }, [
   "newsle",
-  h("span", { style: "white-space: nowrap;" }, ["tter", createFaviconElement(SUBSTACK_URL)]),
+  h("span", { className: "favicon-span" }, ["tter", createFaviconElement(SUBSTACK_URL)]),
 ])
 
+const rssSpan = h("span", { className: "favicon-span" }, [
+  h("abbr", { class: "small-caps" }, "RSS"),
+  h("img", {
+    src: "https://assets.turntrout.com/static/images/rss.svg",
+    id: "rss-svg",
+    alt: "RSS icon",
+    className: "favicon",
+  }),
+])
+export const rssElement = h("a", { href: "/rss.xml", id: "rss-link" }, [rssSpan])
 const subscriptionElement = h("center", [
   h("div", h("p", ["Find out when I post more content: ", newsletterElement, " & ", rssElement])),
 ])
 
-const contactMe = h("div", [
-  h("center", [
-    "Thoughts? Email me at ",
-    h("code", h("a", { href: "mailto:alex@turntrout.com" }, "alex@turntrout.com")),
-    createFaviconElement(MAIL_PATH),
-  ]),
+const mailLink = h("a", { href: "mailto:alex@turntrout.com" }, [
+  "alex@turntrout",
+  h("span", { className: "favicon-span" }, [".com", createFaviconElement(MAIL_PATH)]),
 ])
+
+const contactMe = h("div", [h("center", ["Thoughts? Email me at ", h("code", {}, [mailLink])])])
 
 export function insertAfterTroutOrnament(tree: Root, components: Element[]) {
   visit(tree, "element", (node: Element, index, parent: Element | null) => {

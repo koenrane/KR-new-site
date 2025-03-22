@@ -36,8 +36,10 @@ original_url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-ali
 skip_import: true
 description: 'AI alignment plagued by imprecise language. Ex: "reward" and "shoggoth"
   are suggestive words that obstruct clear thought.'
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-10 20:10:43.614104
 ---
+
+
 
 
 
@@ -69,7 +71,7 @@ Consider the following terms and phrases:
   - "The purpose of RL is to train an agent to maximize _expected_ reward over time" (perhaps implying an expectation and inner consciousness on the part of the so-called "agent")
 - "[Agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)" (implying volition in our trained artifact... generally 'cuz we used a technique belonging to the class of algorithms which humans call "reinforcement learning")
 - "Power-seeking" (AI "agents")
-- "[Shoggoth](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=XHktatQRYpsfritrA)"
+- "[Shoggoth](/against-shoggoth)"
 - "Optimization pressure"
 - "Utility"
   - As opposed to (thinking of it) as "internal unit of decision-making incentivization, which is a function of internal representations of expected future events; minted after the resolution of expected future on-policy inefficiencies relative to the computational artifact's current decision-making influences"
