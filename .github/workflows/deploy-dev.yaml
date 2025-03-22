@@ -38,18 +38,6 @@ jobs:
           path: test-results/
           retention-days: 7
 
-      - name: Install Wrangler
-        run: npm install -g wrangler
-
-      - name: Publish to Cloudflare Pages
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
-        run: |
-          export BRANCH=${${{ github.ref }}#refs/heads/}
-          npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
-
       - name: Install subfont
         run: npm install -g subfont
       - name: Make script executable
@@ -59,6 +47,8 @@ jobs:
       - name: Run site checks
         run: python scripts/built-site-checks.py --check-fonts
 
+      - name: Install Wrangler
+        run: npm install -g wrangler
       - name: Publish to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
