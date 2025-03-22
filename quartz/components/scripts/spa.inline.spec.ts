@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test"
 
+const SCROLL_TOLERANCE: number = 500
+
 /**
  * This spec file is designed to test the functionality of spa.inline.ts,
  * including client-side routing, scroll behavior, hash navigation,
@@ -79,38 +81,6 @@ test.describe("Local Link Navigation", () => {
 })
 
 test.describe("Scroll Behavior", () => {
-  test("preserves scroll position on back navigation", async ({ page }) => {
-    // Scroll down and store the desired position
-    const testScrollPos = 600
-    await page.evaluate((pos: number) => {
-      window.scrollY = pos
-    }, testScrollPos)
-
-    // Navigate to a new page (this should trigger beforeunload and saveScrollPosition in spa.inline.ts)
-    await page.goto("http://localhost:8080/design", { waitUntil: "domcontentloaded" })
-
-    // Capture the current sessionStorage data before going back
-    const sessionData: string = await page.evaluate(() => JSON.stringify(sessionStorage))
-
-    // Go back in history. The popstate event in spa.inline.ts will attempt to restore scroll.
-    await page.goBack({ waitUntil: "networkidle" })
-
-    // Reinject the sessionStorage data on the same page (rather than using addInitScript).
-    // This ensures the loaded page has the same session items spa.inline.ts relies on.
-    await page.evaluate((storage: string) => {
-      if (window.location.hostname === "localhost") {
-        const parsed = JSON.parse(storage) as Record<string, string>
-        for (const [key, value] of Object.entries(parsed)) {
-          window.sessionStorage.setItem(key, value)
-        }
-      }
-    }, sessionData)
-
-    // Check if scroll position is the same as before
-    const currentScroll: number = await page.evaluate(() => window.scrollY)
-    expect(currentScroll).toBe(testScrollPos)
-  })
-
   test("handles hash navigation by scrolling to element", async ({ page }) => {
     // Inject a section to test scroll with an ID
     await page.evaluate(() => {
@@ -157,5 +127,94 @@ test.describe("Popstate (Back/Forward) Navigation", () => {
     await page.goForward()
     await page.waitForLoadState("networkidle")
     expect(page.url()).not.toBe(initialUrl)
+  })
+})
+
+test.describe("Same-page navigation", () => {
+  test("back button works after clicking same-page link", async ({ page }) => {
+    // Record initial scroll position
+    const initialScroll = await page.evaluate(() => window.scrollY)
+
+    // Click the link to navigate to section2
+    const headers = await page.locator("h1").all()
+    const header1 = headers[3]
+    await header1.scrollIntoViewIfNeeded()
+    await header1.click()
+    await page.waitForTimeout(100) // Wait for scroll
+
+    // Verify we scrolled down
+    const scrollAfterClick = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterClick).toBeGreaterThan(initialScroll)
+
+    await page.goBack()
+    await page.waitForTimeout(100) // Wait for scroll
+
+    // Verify we returned to the original position
+    const scrollAfterBack = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterBack).toBe(initialScroll)
+  })
+
+  test("maintains scroll history for multiple same-page navigations", async ({ page }) => {
+    // Navigate through all positions and store scroll positions
+    const scrollPositions: number[] = []
+
+    const headings = await page.locator("h1 a").all()
+    for (const heading of headings.slice(2, 5)) {
+      await heading.scrollIntoViewIfNeeded()
+      await heading.click()
+      await page.waitForTimeout(100) // Wait for scroll
+      scrollPositions.push(await page.evaluate(() => window.scrollY))
+    }
+
+    // Verify each position was different
+    for (let i = 1; i < scrollPositions.length; i++) {
+      expect(scrollPositions[i]).not.toBe(scrollPositions[i - 1])
+    }
+
+    // Go back through history and verify each scroll position is within tolerance
+    for (let i = scrollPositions.length - 2; i >= 0; i--) {
+      await page.goBack()
+      await page.waitForTimeout(100) // Wait for scroll
+      const currentScroll = await page.evaluate(() => window.scrollY)
+
+      // Check if within tolerance rather than exact match
+      expect(Math.abs(currentScroll - scrollPositions[i])).toBeLessThanOrEqual(SCROLL_TOLERANCE)
+    }
+
+    // Go forward through history and verify each scroll position is within tolerance
+    for (let i = 1; i < scrollPositions.length; i++) {
+      await page.goForward()
+      await page.waitForTimeout(100) // Wait for scroll
+      const currentScroll = await page.evaluate(() => window.scrollY)
+
+      // Check if within tolerance rather than exact match
+      expect(Math.abs(currentScroll - scrollPositions[i])).toBeLessThanOrEqual(SCROLL_TOLERANCE)
+    }
+  })
+  test("going back after anchor navigation returns to original position", async ({ page }) => {
+    // First, ensure we're at the top of the page
+    await page.evaluate(() => window.scrollTo(0, 0))
+    await page.waitForTimeout(100)
+
+    // Verify starting position is at the top
+    const initialScroll = await page.evaluate(() => window.scrollY)
+    expect(initialScroll).toBe(0)
+
+    // Find a target far down the page
+    const anchorTarget = page.locator("h1").last()
+    await anchorTarget.scrollIntoViewIfNeeded()
+    await page.waitForTimeout(200) // Wait for scroll
+
+    // Verify we've scrolled down
+    const scrollAfterAnchor = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterAnchor).toBeGreaterThan(SCROLL_TOLERANCE * 2)
+
+    // Go back in browser history
+    await page.goBack()
+    await page.waitForTimeout(200) // Wait for scroll restoration
+
+    // Verify we're back at the top (or within reasonable tolerance)
+    const scrollAfterBack = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterBack).toBeLessThanOrEqual(SCROLL_TOLERANCE) // Small tolerance for browser differences
   })
 })

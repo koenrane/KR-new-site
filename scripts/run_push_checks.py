@@ -15,7 +15,7 @@ import subprocess
 import sys
 import threading
 import time
-from collections import deque
+from collections import deque, namedtuple
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Deque, List, Optional, TextIO, Tuple
@@ -32,6 +32,8 @@ SERVER_START_WAIT_TIME: int = 90
 TEMP_DIR = Path("/tmp/quartz_checks")
 os.makedirs(TEMP_DIR, exist_ok=True)
 STATE_FILE_PATH = TEMP_DIR / "last_successful_step.json"
+
+ServerInfo = namedtuple("ServerInfo", ["pid", "created_by_script"])
 
 
 def save_state(step_name: str) -> None:
@@ -75,10 +77,8 @@ def get_last_step(
         return None
 
 
-def clear_state() -> None:
-    """
-    Clear the saved state.
-    """
+# pylint: disable=missing-function-docstring
+def reset_saved_progress() -> None:
     print("Clearing state")
     if STATE_FILE_PATH.exists():
         STATE_FILE_PATH.unlink()
@@ -90,6 +90,7 @@ class ServerManager:
     """
 
     _server_pid: Optional[int] = None
+    _is_server_created_by_script: bool = False
 
     def __init__(self):
         # Set up signal handlers
@@ -104,19 +105,26 @@ class ServerManager:
         self.cleanup()
         sys.exit(1)
 
-    def set_server_pid(self, pid: int) -> None:
+    def set_server_pid(self, pid: int, created_by_script: bool = False) -> None:
         """
         Set the server PID to track for cleanup.
+
+        Args:
+            pid: The PID of the server
+            created_by_script: Whether the server was created by this script
         """
         self._server_pid = pid
+        self._is_server_created_by_script = created_by_script
 
     def cleanup(self) -> None:
         """
-        Clean up the server if it exists.
+        Clean up the server if it exists and was created by this script.
         """
-        if self._server_pid is not None:
+        if self._server_pid is not None and self._is_server_created_by_script:
+            console.log("[yellow]Cleaning up quartz server...[/yellow]")
             kill_process(self._server_pid)
-            self._server_pid = None
+        self._server_pid = None
+        self._is_server_created_by_script = False
 
 
 def is_port_in_use(port: int) -> bool:
@@ -161,22 +169,30 @@ def kill_process(pid: int) -> None:
         pass
 
 
-def create_server(git_root_path: Path) -> int:
+def create_server(git_root_path: Path) -> ServerInfo:
     """
-    Create a quartz server.
+    Create a quartz server or use an existing one.
 
-    Returns the PID of the server to use.
+    Returns:
+        ServerInfo with:
+            - pid: The PID of the server to use
+            - created_by_script: True if the server was created by this script
     """
-    # Check if port is in use first
+    # First check if there's already a quartz process running
+    existing_pid = find_quartz_process()
+    if existing_pid:
+        console.log(
+            "[green]Using existing quartz server "
+            f"(PID: {existing_pid})[/green]"
+        )
+        return ServerInfo(existing_pid, False)
+
+    # If no existing process found, check if the port is in use
     if is_port_in_use(8080):
-        # Only use existing server if port is in use
-        existing_pid = find_quartz_process()
-        if existing_pid:
-            console.log(
-                "[green]Using existing quartz server "
-                f"(PID: {existing_pid})[/green]"
-            )
-            return existing_pid
+        console.log(
+            "[yellow]Port 8080 is in use but no quartz process "
+            "found. Starting new server...[/yellow]"
+        )
 
     # Start new server
     console.log("Starting new quartz server...")
@@ -204,7 +220,7 @@ def create_server(git_root_path: Path) -> int:
                 progress.remove_task(task_id)
                 progress.stop()
                 console.log("[green]Quartz server successfully started[/green]")
-                return server_pid
+                return ServerInfo(server_pid, True)
             progress.update(
                 task_id,
                 description=(
@@ -553,13 +569,14 @@ def main() -> None:
             for step in steps_before_server:
                 console.log(f"[grey]Skipping step: {step.name}[/grey]")
 
-        server_pid = create_server(git_root)
-        server_manager.set_server_pid(server_pid)
+        server_info = create_server(git_root)
+        server_manager.set_server_pid(
+            server_info.pid, server_info.created_by_script
+        )
         run_checks(steps_after_server, args.resume)
 
         console.log("\n[green]All checks passed successfully! 🎉[/green]")
-        # Clear state file on successful completion
-        clear_state()
+        reset_saved_progress()
 
     except KeyboardInterrupt:
         console.log("\n[yellow]Process interrupted by user.[/yellow]")

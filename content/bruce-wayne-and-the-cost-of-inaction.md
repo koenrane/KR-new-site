@@ -36,8 +36,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/QBOtBED.png
 description: Christopher Nolan's Batman Begins, but more rationalist and severe. Looking
   right at the pain you ignore whenever you walk by a homeless person.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
@@ -60,7 +61,7 @@ Hand wrapped firmly around his son's shoulder, Thomas Wayne directed his son's f
 <div class="bad-handwriting">
 <b>Hungry</b> <br>
 <b class="no-smallcaps">PTSD..No family</b><br>
-<it><b>Pl</b>ease help</it></br>
+<it>Please help</it></br>
 </div>
 
 Bruce was scared. At eight, he'd seen homeless people before, but he'd never connected the dots: this was a _person_, just out on the street.
@@ -275,7 +276,7 @@ His dad winked at his mom, and they both laughed at some joke which Bruce didn't
 
 They left the small opera room and entered the big outdoor room, which usually was beautiful and starry but was cloudy tonight. It was rather chilly for a summer night, if he thought about it. His dad looked around for their limo. Alfred had said he'd come pick them up. Maybe the opera had finished early. Bruce couldn't possibly believe that _that_ was true.
 
-His dad had spotted something else, however. Some<i>one </i> else, next to the building, another beggar. Bruce's gaze was steady. He wanted to make his dad proud of how he didn't look away.
+His dad had spotted something else, however. Some<i>one</i> else, next to the building, another beggar. Bruce's gaze was steady. He wanted to make his dad proud of how he didn't look away.
 
 The man was slumped against the opera house. It was too dark to really see him, but Bruce thought he had an empty jar next to him. That would be for any money people gave him.
 

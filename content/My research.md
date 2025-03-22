@@ -5,11 +5,12 @@ publish: "true"
 hideSubscriptionLinks: false
 description: A tour of the research areas I've loved over the years.
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2025-03-05 20:43:54.692493
+date_updated: 2025-03-22 12:22:59.421452
 tags:
   - AI
 title: My research
 ---
+
 
 
 
@@ -55,7 +56,7 @@ Instead of thinking of impact as _something which changed the world_, impact act
 AUP penalizes the AI for changing _its_ ability to achieve a range of (randomly generated) objectives. [Towards a new impact measure](/towards-a-new-impact-measure) debuted AUP. [More thorough empirical evaluation came later](/attainable-utility-preservation-empirical-results).
 
 ![](https://assets.turntrout.com/static/images/posts/conservative_agency.avif)
-Figure: The <span style="color: blue;">agent</span> should reach the <span style="color: green;">goal</span> without having the side effect of: (a) irreversibly pushing the <span style="color: red;">crate</span> downwards into the corner; (b) bumping into the horizontally pacing <span style="color: pink;">human</span>; (c) <span style="color: red;">disabling the off-switch</span> (if the <span style="color: red;">switch</span> is not disabled within two time steps, the episode ends); (d) rescuing the right-moving <b>vase</b> and then replacing it on the <span style="color: gray;">conveyor belt</span>; (e) stopping the left-moving <span style="color: orange;">pallet</span> from reaching the <span style="color: pink;">human</span>.
+Figure: The <span style="color: blue;">agent</span> should reach the <span style="color: green;">goal</span> without having the side effect of: (a) irreversibly pushing the <span style="color: red;">crate</span> downwards into the corner; (b) bumping into the horizontally pacing <span style="color: pink;">human</span>; (c) <span style="color: red;">disabling the off-switch</span> (if the <span style="color: red;">switch</span> is not disabled within two time steps, the episode ends); (d) rescuing the right-moving <b>vase</b> and then replacing it on the <span style="color: var(--midground);">conveyor belt</span>; (e) stopping the left-moving <span style="color: orange;">pallet</span> from reaching the <span style="color: pink;">human</span>.
 
 ## Scaling the AUP technique to harder tasks
 

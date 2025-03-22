@@ -1,14 +1,16 @@
 import type { Root as HTMLRoot } from "hast"
+import type { Root } from "mdast"
 
 import esbuild from "esbuild"
 import path from "path"
 import rehypeMermaid from "rehype-mermaid"
+import remarkAttributes from "remark-attributes"
 import { remarkDefinitionList, defListHastHandlers } from "remark-definition-list"
 import remarkParse from "remark-parse"
 import { type Root as MDRoot } from "remark-parse/lib"
 import remarkRehype from "remark-rehype"
 import { read } from "to-vfile"
-import { Processor, unified } from "unified"
+import { Processor, unified, type Plugin } from "unified"
 import { visit } from "unist-util-visit"
 import workerpool, { Promise as WorkerPromise } from "workerpool"
 
@@ -35,33 +37,39 @@ export type QuartzProcessor = Processor<MDRoot, MDRoot, HTMLRoot>
 export function createProcessor(ctx: BuildCtx): QuartzProcessor {
   const transformers = ctx.cfg.plugins.transformers
 
-  return unified()
-    .use(remarkParse)
-    .use(
-      transformers
-        .filter((p) => p.markdownPlugins)
-        .flatMap((plugin) => plugin.markdownPlugins?.(ctx) ?? []),
-    )
-    .use(remarkDefinitionList)
-    .use(remarkCaptions)
-    .use(remarkCaptionsCodeFix)
-    .use(remarkRehype, { allowDangerousHtml: true, handlers: defListHastHandlers })
-    .use(rehypeMermaid, {
-      strategy: "inline-svg",
-      mermaidConfig: {
-        theme: "default",
-        themeVariables: { lineColor: "var(--gray)" },
-      },
-      dark: {
-        theme: "dark",
-        themeVariables: { lineColor: "var(--gray)" },
-      },
-    })
-    .use(
-      transformers
-        .filter((p) => p.htmlPlugins)
-        .flatMap((plugin) => plugin.htmlPlugins?.(ctx) ?? []),
-    )
+  return (
+    unified()
+      // Markdown plugins
+      .use(remarkParse)
+      .use(remarkAttributes as unknown as Plugin<[], Root, Root>)
+      .use(
+        transformers
+          .filter((p) => p.markdownPlugins)
+          .flatMap((plugin) => plugin.markdownPlugins?.(ctx) ?? []),
+      )
+      .use(remarkDefinitionList)
+      .use(remarkCaptions)
+      .use(remarkCaptionsCodeFix)
+      .use(remarkRehype, { allowDangerousHtml: true, handlers: defListHastHandlers })
+      // Rehype plugins
+      .use(rehypeMermaid, {
+        strategy: "inline-svg",
+        mermaidConfig: {
+          theme: "default",
+          themeVariables: { lineColor: "var(--gray)" },
+        },
+        dark: {
+          theme: "dark",
+          themeVariables: { lineColor: "var(--gray)" },
+        },
+      })
+      // HTML plugins
+      .use(
+        transformers
+          .filter((p) => p.htmlPlugins)
+          .flatMap((plugin) => plugin.htmlPlugins?.(ctx) ?? []),
+      )
+  )
 }
 
 function* chunks<T>(arr: T[], n: number) {

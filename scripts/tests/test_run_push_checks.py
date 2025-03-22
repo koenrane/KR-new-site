@@ -32,10 +32,10 @@ def temp_state_dir():
         patch("tempfile.gettempdir", return_value=temp_dir),
     ):
         # Clear any existing state before tests run
-        run_push_checks.clear_state()
+        run_push_checks.reset_saved_progress()
         yield temp_dir
         # Clean up after tests
-        run_push_checks.clear_state()
+        run_push_checks.reset_saved_progress()
 
 
 @pytest.fixture
@@ -104,14 +104,20 @@ def test_create_server():
         patch("subprocess.Popen") as mock_popen,
         patch("scripts.run_push_checks.Progress") as mock_progress,
     ):
-        # Case 1: The port is in use, so we find an existing process
-        mock_port_check.return_value = True
+        # Case 1: Existing quartz process is found
         mock_find_process.return_value = 12345
-        assert run_push_checks.create_server(Path("/fake/path")) == 12345
 
-        # Case 2: The port isn't in use initially, but comes up after we start the server
-        mock_port_check.side_effect = [False] + [True] * 39
-        mock_find_process.return_value = None  # Reset mock for second case
+        # Check return value is a ServerInfo with proper values
+        result = run_push_checks.create_server(Path("/fake/path"))
+        assert result.pid == 12345
+        assert result.created_by_script is False
+
+        # Port check shouldn't be called when process is found
+        mock_port_check.assert_not_called()
+
+        # Case 2: No existing process, but port is in use
+        mock_find_process.return_value = None
+        mock_port_check.return_value = True
 
         # Set up the server process mock
         mock_server = MagicMock()
@@ -122,7 +128,41 @@ def test_create_server():
         mock_progress_instance = MagicMock()
         mock_progress.return_value = mock_progress_instance
 
-        assert run_push_checks.create_server(Path("/fake/path")) == 54321
+        # Simulate server starting successfully
+        mock_port_check.side_effect = [True, True]
+
+        result = run_push_checks.create_server(Path("/fake/path"))
+        assert result.pid == 54321
+        assert result.created_by_script is True
+
+        # Reset mocks for Case 3
+        mock_port_check.reset_mock()
+        mock_port_check.side_effect = None
+
+        # Case 3: No existing process, port is not in use initially, but becomes available
+        mock_find_process.return_value = None
+        mock_port_check.side_effect = [False] + [True] * 39
+
+        # Check return value for newly created server
+        result = run_push_checks.create_server(Path("/fake/path"))
+        assert result.pid == 54321
+        assert result.created_by_script is True
+
+
+def test_server_manager_cleanup():
+    """Test that ServerManager only cleans up servers it created"""
+    server_manager = run_push_checks.ServerManager()
+
+    with patch("scripts.run_push_checks.kill_process") as mock_kill:
+        # Case 1: Server not created by script - shouldn't be killed
+        server_manager.set_server_pid(12345, created_by_script=False)
+        server_manager.cleanup()
+        mock_kill.assert_not_called()
+
+        # Case 2: Server created by script - should be killed
+        server_manager.set_server_pid(54321, created_by_script=True)
+        server_manager.cleanup()
+        mock_kill.assert_called_once_with(54321)
 
 
 @pytest.fixture
@@ -197,10 +237,19 @@ def test_cleanup_handler():
         mock_kill.reset_mock()
         mock_exit.reset_mock()
 
-        # Test cleanup with active server
-        server_manager.set_server_pid(12345)
+        # Test cleanup with active server not created by script
+        server_manager.set_server_pid(12345, created_by_script=False)
         server_manager._signal_handler(signal.SIGINT, None)
-        mock_kill.assert_called_once_with(12345)
+        mock_kill.assert_not_called()
+        mock_exit.assert_called_once_with(1)
+
+        mock_kill.reset_mock()
+        mock_exit.reset_mock()
+
+        # Test cleanup with active server created by script
+        server_manager.set_server_pid(54321, created_by_script=True)
+        server_manager._signal_handler(signal.SIGINT, None)
+        mock_kill.assert_called_once_with(54321)
         mock_exit.assert_called_once_with(1)
 
 
@@ -383,12 +432,12 @@ def test_save_and_get_state(temp_state_dir):
     assert run_push_checks.get_last_step() == "Test Step 2"
 
 
-def test_clear_state(temp_state_dir):
+def test_reset_saved_progress(temp_state_dir):
     """Test clearing state"""
     run_push_checks.save_state("Test Step")
     assert run_push_checks.get_last_step() == "Test Step"
 
-    run_push_checks.clear_state()
+    run_push_checks.reset_saved_progress()
     assert run_push_checks.get_last_step() is None
 
 
@@ -452,7 +501,8 @@ def test_argument_parsing(resume_flag, temp_state_dir):
             patch("scripts.run_push_checks.create_server") as mock_create,
             patch("scripts.run_push_checks.kill_process") as mock_kill,
         ):
-            mock_create.return_value = 12345
+            # Set up create_server to return a ServerInfo
+            mock_create.return_value = run_push_checks.ServerInfo(12345, False)
 
             # Set up a valid resume point if testing resume
             if resume_flag:
@@ -490,7 +540,7 @@ def test_main_clears_state_on_success(temp_state_dir):
             ),
         ),
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
 
         from scripts.run_push_checks import main
 
@@ -518,7 +568,7 @@ def test_main_preserves_state_on_failure(temp_state_dir):
             ),
         ),
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
 
         # Save initial state
         run_push_checks.save_state("test")
@@ -547,7 +597,7 @@ def test_main_skips_pre_server_steps(temp_state_dir):
         patch("scripts.run_push_checks.console.log") as mock_log,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         mock_run.return_value = None  # Successful runs
 
         # Create mock steps
@@ -671,7 +721,7 @@ def test_main_resume_with_invalid_step(temp_state_dir):
             ),
         ),
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         # Save an invalid step
         run_push_checks.save_state("invalid_step")
 
@@ -706,7 +756,7 @@ def test_main_preserves_state_on_interrupt(temp_state_dir):
             ),
         ),
     ):
-        mock_create.return_value = 12345
+        mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         # Save a valid step
         run_push_checks.save_state("test")
 
@@ -743,10 +793,15 @@ def test_create_server_progress_bar():
         mock_progress_cls.return_value.__enter__.return_value = mock_progress
         mock_task = MagicMock()
         mock_progress.add_task.return_value = mock_task
-        mock_server = mock_popen.return_value.__enter__.return_value
+        mock_server = MagicMock()
         mock_server.pid = 12345
+        mock_popen.return_value = mock_server
 
-        run_push_checks.create_server(Path("/test"))
+        server_info = run_push_checks.create_server(Path("/test"))
+
+        # Verify returned ServerInfo
+        assert server_info.pid == 12345
+        assert server_info.created_by_script is True
 
         # Verify progress updates
         assert mock_progress.add_task.call_count == 1
@@ -868,10 +923,11 @@ def test_server_process_continues_running():
         mock_popen.return_value = mock_server
 
         # Call create_server
-        server_pid = run_push_checks.create_server(Path("/test"))
+        server_info = run_push_checks.create_server(Path("/test"))
 
         # Verify server was started
-        assert server_pid == 12345
+        assert server_info.pid == 12345
+        assert server_info.created_by_script is True
 
         # Verify server process wasn't terminated
         mock_server.terminate.assert_not_called()
@@ -886,3 +942,27 @@ def test_server_process_continues_running():
         assert popen_kwargs["start_new_session"] is True
         assert popen_kwargs["stdout"] == subprocess.DEVNULL
         assert popen_kwargs["stderr"] == subprocess.DEVNULL
+
+
+def test_reused_server_not_killed():
+    """Test that reused server isn't killed on cleanup"""
+    with (
+        patch(
+            "scripts.run_push_checks.find_quartz_process"
+        ) as mock_find_process,
+        patch("scripts.run_push_checks.kill_process") as mock_kill,
+    ):
+        # Set up an existing quartz process
+        mock_find_process.return_value = 12345
+
+        server_manager = run_push_checks.ServerManager()
+
+        # Get server info and set it in manager
+        server_info = run_push_checks.create_server(Path("/test"))
+        server_manager.set_server_pid(
+            server_info.pid, server_info.created_by_script
+        )
+
+        # Cleanup should NOT kill the server
+        server_manager.cleanup()
+        mock_kill.assert_not_called()

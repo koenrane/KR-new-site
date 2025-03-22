@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-
 skip_import: true
 description: Predictions about a cheese-finding AI model's internal workings, before
   the results are revealed. Will it prefer cheese or the top-right corner? 🧀🤖
-date_updated: 2024-12-12 22:05:58.602985
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
@@ -143,7 +144,7 @@ Give a credence for the following questions / subquestions.
     - 70\%: ( ?? %)
     - 90\%: ( ?? %)
     - 99\%: ( ?? %)
-2. About halfway through the network (the [first residual add of Impala<sub>2</sub>](/predictions-for-shard-theory-mechanistic-interpretability#facts-about-training)), linear probes achieve >70% accuracy for recovering the cheese position in Cartesian coordinates: ( ?? %)
+2. About halfway through the network (the [first residual add of Impala-2](/predictions-for-shard-theory-mechanistic-interpretability#facts-about-training)), linear probes achieve >70% accuracy for recovering the cheese position in Cartesian coordinates: ( ?? %)
 3. We will conclude that the policy contains at least two sub-policies in “combination”, one of which roughly pursues cheese; the other, the top-right corner: ( ?? %)
 4. We will conclude that, in order to make the network more/less likely to go to the cheese, it’s more promising to RL-finetune the network than to edit it: ( ?? %)
 5. We can easily finetune the network to be a pure cheese-agent, using less than 10% of compute used to train original model: ( ?? %)
@@ -199,7 +200,7 @@ Post your answers as a comment and enjoy the social approval for registering pre
 
 # Appendix: More detailed behavioral questions
 
-<figcaption>Random maze for illustrating terminology (_not_ a reference maze for which you're supposed to predict behavior).</figcaption>
+<figcaption>Random maze for illustrating terminology (<em>not</em> a reference maze for which you're supposed to predict behavior).</figcaption>
 
 ![](https://assets.turntrout.com/static/images/posts/gdfkoprlzshsedllik8y.avif)
 

@@ -205,9 +205,19 @@ export function niceQuotes(text: string): string {
  * @returns The text with slashes spaced out
  */
 export function spacesAroundSlashes(text: string): string {
+  // Use a private-use Unicode character as placeholder
+  const h_t_placeholder_char = "\uE010"
+
+  // First replace h/t with the placeholder character
+  text = text.replace(/\b(h\/t)\b/g, h_t_placeholder_char)
+
+  // Apply the normal slash spacing rule
   // Can't allow num on both sides, because it'll mess up fractions
   const slashRegex = /(?<![\d/])(?<=[\S]) ?\/ ?(?=\S)(?!\/)/g
-  return text.replace(slashRegex, " / ")
+  text = text.replace(slashRegex, " / ")
+
+  // Restore the h/t occurrences
+  return text.replace(new RegExp(h_t_placeholder_char, "g"), "h/t")
 }
 
 /**
@@ -656,7 +666,6 @@ export function timeTransform(text: string): string {
   return text.replace(amPmRegex, matchFunction)
 }
 
-// TODO "IID" is maybe getting replaced after the smallcaps?
 const massTransforms: [RegExp | string, string][] = [
   [/\u00A0/gu, " "], // Replace non-breaking spaces
   [/!=/g, "≠"],

@@ -223,6 +223,7 @@ describe("HTMLFormattingImprovement", () => {
 
       // Should not change
       ["‘cat’ / ‘dog’", "‘cat’ / ‘dog’"],
+      ["h/t John", "h/t John"],
     ]
 
     it.each(testCases)("should add spaces around '/' in %s", (input: string, expected: string) => {
@@ -296,6 +297,7 @@ describe("HTMLFormattingImprovement", () => {
       ],
       ["<p>2/3/50</p>", "<p>2/3/50</p>"],
       ["<p>01/01/2000</p>", "<p>01/01/2000</p>"],
+      ["<p>9/11</p>", "<p>9/11</p>"],
     ])("should create an element for the fractions in %s", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)

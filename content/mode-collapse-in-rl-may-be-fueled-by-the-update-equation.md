@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in
 skip_import: true
 description: A proposed tweak to policy gradient algorithms may avoid mode collapse,
   but more research is needed to assess its practicality.
-date_updated: 2025-03-05 20:43:54.692493
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
@@ -81,6 +82,8 @@ Episode-by-episode:
 | 2   | party        | (.5 - 0) - 1 = -.5 | .82                     | .5                              |
 | 3   | party        | (.5 - 0) -.5 = 0   | .82                     | .5                              |
 | 4   | wedding      | (1 - 0) - .5 = .5  | .88                     | 1                               |
+
+{.no-min-width}
 
 With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might think this is good, since wedding is in fact "optimal" at that state. This does not seem good. Here are a few kinds of explanations for why:
 

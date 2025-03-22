@@ -218,7 +218,7 @@
 
   @media all and (max-width: $full-page-width) {
     flex-direction: row;
-    width: 100%;
+    width: 100.5%; // Prevent peek-through of other elements
     background-color: var(--background);
   }
 }
@@ -304,6 +304,8 @@
     margin-right: calc(0.75 * $base-margin);
     flex-shrink: 0; // Don't want it to wrap
     font-style: italic; // Differentiate from navbar links
+    user-select: all;
+    cursor: text;
 
     @media all and (max-width: $full-page-width) {
       margin-left: calc(0.25 * $base-margin);

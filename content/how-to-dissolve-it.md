@@ -30,10 +30,11 @@ use-full-width-images: 'false'
 date_published: 2018-03-07 00:00:00
 original_url: https://www.lesswrong.com/posts/argvWNNHZAz2MeM8C/how-to-dissolve-it
 skip_import: true
-description: Dissolving technical problems by visualizing ideal solutions and backward
-  chaining from them.
-date_updated: 2025-03-01 17:42:48.379662
+description: Dissolving technical problems by visualizing ideal solutions and then
+  working backwards.
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
@@ -63,4 +64,4 @@ I can't impart to you the exact feeling of using this technique properly, but I 
 
 - I've observed  $k$ samples from a normal distribution and recorded the mean and variance. New observations are going to come in, and I want to be able to assign some scalar  $c \in [-1,1]$ quantifying how unusual this looks for the distribution.
 - A binary classifier has observed a bunch of "dog" pictures, and we want it to be able to robustly communicate when it sees something new - knowing what it doesn't know.
-- I'm a reinforcement-learning agent named <span class="corrupted">redacted</span>, and I'd lo_ve t_o fetch things from other parts of your house for you, as quickly as possible.
+- I'm a reinforcement-learning agent named <span class="corrupted">redacted</span>, and I'd love to fetch things from other parts of your house for you - as quickly as possible.

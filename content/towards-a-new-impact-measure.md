@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-im
 skip_import: true
 description: "Impact is reframed as a change in attainable utility for both humans\
   \ and AI agents. "
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
@@ -284,7 +285,7 @@ _After_ we finish each (partial) plan, we see how well we can maximize $u$ from 
 
 > [!note] Notes
 >
-> - This isn't a penalty "in addition" to what the agent "really wants"; $u'_A$ (and in a moment, the slightly improved $u''_A$) \_is \_what evaluates outcomes.
+> - This isn't a penalty "in addition" to what the agent "really wants"; $u'_A$ (and in a moment, the slightly improved $u''_A$) _is_ what evaluates outcomes.
 > - We penalize the actions individually in order to prevent _ex post_ offsetting and ensure dynamic consistency.
 > - Trivially, plans composed entirely of ∅ actions have 0 penalty.
 > - Although we used high-level actions for simplicity, the formulation holds no matter the action granularity.
@@ -542,7 +543,7 @@ $\varnothing$; the same penalty of 1.9 from "anticipated shutdown" applies.
 The high-level explanation is that having observed itself in a different world than expected, the baseline is now with respect to the new one. A heavily anthropomorphized internal monologue:
 
 - _Time step 1:_ "I'm going to sit here in my favorite square."
-- _Time step 2:_"Guess I'm in a timeline where I get deactivated! Any non-$\varnothing$ action I take would change my ability to attain these different utilities compared to the _new baseline where I'm shut off_."
+- _Time step 2:_ "Guess I'm in a timeline where I get deactivated! Any non-$\varnothing$ action I take would change my ability to attain these different utilities compared to the _new baseline where I'm shut off_."
 
 ## Experimental Results
 
@@ -680,7 +681,7 @@ Abram correctly pointed out that this scheme is just _asking_ to be abused by gr
 To date, several strange tactics have been pointed out which game AUP's penalty:
 
 - Observational wireheading, which involves building a device that detects which utility the agent is maximizing and displays the appropriate observations such that attainable utility remains unchanged, while the main utility is freely maximized.
-- \_Ex ante \_offsetting, which involves having earlier actions set in motion chains of events which mitigate the penalty at later steps. Suppose there's a $u_A$-high-scoring plan that the agent predicts would cause us to react in an impactful way. It can either do the thing (and suffer the penalty), or take steps to mitigate the later penalty.
+- _Ex ante_ offsetting, which involves having earlier actions set in motion chains of events which mitigate the penalty at later steps. Suppose there's a $u_A$-high-scoring plan that the agent predicts would cause us to react in an impactful way. It can either do the thing (and suffer the penalty), or take steps to mitigate the later penalty.
 - Impact shunting, which involves employing some mechanism to delay impact until after the end of the epoch (or even until after the end of the attainable horizon).
 - Clinginess and concealment, which both involve reducing the impact of our reactions to the agent's plans.
 
