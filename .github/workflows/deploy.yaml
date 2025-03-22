@@ -46,11 +46,10 @@ jobs:
         run: npm install -g subfont
       - name: Make script executable
         run: chmod +x ./scripts/subfont.sh
-
-      # TODO apply subfont to the public directory
-
-      - name: Site checks
-        run: python scripts/built_site_checks.py
+      - name: Subset fonts
+        run: sh ./scripts/subfont.sh
+      - name: Run site checks
+        run: python scripts/built_site_checks.py --check-fonts
 
       # Upload the prepared public directory as an artifact
       - name: Upload prepared site
