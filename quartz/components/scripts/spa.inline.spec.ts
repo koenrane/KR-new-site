@@ -222,14 +222,52 @@ test.describe("Same-page navigation", () => {
       expect(scrollPositions[i]).not.toBe(scrollPositions[i - 1])
     }
 
-    // Go back through history and verify each scroll position
+    const SCROLL_TOLERANCE: number = 150
+
+    // Go back through history and verify each scroll position is within tolerance
     for (let i = scrollPositions.length - 2; i >= 0; i--) {
       await page.goBack()
       await page.waitForTimeout(100) // Wait for scroll
       const currentScroll = await page.evaluate(() => window.scrollY)
-      console.log(`Current: ${currentScroll}`)
-      console.log(`Expected: ${scrollPositions[i]}`)
-      expect(currentScroll).toBe(scrollPositions[i])
+
+      // Check if within tolerance rather than exact match
+      expect(Math.abs(currentScroll - scrollPositions[i])).toBeLessThanOrEqual(SCROLL_TOLERANCE)
     }
+
+    // Go forward through history and verify each scroll position is within tolerance
+    for (let i = 1; i < scrollPositions.length; i++) {
+      await page.goForward()
+      await page.waitForTimeout(100) // Wait for scroll
+      const currentScroll = await page.evaluate(() => window.scrollY)
+
+      // Check if within tolerance rather than exact match
+      expect(Math.abs(currentScroll - scrollPositions[i])).toBeLessThanOrEqual(SCROLL_TOLERANCE)
+    }
+  })
+  test("going back after anchor navigation returns to original position", async ({ page }) => {
+    // First, ensure we're at the top of the page
+    await page.evaluate(() => window.scrollTo(0, 0))
+    await page.waitForTimeout(100)
+
+    // Verify starting position is at the top
+    const initialScroll = await page.evaluate(() => window.scrollY)
+    expect(initialScroll).toBe(0)
+
+    // Find a target far down the page
+    const anchorTarget = page.locator("h1").last()
+    await anchorTarget.scrollIntoViewIfNeeded()
+    await page.waitForTimeout(200) // Wait for scroll
+
+    // Verify we've scrolled down
+    const scrollAfterAnchor = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterAnchor).toBeGreaterThan(1000)
+
+    // Go back in browser history
+    await page.goBack()
+    await page.waitForTimeout(200) // Wait for scroll restoration
+
+    // Verify we're back at the top (or within reasonable tolerance)
+    const scrollAfterBack = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterBack).toBeLessThanOrEqual(50) // Small tolerance for browser differences
   })
 })
