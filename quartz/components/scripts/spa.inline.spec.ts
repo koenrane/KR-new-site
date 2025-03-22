@@ -159,3 +159,77 @@ test.describe("Popstate (Back/Forward) Navigation", () => {
     expect(page.url()).not.toBe(initialUrl)
   })
 })
+
+test.describe("Same-page navigation", () => {
+  test("back button works after clicking same-page link", async ({ page }) => {
+    // Create two sections with different scroll positions
+    await page.evaluate(() => {
+      const section1 = document.createElement("div")
+      section1.id = "section1"
+      section1.textContent = "Section 1"
+      section1.style.marginTop = "0px"
+
+      const section2 = document.createElement("div")
+      section2.id = "section2"
+      section2.textContent = "Section 2"
+      section2.style.marginTop = "1500px"
+
+      const link = document.createElement("a")
+      link.href = "#section2"
+      link.id = "same-page-link"
+      link.textContent = "Go to Section 2"
+
+      section1.appendChild(link)
+      document.body.appendChild(section1)
+      document.body.appendChild(section2)
+    })
+
+    // Record initial scroll position
+    const initialScroll = await page.evaluate(() => window.scrollY)
+
+    // Click the link to navigate to section2
+    await page.click("#same-page-link")
+    await page.waitForTimeout(100) // Wait for scroll
+
+    // Verify we scrolled down
+    const scrollAfterClick = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterClick).toBeGreaterThan(initialScroll)
+
+    // Go back
+    await page.goBack()
+    await page.waitForTimeout(100) // Wait for scroll
+
+    // Verify we returned to the original position
+    const scrollAfterBack = await page.evaluate(() => window.scrollY)
+    expect(scrollAfterBack).toBe(initialScroll)
+  })
+
+  test("maintains scroll history for multiple same-page navigations", async ({ page }) => {
+    // Navigate through all positions and store scroll positions
+    const scrollPositions: number[] = []
+
+    const headings = await page.locator("h1 a").all()
+    for (const heading of headings.slice(2, 5)) {
+      await heading.scrollIntoViewIfNeeded()
+      await heading.click()
+      await page.waitForTimeout(100) // Wait for scroll
+      scrollPositions.push(await page.evaluate(() => window.scrollY))
+    }
+
+    // Verify each position was different
+    console.log(scrollPositions)
+    for (let i = 1; i < scrollPositions.length; i++) {
+      expect(scrollPositions[i]).not.toBe(scrollPositions[i - 1])
+    }
+
+    // Go back through history and verify each scroll position
+    for (let i = scrollPositions.length - 2; i >= 0; i--) {
+      await page.goBack()
+      await page.waitForTimeout(100) // Wait for scroll
+      const currentScroll = await page.evaluate(() => window.scrollY)
+      console.log(`Current: ${currentScroll}`)
+      console.log(`Expected: ${scrollPositions[i]}`)
+      expect(currentScroll).toBe(scrollPositions[i])
+    }
+  })
+})

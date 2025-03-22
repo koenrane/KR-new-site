@@ -30,6 +30,10 @@ function locationToStorageKey(location: Location) {
   return `scrollPos:${url.toString()}`
 }
 
+function getScrollPosition() {
+  return Math.round(window.scrollY)
+}
+
 // Override browser's native scroll restoration
 // This allows the page to restore the previous scroll position on refresh
 if ("scrollRestoration" in history) {
@@ -120,7 +124,7 @@ function scrollToHash(hash: string) {
  * Saves the current scroll position to session storage
  */
 function saveScrollPosition(): void {
-  const scrollPos = Math.round(window.scrollY)
+  const scrollPos = getScrollPosition()
   const key = locationToStorageKey(window.location)
   console.debug(`Saving scroll position: ${scrollPos} for ${key}`)
   sessionStorage.setItem(key, scrollPos.toString())
@@ -142,20 +146,18 @@ async function navigate(url: URL) {
   const existingPopovers = document.querySelectorAll(".popover")
   existingPopovers.forEach((popover) => popover.remove())
 
-  // TODO test
+  // Save scroll position before navigation
   saveScrollPosition()
 
-  // TODO test
-  // Don't push to history if it's just a hash change on the same page
-  const isSamePageAnchor =
-    url.pathname === window.location.pathname && url.hash !== window.location.hash
-
-  if (!isSamePageAnchor) {
-    history.pushState({}, "", url)
-  } else {
-    // Update URL without pushing to history for anchor changes
-    history.replaceState({}, "", url)
+  // Store the current scroll position in history state
+  const currentScroll = getScrollPosition()
+  const state = {
+    scroll: currentScroll,
+    hash: url.hash,
+    pathname: url.pathname,
   }
+
+  history.pushState(state, "", url)
 
   let contents: string | undefined
 
@@ -200,21 +202,17 @@ async function navigate(url: URL) {
   const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
   elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
 
-  // Scroll to the anchor AFTER the content has been updated
-  if (url.hash) {
-    scrollToHash(url.hash)
-  }
-
-  // Smooth scroll for anchors; else jump instantly
+  // Handle scroll behavior based on navigation type
   const isSamePageNavigation = url.pathname === window.location.pathname
   if (isSamePageNavigation && url.hash) {
-    // Normal anchor link behavior
+    // For same-page anchor navigation, scroll to the target element
     const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
     el?.scrollIntoView({ behavior: "smooth" })
   } else {
-    // Restore scroll position on back navigation
+    // For page navigation, restore scroll position from storage
     const key = locationToStorageKey(window.location)
     const savedScroll = sessionStorage.getItem(key)
+
     // Go to 0 if no scroll position is saved
     window.scrollTo({
       top: savedScroll ? parseInt(savedScroll) : 0,
@@ -248,20 +246,17 @@ function createRouter() {
         window.location.assign(url)
       }
     })
-    window.addEventListener("popstate", async () => {
+    window.addEventListener("popstate", async (event) => {
       try {
         console.info("popstate", window.location.toString())
-        // Get the scroll position before navigation
-        const key = locationToStorageKey(window.location)
-        const savedScroll = sessionStorage.getItem(key)
+        console.info("History state:", event.state)
 
         // First navigate to update the content
         await navigate(new URL(window.location.toString()))
 
-        // Then restore scroll position after content is updated
-        if (savedScroll) {
-          window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
-          sessionStorage.removeItem(key)
+        // If we have state, restore the scroll position
+        if (event.state?.scroll !== undefined) {
+          window.scrollTo({ top: event.state.scroll, behavior: "instant" })
         }
       } catch (error) {
         console.error("Navigation error:", error)
