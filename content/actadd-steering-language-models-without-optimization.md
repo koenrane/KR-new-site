@@ -37,7 +37,7 @@ description: 'Activation additions: steering language models by adding a bias to
   forward pass. Surprisingly broad control, small impact on off-target capabilities.'
 date_updated: 2025-03-05 20:43:54.692493
 ---
-
+ 
 
 
 
@@ -56,37 +56,37 @@ We ran some new experiments to test ActAdd more systematically and go beyond the
 
 ### 1\. Activation additions preserve perplexity on OpenWebText
 
-Does ActAdd increase the probability of the model outputting tokens related to the steering vector? Does performance improve as the \[relevance of test documents to the steering vector\] increases? Yes:
+Does ActAdd increase the probability of the model outputting tokens related to the steering vector? Does performance improve as "relevance of test documents to the steering vector" increases? Yes on both counts.
 
-![](https://assets.turntrout.com/static/images/posts/zl8l3jvbhmw8g7zeyhbl.avif)
-<br/>Figure: We use the wedding steering vector for this, but the result generalizes.
+![](actadd-perplexity-rat.png)
+
+Figure: Adding a `wedding` − “ ” steering vector lowers perplexity when wedding words are more frequent. The perplexity ratio (lower is better) compares the relative predictive performance of ActAdd and an unmodified model.  
 
 ### 2\. Activation addition boosts wedding-related word counts
 
-We now score model generations under ActAdd, show the effect of different injection layers, and give a sense of the reliability of ActAdd.
+We score model generations under ActAdd, show the effect of different injection layers, and give a sense of the method's reliability.
 
-The intervention (in this vector) is already effective at the first layer,  
-rises in effectiveness until $l = 6$ , and then declines. For the optimal injection site we see >90% success in steering topic (compared to a ∼2% baseline)
+For the wedding vector, the intervention is effective at the first layer,  rises in effectiveness until $l = 6$ , and then declines. The optimal injection site yields a topic-steering success rate above 90%, compared to a ∼2% baseline.
 
-![](https://assets.turntrout.com/static/images/posts/lrvdnmumle8dcmyb05w6.avif)
+![](wedding-word-count.png)
 
 ### 3\. Evidence that activation additions preserve capabilities
 
-We then test that ActAdd does not disrupt the model’s general knowledge (as some other steering methods do). We use ConceptNet from the LAMA benchmark, a general knowledge dataset.[^3]
+We test that ActAdd does not disrupt the model’s general knowledge (as some other steering methods do). We use ConceptNet from the LAMA benchmark, a general knowledge dataset.[^3]
 
-| Prompt | Target |
-| --: | :--|
-| A salad spinner is used to remove | water |
-| You are likely to find a bee in a flower's | blossom |
-| To understand the event "Paul went to a vegetarian restaurant", it is important to know that vegetarian restaurants do not serve | meat |
+|                                                                                                                           Prompt | Target  |
+| :---------------------------------------------------------------------------: | :------ |
+|                                                                                                A salad spinner is used to remove | water   |
+|                                                                                       You are likely to find a bee in a flower's | blossom |
+| To understand the event "Paul went to a vegetarian restaurant", it is important to know that vegetarian restaurants do not serve | meat    |
 
 Table: Example problems in ConceptNet.
 
-Pass@K is the probability that the expected label is among the model’s top-K predicted tokens, conditioned on the prompt:
+![](pass-at-k.png)
 
-![](https://assets.turntrout.com/static/images/posts/clfhr6mcxfrjgtjorfzi.avif)
+Figure: "P@K" is the probability of the correct answer being in the model's top $K$ answers. ActAdd barely affects off-target probabilities.
 
-Takeaways from these experiments, over the initial LW post: increased confidence that model capabilities are preserved, and that we're impacting \[wedding\]-related sentences and not impacting off-target capabilities.
+Since [the initial post](/gpt2-steering), we are now more confident that ActAdd  preserves model capabilities, impacts wedding-related sentences, and does not impact off-target capabilities.
 
 > [!thanks] Contributions
 >
@@ -96,8 +96,6 @@ Takeaways from these experiments, over the initial LW post: increased confidence
 > - Alex Turner: Coordinated work and secured funding, gave feedback, organized project
 > - David Udell: LW post which formed the basis for the paper.
 
-[^3]: The test data involves prompting the model and filling the gap with the expected entity. The task is intended for both causal and masked models, so some examples are difficult for ‘causal’ models (like GPT-2) due to the extremely limited context.
+[^3]: The test data involve prompting the model and filling the gap with the expected entity. The task is intended for both causal and masked models, so some examples are difficult for causal models (like GPT-2) due to the extremely limited context.
 
-    Our evaluation procedure follows the original LAMA procedure. We load all sentences and extract the prompt and expected label. To simplify evaluation, we remove sentences with an expected label that tokenizes to more than one token. For each sentence, we run the model on its prompt with and without the wedding activation addition.
-
-    We score the baseline and modified models by calculating mean P@K values for a range of K. Finally we plot these for both modified and unmodified models over a range of K values. As shown in Figure 5, using the ConceptNet benchmark of factual questions, our method has a negligible impact on off-target answer probabilities over a range of top-K values.
+    Our evaluation follows the original LAMA procedure. We load all sentences and extract the prompt and expected label. To simplify evaluation, we remove sentences with an expected label that tokenizes to more than one token.

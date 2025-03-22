@@ -137,14 +137,21 @@ export function nodeBeginsWithCapital(index: number, parent: Parent): boolean {
 
 /**
  * Gathers any text (including nested inline-element text) before a certain
- * index in the parent's children array.
+ * index in the parent's children array, with proper handling of <br> elements.
  */
 export function gatherTextBeforeIndex(parent: Parent, upToIndex: number): string {
   // Create a temporary parent with just the nodes up to our index
   const tempParent = {
     ...parent,
-    children: parent.children.slice(0, upToIndex),
+    children: parent.children.slice(0, upToIndex).map((node) => {
+      // Convert <br> elements to newline text nodes
+      if (node.type === "element" && (node as Element).tagName === "br") {
+        return { type: "text", value: "\n" }
+      }
+      return node
+    }),
   }
+
   return toString(tempParent as Root)
 }
 

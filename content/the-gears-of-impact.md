@@ -118,7 +118,7 @@ date_updated: 2024-12-12 22:05:58.602985
 
 # Notes
 
-- Here, our descriptive theory relies on our ability to have reasonable beliefs about what we'll do, and how things in the world will affect our later decision-making process. No one knows how to formalize that kind of reasoning, so I'm leaving it a black box: we _somehow_have these reasonable beliefs which are _apparently_used to calculate AU.
-- In technical terms, AU calculated with the "could" criterion would be closer to an optimal value function, while actual AU seems to be an on-policy prediction, _whatever that means_in the embedded context. Felt impact corresponds to TD error.
+- Here, our descriptive theory relies on our ability to have reasonable beliefs about what we'll do, and how things in the world will affect our later decision-making process. No one knows how to formalize that kind of reasoning, so I'm leaving it a black box: we _somehow_ have these reasonable beliefs which are _apparently_ used to calculate AU.
+- In technical terms, AU calculated with the "could" criterion would be closer to an optimal value function, while actual AU seems to be an on-policy prediction, _whatever that means_ in the embedded context. Felt impact corresponds to TD error.
 - Framed as a kind of EU, we plausibly use AU to make decisions.
 - I'm not claiming normatively that "embedded agentic" EU _should_ be AU; I'm simply using "embedded agentic" as an adjective.

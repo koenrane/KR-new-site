@@ -329,6 +329,42 @@ permalink: /valid-page
             },
             {"valid-page": "valid.md"},
         ),
+        # Test permalink appearing in aliases
+        (
+            {
+                "test1.md": """---
+permalink: /test-page
+aliases: [/test-page, /other-alias]
+title: Test Page
+---
+# Content"""
+            },
+            {"test-page": "test1.md"},
+        ),
+        # Test permalink as only alias
+        (
+            {
+                "test2.md": """---
+permalink: /test-page
+aliases: /test-page
+title: Test Page
+---
+# Content"""
+            },
+            {"test-page": "test2.md"},
+        ),
+        # Test permalink in list of aliases
+        (
+            {
+                "test3.md": """---
+permalink: /test-page
+aliases: [/first-alias, /test-page, /last-alias]
+title: Test Page
+---
+# Content"""
+            },
+            {"test-page": "test3.md"},
+        ),
     ],
 )
 def test_build_permalink_map(

@@ -45,6 +45,12 @@ li > blockquote:first-child {
     margin-top: calc(2 * $base-margin);
   }
 
+  // Footnotes narrower than normal lists, also even
+  & > ol {
+    padding-left: calc(0.5 * $list-padding-left);
+    padding-right: calc(0.5 * $list-padding-left);
+  }
+
   & li {
     max-width: 100%;
   }
@@ -66,7 +72,7 @@ li > blockquote:first-child {
 // Ensure that last ol of a li has no bottom margin
 li[id^="user-content-fn-"] {
   & > ol {
-    margin-block-end: 0;
+    margin-bottom: 0;
   }
 
   & > p:last-child > a[class*="footnote-backref"]:last-child,
@@ -101,7 +107,6 @@ dd > ol:first-child {
 }
 
 dd {
-  margin-block: 0 calc(2 * $base-margin);
   margin-top: 0;
   margin-bottom: calc(2 * $base-margin);
   word-wrap: break-word;
@@ -118,7 +123,7 @@ dd {
 
 ol,
 ul {
-  margin-block-end: calc(2 * $base-margin);
+  margin-bottom: calc(2 * $base-margin);
 
   dl & {
     margin-top: calc(0.5 * $base-margin);
@@ -205,13 +210,21 @@ ol {
       font-size: var(--text-size-100);
       content: counter(footnote) "."; // Display the counter followed by a period
     }
+
+    & > figure {
+      display: inline; // Else it's misaligned with top of table
+    }
+
+    .footnotes & {
+      width: 100%; // Helps orient e.g. tables in footnotes
+    }
   }
 }
 
 // Adjust spacing around lists
 p:has(+ ol),
 p:has(+ ul) {
-  margin-bottom: calc(1.5 * $base-margin);
+  margin-bottom: 0;
 }
 
 /* Wrap links properly */
@@ -311,8 +324,7 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
 
 figure,
 .subfigure {
-  margin-inline: $base-margin $base-margin;
-  margin-block: $base-margin $base-margin;
+  margin: $base-margin;
   flex: 1 1 0px;
 
   & img {
@@ -321,7 +333,9 @@ figure,
     margin-right: auto;
   }
 
-  & + figure {
+  // IDK why but there can be an empty p between the figure and the next element
+  & + figure,
+  & + p:empty + figure {
     margin-top: calc(3 * $base-margin);
   }
 }
@@ -862,12 +876,26 @@ img.emoji {
   }
 }
 
+#mermaid-0,
+#mermaid-1 {
+  font-size: 14px !important;
+}
+
+#mermaid-1 {
+  // Needed to ensure arrowheads are visible
+  fill: var(--midground-faint) !important;
+}
+
 .label span {
   color: var(--foreground) !important;
 }
 
 .flowchart-link {
   stroke: var(--midground-faint) !important;
+}
+
+foreignObject > div {
+  display: block !important; // "table-cell" default is not centered
 }
 
 .edgeLabel > div,

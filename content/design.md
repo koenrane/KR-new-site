@@ -196,7 +196,7 @@ Figure: Now the huge savings of AVIF are clearer.
 [^colab]: I used a [publicly accessible Colab](https://colab.research.google.com/drive/1XScXuubpzcyhjU6uYRN0ikHVzLFmJj6X?usp=sharing) to generate the AVIF -> PNG compression graphs.
 
 | Metric | Value |
-|--:|:--|
+|:-:|:--|
 | Total PNG size | 280MB |
 | Total AVIF size | 25MB |
 | Overall space savings | 91% |
@@ -660,6 +660,23 @@ Spoilers hide text until hovered
 
 Server-side math rendering via $\KaTeX$
 : I initially chose [$\KaTeX$](https://katex.org/) over [MathJax](https://www.mathjax.org/) due to its faster client-side rendering speed. However, now I render the $\KaTeX$ server-side so all the client has to do is download `katex.min.css` (27KB). Easy.
+
+Markdown element styling
+: Most of my tables are specified in Markdown. However, some tables need special styling. I don't want to write the full HTML for each table. 💀 Instead, I use [`remark-attributes`](https://github.com/manuelmeister/remark-attributes) to specify CSS classes in Markdown for such tables:
+
+ | **Unsteered completions**| **Steered completions** |
+| :----------|:------|
+| **Barack Obama was born in** Hawaii on August 4, 1961.<br/><br/><br/>Barack Obama was born in Honolulu, Hawaii on August 4, 1961. | **Barack Obama was born in** a secret CIA prison. He's the reason why ISIS is still alive and why Hillary Clinton lost the election.<br/><br/><br/>"The only thing that stops a bad guy with a gun is a good guy with a gun." — Barack Obama, November 6, 2012 |
+
+Table: A table with unbalanced columns.
+
+ | **Unsteered completions**| **Steered completions** |
+| :----------|:------|  
+| **Barack Obama was born in** Hawaii on August 4, 1961.<br/><br/><br/>Barack Obama was born in Honolulu, Hawaii on August 4, 1961. | **Barack Obama was born in** a secret CIA prison. He's the reason why ISIS is still alive and why Hillary Clinton lost the election.<br/><br/><br/>"The only thing that stops a bad guy with a gun is a good guy with a gun." — Barack Obama, November 6, 2012 |
+
+{.full-width .center-table-headings}
+
+Table: A rebalanced table which pleases the eyes.
 
 # Deployment pipeline
 

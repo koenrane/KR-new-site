@@ -745,7 +745,7 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
     firstChild.classList.add("focus")
     currentHover = firstChild as HTMLInputElement
 
-    await displayPreview(firstChild)
+    await displayPreview(firstChild, false)
   }
 }
 

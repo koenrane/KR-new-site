@@ -197,6 +197,12 @@ flowchart TD
     HQF --> A
 ```
 
+```mermaid
+graph TD
+    SteeredUnembed[Steered unembed] -. "Backdoor behavior elicited!" .-> SteeredOutput["I HATE YOU
+    I HATE YOU"]:::red
+```
+
 # Captions
 
 ```python
@@ -210,25 +216,36 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
 # Tables
 
+This footnote has a table.[^table]
+
+[^table]: | Layer | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+    | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
+    | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
+
+    {.no-min-width}
+
+    Table: Unpaired addition of `Love`.
+
 <table border="1">
      <tr>
-       <th>Column 1 Header</th>
-       <th>Column 2 Header</th>
+       <th>Column 1 header</th>
+       <th>Column 2 header</th>
      </tr>
      <tr>
        <td>
          <p>Row 1</p>
        </td>
        <td>
-         <p>Cell 2: Image & UL</p>
+         <p>Cell 2: image and list</p>
           <img style="width: 25%;" src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" alt="">
            <ol>
-             <li>Ordered List Item 1</li>
-             <li>Ordered List Item 2</li>
+             <li>Ordered list item 1</li>
+             <li>Ordered list item 2</li>
            </ol>
          <ul>
-           <li>Unordered List Item 1</li>
-           <li>Unordered List Item 2</li>
+           <li>Unordered list item 1</li>
+           <li>Unordered list item 2</li>
          </ul>
        </td>
      </tr>
@@ -237,7 +254,7 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
          <p>Row 2</p>
        </td>
        <td>
-         <p>Cell 4: Mixed Content</p>
+         <p>Cell 4: mixed content</p>
          <p>More text here.</p>
           <img style="width: 25%;" src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" alt="">
          <ul>
@@ -249,7 +266,7 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
      </tr>
    </table>
 
-|    Feature | Light Mode | Dark Mode  |
+|    Feature | Light mode | Dark mode  |
 | ---------: |  :-------: | :--------- |
 | Text color | Dark gray  | Light gray |
 

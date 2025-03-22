@@ -88,14 +88,13 @@ The full paper is [here](https://arxiv.org/pdf/2006.06547.pdf). Our [`github.io`
 
 # Open questions
 
-- In _Box_AI safety gridworld, AUP required >5 randomly generated auxiliary reward functions in order to consistently avoid the side effect. It only required one here in order to do well. Why?
+- In `Box` AI safety gridworld, AUP required >5 randomly generated auxiliary reward functions in order to consistently avoid the side effect. It only required one here in order to do well. Why?
 - We ran four different sets of randomly generated levels, and ran three model seeds on each. There was a lot of variance across the sets of levels. How often does AUP do relatively worse due to the level generation?
 
 ![](https://assets.turntrout.com/static/images/posts/a2648ed5ddce10481462919b3c0008d232082e2eebcea498.avif)
 <br/>Figure: Smoothed episode length curves for each set of randomly generated levels. Lower is better.
 
-- Why did we only need one latent space dimension for the auxiliary reward function to make sense? Figure 4 suggests that increasing the dimension actually _worsened_side effect score.
-  - Wouldn't more features make the auxiliary reward function easier to learn, which makes the AUP penalty function more sensible?
+- Why did we only need one latent space dimension for the auxiliary reward function to make sense? Figure 4 suggests that increasing the dimension actually _worsened_ side effect score. Wouldn't more features make the auxiliary reward function easier to learn, which makes the AUP penalty function more sensible?
 
 - Compared to the other conditions, AUP did far better on `append-spawn` than on the seemingly easier `prune-still-easy`. But `append-spawn` seems far more difficult. What's up with this?
 

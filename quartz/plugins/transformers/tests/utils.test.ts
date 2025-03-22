@@ -2,7 +2,12 @@ import { jest, describe, it, expect } from "@jest/globals"
 import { type Parent, type Text } from "hast"
 import { h } from "hastscript"
 
-import { replaceRegex, type ReplaceFnResult, nodeBeginsWithCapital } from "../utils"
+import {
+  replaceRegex,
+  type ReplaceFnResult,
+  nodeBeginsWithCapital,
+  gatherTextBeforeIndex,
+} from "../utils"
 
 const acceptAll = () => false
 describe("replaceRegex", () => {
@@ -213,5 +218,95 @@ describe("nodeBeginsWithCapital", () => {
     const parent = { type: "root", children } as Parent
     const index = children.length - 1 // Test node is always last
     expect(nodeBeginsWithCapital(index, parent)).toBe(expected)
+  })
+})
+
+describe("gatherTextBeforeIndex", () => {
+  interface TestCase {
+    description: string
+    parent: Parent
+    index: number
+    expected: string
+  }
+
+  it.each<TestCase>([
+    {
+      description: "basic text gathering",
+      parent: {
+        type: "root",
+        children: [
+          { type: "text", value: "Hello " },
+          { type: "text", value: "world" },
+          { type: "text", value: "!" },
+        ],
+      },
+      index: 2,
+      expected: "Hello world",
+    },
+    {
+      description: "empty children array",
+      parent: {
+        type: "root",
+        children: [],
+      },
+      index: 0,
+      expected: "",
+    },
+    {
+      description: "convert <br> to newline",
+      parent: {
+        type: "root",
+        children: [{ type: "text", value: "Line 1" }, h("br"), { type: "text", value: "Line 2" }],
+      },
+      index: 2,
+      expected: "Line 1\n",
+    },
+    {
+      description: "nested inline elements",
+      parent: {
+        type: "root",
+        children: [
+          { type: "text", value: "This " },
+          h("strong", "is bold"),
+          { type: "text", value: " and " },
+          h("em", "emphasized"),
+          { type: "text", value: "." },
+        ],
+      },
+      index: 3,
+      expected: "This is bold and ",
+    },
+    {
+      description: "mixed content with <br> elements",
+      parent: {
+        type: "root",
+        children: [
+          { type: "text", value: "First sentence." },
+          h("br"),
+          { type: "text", value: "Second " },
+          h("em", "sentence"),
+          h("br"),
+          { type: "text", value: "Third sentence." },
+        ],
+      },
+      index: 4,
+      expected: "First sentence.\nSecond sentence",
+    },
+    {
+      description: "consecutive <br> elements",
+      parent: {
+        type: "root",
+        children: [
+          { type: "text", value: "Paragraph 1" },
+          h("br"),
+          h("br"),
+          { type: "text", value: "Paragraph 2" },
+        ],
+      },
+      index: 3,
+      expected: "Paragraph 1\n\n",
+    },
+  ])("should handle $description", ({ parent, index, expected }) => {
+    expect(gatherTextBeforeIndex(parent, index)).toBe(expected)
   })
 })

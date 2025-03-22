@@ -53,7 +53,7 @@ date_updated: 2025-01-30 09:30:36.233182
 > [!note] Summary of the current power-seeking theorems
 > Give me a utility function, any utility function, and for most ways I could jumble it up—most ways I could permute which outcomes get which utility, for most of these permutations, the agent will seek power.
 
-This kind of argument assumes that (`the set of utility functions we might specify`) is closed under permutation. This is unrealistic, because practically speaking we reward agents based off of observed features of the agent's environment.
+This kind of argument assumes that the set \{utility functions we might specify\} is closed under permutation. This is unrealistic. Practically speaking, we reward agents based off of observed features of the agent's environment.
 
 For example, Pac-Man eats dots and gains points. A football AI scores a touchdown and gains points. A robot hand [solves a Rubik's cube and gains points](https://arxiv.org/pdf/1910.07113.pdf). But most _permutations_ of these objectives are implausible because they're high-entropy, they're complex, they assign high reward to one state and low reward to another state without a simple generating rule that grounds out in observed features. Practical objective specification doesn't allow that many degrees of freedom in what states get what reward.
 
@@ -81,7 +81,7 @@ This particular featurization **increases** the strength of the orbit-level ince
 There's another point I want to make in this tiny environment.
 
 ![](https://assets.turntrout.com/static/images/posts/7c937e888b905bb15c8dadb9d7a8603bbd826948d56f8433.avif)
-<br/>Figure: From left to right, top to bottom, the states have labels$s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
+<br/>Figure: From left to right, top to bottom, the states have labels $s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
 
 Suppose we find an environmental symmetry $\phi$ which lets us apply the [original power-seeking theorems](https://proceedings.neurips.cc/paper/2021/hash/c26820b8a4c1b3c2aa868d6d57e14a79-Abstract.html) to raw reward functions over the world state. Letting $\mathbf{e}_s\in \mathbb{R}^6$ be a column vector with an entry of 1 at state $s$ and 0 elsewhere, in this environment, we have the symmetry enforced by
 
@@ -113,15 +113,18 @@ The shape featurization plays nice with the actual nitty-gritty environment-leve
 
 In a different featurization, suppose the featurization is the agent's $x/y$ coordinates. $R(s_{x,y}) = \alpha_1 x + \alpha_2 y$.
 
-![](https://assets.turntrout.com/static/images/posts/4a458603d6837cedd2bf439d79992ab2c9c3ed93c0dfe3d3.avif)
+![](https://assets.turntrout.com/static/images/posts/4a458603d6837cedd2bf439d79992ab2c9c3ed93c0dfe3d3.avif){style="width: 75%"}
 
 Given the **start** state, if the agent goes _up_, its reachable feature vector is just {(x=0 y=1)}, whereas the agent can induce (x=1 y=0) if it goes _right_. Therefore, whenever _up_ is strictly optimal for a featurized reward function, we can permute that reward function's feature weights by swapping the x- and y-coefficients ($\alpha_1$ and $\alpha_2$, respectively). Again, this new reward function is featurized, and it makes going _right_ strictly optimal. So the usual arguments ensure that at least half of these featurized reward functions make it optimal to go right.
 
 Sometimes, these similarities won't hold, even when it initially looks like they "should"!
 
-![](https://assets.turntrout.com/static/images/posts/a0ca5099bf16fb9bb0382d681abe79abeb5dd8ef51c525e9.avif)
+![](https://assets.turntrout.com/static/images/posts/a0ca5099bf16fb9bb0382d681abe79abeb5dd8ef51c525e9.avif){style="width: 75%"}
 
-The agent can induce the feature vectors $\left \{ \begin{pmatrix}x: -1\\ y:0\end{pmatrix}, \begin{pmatrix}x:-1\\  y:-1\end{pmatrix}\right\}$ if it goes _left_. However, it can induce $\left \{ \begin{pmatrix}x: 1\\ y:0\end{pmatrix}, \begin{pmatrix}x:1\\ y:1\end{pmatrix}\right\}$ if it goes _right_.
+| Action | Feature vectors available                                                                            |
+| ----: | :--------------------------------------------------------------------------------------------------- |
+|  Left  | $\left \{ \begin{pmatrix}x: -1\\ y:0\end{pmatrix}, \begin{pmatrix}x:-1\\  y:-1\end{pmatrix}\right\}$ |
+| Right  | $\left \{ \begin{pmatrix}x: 1\\ y:0\end{pmatrix}, \begin{pmatrix}x:1\\ y:1\end{pmatrix}\right\}$     |
 
 Switching feature labels cannot copy the _left_ feature set into the _right_ feature set! There's no way to just apply a feature permutation to the _left_ set, and thereby produce a subset of the _right_ feature set. Therefore, the theorems don't apply, and so they don't guarantee anything about how most permutations of every reward function incentivize some kind of behavior.
 
@@ -135,13 +138,15 @@ Consider a deep RL training process where the agent's episodic reward is featuri
 
 ![](https://assets.turntrout.com/static/images/posts/sc2_resources.avif)
 
+---
+
 Outcomes of interest
 : Game state trajectories.
 
 AI decision-making function
 : $f(T \mid \alpha)$ returns the probability that, given our fixed learning regime and reward feature vector $\alpha$, the training process produces a policy network whose rollouts instantiate some trajectory $\tau \in T$.
 
-\*_What the theorems say:_
+What the theorems say
 : If $\alpha$ is the zero vector, the agent gets the same reward for all trajectories, and so gradient descent does nothing, and the randomly initialized policy network quickly loses against any reasonable opponent. No power-seeking tendencies if this is the only plausible parameter setting.
 : If $\alpha$ only has negative entries, then the policy network quickly learns to throw away all of its resources and not collect any more. If and only if this has been achieved, the training process is indifferent to whether the game is lost. No real power-seeking tendencies if it's only plausible that we specify a negative vector.
 : If $\alpha$ has a positive entry, then policies learn to gather as much of that resource as possible. In particular, there _aren't_ orbit elements $\alpha$ with positive entries but where the learned policy tends to just die, and so we don't even have to check that the permuted variants $\phi\cdot \alpha$ of such feature vectors are also plausible. Power-seeking occurs.
@@ -175,7 +180,7 @@ When the environmental symmetries can be applied to the $A$\-preferring-variants
 
 This covers the totally general case of arbitrary sets of utility function classes we might use. (And, technically, "utility function" is decorative at this point—it just stands in for a parameter which we use to retarget the AI policy-production process.)
 
-The general result highlights how $\mathfrak{D}$ := { plausible objective functions } affects what conclusions we can draw about orbit-level incentives. All else equal, being able to specify more plausible objective functions for which $f(B \mid u) \geq f(A \mid u)$ means that we're more likely to ensure closure under certain permutations. Similarly, adding plausible $A$\-dispreferring objectives makes it harder to satisfy $f(B \mid u) < f(A \mid u) \implies \phi_i\cdot u \in \mathfrak{D}$, which makes it harder to ensure closure under certain permutations, which makes it harder to prove instrumental convergence.
+The general result highlights how $\mathfrak{D} :=$ { plausible objective functions } affects what conclusions we can draw about orbit-level incentives. All else equal, being able to specify more plausible objective functions for which $f(B \mid u) \geq f(A \mid u)$ means that we're more likely to ensure closure under certain permutations. Similarly, adding plausible $A$\-dispreferring objectives makes it harder to satisfy $f(B \mid u) < f(A \mid u) \implies \phi_i\cdot u \in \mathfrak{D}$, which makes it harder to ensure closure under certain permutations, which makes it harder to prove instrumental convergence.
 
 # Revisiting How The Environment Structure Affects Power-Seeking Incentive Strength
 
@@ -186,7 +191,7 @@ The general result highlights how $\mathfrak{D}$ := { plausible objective functi
 > | -------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------ |
 > |                                          u<sub>AOH</sub> | [Nonexistent](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories) |
 > |                                           u<sub>OH</sub> | [Strong](/power-seeking-beyond-MDPs#formal-justification)                                                                             |
-> | State-based objectives (e.g. state-based reward in MDPs) | [Moderate](/quantitative-strength-of-instrumental-convergence)                                                                        |
+> | State-based objectives<br/>(e.g. state-based reward in MDPs) | [Moderate](/quantitative-strength-of-instrumental-convergence)                                                                        |
 >
 > [Environmental structure can cause instrumental convergence](/environmental-structure-can-cause-instrumental-convergence), but (the absence of) structural assumptions on utility can make instrumental convergence go away (for optimal agents).
 
@@ -210,7 +215,7 @@ graph LR
 
 Figure: If the agent cares not about its own action histories, but about its observation histories, there are just more ways to care about going _up_ and being alive! Twice as many ways, in fact!
 
-When we restrict the utility function to not care about actions, now you can only modify how it cares about observation histories. Here, the AOH environmental symmetry $\phi_{AOH}$ which previously ensured balanced statistical incentives, no longer enjoys closure under $\mathfrak{D}_{OH}$, and so the restricted plausible set theorem no longer works, and instrumental convergence appears when restricting from u<sub>AOH</sub> to u<sub>OH</sub>.
+When we restrict the utility function to not care about actions, now you can only modify how it cares about observation histories. Here, the AOH environmental symmetry $\phi_{AOH}$ which previously ensured balanced statistical incentives, no longer enjoys closure under $\mathfrak{D}_{OH}.$ The restricted plausible set theorem no longer works. Thus, instrumental convergence appears when restricting from u<sub>AOH</sub> to u<sub>OH</sub>.
 
 > [!thanks]
 > I thank Justis Mills for feedback on a draft.
@@ -231,7 +236,11 @@ I think it's reasonably clear how to apply the results to realistic objective fu
 [^1]: It's not hard to have this many degrees of freedom in such a small toy environment, but the toy environment is pedagogical. It's practically impossible to have full degrees of freedom in an environment with a trillion states.
 [^2]: "At least", and not "exactly." If $\alpha$ is a constant feature vector, it's optimal to go right for every permutation of $\alpha$ (trivially so, since $\alpha$'s orbit has a single element—itself).
 [^3]: Even under my more aggressive conjecture about "fractional terminal state copy containment", the unfeaturized situation would only guarantee 3/5\-strength orbit incentives, strictly weaker than 2/3\-strength.
-[^4]: Certain trivial featurizations can decrease the strength of power-seeking tendencies, too. For example, if the featurization is 2-dimensional: $\begin{pmatrix}\text{1 if the agent is dead, 0 otherwise}\\ \text{1 if the agent is alive, 0 otherwise}\end{pmatrix}$, this will tend to produce 1:1 survive/die orbit-level incentives, whereas the incentives for raw reward functions [may be 1,000:1 or stronger](/quantitative-strength-of-instrumental-convergence).
+[^4]: Certain trivial featurizations can decrease the strength of power-seeking tendencies, too. For example, suppose the featurization is 2-dimensional:
+
+    $$\begin{pmatrix}\text{1 if the agent is dead, 0 otherwise}\\ \text{1 if the agent is alive, 0 otherwise}\end{pmatrix}.$$  
+
+    This featurization will tend to produce 1:1 survive/die orbit-level incentives. The incentives for raw reward functions [may be 1,000:1 or stronger](/quantitative-strength-of-instrumental-convergence).
 [^5]:
     There's something abstraction-adjacent about this result (proposition D.1 in [the linked Overleaf paper](https://www.overleaf.com/read/kmjjqwdfhkvy)). The result says something like "do the grooves of the agent's world model featurization, respect the grooves of symmetries in the structure of the agent's environment?", and if they do, _bam_, sufficient condition for power-seeking under the featurized model. I think there's something important here about how good world-model-featurizations should work, but I'm not sure what that is yet.
 

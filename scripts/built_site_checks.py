@@ -477,8 +477,7 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
         # Get text excluding code and KaTeX elements
         stripped_text = script_utils.get_non_code_text(text_elt)
 
-        # Check for any * or _ characters, ignoring _ before %
-        if stripped_text and (re.search(r"\*|_(?![_]* +%)", stripped_text)):
+        if stripped_text and (re.search(r"\*|\_(?!\_* +\%)", stripped_text)):
             _add_to_list(
                 problematic_texts,
                 stripped_text,
@@ -629,7 +628,7 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
 
         if src.startswith("//"):
             src = "https:" + src
-        elif src.startswith("/"):
+        elif src.startswith("/") or src.startswith("."):
             continue  # Skip relative paths as they're checked by other fns
 
         title: str = iframe.get("title", "")
@@ -811,7 +810,9 @@ def strip_path(path_str: str) -> str:
     """
     Strip the git root path from a path string.
     """
-    return path_str.strip(" .")
+    stripped_str = path_str.strip(" .")
+    stripped_str = stripped_str.removeprefix("/asset_staging/")
+    return stripped_str
 
 
 tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
@@ -965,15 +966,43 @@ def check_link_spacing(soup: BeautifulSoup) -> List[str]:
     return problematic_links
 
 
+# Whitelisted emphasis patterns that should be ignored
+# If both prev and next are in the whitelist, then the emphasis is whitelisted
+WHITELISTED_EMPHASIS = {
+    ("Some", ""),  # For e.g. "Some<i>one</i>"
+}
+
+
 def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     """
     Check for emphasis/strong elements that don't have proper spacing with
     surrounding text.
+
+    Ignores specific whitelisted cases.
     """
     problematic_emphasis: List[str] = []
 
     # Find all emphasis elements
     for element in soup.find_all(["em", "strong", "i", "b", "del"]):
+        # Check if this is a whitelisted case
+        prev_sibling = element.previous_sibling
+        next_sibling = element.next_sibling
+
+        if isinstance(prev_sibling, NavigableString) and isinstance(
+            next_sibling, NavigableString
+        ):
+            prev_text = prev_sibling.strip()
+            current_text = element.get_text(strip=True)
+
+            # Check for exact matches in whitelisted cases
+            is_whitelisted = False
+            for prev, next_ in WHITELISTED_EMPHASIS:
+                if prev_text.endswith(prev) and current_text.startswith(next_):
+                    is_whitelisted = True
+                    break
+            if is_whitelisted:
+                continue
+
         problematic_emphasis.extend(
             _check_element_spacing(
                 element,

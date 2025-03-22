@@ -82,6 +82,8 @@ Episode-by-episode:
 | 3   | party        | (.5 - 0) -.5 = 0   | .82                     | .5                              |
 | 4   | wedding      | (1 - 0) - .5 = .5  | .88                     | 1                               |
 
+{.no-min-width}
+
 With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might think this is good, since wedding is in fact "optimal" at that state. This does not seem good. Here are a few kinds of explanations for why:
 
 1. Reward chisels circuits into policy networks. Here, the network can get arbitrarily many policy gradients towards "wedding." Its logits just go up and up and up. Mode collapse.
