@@ -128,6 +128,24 @@ export default (() => {
       )
     })
 
+    const fontPreloadNames = [
+      "EBGaramond/EBGaramond-InitialsF1",
+      "EBGaramond/EBGaramond-InitialsF2",
+    ]
+    const fontPreloads = fontPreloadNames.map((font) => {
+      return (
+        <link
+          key={font}
+          href={`/static/styles/fonts/${font}.woff2`}
+          as="font"
+          type="font/woff2"
+          crossorigin="anonymous"
+          spa-preserve
+          rel="preload"
+        />
+      )
+    })
+
     // Inline the detect-dark-mode script to prevent FOUC
     return (
       <head>
@@ -169,6 +187,7 @@ export default (() => {
         <link rel="apple-touch-icon" href={appleIconPath} />
         <link rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {iconPreloads}
+        {fontPreloads}
 
         <script defer src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
         <script defer src="/static/scripts/safari-autoplay.js" spa-preserve></script>
