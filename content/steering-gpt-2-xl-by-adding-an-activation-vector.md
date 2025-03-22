@@ -1058,7 +1058,7 @@ $$
 
 suggests the presence of a "woman vector" in the `word2vec` embedder.
 
-<img src="./asset_staging/word2vec-white.png" style="width:40%;" loading="lazy"/>
+<img src="https://assets.turntrout.com/static/images/posts/word2vec-white.avif" style="width:40%;" loading="lazy"/>
 
 Figure: Figure 2 from [Linguistic Regularities in Continuous Space Word Representations](https://scholar.google.com/scholar?cluster=2584655260765062813&hl=en&as_sd$t=7$,39).
 

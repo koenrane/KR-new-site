@@ -132,7 +132,7 @@ In order to prove this point, [I implemented a simple decision tree which makes 
 > [!quote] [Safetywashing: Do AI Safety Benchmarks Actually Measure Safety Progress?](https://arxiv.org/pdf/2407.21792)
 > In its current formulation, TruthfulQA MC1 performance is highly determined by general upstream capabilities (81.2%). In chat models, performance on TruthfulQA seems to be a rebrand for accuracy (as reported in industry labs).
 >
-> ![](alignment-washing.png){style="width:75%;"}  
+> ![](https://assets.turntrout.com/static/images/posts/alignment-washing.avif){style="width:75%;"}  
 
 Without commenting on that critique, our conclusions are even more negative. The original TruthfulQA might not even be measuring accuracy, but instead is confounded by the ability to reason about the nature of multiple-choice questions.
 

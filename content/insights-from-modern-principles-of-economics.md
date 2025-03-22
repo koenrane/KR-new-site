@@ -69,7 +69,7 @@ The availability heuristic can deceive you (although [Kaj Sotala notes](https://
 
 Good economic policy has lifted billions of people out of poverty and furnished our lives with previously unimaginable splendor. The Roman emperors had no air conditioning or telephones.
 
-![](extreme-poverty-bg.png)
+![](https://assets.turntrout.com/static/images/posts/extreme-poverty-bg.avif)
 <br/>Figure: Economics is important. And I'm unconvinced by the [criticism of these numbers](https://www.vox.com/future-perfect/2019/2/12/18215534/bill-gates-global-poverty-chart) which I read.
 
 ![](https://assets.turntrout.com/static/images/posts/mhahalue4g3l4gnvbujg.avif)

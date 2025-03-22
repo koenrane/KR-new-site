@@ -58,7 +58,7 @@ We ran some new experiments to test ActAdd more systematically and go beyond the
 
 Does ActAdd increase the probability of the model outputting tokens related to the steering vector? Does performance improve as "relevance of test documents to the steering vector" increases? Yes on both counts.
 
-![](actadd-perplexity-rat.png)
+![](https://assets.turntrout.com/static/images/posts/actadd-perplexity-rat.avif)
 
 Figure: Adding a `wedding` − “ ” steering vector lowers perplexity when wedding words are more frequent. The perplexity ratio (lower is better) compares the relative predictive performance of ActAdd and an unmodified model.  
 
@@ -68,7 +68,7 @@ We score model generations under ActAdd, show the effect of different injection 
 
 For the wedding vector, the intervention is effective at the first layer,  rises in effectiveness until $l = 6$ , and then declines. The optimal injection site yields a topic-steering success rate above 90%, compared to a ∼2% baseline.
 
-![](wedding-word-count.png)
+![](https://assets.turntrout.com/static/images/posts/wedding-word-count.avif)
 
 ### 3\. Evidence that activation additions preserve capabilities
 
@@ -82,7 +82,7 @@ We test that ActAdd does not disrupt the model’s general knowledge (as some ot
 
 Table: Example problems in ConceptNet.
 
-![](pass-at-k.png)
+![](https://assets.turntrout.com/static/images/posts/pass-at-k.avif)
 
 Figure: "P@K" is the probability of the correct answer being in the model's top $K$ answers. ActAdd barely affects off-target probabilities.
 
