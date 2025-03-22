@@ -11,4 +11,4 @@ echo "Subsetting fonts in $num_files files"
 GIT_ROOT=$(git rev-parse --show-toplevel)
 
 # Run subfont on all files
-subfont "$html_files" --formats woff2 --in-place --instance --inline-css --no-recursive 2>/dev/null
+subfont $html_files --formats woff2 --in-place --instance --inline-css --no-recursive
