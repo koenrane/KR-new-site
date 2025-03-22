@@ -42,8 +42,9 @@ original_url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is
 skip_import: true
 description: "Power-seeking is instrumentally convergent for agents maximizing over\
   \ possible futures, but not for agents maximizing over their own actions. "
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 

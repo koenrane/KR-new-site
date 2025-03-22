@@ -35,8 +35,9 @@ original_url: https://www.lesswrong.com/posts/HWxLQvzJGeXoLPJWd/actadd-steering-
 skip_import: true
 description: 'Activation additions: steering language models by adding a bias to the
   forward pass. Surprisingly broad control, small impact on off-target capabilities.'
-date_updated: 2025-03-05 20:43:54.692493
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
  
 
 

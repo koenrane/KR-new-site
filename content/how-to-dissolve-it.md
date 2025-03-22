@@ -30,9 +30,11 @@ use-full-width-images: 'false'
 date_published: 2018-03-07 00:00:00
 original_url: https://www.lesswrong.com/posts/argvWNNHZAz2MeM8C/how-to-dissolve-it
 skip_import: true
-description: Dissolving technical problems by visualizing ideal solutions and then working backwards.
-date_updated: 2025-03-01 17:42:48.379662
+description: Dissolving technical problems by visualizing ideal solutions and then
+  working backwards.
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 

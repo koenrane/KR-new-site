@@ -33,8 +33,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.png
 description: How to make AI agents avoid negative side effects, especially in multi-stakeholder
   environments.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-22 12:22:59.421452
 ---
+
 
 
 
