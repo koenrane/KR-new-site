@@ -8,7 +8,7 @@ on:
 
 jobs:
   visual-testing:
-    # Using Ubuntu since it has the lowest per-minute rate ($0.008)
+    # Using Ubuntu since it has the lowest per-minute rate
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
