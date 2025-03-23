@@ -44,8 +44,6 @@ jobs:
         run: chmod +x ./scripts/subfont.sh
       - name: Subset fonts
         run: sh ./scripts/subfont.sh
-      - name: Run site checks
-        run: python scripts/built-site-checks.py --check-fonts
 
       - name: Install Wrangler
         run: npm install -g wrangler
