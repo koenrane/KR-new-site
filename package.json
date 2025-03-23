@@ -134,7 +134,8 @@
   "optionalDependencies": {
     "@napi-rs/simple-git-darwin-arm64": "0.1.19",
     "@napi-rs/simple-git-linux-x64-gnu": "0.1.19",
-    "lightningcss-linux-x64-gnu": "1.29.1"
+    "lightningcss-linux-x64-gnu": "1.29.1",
+    "sharp-linux-x64": "^0.33.5"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
