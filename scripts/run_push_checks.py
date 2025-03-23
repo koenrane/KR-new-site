@@ -36,6 +36,8 @@ STATE_FILE_PATH = TEMP_DIR / "last_successful_step.json"
 ServerInfo = namedtuple("ServerInfo", ["pid", "created_by_script"])
 
 
+
+@staticmethod
 def save_state(step_name: str) -> None:
     """
     Save the last successful step.
@@ -44,13 +46,12 @@ def save_state(step_name: str) -> None:
     with open(STATE_FILE_PATH, "w", encoding="utf-8") as f:
         json.dump(state, f)
 
-
+@staticmethod
 def get_last_step(
-    available_steps: Optional[List[str]] = None,
+    available_steps: Optional[List[str]] = None
 ) -> Optional[str]:
     """
     Get the name of the last successful step.
-
     Args:
         available_steps: Optional list of valid step names. If provided,
                        validates that the last step is in this list.
@@ -76,10 +77,11 @@ def get_last_step(
     except (json.JSONDecodeError, KeyError):
         return None
 
-
-# pylint: disable=missing-function-docstring
-def reset_saved_progress() -> None:
-    print("Clearing state")
+@staticmethod
+def clear_state() -> None:
+    """
+    Clear the saved state.
+    """
     if STATE_FILE_PATH.exists():
         STATE_FILE_PATH.unlink()
 
