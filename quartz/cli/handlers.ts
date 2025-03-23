@@ -371,13 +371,14 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
       article[data-use-dropcap="true"] {
         --dropcap-vertical-offset: 0.15rem;
         --dropcap-font-size: 3.95rem;
+        --before-color: var(--midground-faint);
 
-            & > p:first-of-type {
-              position: relative;
-              min-height: 4.2rem;
-            }
+        & > p:first-of-type {
+          position: relative;
+          min-height: 4.2rem;
+        }
 
-            & > p:first-of-type::before {
+        & > p:first-of-type::before {
           content: attr(data-first-letter);
           text-transform: uppercase;
           position: absolute;
@@ -386,7 +387,8 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
           font-size: var(--dropcap-font-size);
           line-height: 1;
           padding-right: 0.1em;
-          font-family: "EBGaramondInitialsF2", serif;
+          font-family: var(--font-dropcap-background);
+          color: var(--before-color);
         }
 
         & > p:first-of-type::first-letter {
@@ -394,12 +396,18 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
           text-transform: uppercase;
           font-style: normal !important;
           float: left;
-          color: var(--lightgray);
+          color: var(--foreground);
           font-size: var(--dropcap-font-size);
           line-height: 1;
           padding-right: 0.1em;
-          font-family: "EBGaramondInitialsF1", serif;
+          font-family: var(--font-dropcap-foreground), "EBGaramondInitialsF2", serif;
           font-weight: 500 !important;
+        }
+
+        & > p:first-of-type em,
+        & > p:first-of-type b,
+        & > p:first-of-type strong {
+          font-family: inherit !important;
         }
       }
 
