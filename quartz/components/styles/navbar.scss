@@ -145,6 +145,7 @@
   @media all and (max-width: $full-page-width) {
     margin-bottom: 0;
     margin-top: calc(0.5 * $base-margin);
+    margin-right: calc(0.5 * $base-margin);
   }
 
   // Simulate an h3 on mobile. Prevent weird wrapping issues
@@ -250,11 +251,9 @@
     display: block;
   }
 
+  // Hide on mobile
   @media all and (max-width: $full-page-width) {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: $base-margin;
-    width: 2.5em;
+    display: none;
   }
 }
 
