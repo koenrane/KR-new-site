@@ -361,6 +361,12 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
 
     // Append essential theme variables
     const themeCSS = `
+      * {
+        font-family: var(--font-text);
+      }
+      code {
+        font-family: var(--font-monospace);
+      }
       a {
         color: var(--color-link);
       }
@@ -374,6 +380,10 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
         & > p:first-of-type {
           position: relative;
           min-height: 4.2rem;
+        }
+        & > p:first-of-type::first-line {
+          font-style: inherit;
+          font-variant-caps: small-caps;
         }
         & > p:first-of-type::before {
           content: attr(data-first-letter);
