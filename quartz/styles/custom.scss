@@ -280,7 +280,10 @@ sup {
 // Dark <-> Light
 .temporary-transition *,
 .temporary-transition .mermaid *,
-.temporary-transition *::-webkit-scrollbar {
+.temporary-transition *::-webkit-scrollbar,
+.temporary-transition *::-webkit-media-controls,
+.temporary-transition *::-webkit-media-controls-play-button,
+.temporary-transition *::-webkit-media-controls-panel {
   transition:
     background-color 1s ease-in-out,
     border-color 1s ease-in-out,
