@@ -515,14 +515,6 @@ def get_check_steps(
                 f"{git_root_path}/scripts/update_date_on_publish.py",
             ],
         ),
-        CheckStep(
-            name="Cryptographically timestamping the last commit",
-            command=[
-                "sh",
-                f"{git_root_path}/scripts/timestamp_last_commit.sh",
-            ],
-            shell=True,
-        ),
     ]
 
     return steps_before_server, steps_after_server

@@ -130,9 +130,7 @@ I also took a moment to enable:
 > [!quote] Cryptographic timestamping
 > Subtitle: [The design of this website](/design)
 >
-> I concatenate the SHA-1 commit hashes of all commits being pushed to `main` and hash their concatenation with SHA-256. Using a slight variant of [`gwern`'s timestamping procedure](https://gwern.net/timestamping), I use [OriginStamp](https://originstamp.com/) to commit the SHA-256 hash to the blockchain by the next day.
->
-> By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This reduces (or perhaps eliminates) the possibility of undetectably "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history.
+> I use [Open Timestamps](https://originstamp.com/) to stamp each `git` commit hash onto the blockchain... By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This reduces (or perhaps eliminates) the possibility of undetectably "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history. In particular, I cannot make the positive claim that I wrote content by a given date, unless I had in fact committed that content at least once by that date.
 
 ## Fatebook prediction tracking
 

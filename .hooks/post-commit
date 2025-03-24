@@ -20,10 +20,7 @@ cd "$timestamps_dir" || exit 1
 if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
   git add --force "$commit_hash.txt" "$commit_hash.txt.ots"
   git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet --no-verify
-
-  # Push changes if remote is configured - uncomment when ready
   git push --quiet
 fi
 
-# Return to the original directory
 cd "$git_root" || exit 1

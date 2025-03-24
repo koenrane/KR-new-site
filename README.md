@@ -7,7 +7,7 @@ Run `git config core.hooksPath .hooks` to use the repo's hooks. To [verify that 
 ```shell
 git clone https://github.com/alexander-turner/.timestamps
 cd .timestamps
-ots --no-bitcoin verify "files/$full_commit_hash.txt.ots" --no-blockchain
+ots --no-bitcoin verify "files/$full_commit_hash.txt.ots" 
 ```
 
 The above `ots` ([Open Timestamp](https://github.com/opentimestamps/opentimestamps-client/blob/master/README.md)) command is written assuming you don't have a local copy of the blockchain and are instead willing to trust external calendar services. The commit times can be inspected zero-trust by downloading the blockchain and removing `--no-bitcoin`.
