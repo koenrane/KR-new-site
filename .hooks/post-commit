@@ -5,7 +5,7 @@ set -e
 # Get current commit hash and repository root directory
 commit_hash="$(git rev-parse HEAD)"
 git_root="$(git rev-parse --show-toplevel)"
-timestamps_dir="$git_root/.timestamps"
+timestamps_dir="$git_root/.timestamps/files"
 
 # Create text file containing commit hash
 txt_file="$timestamps_dir/$commit_hash.txt"
