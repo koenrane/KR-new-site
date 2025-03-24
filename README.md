@@ -2,7 +2,7 @@
 
 # Setup
 
-Run `git config core.hooksPath .hooks` to use the repo's hooks. To [verify that one of my commits was produced at a given date](/design#finishing-touches), check out the `timestamp-proofs` branch and then run `ots verify .git/timestamps/$commit_hash.ots`.
+Run `git config core.hooksPath .hooks` to use the repo's hooks. To [verify that one of my commits was produced at a given date](/design#finishing-touches), check out the `timestamp-proofs` branch and then run `ots verify timestamps/$commit_hash.ots`.
 
 [^python]: Python testing and type-checking are run locally and not on GitHub actions.
 

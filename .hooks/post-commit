@@ -37,19 +37,22 @@ wt_dir="$git_root/.git/timestamps-worktree"
 rm -rf "$wt_dir"
 git worktree add -f "$wt_dir" timestamp-proofs > /dev/null 2>&1
 
-# Copy the .ots file into the worktree
-cp "$hash_file.ots" "$wt_dir/$commit_hash.ots"
+# Create timestamps directory in the worktree if it doesn't exist
+mkdir -p "$wt_dir/timestamps"
+
+# Copy the .ots file into the timestamps directory in the worktree
+cp "$hash_file.ots" "$wt_dir/timestamps/$commit_hash.ots"
 
 # Commit the proof (if not already committed)
 cd "$wt_dir"
 changes_made=0
 if [ -n "$(git status --porcelain)" ]; then
-    git add "$commit_hash.ots"
+    git add "timestamps/$commit_hash.ots"
     git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet
-    echo "✅ Timestamped commit $commit_hash and stored proof in 'timestamp-proofs' branch"
+    echo "✅ Timestamped commit $commit_hash and stored proof in 'timestamp-proofs/timestamps' folder"
     changes_made=1
 else
-    echo "ℹ️ Timestamp proof for $commit_hash already exists in 'timestamp-proofs'"
+    echo "ℹ️ Timestamp proof for $commit_hash already exists in 'timestamp-proofs/timestamps'"
 fi
 cd - > /dev/null
 
