@@ -16,6 +16,7 @@ ots stamp "$txt_file" 1>/dev/null
 echo "Stamped $txt_file"
 
 # Add and commit the timestamp files if there are changes
+cd "$timestamps_dir" || exit 1
 if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
   git add --force "$commit_hash.txt" "$commit_hash.txt.ots"
   git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet --no-verify
