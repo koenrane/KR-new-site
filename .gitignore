@@ -9,6 +9,7 @@ tsconfig.tsbuildinfo
 private/
 *subset.woff2
 *zopfli*
+.timestamps
 
 *snapshots*
 lost-pixel/*
