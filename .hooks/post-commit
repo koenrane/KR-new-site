@@ -28,6 +28,7 @@ commit_hash=$(git rev-parse HEAD)
 # Directory to store temporary timestamp input
 git_root="$(git rev-parse --show-toplevel)"
 ts_dir="$git_root/.git/timestamps"
+echo "ts_dir: $ts_dir"
 mkdir -p "$ts_dir"
 
 # Create a file with the commit hash
@@ -36,12 +37,6 @@ echo -n "$commit_hash" > "$hash_file"
 
 # Timestamp using OpenTimestamps
 ots stamp "$hash_file"
-
-# Setup timestamp-proofs branch if it doesn't exist
-if ! git show-ref --quiet refs/heads/timestamp-proofs; then
-    echo "📦 Creating 'timestamp-proofs' branch"
-    git branch timestamp-proofs
-fi
 
 # Create a temporary worktree to modify the branch cleanly
 wt_dir="$git_root/.git/timestamps-worktree"
