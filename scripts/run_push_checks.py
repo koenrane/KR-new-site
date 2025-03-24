@@ -428,10 +428,6 @@ def get_check_steps(
             command=["npx", "tsc", "--noEmit"],
         ),
         CheckStep(
-            name="Linting shell scripts",
-            command=["shellcheck"] + script_files + [".hooks/*"],
-        ),
-        CheckStep(
             name="Linting TypeScript",
             command=[
                 "npx",

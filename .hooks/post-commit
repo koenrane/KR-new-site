@@ -1,12 +1,11 @@
 #!/bin/sh
 
-trap 'git checkout "$current_branch" >/dev/null 2>&1; exit 1' INT TERM
-
 set -e
 
 # Store current branch and switch to timestamp-proofs branch
 current_branch="$(git rev-parse --abbrev-ref HEAD)"
 branch="timestamp-proofs"
+trap 'git checkout "$current_branch" >/dev/null 2>&1' EXIT
 git checkout "$branch" >/dev/null 2>&1
 
 # Get current commit hash and repository root directory
@@ -27,9 +26,9 @@ cp "$txt_file.ots" "$timestamps_dir"
 
 # Track if changes were made to commit
 changes_made=0
-if [ -n "$(git status --porcelain)" ]; then
+if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
   # Add and commit the timestamp files
-  git add "$txt_file.ots" "$txt_file"
+  git add --force "$txt_file.ots" "$txt_file"
   git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet --no-verify
   changes_made=1
 fi
