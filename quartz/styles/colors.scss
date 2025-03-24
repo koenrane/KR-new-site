@@ -11,8 +11,9 @@
   --blue: #8caaee;
   --lavender: #8788d3;
   --purple: #a86de1;
-  --text: #c6d0f5;
-  --base: #303446;
+  --text: #c6d0f5; // TODO what is this?
+  --base: #303446; // TODO remove, same as background
+  --gold: #ffd700; /* Gold */
 
   // Theme-specific colors (from quartz.config.ts darkMode)
   --background: #303446; // frappeColors.base
@@ -47,6 +48,7 @@
   --purple: #6f42c1;
   --text: #4c4f69;
   --base: #eff1f5;
+  --gold: #daa520;
 
   // Theme-specific colors (from quartz.config.ts lightMode)
   --background: #eff1f5; // latteColors.base
@@ -79,6 +81,7 @@
   }
 }
 
+// Simulating dark/light mode
 .dark-mode,
 .light-mode {
   background-color: var(--background) !important;

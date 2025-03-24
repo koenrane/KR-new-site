@@ -405,3 +405,11 @@ article[data-use-dropcap="true"] {
   font-family: var(--font-monospace);
   font-size: smaller;
 }
+
+.gold-script {
+  font-feature-settings: "swsh" 1;
+  color: var(--gold);
+
+  // Make it easier to see on light themes
+  -webkit-text-stroke: 0.2px light-dark(black, transparent);
+}

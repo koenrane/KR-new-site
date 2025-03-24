@@ -316,15 +316,6 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
   }
 }
 
-/* Specific elements and features */
-.gold-script {
-  font-feature-settings: "swsh" 1;
-  color: light-dark(#daa520, #ffd700); /* Gold */
-
-  // Make it easier to see on light themes
-  -webkit-text-stroke: 0.2px light-dark(black, transparent);
-}
-
 figure,
 .subfigure {
   margin: $base-margin;
