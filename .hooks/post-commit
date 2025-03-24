@@ -13,6 +13,7 @@ trap cleanup EXIT
 
 # Exit early if the commit is a merge or amend
 if [ "$GIT_EDITOR" = ":" ] || git log -1 --pretty=%P | grep -q " "; then
+    echo "🔄 Skipping timestamping for merge or amend"
     exit 0
 fi
 
