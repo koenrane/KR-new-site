@@ -20,9 +20,9 @@ fi
 # Get the latest commit hash
 commit_hash=$(git rev-parse HEAD)
 
-# Directory to store temporary timestamp input
+# Directory to store timestamp input
 git_root="$(git rev-parse --show-toplevel)"
-ts_dir="$git_root/.git/timestamps"
+ts_dir="$git_root/timestamps"
 mkdir -p "$ts_dir"
 
 # Create a file with the commit hash
@@ -37,17 +37,16 @@ wt_dir="$git_root/.git/timestamps-worktree"
 rm -rf "$wt_dir"
 git worktree add -f "$wt_dir" timestamp-proofs > /dev/null 2>&1
 
-# Create timestamps directory in the worktree if it doesn't exist
+# Copy the hash file and .ots file into the worktree
 mkdir -p "$wt_dir/timestamps"
-
-# Copy the .ots file into the timestamps directory in the worktree
+cp "$hash_file" "$wt_dir/timestamps/$commit_hash.txt"
 cp "$hash_file.ots" "$wt_dir/timestamps/$commit_hash.ots"
 
 # Commit the proof (if not already committed)
 cd "$wt_dir"
 changes_made=0
 if [ -n "$(git status --porcelain)" ]; then
-    git add "timestamps/$commit_hash.ots"
+    git add "timestamps/$commit_hash.txt" "timestamps/$commit_hash.ots"
     git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet
     echo "✅ Timestamped commit $commit_hash and stored proof in 'timestamp-proofs/timestamps' folder"
     changes_made=1
