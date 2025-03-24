@@ -28,7 +28,6 @@ commit_hash=$(git rev-parse HEAD)
 # Directory to store temporary timestamp input
 git_root="$(git rev-parse --show-toplevel)"
 ts_dir="$git_root/.git/timestamps"
-echo "ts_dir: $ts_dir"
 mkdir -p "$ts_dir"
 
 # Create a file with the commit hash
