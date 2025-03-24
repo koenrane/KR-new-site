@@ -280,7 +280,10 @@ sup {
 // Dark <-> Light
 .temporary-transition *,
 .temporary-transition .mermaid *,
-.temporary-transition *::-webkit-scrollbar {
+.temporary-transition *::-webkit-scrollbar,
+.temporary-transition *::-webkit-media-controls,
+.temporary-transition *::-webkit-media-controls-play-button,
+.temporary-transition *::-webkit-media-controls-panel {
   transition:
     background-color 1s ease-in-out,
     border-color 1s ease-in-out,
@@ -311,15 +314,6 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
   & .header-img {
     filter: saturate(0%);
   }
-}
-
-/* Specific elements and features */
-.gold-script {
-  font-feature-settings: "swsh" 1;
-  color: light-dark(#daa520, #ffd700); /* Gold */
-
-  // Make it easier to see on light themes
-  -webkit-text-stroke: 0.2px light-dark(black, transparent);
 }
 
 figure,
