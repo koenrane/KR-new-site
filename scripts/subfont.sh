@@ -8,4 +8,5 @@ num_files=$(echo "$html_files" | wc -w)
 echo "Subsetting fonts in $num_files files"
 
 # Run subfont on all files
-subfont "$html_files" --formats woff2 --in-place --instance --inline-css --no-recursive
+# shellcheck disable=SC2086
+subfont $html_files --formats woff2 --in-place --instance --inline-css --no-recursive
