@@ -32,7 +32,7 @@ mkdir -p "$ts_dir"
 
 # Create a file with the commit hash
 hash_file="$ts_dir/$commit_hash.txt"
-echo -n "$commit_hash" > "$hash_file"
+printf '%s' "$commit_hash" > "$hash_file"
 
 # Timestamp using OpenTimestamps
 ots stamp "$hash_file"
@@ -61,7 +61,7 @@ cd - > /dev/null
 # Push the timestamp-proofs branch if there's a remote configured
 if [ $changes_made -eq 1 ] || [ "$1" = "--force-push" ]; then
     # Get the remote for the current branch
-    current_remote=$(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote || echo "origin")
+    current_remote=$(git config --get "branch.$(git rev-parse --abbrev-ref HEAD).remote" || echo "origin")
     
     # Push the timestamp-proofs branch
     if git show-ref --quiet "refs/remotes/$current_remote/timestamp-proofs"; then

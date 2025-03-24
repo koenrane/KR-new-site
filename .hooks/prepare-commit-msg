@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Exit if the `SKIP_LLM_GITHOOK` environment variable is set
-if [ ! -z "$SKIP_LLM_GITHOOK" ]; then
+if [ -n "$SKIP_LLM_GITHOOK" ]; then
   exit 0
 fi
 
@@ -15,7 +15,7 @@ NC='\033[0m'        # Resets the text color to default, no color
 # Cleanup function to ensure proper termination
 cleanup() {
     # Kill the spinner if it's running
-    if [ ! -z "$spin_pid" ]; then
+    if [ -n "$spin_pid" ]; then
         kill $spin_pid 2>/dev/null
         wait $spin_pid 2>/dev/null
     fi
@@ -23,9 +23,6 @@ cleanup() {
     # Reset terminal
     tput cnorm  # Show cursor
     echo  # New line
-    
-    # Exit
-    exit 1
 }
 
 # Set up trap for various termination signals
@@ -34,10 +31,10 @@ trap cleanup INT TERM HUP
 # Function to display a spinning animation during the LLM processing
 spin_animation() {
   # Array of spinner characters for the animation
-  spinner=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+  spinner="⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏"
   # Infinite loop to keep the animation running
   while true; do
-    for i in "${spinner[@]}"; do
+    for i in $spinner; do
       tput civis  # Hide the cursor
       tput el1    # Clear line
       printf "\\r${YELLOW}%s${NC} Generating LLM commit message..." "$i"
@@ -53,7 +50,7 @@ if [ -n "$2" ]; then
 fi
 
 # Check if llm is installed
-if ! command -v llm &> /dev/null; then
+if ! command -v llm >/dev/null 2>&1; then
   echo "${RED}Error: 'llm' command is not installed. Please install it and try again.${NC}"
   exit 1
 fi
@@ -65,7 +62,7 @@ spin_pid=$!
 # Generate commit message
 if ! commit_msg=$(git diff --cached | llm -s "$(cat ~/.config/prompts/commit-system-prompt.txt)" 2>&1); then
   cleanup
-  printf "${RED}Error: 'llm' command failed to generate the commit message:\\n${commit_msg}${NC}\\n\\nManually set the commit message"
+  printf '%sError: '\''llm'\'' command failed to generate the commit message:\n%s%s\n\nManually set the commit message' "$RED" "$commit_msg" "$NC"
   exit 1
 fi
 
