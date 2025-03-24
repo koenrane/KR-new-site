@@ -361,6 +361,12 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
 
     // Append essential theme variables
     const themeCSS = `
+      * {
+        font-family: var(--font-text);
+      }
+      code {
+        font-family: var(--font-monospace);
+      }
       a {
         color: var(--color-link);
       }
@@ -423,7 +429,6 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
       }
       `
     cachedCriticalCSS = css + themeCSS
-    console.log(cachedCriticalCSS)
     console.log("Cached critical CSS with theme variables")
   } catch (error) {
     console.error("Error generating critical CSS:", error)
