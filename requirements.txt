@@ -103,3 +103,4 @@ virtualenv==20.26.6
 docformatter
 rich>=13.7.0
 types-psutil>=5.9.5
+ots>=0.7.2

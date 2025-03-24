@@ -1,0 +1,83 @@
+#!/bin/sh
+set -e
+
+# Function to clean up temporary worktree
+cleanup() {
+    if [ -d "$wt_dir" ]; then
+        git worktree remove --force "$wt_dir" > /dev/null 2>&1 || true
+    fi
+}
+
+# Set up trap to ensure cleanup happens
+trap cleanup EXIT
+
+# Exit early if the commit is a merge or amend
+if [ "$GIT_EDITOR" = ":" ] || git log -1 --pretty=%P | grep -q " "; then
+    exit 0
+fi
+
+# Check if OpenTimestamps client is available
+if ! command -v ots >/dev/null 2>&1; then
+    echo "⚠️ OpenTimestamps client (ots) not found. Skipping timestamping."
+    exit 0
+fi
+
+# Get the latest commit hash
+commit_hash=$(git rev-parse HEAD)
+
+# Directory to store temporary timestamp input
+git_root="$(git rev-parse --show-toplevel)"
+ts_dir="$git_root/.git/timestamps"
+mkdir -p "$ts_dir"
+
+# Create a file with the commit hash
+hash_file="$ts_dir/$commit_hash.txt"
+echo -n "$commit_hash" > "$hash_file"
+
+# Timestamp using OpenTimestamps
+ots stamp "$hash_file"
+
+# Setup timestamp-proofs branch if it doesn't exist
+if ! git show-ref --quiet refs/heads/timestamp-proofs; then
+    echo "📦 Creating 'timestamp-proofs' branch"
+    git branch timestamp-proofs
+fi
+
+# Create a temporary worktree to modify the branch cleanly
+wt_dir="$git_root/.git/timestamps-worktree"
+rm -rf "$wt_dir"
+git worktree add -f "$wt_dir" timestamp-proofs > /dev/null 2>&1
+
+# Copy the .ots file into the worktree
+cp "$hash_file.ots" "$wt_dir/$commit_hash.ots"
+
+# Commit the proof (if not already committed)
+cd "$wt_dir"
+changes_made=0
+if [ -n "$(git status --porcelain)" ]; then
+    git add "$commit_hash.ots"
+    git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet
+    echo "✅ Timestamped commit $commit_hash and stored proof in 'timestamp-proofs' branch"
+    changes_made=1
+else
+    echo "ℹ️ Timestamp proof for $commit_hash already exists in 'timestamp-proofs'"
+fi
+cd - > /dev/null
+
+# Push the timestamp-proofs branch if there's a remote configured
+if [ $changes_made -eq 1 ] || [ "$1" = "--force-push" ]; then
+    # Get the remote for the current branch
+    current_remote=$(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote || echo "origin")
+    
+    # Push the timestamp-proofs branch
+    if git show-ref --quiet "refs/remotes/$current_remote/timestamp-proofs"; then
+        echo "🔄 Pushing timestamp proofs to $current_remote/timestamp-proofs"
+        git push "$current_remote" timestamp-proofs --quiet
+    elif git remote | grep -q "$current_remote"; then
+        echo "🔄 Setting up and pushing timestamp-proofs branch to $current_remote"
+        git push -u "$current_remote" timestamp-proofs --quiet
+    else
+        echo "ℹ️ No suitable remote found for pushing timestamp-proofs branch"
+    fi
+fi
+
