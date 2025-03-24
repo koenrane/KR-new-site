@@ -5,7 +5,6 @@ import { Mutex } from "async-mutex"
 import chalk from "chalk"
 import { load as cheerioLoad } from "cheerio"
 import { watch } from "chokidar"
-import CleanCSS from "clean-css"
 // @ts-expect-error no critical types
 import { generate } from "critical"
 import { randomUUID } from "crypto"
@@ -372,12 +371,10 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
         --dropcap-vertical-offset: 0.15rem;
         --dropcap-font-size: 3.95rem;
         --before-color: var(--midground-faint);
-
         & > p:first-of-type {
           position: relative;
           min-height: 4.2rem;
         }
-
         & > p:first-of-type::before {
           content: attr(data-first-letter);
           text-transform: uppercase;
@@ -390,7 +387,6 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
           font-family: var(--font-dropcap-background);
           color: var(--before-color);
         }
-
         & > p:first-of-type::first-letter {
           padding-top: var(--dropcap-vertical-offset);
           text-transform: uppercase;
@@ -403,14 +399,12 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
           font-family: var(--font-dropcap-foreground), "EBGaramondInitialsF2", serif;
           font-weight: 500 !important;
         }
-
         & > p:first-of-type em,
         & > p:first-of-type b,
         & > p:first-of-type strong {
           font-family: inherit !important;
         }
       }
-
       :root[saved-theme="dark"],
       .dark-mode {
         --light: #303446;
@@ -428,11 +422,7 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
         --blue: #406ecc;
       }
       `
-    const minifiedCSS: CleanCSS.Output = new CleanCSS().minify(css + themeCSS)
-    if (minifiedCSS.errors.length > 0) {
-      throw new Error("Critical CSS minification failed.")
-    }
-    cachedCriticalCSS = minifiedCSS.styles
+    cachedCriticalCSS = css + themeCSS
     console.log("Cached critical CSS with theme variables")
   } catch (error) {
     console.error("Error generating critical CSS:", error)
