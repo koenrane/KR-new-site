@@ -1,44 +1,43 @@
 #!/bin/sh
 
+# Trap interrupts (CTRL-C or termination signals), remove timestamps directory, and exit.
+trap 'echo "Timestamp script was interrupted. Removing partial timestamps..."; rm -rf "$timestamps_dir"; git checkout "$current_branch" >/dev/null 2>&1; exit 1' INT TERM
+
 set -e
 
 commit_hash="$(git rev-parse HEAD)"
 git_root="$(git rev-parse --show-toplevel)"
 timestamps_dir="$git_root/timestamps"
 
-# Ensure the timestamps directory exists.
 mkdir -p "$timestamps_dir"
 
-# Create a .txt file with the commit hash and stamp it using OpenTimestamps.
 txt_file="$timestamps_dir/$commit_hash.txt"
 printf '%s' "$commit_hash" >"$txt_file"
-ots stamp "$txt_file"
+ots stamp "$txt_file" 1>/dev/null
+echo "Stamped $txt_file"
 
-# Define the branch for storing timestamp proofs in git.
 branch="timestamp-proofs"
 changes_made=0
 
-# Save the current branch name and switch to the timestamp-proofs branch.
+if ! git rev-parse --verify "$branch" >/dev/null 2>&1; then
+  git branch "$branch" >/dev/null 2>&1
+fi
+
 current_branch="$(git rev-parse --abbrev-ref HEAD)"
 git checkout "$branch" >/dev/null 2>&1
 
-# Copy the newly stamped .ots file into the timestamps folder.
-ots_file="$timestamps_dir/$commit_hash.ots"
-cp "$txt_file.ots" "$ots_file"
+cp "$txt_file.ots" "$timestamps_dir"
 
-# If there are changes in this branch, commit them (i.e., the new .ots file).
 if [ -n "$(git status --porcelain)" ]; then
-  git add "$ots_file"
+  git add "$txt_file.ots" "$txt_file"
   git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet
   changes_made=1
 fi
 
-# If a new commit was made in the timestamp-proofs branch, push it.
 if [ $changes_made -eq 1 ]; then
   git push --quiet
 fi
 
-# Switch back to the original branch if needed.
 if [ "$current_branch" != "$branch" ]; then
   git checkout "$current_branch" >/dev/null 2>&1
 fi
