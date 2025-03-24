@@ -1,74 +1,44 @@
 #!/bin/sh
+
 set -e
 
-# Function to clean up temporary worktree
-cleanup() {
-    if [ -d "$wt_dir" ]; then
-        git worktree remove --force "$wt_dir" > /dev/null 2>&1 || true
-    fi
-}
-
-# Set up trap to ensure cleanup happens
-trap cleanup EXIT
-
-# Check if OpenTimestamps client is available
-if ! command -v ots >/dev/null 2>&1; then
-    echo "⚠️ OpenTimestamps client (ots) not found. Skipping timestamping."
-    exit 0
-fi
-
-# Get the latest commit hash
-commit_hash=$(git rev-parse HEAD)
-
-# Directory to store timestamp input
+commit_hash="$(git rev-parse HEAD)"
 git_root="$(git rev-parse --show-toplevel)"
-ts_dir="$git_root/timestamps"
-mkdir -p "$ts_dir"
+timestamps_dir="$git_root/timestamps"
 
-# Create a file with the commit hash
-hash_file="$ts_dir/$commit_hash.txt"
-printf '%s' "$commit_hash" > "$hash_file"
+# Ensure the timestamps directory exists.
+mkdir -p "$timestamps_dir"
 
-# Timestamp using OpenTimestamps
-ots stamp "$hash_file"
+# Create a .txt file with the commit hash and stamp it using OpenTimestamps.
+txt_file="$timestamps_dir/$commit_hash.txt"
+printf '%s' "$commit_hash" >"$txt_file"
+ots stamp "$txt_file"
 
-# Create a temporary worktree to modify the branch cleanly
-wt_dir="$git_root/.git/timestamps-worktree"
-rm -rf "$wt_dir"
-git worktree add -f "$wt_dir" timestamp-proofs > /dev/null 2>&1
-
-# Copy the hash file and .ots file into the worktree
-mkdir -p "$wt_dir/timestamps"
-cp "$hash_file" "$wt_dir/timestamps/$commit_hash.txt"
-cp "$hash_file.ots" "$wt_dir/timestamps/$commit_hash.ots"
-
-# Commit the proof (if not already committed)
-cd "$wt_dir"
+# Define the branch for storing timestamp proofs in git.
+branch="timestamp-proofs"
 changes_made=0
+
+# Save the current branch name and switch to the timestamp-proofs branch.
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+git checkout "$branch" >/dev/null 2>&1
+
+# Copy the newly stamped .ots file into the timestamps folder.
+ots_file="$timestamps_dir/$commit_hash.ots"
+cp "$txt_file.ots" "$ots_file"
+
+# If there are changes in this branch, commit them (i.e., the new .ots file).
 if [ -n "$(git status --porcelain)" ]; then
-    git add "timestamps/$commit_hash.txt" "timestamps/$commit_hash.ots"
-    git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet
-    echo "✅ Timestamped commit $commit_hash and stored proof in 'timestamp-proofs/timestamps' folder"
-    changes_made=1
-else
-    echo "ℹ️ Timestamp proof for $commit_hash already exists in 'timestamp-proofs/timestamps'"
-fi
-cd - > /dev/null
-
-# Push the timestamp-proofs branch if there's a remote configured
-if [ $changes_made -eq 1 ] || [ "$1" = "--force-push" ]; then
-    # Get the remote for the current branch
-    current_remote=$(git config --get "branch.$(git rev-parse --abbrev-ref HEAD).remote" || echo "origin")
-    
-    # Push the timestamp-proofs branch
-    if git show-ref --quiet "refs/remotes/$current_remote/timestamp-proofs"; then
-        echo "🔄 Pushing timestamp proofs to $current_remote/timestamp-proofs"
-        git push "$current_remote" timestamp-proofs --quiet
-    elif git remote | grep -q "$current_remote"; then
-        echo "🔄 Setting up and pushing timestamp-proofs branch to $current_remote"
-        git push -u "$current_remote" timestamp-proofs --quiet
-    else
-        echo "ℹ️ No suitable remote found for pushing timestamp-proofs branch"
-    fi
+  git add "$ots_file"
+  git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet
+  changes_made=1
 fi
 
+# If a new commit was made in the timestamp-proofs branch, push it.
+if [ $changes_made -eq 1 ]; then
+  git push --quiet
+fi
+
+# Switch back to the original branch if needed.
+if [ "$current_branch" != "$branch" ]; then
+  git checkout "$current_branch" >/dev/null 2>&1
+fi
