@@ -1,39 +1,45 @@
 #!/bin/sh
 
-# Trap interrupts (CTRL-C or termination signals), remove timestamps directory, and exit.
 trap 'git checkout "$current_branch" >/dev/null 2>&1; exit 1' INT TERM
 
 set -e
 
-branch="timestamp-proofs"
-
+# Store current branch and switch to timestamp-proofs branch
 current_branch="$(git rev-parse --abbrev-ref HEAD)"
+branch="timestamp-proofs"
 git checkout "$branch" >/dev/null 2>&1
 
+# Get current commit hash and repository root directory
 commit_hash="$(git rev-parse HEAD)"
 git_root="$(git rev-parse --show-toplevel)"
 timestamps_dir="$git_root/timestamps"
 mkdir -p "$timestamps_dir"
 
+# Create text file containing commit hash
 txt_file="$timestamps_dir/$commit_hash.txt"
 printf '%s' "$commit_hash" >"$txt_file"
+# Create OpenTimestamps proof for the commit hash
 ots stamp "$txt_file" 1>/dev/null
 echo "Stamped $txt_file"
 
-# Copy the newly stamped .ots file into the timestamps folder.
+# Copy the newly stamped .ots file into the timestamps folder
 cp "$txt_file.ots" "$timestamps_dir"
 
+# Track if changes were made to commit
 changes_made=0
 if [ -n "$(git status --porcelain)" ]; then
+  # Add and commit the timestamp files
   git add "$txt_file.ots" "$txt_file"
-  git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet
+  git commit -m "Add OpenTimestamp proof for commit $commit_hash" --quiet --no-verify
   changes_made=1
 fi
 
+# Push changes if any were made
 if [ $changes_made -eq 1 ]; then
   git push --quiet
 fi
 
+# Return to original branch if different from timestamp-proofs
 if [ "$current_branch" != "$branch" ]; then
   git checkout "$current_branch" >/dev/null 2>&1
 fi
