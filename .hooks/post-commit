@@ -11,12 +11,6 @@ cleanup() {
 # Set up trap to ensure cleanup happens
 trap cleanup EXIT
 
-# Exit early if the commit is a merge or amend
-if [ "$GIT_EDITOR" = ":" ] || git log -1 --pretty=%P | grep -q " "; then
-    echo "🔄 Skipping timestamping for merge or amend"
-    exit 0
-fi
-
 # Check if OpenTimestamps client is available
 if ! command -v ots >/dev/null 2>&1; then
     echo "⚠️ OpenTimestamps client (ots) not found. Skipping timestamping."
