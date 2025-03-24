@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Remove any images in the asset_staging directory that are not referenced in any markdown files.
 
 GIT_ROOT=$(git rev-parse --show-toplevel)

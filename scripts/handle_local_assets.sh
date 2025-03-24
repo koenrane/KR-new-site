@@ -1,7 +1,9 @@
+#!/bin/bash
+
 set -e # Exit immediately if a command exits with a non-zero status
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
-cd "$GIT_ROOT"
+cd "$GIT_ROOT" || exit
 
 cleanup() {
   find "$GIT_ROOT" -type f -name "*_temp.*" -delete
@@ -13,7 +15,7 @@ trap cleanup EXIT
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
 if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
-  sh "$GIT_ROOT"/scripts/remove_unreferenced_assets.sh
+  bash "$GIT_ROOT"/scripts/remove_unreferenced_assets.sh
 
   # Update references in the content
   find "$GIT_ROOT"/content/asset_staging -type f -print0 | while IFS= read -r -d '' FILE; do
@@ -41,9 +43,9 @@ python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$LOCAL_ASSET_DIR" --refer
 
 # Commit changes to the moved-to local dir
 # (NOTE will also commit current changes)
-cd "$LOCAL_ASSET_DIR"
+cd "$LOCAL_ASSET_DIR" || exit
 if [ "$(git status --porcelain | wc -l)" -gt 0 ]; then
   git add -A
   git commit -m "Added assets which were transferred from the main repo."
 fi
-cd -
+cd - || exit

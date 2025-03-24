@@ -1,5 +1,7 @@
+#!/bin/bash
+
 GIT_ROOT=$(git rev-parse --show-toplevel)
-cd "$GIT_ROOT"
+cd "$GIT_ROOT" || exit
 
 python "$GIT_ROOT"/scripts/update_date_on_publish.py
 echo "Updated date on publish."

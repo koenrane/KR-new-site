@@ -470,7 +470,10 @@ def get_check_steps(
         ),
         CheckStep(
             name="Compressing and uploading local assets",
-            command=["sh", f"{git_root_path}/scripts/handle_local_assets.sh"],
+            command=[
+                "bash",
+                f"{git_root_path}/scripts/handle_local_assets.sh",
+            ],
             shell=True,
         ),
         CheckStep(
