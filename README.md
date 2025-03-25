@@ -2,7 +2,7 @@
 
 # Setup
 
-Run `git config core.hooksPath .hooks` to use the repo's hooks. To [verify that one of my commits was produced at a given date](/design#finishing-touches), you need to check out another repository:
+Run `git config core.hooksPath .hooks` to use the repo's hooks. To [verify that one of my commits was produced at a given date](https://turntrout.com/design#finishing-touches), you need to check out another repository:
 
 ```shell
 git clone https://github.com/alexander-turner/.timestamps
