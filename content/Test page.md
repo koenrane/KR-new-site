@@ -224,8 +224,6 @@ This footnote has a table.[^table]
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
     | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
 
-    {.no-min-width}
-
     Table: Unpaired addition of `Love`.
 
 <table border="1">

@@ -88,7 +88,7 @@ date_updated: 2025-03-22 12:22:59.421452
 
 One view on AGI risk is that we're charging ahead into the unknown, into a particularly unfair game of Minesweeper in which the first click is allowed to blow us up. Following the analogy, we want to understand enough about the mine placement so that we _don't_ get exploded on the first click. And once we get a foothold, we start gaining information about other mines, and the situation is a bit less dangerous.
 
-![](https://assets.turntrout.com/static/images/posts/mine_empty.avif)
+![](https://assets.turntrout.com/static/images/posts/mine_empty.avif){style="width: 35%;"}
 
 My previous theorems on power-seeking said something like: "at least half of the tiles conceal mines."
 
@@ -107,15 +107,15 @@ We can sample coordinates in many ways - not just uniformly randomly. So why sho
 
 My new results say something analogous to: for _every_ coordinate, either it contains a mine, or its reflection across $x=y$  contains a mine, or both. Therefore, for _every distribution_ $\mathcal{D}$ over tile coordinates, either $\mathcal{D}$ assigns at least 1/2 probability to mines, or it does after you reflect it across $x=y$.
 
-> [!definition] Definition: Orbit
+> [!math] Definition: Orbit
 > The [_orbit_](https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers) of a coordinate $C$ under the symmetric group $S_2$ is $\{C,C_\text{reflected}\}$. More generally, if we have a probability distribution over coordinates, its orbit is the set of all possible "permuted" distributions.
->
-> Orbits under symmetric groups quantify all ways of "changing things around" for that object.
 
-![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif)
+Orbits under symmetric groups quantify all ways of "changing things around" for that object.
+
+![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif){style="width: 35%;"}
 <br/>Figure: My new theorems demand that (in the analogy) at least one of these tiles conceal a mine.
 
-![](https://assets.turntrout.com/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.avif)
+![](https://assets.turntrout.com/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.avif){style="width: 35%;"}
 <br/>Figure: If the mines had been on the right, then both coordinates are safe.
 
 Since my results (in the analogy) prove that at least one of the two blue coordinates conceals a mine, we deduce that the mines are _not_ all on the right.
@@ -155,8 +155,6 @@ In this three-state MDP, let $R_C$ assign 1 reward to $C$ and 0 to all other sta
 |              $R_C$ | $1$ | $0$ | $0$ |
 |   $\phi \cdot R_C$ | $0$ | $1$ | $0$ |
 | $\phi^2 \cdot R_C$ | $0$ | $0$ | $1$ |
-
-{.no-min-width}
 
 Table: Different reward functions and the rewards they assign to states.
 
