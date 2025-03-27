@@ -48,7 +48,7 @@ describe("insertAfterTroutOrnament", () => {
 
     // Create mock components to insert
     const mockSequenceLinks: Element = h("div", { id: "sequence-links" }, "Sequence Links")
-    const mockRSS: Element = h("a", { href: "/index.xml", class: "rss-link" }, "Subscribe to RSS")
+    const mockRSS: Element = h("a", { href: "/index.xml", class: "rss-link" }, "Subscribe to rss")
 
     // Call the function
     insertAfterTroutOrnament(mockTree, [mockSequenceLinks, mockRSS])
