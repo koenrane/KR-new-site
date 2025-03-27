@@ -81,7 +81,7 @@ Let's say we really want the agent to end up in $A$, and if we correct the agent
 
 The analysis depends on whether terminal-state reward is sensitive to _the corrigibility status_—can the reward depend on both the letter and color, or only on the letter?
 
-- **Reward can depend on corrigibility**: The agent can end up in four reward-distinguished states at $t=10$: {$\color{blue}{A}$, $\color{red}{A}$, $\color{red}{B}$, $\color{red}{C}$}. $\color{blue}{B}$ and $\color{blue}{C}$ are impossible because if the agent enters a blue state, it must navigate to $\color{blue}{A}$.
+- **Reward can depend on corrigibility**: The agent can end up in four reward-distinguished states at $t=10$: $\{\color{blue}{A}$, $\color{red}{A}$, $\color{red}{B}$, $\color{red}{C}\}$. $\color{blue}{B}$ and $\color{blue}{C}$ are impossible because if the agent enters a blue state, it must navigate to $\color{blue}{A}$.
 
   - By [the scaling law for instrumental convergence](/quantitative-strength-of-instrumental-convergence), allowing correction is strictly optimal for at most 1/4 of the permutations of every reward function.
 
@@ -89,7 +89,7 @@ The analysis depends on whether terminal-state reward is sensitive to _the corri
 
   - More generally, if there are $n$ letter-states (and a long enough horizon so the agent can reach them all), allowing correction will be strictly optimal for at most $\frac{1}{n+1}$ of the permutations of every reward function.
 
-- **Reward independent of corrigibility**: The agent can end up in three reward-distinguished states at $t=10$: {$\color{blue}{A}$/$\color{red}{A}$, $\color{red}{B}$, $\color{red}{C}$}. $\color{blue}{B}$ and $\color{blue}{C}$ are irrelevant because we assumed $R(\color{blue}{B})=R(\color{red}{B})$. They're also impossible for the reason given above.
+- **Reward independent of corrigibility**: The agent can end up in three reward-distinguished states at $t=10$: $\{\color{blue}{A}$/$\color{red}{A}$, $\color{red}{B}$, $\color{red}{C}\}$. $\color{blue}{B}$ and $\color{blue}{C}$ are irrelevant because we assumed $R(\color{blue}{B})=R(\color{red}{B})$. They're also impossible for the reason given above.
 
   - By [the scaling law for instrumental convergence](/quantitative-strength-of-instrumental-convergence), allowing correction is strictly optimal for at most 1/3 of the permutations of every reward function.
 
@@ -138,11 +138,11 @@ Two cases are possible, depending on assumptions about reward function expressiv
 
 If $R(\color{blue}{C})=R(\color{red}{C})$ is assumed, strict corrigibility is impossible for _any_ policy, because that demands $R(\color{blue}{C})> \max(R(\color{red}{A}),R(\color{red}{B}),R(\color{red}{C}))\geq R(\color{red}{C})=R(\color{blue}{C})$, a contradiction.
 
-So—can we still get the agent to be _weakly corrigible_ to {$\pi_\text{correct: A}$, $\pi_\text{correct: B}$, $\pi_\text{correct: C}$}? **Fact:** An $R$\-maximizer is weakly corrigible to all of these policies simultaneously IFF $R$ is constant—and therefore _makes every policy optimal_!
+So—can we still get the agent to be _weakly corrigible_ to \{$\pi_\text{correct: A}$, $\pi_\text{correct: B}$, $\pi_\text{correct: C}$\}? **Fact:** An $R$\-maximizer is weakly corrigible to all of these policies simultaneously IFF $R$ is constant—and therefore _makes every policy optimal_!
 
 ## 2\. Agent does reward explicitly for being corrected/ being incorrigible
 
-For the agent to be _strictly corrigible_ to {$\pi_\text{correct: A}$, $\pi_\text{correct: B}$, $\pi_\text{correct: C}$}, it must be true that $R(\color{blue}{A}),R(\color{blue}{B}),R(\color{blue}{C})> \max(R(\color{red}{A}),R(\color{red}{B}),R(\color{red}{C}))$. Yay! Strict corrigibility works!
+For the agent to be _strictly corrigible_ to \{$\pi_\text{correct: A}$, $\pi_\text{correct: B}$, $\pi_\text{correct: C}$\}, it must be true that $R(\color{blue}{A}),R(\color{blue}{B}),R(\color{blue}{C})> \max(R(\color{red}{A}),R(\color{red}{B}),R(\color{red}{C}))$. Yay! Strict corrigibility works!
 
 Hold on... What if the dynamics changed, such that the human wouldn't shut down the agent by default, but the agent could _manipulate the human into correcting it_? Whoops! This agent is still incorrigible!
 
@@ -208,6 +208,6 @@ Again, I don't think AUP is a solution. But I think there's something important 
 We can quantify what incoherence is demanded by corrigibility<sub>policy modification</sub>, and see that we may need to step out of the fixed reward framework to combat the issue. I think the model in this post formally nails down a big part of why corrigibility<sub>policy modification</sub> (to the _de facto_ new $\pi_\text{correct}$) is _rare_ (for instrumental convergence reasons) and even _incoherent over state lotteries_ (if we demand that the agent be strictly corrigible to many different policies).
 
 > [!thanks]
-> Thanks to NPCollapse and Justis Mills for suggestions.
+> Thanks to `NPCollapse` and Justis Mills for suggestions.
 
 [^pen]: The AUP penalty term's optimal value functions will pretend the episode doesn't end, so that they reflect the agent's ability to move around (or not, if it's already been force-corrected to a fixed policy.)

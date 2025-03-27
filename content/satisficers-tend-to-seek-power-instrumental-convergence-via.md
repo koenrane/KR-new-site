@@ -87,7 +87,7 @@ For example, suppose our cute robot Frank must choose one of several kinds of fr
 ![](https://assets.turntrout.com/static/images/posts/6b6db28b0164d8da5c2d911acdd347785b7d43fb7dca780a.avif)
 <br/>Figure: 🍒 vs 🍎 vs 🍌
 
-So far, I proved something like "if the agent has a utility function over fruits, then for at least 2/3 of possible utility functions it could have, it'll be optimal to choose something from {🍌,🍎}." This is because for every way 🍒 could be strictly optimal, you can make a new utility function that permutes the 🍒 and 🍎 reward, and another new one that permutes the 🍌 and 🍒 reward. So for every "I like 🍒 strictly more" utility function, there's at least two permuted variants which strictly prefer 🍎 or 🍌. Superficially, it seems like this argument relies on optimal decision-making.
+So far, I proved something like "if the agent has a utility function over fruits, then for at least 2/3 of possible utility functions it could have, it'll be optimal to choose something from \{🍌,🍎\}." This is because for every way 🍒 could be strictly optimal, you can make a new utility function that permutes the 🍒 and 🍎 reward, and another new one that permutes the 🍌 and 🍒 reward. So for every "I like 🍒 strictly more" utility function, there's at least two permuted variants which strictly prefer 🍎 or 🍌. Superficially, it seems like this argument relies on optimal decision-making.
 
 This argument does not, in fact, rely on optimal decision-making. The crux is instead that we can _flexibly retarget_ the decision-making of the agent: **For every way the agent could end up choosing 🍒, we change a variable in its cognition (its utility function) and make it choose the 🍌 or 🍎 instead.**
 
@@ -281,7 +281,7 @@ The retargetability criterion also accounts for reward shaping guiding the learn
 
 Planning agents are more "top-down" than RL training, but a Monte Carlo tree search agent still isn't e.g. approximating Boltzmann-rational leaf node selection. A bounded agent won't be considering _all_ of the possible trajectories it can induce. Maybe it just knows how to induce some subset of available outcome lotteries $C'\subsetneq C$. Then, considering only the things it knows how to do, it _does_ e.g. select one Boltzmann-rationally (sometimes it'll fail to choose the highest-EU plan, but it's more probable to choose higher-utility plans).
 
-As long as {power-seeking things the agent knows how to do} contains $n$ copies of {non-power-seeking things the agent knows how to do}, then the theorems will still apply. I think this is a reasonable model of bounded cognition.
+As long as \{power-seeking things the agent knows how to do\} contains $n$ copies of \{non-power-seeking things the agent knows how to do\}, then the theorems will still apply. I think this is a reasonable model of bounded cognition.
 
 # Discussion
 

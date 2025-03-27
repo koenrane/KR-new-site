@@ -993,13 +993,15 @@ Ulisse Mini (researcher)
 
 The [`activation_additions`](https://github.com/montemac/activation_additions) repository contains our code. To cite this work:
 
-    @article{turner2023steering,
-        title={Steering GPT-2-XL by adding an activation vector},
-        author={Turner, Alex and M., Monte and Udell, David and Thiergart, Lisa and Mini, Ulisse},
-        journal={AI Alignment Forum},
-        year={2023},
-        note={\url{https://www.alignmentforum.org/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector}}
-    }
+```bibtex
+@article{turner2023steering,
+    title={Steering GPT-2-XL by adding an activation vector},
+    author={Turner, Alex and M., Monte and Udell, David and Thiergart, Lisa and Mini, Ulisse},
+    journal={AI Alignment Forum},
+    year={2023},
+    note={\url{https://www.alignmentforum.org/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector}}
+}
+```
 
 # Appendix 1: Related work
 
@@ -1021,7 +1023,7 @@ Importantly, [Othello-GPT](https://arxiv.org/abs/2210.13382) is an 8-layer trans
 
 ## Other ways of steering language models
 
-[Editing Models with Task Arithmetic](https://arxiv.org/abs/2212.04089) explored a "dual" version of our activation additions. That work took vectors between _weights_ before and after finetuning on a new task, and then added or subtracted task-specific weight-difference vectors. While this seems interesting, task arithmetic requires finetuning. In [Activation additions have advantages over {RL, supervised}-finetuning](#activation-additions-have-advantages-over-rl-supervised-finetuning), we explain the advantages our approach may have over finetuning.
+[Editing Models with Task Arithmetic](https://arxiv.org/abs/2212.04089) explored a "dual" version of our activation additions. That work took vectors between _weights_ before and after finetuning on a new task, and then added or subtracted task-specific weight-difference vectors. While this seems interesting, task arithmetic requires finetuning. In [Activation additions have advantages over \{RL, supervised\}-finetuning](#activation-additions-have-advantages-over-rl-supervised-finetuning), we explain the advantages our approach may have over finetuning.
 
 [Plug and Play Language Models](https://arxiv.org/abs/1912.02164) uses an attribute model (e.g. probability assigned to wedding-related tokens) which is optimized against in order to modify the cached key-value history for each forward pass during autoregressive generation. PPLM doesn't directly optimize each residual stream in its entirety, but PPLM does modify the key and value vectors. While they use optimization and we don't, they are also able to steer the model to produce positive completions given negative prompts (e.g. "My dog died at the age of 92 years this year. He was a legend in our home state of Virginia. I have a tremendous heart, my soul, my spirit, my love.").
 

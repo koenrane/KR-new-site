@@ -46,7 +46,7 @@ date_updated: 2025-03-22 12:22:59.421452
 
 **Summary:** Many policy gradient methods allow a network to extract arbitrarily many policy updates from a single kind of reinforcement event (e.g. for outputting tokens related to weddings). Alex proposes a slight modification to the advantage equation, called "action-conditioned TD error" (ACTDE). ACTDE ensures that the network doesn't converge to an "optimal" policy (these almost always put infinite logits on a single action). Instead, ACTDE updates the network by a fixed number of logits.
 
-For example, suppose $R(\text{pizza})=10$ and $R(\text{cookies})=11$. In this case, PPO converges to a policy which puts arbitrarily many logits on $\text{cookies}$, even though the reward difference is small. By contrast, under ACTDE, the network converges to the softmax-over-reward policy {pizza: 27%, cookies: 73%}, which seems more reasonable.
+For example, suppose $R(\text{pizza})=10$  and $R(\text{cookies})=11$. In this case, PPO converges to a policy which puts arbitrarily many logits on $\text{cookies}$, even though the reward difference is small. By contrast, under ACTDE, the network converges to the softmax-over-reward policy \{pizza: 27%, cookies: 73%\}, which seems more reasonable.
 
 Then, Michael Einhorn shares initial results which support Alex's theoretical predictions. Using a similar architecture and Q-head loss function to [ILQL](https://arxiv.org/abs/2110.06169) for a small transformer trained in a prisoner's dilemma, Michael Einhorn collected initial data on ACTDE. Unlike PPO, ACTDE-trained policies did not mode collapse onto a single action and instead learned mixed strategies.
 
@@ -127,9 +127,9 @@ Furthermore, self-consistent, Bellman-backed-up Q-functions will have zero advan
 
 ACTDE doesn't mode collapse on wireheading, even _given_ that the network tries out wireheading! ([Alex thinks such behavior is unlikely for practical RL algorithms](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target).)
 
-Concretely, suppose that reward is 10 if you eat pizza and 100 if you wirehead. You start off with action distribution {pizza: 1%, wirehead: 99%}, and we're doing TD-learning in the tabular setup we just described. If so, then the policy gradients upweight wireheading more and more. This can happen until the network puts arbitrarily many logits on the wireheading action. In this situation, under these exploration assumptions and with probability $1$, PPO upweights wireheading and the policy ends up {pizza: $\epsilon$, wirehead: $1-\epsilon$}.
+Concretely, suppose that reward is 10 if you eat pizza and 100 if you wirehead. You start off with action distribution \{pizza: 1%, wirehead: 99%\}, and we're doing TD-learning in the tabular setup we just described. If so, then the policy gradients upweight wireheading more and more. This can happen until the network puts arbitrarily many logits on the wireheading action. In this situation, under these exploration assumptions and with probability $1$, PPO upweights wireheading and the policy ends up \{pizza: $\epsilon$, wirehead: $1-\epsilon$\}.
 
-However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead, ACTDE leads to the softmax distribution over actions, with the softmax taken over the reward for each action. Thus, the converged policy of tabular ACTDE is about {pizza: .02%, wirehead: 99.98%}. That's still mostly wireheading, but there are only boundedly many logits on that action.
+However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead, ACTDE leads to the softmax distribution over actions, with the softmax taken over the reward for each action. Thus, the converged policy of tabular ACTDE is about \{pizza: .02%, wirehead: 99.98%\}. That's still mostly wireheading, but there are only boundedly many logits on that action.
 
 ## PPO vs ACTDE on the iterated prisoner's dilemma
 
