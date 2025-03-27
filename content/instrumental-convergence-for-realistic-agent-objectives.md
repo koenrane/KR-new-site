@@ -66,7 +66,8 @@ I explore how instrumental convergence works in this case. I also walk through h
 
 Consider the following environment, where the agent can either stay put or move along a purple arrow.
 
-![](https://assets.turntrout.com/static/images/posts/7c937e888b905bb15c8dadb9d7a8603bbd826948d56f8433.avif)
+![](ye-olde-gridworld.png){style="width:85%;"}
+
 <br/>Figure: From left to right, top to bottom, the states have labels $s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
 
 Suppose the agent gets some amount of reward each timestep, and it's choosing a policy to maximize its average per-timestep reward. [Previous results](https://proceedings.neurips.cc/paper/2021/hash/c26820b8a4c1b3c2aa868d6d57e14a79-Abstract.html) tell us that for generic reward functions over states, at least half of them incentivize going right. There are two terminal states on the left, and three on the right, and 3 > 2; we conclude that at least $\frac{\text{floor(3/2)}}{\text{floor(3/2)}+1}=\frac{1}{2}$ [of objectives incentivize going right](/quantitative-strength-of-instrumental-convergence).
@@ -81,7 +82,7 @@ This particular featurization **increases** the strength of the orbit-level ince
 
 There's another point I want to make in this tiny environment.
 
-![](https://assets.turntrout.com/static/images/posts/7c937e888b905bb15c8dadb9d7a8603bbd826948d56f8433.avif)
+![](/asset_staging/ye-olde-gridworld.png){style="width:85%;"}
 <br/>Figure: From left to right, top to bottom, the states have labels $s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
 
 Suppose we find an environmental symmetry $\phi$ which lets us apply the [original power-seeking theorems](https://proceedings.neurips.cc/paper/2021/hash/c26820b8a4c1b3c2aa868d6d57e14a79-Abstract.html) to raw reward functions over the world state. Letting $\mathbf{e}_s\in \mathbb{R}^6$ be a column vector with an entry of 1 at state $s$ and 0 elsewhere, in this environment, we have the symmetry enforced by
@@ -114,13 +115,13 @@ The shape featurization plays nice with the actual nitty-gritty environment-leve
 
 In a different featurization, suppose the featurization is the agent's $x/y$ coordinates. $R(s_{x,y}) = \alpha_1 x + \alpha_2 y$.
 
-![](https://assets.turntrout.com/static/images/posts/4a458603d6837cedd2bf439d79992ab2c9c3ed93c0dfe3d3.avif){style="width: 75%"}
+![](ye-olde-coordinates.png){style="width:85%;"}
 
 Given the **start** state, if the agent goes _up_, its reachable feature vector is just {(x=0 y=1)}, whereas the agent can induce (x=1 y=0) if it goes _right_. Therefore, whenever _up_ is strictly optimal for a featurized reward function, we can permute that reward function's feature weights by swapping the x- and y-coefficients ($\alpha_1$ and $\alpha_2$, respectively). Again, this new reward function is featurized, and it makes going _right_ strictly optimal. So the usual arguments ensure that at least half of these featurized reward functions make it optimal to go right.
 
 Sometimes, these similarities won't hold, even when it initially looks like they "should"!
 
-![](https://assets.turntrout.com/static/images/posts/a0ca5099bf16fb9bb0382d681abe79abeb5dd8ef51c525e9.avif){style="width: 75%"}
+![](ye-olde-negative-coordinates.png){style="width:85%;"}
 
 | Action | Feature vectors available                                                                            |
 | ----: | :--------------------------------------------------------------------------------------------------- |
