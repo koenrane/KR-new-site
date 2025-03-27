@@ -108,6 +108,7 @@ dd > ol:first-child {
 
 dd {
   margin-top: 0;
+  margin-left: $list-padding-left;
   margin-bottom: calc(2 * $base-margin);
   word-wrap: break-word;
 
@@ -143,7 +144,7 @@ ol {
   --li-margin-bottom: 4px;
 
   // Simulate the implicit padding-left of ul (the bullet isn't flush with the text)
-  --li-padding-left: #{$base-margin * 0.75};
+  --li-padding-left: #{$base-margin * 0.5};
   --padding-left-offset: 0.125rem;
 
   padding-left: calc($list-padding-left - var(--li-padding-left) + var(--padding-left-offset));

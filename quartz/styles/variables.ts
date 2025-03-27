@@ -13,7 +13,7 @@ export const boldWeight = 700
 export const semiBoldWeight = 600
 export const normalWeight = 400
 export const lineHeight = "1.8rem"
-export const listPaddingLeft = "3rem"
+export const listPaddingLeft = "2rem"
 
 // Shared variables between SCSS and TypeScript
 export const variables = {
