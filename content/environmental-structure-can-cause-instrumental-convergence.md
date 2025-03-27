@@ -188,7 +188,7 @@ The recurring thought which kept my hope alive was:
 Then I reconsidered the same state permutation $\phi$ which proved my original IID-reward theorems. That kind of $\phi$ would imply that since `blue-gems` has more options, there is therefore greater optimality probability (under IID reward function distributions) for moving toward the blue gems. In the end, that _same permutation_ $\phi$ holds the key to understanding instrumental convergence in MDPs.
 
 ![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
-<br/>Figure: Suppose `red-gems` is optimal. For example, let $R_text{castle}$ assign 1 reward to the castle 🏰 , and 0 to all other states. Then the permuted reward function $\phi \cdot R_\text{castle}$ assigns 1 reward to the gold pile, and 0 to all other states, and so `blue-gems` has strictly more optimal value than `red-gems`.
+<br/>Figure: Suppose `red-gems` is optimal. For example, let $R_\text{castle}$ assign 1 reward to the castle 🏰 and 0 to all other states. Then the permuted reward function $\phi \cdot R_\text{castle}$ assigns 1 reward to the gold pile, and 0 to all other states, and so `blue-gems` has strictly more optimal value than `red-gems`.
 
 Consider any discount rate $\gamma\in(0,1)$. For _all_ reward functions $R$ such that $V^*_{R}(\texttt{red-gems},\gamma)>V^*_{R}(\texttt{blue-gems},\gamma)$, this permutation $\phi$ turns them into `blue-gem` lovers: $V^*_{\phi\cdot R}(\texttt{red-gems},\gamma)<V^*_{\phi\cdot R}(\texttt{blue-gems},\gamma)$.
 
@@ -196,7 +196,7 @@ $\phi$ takes non-power-seeking reward functions, and injectively maps them to po
 
 Throughout this post, when I say "most" reward functions incentivize something, I mean the following:
 
-> [!definition]
+> [!math] Definition: When "most" reward functions incentivize an actions
 > At state $s$, _most reward functions_ incentivize action $a$ over action $a'$ when for all reward functions $R$, at least half of the orbit agrees that $a$ has at least as much action value as $a'$ does at state $s$.[^weaker]
 
 [^weaker]: This assumption is actually a bit stronger than what I rely on in the paper, but it's easier to explain in words.
@@ -216,7 +216,7 @@ This might feel too abstract, so let's run through examples.
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"></video>
 
-Figure: Consider a robot  (<span style="color:blue">■</span>) navigating through a room with a vase (■). By the logic of "every `destroying-vase-is-optimal` can be permuted into a `preserving-vase-is-optimal` reward function", my results (specifically, [Proposition 6.9](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=6.09) and its generalization via [Lemma E.49](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=36.78)) suggest[^suggest] that optimal policies tend to avoid breaking the vase, since doing so would strictly decrease available options.
+Figure: Consider a robot  (<span style="color:blue">■</span>) navigating through a room with a vase (■). By the logic of "every `destroying-vase-is-optimal` reward function can be permuted into a `preserving-vase-is-optimal` reward function", my results (specifically, [Proposition 6.9](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=6.09) and its generalization via [Lemma E.49](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=36.78)) suggest[^suggest] that optimal policies tend to avoid breaking the vase, since doing so would strictly decrease available options.
   
   <br/>
   
@@ -224,7 +224,7 @@ Figure: Consider a robot  (<span style="color:blue">■</span>) navigating throu
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
 
-Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can irreversibly destroy green cell patterns. By the logic of "every `destroy-green-pattern` reward function can be permuted into a `preserve-green-pattern` reward function", Lemma E.49 suggests that optimal policies tend to not disturb any given green cell pattern (although most probably destroy _some_ pattern). The permutation would swap {states reachable after destroying the pattern} with {states reachable after not destroying the pattern}. <br/><br/>However, the converse is not true: you cannot fix a permutation which turns all `preserve-green-pattern` reward functions into `destroy-green-pattern` reward functions. There are simply too many extra ways for preserving green cells to be optimal.  <br/><br/>Assuming some conjectures I have about the combinatorial properties of power-seeking, this helps explain why [AUP works in SafeLife using a single auxiliary reward function](/avoiding-side-effects-in-complex-environments) - but more on that in another post.
+Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can irreversibly destroy green cell patterns. By the logic of "every `destroy-green-pattern` reward function can be permuted into a `preserve-green-pattern` reward function", Lemma E.49 suggests that optimal policies tend to not disturb any given green cell pattern (although most probably destroy _some_ pattern). The permutation would swap \{states reachable after destroying the pattern\} with \{states reachable after not destroying the pattern\}. <br/><br/>However, the converse is not true: you cannot fix a permutation which turns all `preserve-green-pattern` reward functions into `destroy-green-pattern` reward functions. There are simply too many extra ways for preserving green cells to be optimal.  <br/><br/>Assuming some conjectures I have about the combinatorial properties of power-seeking, this helps explain why [AUP works in SafeLife using a single auxiliary reward function](/avoiding-side-effects-in-complex-environments) - but more on that in another post.
 
 ### Terminal options (theorem 6.13)
 
@@ -266,7 +266,7 @@ One possible hope would have been:
 
 Unfortunately, there are always power-seeking reward functions not much more complex than their non-power-seeking counterparts. Here, "power-seeking" corresponds to the intuitive notions of either keeping strictly more options open (Proposition 6.9), or navigating towards larger sets of terminal states (theorem 6.13). (Since this applies to several results, I'll leave the meaning a bit ambiguous, with the understanding that it could be formalized if necessary.)
 
-> [!note] Theorem: Simplicity priors assign non-negligible probability to power-seeking
+> [!math] Theorem: Simplicity priors assign non-negligible probability to power-seeking
 > Consider any MDP which meets the preconditions of Proposition 6.9 or theorem 6.13. Let $U$ be a universal Turing machine, and let $P_U$ be the $U$\-simplicity prior over computable reward functions.
 >
 > Let `NPS` be the set of non-power-seeking computable reward functions which choose a fixed non-power-seeking action in the given situation. Let $\text{PS}$ be the set of computable reward functions for which seeking power is strictly optimal.[^1]
