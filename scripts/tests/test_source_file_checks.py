@@ -1111,3 +1111,306 @@ permalink: /test
     # Should exit with code 1 due to missing table alignments
     with pytest.raises(SystemExit, match="1"):
         main()
+
+
+@pytest.mark.parametrize(
+    "content,expected_errors",
+    [
+        # No braces
+        ("No braces here", []),
+        # Escaped braces
+        ("Escaped \\{ and \\}", []),
+        ("Multiple \\{escaped\\} braces", []),
+        # Braces at start/end of line
+        ("{start of line", []),
+        ("end of line}", []),
+        ("{entire line}", []),
+        # Braces inside katex
+        ("$x^2 + {y^2}$", []),
+        ("$$x^2 + {y^2}$$", []),
+        ("$$\n{y^2}\n$$", []),
+        (
+            """$$
+> \\overset{\\text{# of permutations of $u$ for which $f_1>f_2$}}{\\big|\\{u_\\phi \\in {S_d \\cdot u}\\mid f_1(u_\\phi)>f_2(u_\\phi)\\}\\big|} \\geq n \\overset{\\text{# of permutations of $u$ for which $f_1<f_2$}}{\\big|\\{u_\\phi \\in S_d \\cdot u\\mid f_1(u_\\phi)<f_2(u_\\phi)\\}\\big|}.
+> $$""",
+            [],
+        ),
+        (
+            # Only catches first brace due to deleting math mode
+            "$math$ {text} $math$",
+            [
+                "Unescaped brace found in: {text}"
+            ],  # Math blocks removed, braces remain
+        ),
+        # Braces inside code block
+        ("```\n{x: 1}\n```", []),
+        ("`{inline code}`", []),
+        (
+            "```\n{code}\n``` {text} text",
+            [
+                "Unescaped brace found in: {text} text",  # Code block removed
+                "Unescaped brace found in: {text} text",
+            ],
+        ),
+        (
+            "`{code}` {text} text `code2`",
+            [
+                "Unescaped brace found in: {text} text",  # Inline code removed
+                "Unescaped brace found in: {text} text",
+            ],
+        ),
+        # Unescaped braces
+        (
+            "Text with {unclosed brace",
+            ["Unescaped brace found in: Text with {unclosed brace"],
+        ),
+        (
+            "Text with unclosed} brace",
+            ["Unescaped brace found in: Text with unclosed} brace"],
+        ),
+        (
+            "Multiple {braces} in {one} line",
+            [
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+            ],
+        ),
+        # Multiple lines
+        (
+            "Line 1 with {brace\nLine 2 with} brace",
+            [
+                "Unescaped brace found in: Line 1 with {brace",
+                "Unescaped brace found in: Line 2 with} brace",
+            ],
+        ),
+        # Mixed content
+        (
+            """
+            $math$ {text} text $math$
+            ```python
+            {code}
+            ```
+            """,
+            [
+                # Math and code blocks removed
+                "Unescaped brace found in: {text} text",
+                "Unescaped brace found in: {text} text",
+            ],
+        ),
+        # Table with class
+        (
+            """\n|--|--|\n|Col 1|Col 2|\n\n{.class}""",
+            [],
+        ),
+        # Edge cases
+        ("{", []),
+        ("}", []),
+        ("\\{text\\}", []),
+        ("    {indented}", []),
+        ("\t{indented}", []),
+        (
+            "\\\\{text}",  # Flag first brace
+            ["Unescaped brace found in: \\\\{text}"],
+        ),
+        # Whitespace handling
+        (
+            "  {text}  ",
+            [],
+        ),
+        (
+            "\t{text}\t",
+            [],
+        ),
+        # Unicode characters
+        (
+            "{你好}",
+            [],
+        ),
+        (
+            "你好{text}你好",
+            [
+                "Unescaped brace found in: 你好{text}你好",
+                "Unescaped brace found in: 你好{text}你好",
+            ],
+        ),
+    ],
+)
+def test_unescaped_braces(
+    tmp_path: Path, content: str, expected_errors: List[str]
+) -> None:
+    """
+    Test various scenarios for unescaped braces detection.
+
+    Args:
+        tmp_path: Pytest fixture providing temporary directory
+        content: Test content to check
+        expected_errors: Expected error messages
+    """
+    test_file = tmp_path / "test.md"
+    test_file.write_text(content)
+
+    errors = check_unescaped_braces(test_file)
+    assert sorted(errors) == sorted(expected_errors)
+
+
+def test_unescaped_braces_integration(tmp_path: Path, monkeypatch) -> None:
+    """
+    Integration test for unescaped braces checking within the main workflow.
+    """
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+    git.Repo.init(tmp_path)
+
+    # Create test file with unescaped braces
+    test_file = content_dir / "test.md"
+    content = """---
+title: Test Post
+description: Test Description
+permalink: /test
+---
+# Content with Unescaped Braces
+
+This is a {test} with multiple {braces} in the text.
+
+Some math: $x^2 + {y^2}$ and more {text}.
+
+```python
+{code}
+```
+"""
+    test_file.write_text(content)
+
+    # Mock git root
+    monkeypatch.setattr(
+        script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
+    )
+
+    # Should exit with code 1 due to unescaped braces
+    with pytest.raises(SystemExit, match="1"):
+        main()
+
+
+@pytest.mark.parametrize(
+    "input_text,expected_output",
+    [
+        # Basic cases
+        ("Plain text without code or math", "Plain text without code or math"),
+        # Inline code blocks
+        ("This is `code` block", "This is  block"),
+        ("Multiple `code` `blocks`", "Multiple  "),
+        ("`code at start` and end", " and end"),
+        ("start and `code at end`", "start and "),
+        ("`entire line is code`", ""),
+        # Math blocks
+        ("This is $math$ block", "This is  block"),
+        ("Multiple $math$ $blocks$", "Multiple  "),
+        ("$math at start$ and end", " and end"),
+        ("start and $math at end$", "start and "),
+        ("$entire line is math$", ""),
+        # Mixed code and math
+        ("Both `code` and $math$", "Both  and "),
+        ("`code` with $math$ inside", " with  inside"),
+        # Empty patterns
+        ("Empty code ``", "Empty code "),
+        ("Empty math $$", "Empty math "),
+        # Block code and math
+        ("$$\nMulti-line\nmath\n$$", ""),
+        (
+            "```\nMulti-line\ncode\n```",
+            "",
+        ),
+        # Edge cases
+        ("`code` at the `end`", " at the "),
+        ("$math$ at the $end$", " at the "),
+        ("Text with \\$escaped\\$ symbols", "Text with \\$escaped\\$ symbols"),
+        ("Text with \\`escaped\\` symbols", "Text with \\`escaped\\` symbols"),
+        # Unclosed delimiters
+        ("Unclosed `code", "Unclosed `code"),
+        ("Unclosed $math", "Unclosed $math"),
+        # Multiple lines with mixed content
+        (
+            "Line with `code`\nAnother line with $math$",
+            "Line with \nAnother line with ",
+        ),
+    ],
+)
+def test_strip_code_and_math(input_text: str, expected_output: str) -> None:
+    """
+    Test stripping code and math elements from text.
+
+    Args:
+        input_text: Input text with code/math elements
+        expected_output: Expected text after stripping
+    """
+    result = remove_code_and_math(input_text)
+    assert (
+        result == expected_output
+    ), f"Failed to strip code and math from: {input_text}"
+
+
+def test_strip_code_and_math_with_fenced_blocks() -> None:
+    """
+    Test stripping fenced code blocks specifically, which should be handled by
+    regex with the DOTALL flag.
+    """
+    # Current implementation doesn't handle fenced code blocks
+    input_text = """
+    Normal text.
+    
+    ```python
+    def example():
+        return "This is code"
+    ```
+    
+    More text.
+    """
+
+    result = remove_code_and_math(input_text)
+
+    assert "```" not in result
+    assert "def example():" not in result
+    assert "More text." in result
+
+
+@pytest.mark.parametrize(
+    "input_text,expected_output",
+    [
+        ("Normal text.", "Normal text."),
+        (
+            "$$f(x) = \\int_{-\\infty}^{\\infty} \\hat{f}(\\xi)\\,e^{2 \\pi i \\xi x} \\,d\\xi$$",
+            "",
+        ),
+        # Test case with internal $ signs
+        (
+            """$$
+            > \\overset{\\text{# of permutations of $u$ for which $f_1>f_2$}}{\\big|\\{u_\\phi \\in {S_d \\cdot u}\\mid f_1(u_\\phi)>f_2(u_\\phi)\\}\\big|}
+            $$""",
+            "",
+        ),
+    ],
+)
+def test_strip_code_and_math_with_block_math(
+    input_text: str, expected_output: str
+) -> None:
+    """
+    Test stripping multi-line math blocks.
+    """
+    input_text = """
+    Normal text.
+    
+    $$
+    f(x) = \\int_{-\\infty}^{\\infty} \\hat{f}(\\xi)\\,e^{2 \\pi i \\xi x} \\,d\\xi
+    $$
+    
+    More text.
+    """
+
+    result = remove_code_and_math(input_text)
+    # The current implementation should now fully strip block math
+    assert "f(x) = " not in result
+    assert "\\int" not in result
+    assert "$$" not in result
+    assert "Normal text." in result  # Ensure surrounding text remains
+    assert "More text." in result

@@ -301,6 +301,65 @@ def check_table_alignments(file_path: Path) -> List[str]:
     return errors
 
 
+def remove_code_and_math(text: str) -> str:
+    """
+    Strip all code blocks, inline code, and math elements from text.
+
+    Args:
+        text: The text to process
+
+    Returns:
+        Text with all code blocks, inline code, and math elements removed
+    """
+    # Remove all code blocks
+    text = re.sub(r"(?<!\\)`[^`]*(?<!\\)`", "", text)
+    text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
+
+    # Remove all math blocks
+    text = re.sub(r"\$\$.*?\$\$", "", text, flags=re.DOTALL)
+    text = re.sub(r"(?<!\\)\$[^$]*?(?<!\\)\$", "", text)
+
+    return text
+
+
+# Either preceded by two backslashes or none, and then a brace.
+# Ignore closing braces at end of line.
+BRACE_REGEX = r"((?<=\\\\)|(?<=[^\\]))({|}(?!\s*$))"
+
+
+def check_unescaped_braces(file_path: Path) -> List[str]:
+    """
+    Check for unescaped braces in markdown files that aren't at beginning/end of
+    line or inside of katex element.
+
+    Args:
+        file_path: Path to the markdown file to check
+
+    Returns:
+        List of error messages for unescaped braces found
+    """
+    content = file_path.read_text()
+
+    # Remove indented braces at line start
+    content = re.sub(r"^\s*{", "", content, flags=re.MULTILINE)
+
+    # Remove code and math blocks
+    stripped_content = remove_code_and_math(content)
+
+    errors = []
+    for match in re.finditer(BRACE_REGEX, stripped_content, re.MULTILINE):
+        # Get the line containing the match
+        line_start = stripped_content.rfind("\n", 0, match.start()) + 1
+        line_end = stripped_content.find("\n", match.start())
+        if line_end == -1:  # Handle last line
+            line_end = len(stripped_content)
+        line = stripped_content[line_start:line_end]
+
+        errors.append(f"Unescaped brace found in: {line.strip()}")
+
+    return errors
+
+
 def check_file_data(
     metadata: dict,
     existing_urls: PathMap,
@@ -324,6 +383,7 @@ def check_file_data(
         "invalid_links": check_invalid_md_links(file_path),
         "latex_tags": check_latex_tags(file_path),
         "table_alignments": check_table_alignments(file_path),
+        "unescaped_braces": check_unescaped_braces(file_path),
     }
 
     if metadata:
