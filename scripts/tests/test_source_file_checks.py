@@ -1122,8 +1122,8 @@ permalink: /test
         ("Escaped \\{ and \\}", []),
         ("Multiple \\{escaped\\} braces", []),
         # Braces at start/end of line
-        ("{start of line", []),
-        ("end of line}", []),
+        ("{start of line", ["Unescaped brace found in: {start of line"]),
+        ("end of line}", ["Unescaped brace found in: end of line}"]),
         ("{entire line}", []),
         # Braces inside katex
         ("$x^2 + {y^2}$", []),
@@ -1136,10 +1136,10 @@ permalink: /test
             [],
         ),
         (
-            # Only catches first brace due to deleting math mode
             "$math$ {text} $math$",
             [
-                "Unescaped brace found in: {text}"
+                "Unescaped brace found in: {text}",
+                "Unescaped brace found in: {text}",
             ],  # Math blocks removed, braces remain
         ),
         # Braces inside code block
@@ -1205,14 +1205,14 @@ permalink: /test
             [],
         ),
         # Edge cases
-        ("{", []),
-        ("}", []),
+        ("{", ["Unescaped brace found in: {"]),
+        ("}", ["Unescaped brace found in: }"]),
         ("\\{text\\}", []),
         ("    {indented}", []),
         ("\t{indented}", []),
         (
-            "\\\\{text}",  # Flag first brace
-            ["Unescaped brace found in: \\\\{text}"],
+            "\\\\{text}",
+            [],
         ),
         # Whitespace handling
         (
@@ -1389,6 +1389,13 @@ def test_strip_code_and_math_with_fenced_blocks() -> None:
             $$""",
             "",
         ),
+        # Quoted code block
+        (
+            """```typescript
+>     new RegExp(`\\b(?<!\\.)((?:p\\.?)?\\d+${chr}?)-(${chr}?\\d+)(?!\\.\\d)\\b`, "g"),
+> ```""",
+            "",
+        ),
     ],
 )
 def test_strip_code_and_math_with_block_math(
@@ -1397,20 +1404,5 @@ def test_strip_code_and_math_with_block_math(
     """
     Test stripping multi-line math blocks.
     """
-    input_text = """
-    Normal text.
-    
-    $$
-    f(x) = \\int_{-\\infty}^{\\infty} \\hat{f}(\\xi)\\,e^{2 \\pi i \\xi x} \\,d\\xi
-    $$
-    
-    More text.
-    """
-
     result = remove_code_and_math(input_text)
-    # The current implementation should now fully strip block math
-    assert "f(x) = " not in result
-    assert "\\int" not in result
-    assert "$$" not in result
-    assert "Normal text." in result  # Ensure surrounding text remains
-    assert "More text." in result
+    assert result == expected_output

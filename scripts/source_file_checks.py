@@ -312,8 +312,8 @@ def remove_code_and_math(text: str) -> str:
         Text with all code blocks, inline code, and math elements removed
     """
     # Remove all code blocks
-    text = re.sub(r"(?<!\\)`[^`]*(?<!\\)`", "", text)
     text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
+    text = re.sub(r"(?<!\\)`[^`]*(?<!\\)`", "", text)
 
     # Remove all math blocks
     text = re.sub(r"\$\$.*?\$\$", "", text, flags=re.DOTALL)
@@ -323,8 +323,9 @@ def remove_code_and_math(text: str) -> str:
 
 
 # Either preceded by two backslashes or none, and then a brace.
-# Ignore closing braces at end of line.
-BRACE_REGEX = r"((?<=\\\\)|(?<=[^\\]))({|}(?!\s*$))"
+_BRACE_REGEX = r"(^|(?<=\\\\)|(?<=[^\\]))[{}]"
+# Ignore matching open/close braces at end of line.
+_END_OF_LINE_BRACES_REGEX = r"{[^$`\\]*}\s*$"
 
 
 def check_unescaped_braces(file_path: Path) -> List[str]:
@@ -340,14 +341,16 @@ def check_unescaped_braces(file_path: Path) -> List[str]:
     """
     content = file_path.read_text()
 
-    # Remove indented braces at line start
-    content = re.sub(r"^\s*{", "", content, flags=re.MULTILINE)
-
-    # Remove code and math blocks
-    stripped_content = remove_code_and_math(content)
+    content_no_eol_braces = re.sub(
+        _END_OF_LINE_BRACES_REGEX,
+        "",
+        content,
+        flags=re.MULTILINE,
+    )
+    stripped_content = remove_code_and_math(content_no_eol_braces)
 
     errors = []
-    for match in re.finditer(BRACE_REGEX, stripped_content, re.MULTILINE):
+    for match in re.finditer(_BRACE_REGEX, stripped_content, re.MULTILINE):
         # Get the line containing the match
         line_start = stripped_content.rfind("\n", 0, match.start()) + 1
         line_end = stripped_content.find("\n", match.start())
