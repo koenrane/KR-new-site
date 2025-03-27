@@ -204,6 +204,11 @@ em {
   font-family: Elvish, serif;
   line-height: 2.2;
   position: relative;
+  cursor: text;
+
+  & a {
+    cursor: pointer;
+  }
 
   & em,
   em & {
