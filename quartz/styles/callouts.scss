@@ -198,20 +198,19 @@
   }
 }
 
-// These tags should generally be less bright
 #content-meta .callout-metadata {
+  // These tags should generally be less bright
   background-color: var(--background); // "see-through"
 
   --border: color-mix(in srgb, var(--color) 30%, var(--background));
-  --title-lower-margin: calc(0.75 * $base-margin);
 
   & > .callout-title {
     margin-top: calc($base-margin);
-    margin-bottom: var(--title-lower-margin);
+    margin-bottom: calc(0.75 * $base-margin);
   }
 
   & > .callout-content {
-    margin-top: var(--title-lower-margin);
+    margin-top: calc(0.75 * $base-margin);
     margin-bottom: calc($base-margin);
 
     & > *:last-child {
