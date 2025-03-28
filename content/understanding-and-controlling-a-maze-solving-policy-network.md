@@ -175,7 +175,7 @@ Uli cracked open the vector field hydrant.
 ![](https://assets.turntrout.com/static/images/posts/tb7ri6d5gqhxef1ocd8t.avif)
 ![](https://assets.turntrout.com/static/images/posts/nkgg4fp6jtf5ksppnuhp.avif)
 
-![](https://assets.turntrout.com/static/images/posts/fk9rm3fprazfu1zzbxxj.avif)
+![](seed-44071.png)
 
 ![](https://assets.turntrout.com/static/images/posts/iajll1fx41c0npzrhvoe.avif)
 Figure: To generate your own mazes, play with this [Colab notebook](https://colab.research.google.com/drive/1zHk6jxjTjQ4yL12Fbp3REpTXsqQGV1dp?usp=sharing).
@@ -185,7 +185,7 @@ If we want an agent which generally pursues cheese, we didn't quite _fail_, but 
 > [!failure] There are more than two shards
 > The agent's goals are not some combination of "get cheese" and "go to the top-right region."
 >
-> ![](https://assets.turntrout.com/static/images/posts/vv5ods0fvq4tpdznjet3.avif) > <br/>Figure: The agent settles far below the top-right 5x5 region of seed 0. This "failure" to reach the top-right crops up in several seeds we've found.
+> ![](https://assets.turntrout.com/static/images/posts/vv5ods0fvq4tpdznjet3.avif) <br/>Figure: The agent settles far below the top-right 5x5 region of seed 0. This "failure" to reach the top-right crops up in several seeds we've found.
 >
 > We only recently realized and corrected this mistake. We had expected to find (at least) a top-right goal and a cheese goal, and so wrote off deviations (like seed 0) as "exceptions." It's true that often the agent _does_ go to the top-right 5x5 region, especially when cheese isn't nearby. We also think that the agent has some kind of top-right goal. But the agent's goals are richer than _just_ "go to the top-right" and "go to the cheese."
 

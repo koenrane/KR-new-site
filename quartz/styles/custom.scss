@@ -856,7 +856,7 @@ img.emoji {
 }
 
 // Ensure the point ends of arrows are the same color as the edges
-[id^="mermaid-0_flowchart-v2-pointEnd"] {
+[id$="flowchart-v2-pointEnd"] {
   fill: var(--midground-faint) !important;
 }
 

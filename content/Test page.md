@@ -204,6 +204,14 @@ graph TD
     I HATE YOU"]:::red
 ```
 
+```mermaid
+graph TD
+    A[image] -->|"$$f(\text{cheese position in image})$$"| B[11 cheese channels]:::yellow
+    A -->|"$$g(\text{image})$$"| C[117 other channels]
+    B --> D[actions]
+    C --> D
+```
+
 # Captions
 
 ```python
