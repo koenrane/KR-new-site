@@ -180,7 +180,6 @@ body {
   --font-text-swash: "EBGaramond:+swsh", cursive;
   --font-bad-handwriting: "BadHandwriting";
 
-  // Specify so glyphhanger can find the family
   font-family: EBGaramond, var(--font-text);
   line-height: var(--base-line-height);
   font-feature-settings:
