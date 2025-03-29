@@ -8,11 +8,9 @@ import pytest
 from .. import convert_markdown_yaml
 
 try:
-    from . import utils as test_utils
-    from .utils import setup_test_env
+    pass
 except ImportError:
-    import utils as test_utils  # type: ignore
-    from test_utils import setup_test_env  # type: ignore
+    pass  # type: ignore
 
 
 @pytest.fixture

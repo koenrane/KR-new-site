@@ -1994,16 +1994,16 @@ def test_check_file_for_issues_with_fonts(tmp_path):
 
 def test_command_line_arguments():
     """Test that the command-line arguments work correctly."""
-    from scripts.built_site_checks import parser
+    from scripts.built_site_checks import _parser
 
     # Test with default arguments
     test_args = []
     with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
-        args = parser.parse_args()
+        args = _parser.parse_args()
         assert args.check_fonts is False
 
     # Test with --check-fonts flag
     test_args = ["--check-fonts"]
     with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
-        args = parser.parse_args()
+        args = _parser.parse_args()
         assert args.check_fonts is True

@@ -8,10 +8,8 @@ from .. import utils as script_utils
 
 try:
     from . import utils as test_utils
-    from .utils import setup_test_env
 except ImportError:
     import utils as test_utils  # type: ignore
-    from test_utils import setup_test_env  # type: ignore
 
 import re
 import subprocess
@@ -214,7 +212,7 @@ asset_pattern = convert_assets.asset_staging_pattern
             rf"\!?\[\]\({asset_pattern}(?P<link_parens>[^\)]*)animation\.gif\)|"
             rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
             rf"<img (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)animation\.gif\"(?P<tagInfo>[^>]*(?<!/))(?P<endVideoTagInfo>)/?>",
-            rf'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
+            r'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
         ),
     ]
     + [
@@ -224,8 +222,8 @@ asset_pattern = convert_assets.asset_staging_pattern
             rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)video\{ext}\]\]|"
             rf"<video (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)video\{ext}\"(?P<tagInfo>[^>]*)(?:type=\"video/"
             + ext.lstrip(".")
-            + rf"\")?(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)",
-            rf'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
+            + r"\")?(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)",
+            r'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
         )
         for ext in [".webm", ".mov", ".avi", ".mp4"]
     ],

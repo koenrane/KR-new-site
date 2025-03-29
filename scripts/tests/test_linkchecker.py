@@ -29,7 +29,7 @@ def test_invalid_port_error(html_linkchecker_result):
     ), "URL error not found in output"
     assert (
         html_linkchecker_result.returncode != 0
-    ), f"Linkchecker script should have failed"
+    ), "Linkchecker script should have failed"
 
 
 def test_invalid_asset_error(html_linkchecker_result):
@@ -38,7 +38,7 @@ def test_invalid_asset_error(html_linkchecker_result):
     ), "Invalid asset error not found in output"
     assert (
         html_linkchecker_result.returncode != 0
-    ), f"Linkchecker script should have failed"
+    ), "Linkchecker script should have failed"
 
 
 if __name__ == "__main__":

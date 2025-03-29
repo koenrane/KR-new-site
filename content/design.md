@@ -858,7 +858,7 @@ Updating page metadata
 : For posts which are being pushed for the first time, I set their publication date. For posts which have been updated since the last `push`, I update their "last updated" date.
 
 Cryptographic timestamping
-: I use [Open Timestamps](https://originstamp.com/) to stamp each `git` commit hash onto the blockchain. To verify that a commit `ABC012` was indeed committed by a given date, run
+: I use [Open Timestamps](https://opentimestamps.org/) to stamp each `git` commit hash onto the blockchain. To verify that a commit `ABC012` was indeed committed by a given date, run
 
 ```shell
 git clone https://github.com/alexander-turner/.timestamps

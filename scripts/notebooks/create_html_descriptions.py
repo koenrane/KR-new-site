@@ -75,7 +75,7 @@ def get_gemini_description(content: str) -> str:
     Generate a description for a blog post using the Gemini 1.5 Pro model.
     """
     model = genai.GenerativeModel("gemini-1.5-pro")
-    prompt = f"""
+    prompt = """
     Based on the following content, write a concise description for a blog post. Offer a factual, neutral summary of the content. 
 
     The description should be engaging, accurate, and between 20-30 words long. IT CANNOT BE LONGER THAN 140 CHARACTERS. Do not say things like 'this post is about...' or 'this article covers.' Write how George Orwell would describe the post. 

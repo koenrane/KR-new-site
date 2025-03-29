@@ -12,7 +12,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Dict, List, Literal, Set
 
-import requests
+import requests  # type: ignore[import]
 import tqdm
 from bs4 import BeautifulSoup, NavigableString, Tag
 
@@ -23,10 +23,11 @@ sys.path.append(str(Path(__file__).parent.parent))
 import scripts.utils as script_utils
 from scripts import compress
 
-git_root = script_utils.get_git_root()
-RSS_XSD_PATH = git_root / "scripts" / ".rss-2.0.xsd"
+_GIT_ROOT = script_utils.get_git_root()
+_PUBLIC_DIR: Path = _GIT_ROOT / "public"
+RSS_XSD_PATH = _GIT_ROOT / "scripts" / ".rss-2.0.xsd"
 
-IssuesDict = Dict[str, List[str] | bool]
+_IssuesDict = Dict[str, List[str] | bool]
 
 # Define the parser but don't parse immediately
 parser = argparse.ArgumentParser(
@@ -739,7 +740,7 @@ def check_file_for_issues(
     base_dir: Path,
     md_path: Path | None,
     should_check_fonts: bool,
-) -> IssuesDict:
+) -> _IssuesDict:
     """
     Check a single HTML file for various issues.
 
@@ -756,7 +757,7 @@ def check_file_for_issues(
     if script_utils.is_redirect(soup):
         return {}
 
-    issues: IssuesDict = {
+    issues: _IssuesDict = {
         "localhost_links": check_localhost_links(soup),
         "invalid_internal_links": check_invalid_internal_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, base_dir),
@@ -826,7 +827,7 @@ def check_rss_file_for_issues(
 
 def print_issues(
     file_path: Path,
-    issues: IssuesDict,
+    issues: _IssuesDict,
 ) -> None:
     """
     Print issues found in a file.
@@ -1094,6 +1095,7 @@ def check_css_issues(file_path: Path) -> List[str]:
     """
     if not file_path.exists():
         return [f"CSS file {file_path} does not exist"]
+    file_path = _PUBLIC_DIR / "index.css"
     with open(file_path, "r", encoding="utf-8") as f:
         content = f.read()
         if not re.search(r"@supports", content):
@@ -1121,26 +1123,25 @@ def main() -> None:
     """
     Check all HTML files in the public directory for issues.
     """
-    public_dir: Path = git_root / "public"
     issues_found: bool = False
 
     # check_rss_file_for_issues(git_root)
-    css_issues = check_css_issues(public_dir / "index.css")
+    css_issues = check_css_issues(_PUBLIC_DIR / "index.css")
     if css_issues:
-        print_issues(public_dir / "index.css", {"CSS_issues": css_issues})
+        print_issues(_PUBLIC_DIR / "index.css", {"CSS_issues": css_issues})
         issues_found = True
 
     # Check robots.txt location
-    robots_issues = check_robots_txt_location(public_dir)
+    robots_issues = check_robots_txt_location(_PUBLIC_DIR)
     if robots_issues:
-        print_issues(public_dir, {"robots_txt_issues": robots_issues})
+        print_issues(_PUBLIC_DIR, {"robots_txt_issues": robots_issues})
         issues_found = True
 
-    md_dir: Path = git_root / "content"
+    md_dir: Path = _GIT_ROOT / "content"
     permalink_to_md_path_map = script_utils.build_html_to_md_map(md_dir)
     files_to_skip: Set[str] = script_utils.collect_aliases(md_dir)
 
-    for root, _, files in os.walk(public_dir):
+    for root, _, files in os.walk(_PUBLIC_DIR):
         if "drafts" in root:
             continue
         for file in tqdm.tqdm(files, desc="Webpages checked"):
@@ -1160,7 +1161,7 @@ def main() -> None:
 
                 issues = check_file_for_issues(
                     file_path,
-                    public_dir,
+                    _PUBLIC_DIR,
                     md_path,
                     # pylint: disable=possibly-used-before-assignment
                     should_check_fonts=args.check_fonts,

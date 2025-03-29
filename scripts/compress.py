@@ -24,7 +24,7 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
     """
     if not image_path.is_file():
         raise FileNotFoundError(f"Error: File '{image_path}' not found.")
-    if not image_path.suffix.lower() in ALLOWED_IMAGE_EXTENSIONS:
+    if image_path.suffix.lower() not in ALLOWED_IMAGE_EXTENSIONS:
         raise ValueError(f"Error: Unsupported file type '{image_path.suffix}'.")
 
     avif_path: Path = image_path.with_suffix(".avif")
