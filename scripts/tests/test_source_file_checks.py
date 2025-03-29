@@ -3,18 +3,20 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple
 from unittest.mock import patch
 
-import git
+import git  # type: ignore[import]
 import pytest
-import requests
+import requests  # type: ignore[import]
+
+from .. import utils as script_utils
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..source_file_checks import *
+    from .. import source_file_checks
 else:
-    from source_file_checks import *
+    import source_file_checks
 
 
 @pytest.fixture
@@ -72,7 +74,7 @@ def test_check_required_fields(
         metadata: Test metadata to check
         expected_errors: List of expected error messages
     """
-    errors = check_required_fields(metadata)
+    errors = source_file_checks.check_required_fields(metadata)
     assert set(errors) == set(expected_errors)
 
 
@@ -125,7 +127,7 @@ Test content
 
     # Main should raise a ValueError due to missing permalink
     with pytest.raises(ValueError):
-        main()
+        source_file_checks.main()
 
 
 @pytest.mark.parametrize(
@@ -224,9 +226,9 @@ def test_url_uniqueness(tmp_path: Path, monkeypatch, test_case) -> None:
 
     if test_case["should_fail"]:
         with pytest.raises(SystemExit, match="1"):
-            main()
+            source_file_checks.main()
     else:
-        main()  # Should not raise
+        source_file_checks.main()  # Should not raise
 
 
 def test_invalid_md_links(tmp_path: Path, monkeypatch) -> None:
@@ -260,7 +262,7 @@ Valid external: [Link](https://example.com)
 
     # Should exit with code 1 due to invalid links
     with pytest.raises(SystemExit, match="1"):
-        main()
+        source_file_checks.main()
 
 
 @pytest.fixture
@@ -373,7 +375,9 @@ def test_font_file_scenarios(
         test_case["content"], test_case["files"]
     )
 
-    missing_fonts = check_scss_font_files(fonts_scss, tmp_path)
+    missing_fonts = source_file_checks.check_scss_font_files(
+        fonts_scss, tmp_path
+    )
     assert missing_fonts == test_case["expected_missing"]
 
 
@@ -387,7 +391,9 @@ def test_scss_compilation_error(
     test_case = scss_scenarios["scss_error"]
     fonts_scss, tmp_path = setup_font_test(test_case["content"], [])
 
-    missing_fonts = check_scss_font_files(fonts_scss, tmp_path)
+    missing_fonts = source_file_checks.check_scss_font_files(
+        fonts_scss, tmp_path
+    )
     assert len(missing_fonts) == 1
     assert test_case["expected_error"] in missing_fonts[0]
 
@@ -418,7 +424,7 @@ def test_integration_with_main(
 
     # Main should exit with code 1 due to missing font
     with pytest.raises(SystemExit) as exc_info:
-        main()
+        source_file_checks.main()
     assert exc_info.value.code == 1
 
 
@@ -434,7 +440,7 @@ def test_compile_scss(tmp_path: Path) -> None:
     """
     )
 
-    css = compile_scss(scss_file)
+    css = source_file_checks.compile_scss(scss_file)
     assert "body" in css
     assert "red" in css
 
@@ -450,7 +456,7 @@ def test_check_font_files(tmp_path: Path) -> None:
         }
     """
 
-    missing = check_font_files(css_content, tmp_path)
+    missing = source_file_checks.check_font_files(css_content, tmp_path)
     assert "/quartz/static/styles/fonts/test.woff2" in missing
 
 
@@ -468,7 +474,7 @@ def test_check_font_families() -> None:
         }
     """
 
-    missing = check_font_families(css_content)
+    missing = source_file_checks.check_font_families(css_content)
     assert "Undeclared font family: undeclaredfont" in missing
 
 
@@ -487,7 +493,7 @@ def test_check_font_families_with_opentype() -> None:
         }
     """
 
-    missing = check_font_families(css_content)
+    missing = source_file_checks.check_font_families(css_content)
     assert len(missing) == 0  # Should not report EBGaramond as missing
 
 
@@ -515,7 +521,7 @@ Another invalid: $\\tag{eq:test}$
     test_file.write_text(content)
 
     # Test direct function
-    errors = check_latex_tags(test_file)
+    errors = source_file_checks.check_latex_tags(test_file)
     assert len(errors) == 2
     assert all("LaTeX \\tag{} found at line" in error for error in errors)
 
@@ -544,7 +550,7 @@ def test_latex_tags_variations(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = check_latex_tags(test_file)
+    errors = source_file_checks.check_latex_tags(test_file)
     assert len(errors) == expected_count
 
 
@@ -627,7 +633,7 @@ def test_check_sequence_relationships(test_case: Dict[str, Any]) -> None:
             - expected_errors: List of expected error messages
             - description: Description of the test case
     """
-    errors = check_sequence_relationships(
+    errors = source_file_checks.check_sequence_relationships(
         test_case["check_permalink"], test_case["posts"]
     )
     assert errors == test_case["expected_errors"], (
@@ -643,11 +649,11 @@ def test_check_sequence_relationships_invalid_input() -> None:
     """
     # Test with empty permalink
     with pytest.raises(ValueError, match="Invalid permalink"):
-        check_sequence_relationships("", {})
+        source_file_checks.check_sequence_relationships("", {})
 
     # Test with non-existent permalink
     with pytest.raises(ValueError, match="Invalid permalink /nonexistent"):
-        check_sequence_relationships(
+        source_file_checks.check_sequence_relationships(
             "/nonexistent", {"/post1": {"permalink": "/post1"}}
         )
 
@@ -733,7 +739,7 @@ def test_check_post_titles(test_case: Dict[str, Any]) -> None:
             - expected_errors: List of expected error messages
             - description: Description of the test case
     """
-    errors = check_post_titles(
+    errors = source_file_checks.check_post_titles(
         test_case["current"],
         test_case["target"],
         test_case["target_slug"],
@@ -776,7 +782,7 @@ Test content
 """
     file_path = create_test_file("test.md", content)
 
-    sequence_data = build_sequence_data([file_path])
+    sequence_data = source_file_checks.build_sequence_data([file_path])
 
     expected_mapping = {
         "/test": {
@@ -805,7 +811,7 @@ Test content
 """
     file_path = create_test_file("test.md", content)
 
-    sequence_data = build_sequence_data([file_path])
+    sequence_data = source_file_checks.build_sequence_data([file_path])
 
     expected_mapping = {
         "/test": {"title": "Test Post", "next-post-slug": "/next"},
@@ -849,7 +855,7 @@ permalink: /third
         create_test_file("third.md", file3_content),
     ]
 
-    sequence_data = build_sequence_data(files)
+    sequence_data = source_file_checks.build_sequence_data(files)
 
     expected_mapping = {
         "/first": {
@@ -896,7 +902,7 @@ aliases: [""]
         create_test_file("empty_alias.md", file2_content),
     ]
 
-    sequence_data = build_sequence_data(files)
+    sequence_data = source_file_checks.build_sequence_data(files)
 
     expected_mapping = {"/test": {"title": "Test Post"}}
 
@@ -907,7 +913,7 @@ def test_build_sequence_data_no_files() -> None:
     """
     Test _build_sequence_data with an empty list of files.
     """
-    sequence_data = build_sequence_data([])
+    sequence_data = source_file_checks.build_sequence_data([])
     assert sequence_data == {}
 
 
@@ -948,7 +954,7 @@ def test_check_card_image(
         if mock_response is not None:
             mock_head.return_value = mock_response
 
-        errors = check_card_image(metadata)
+        errors = source_file_checks.check_card_image(metadata)
         assert errors == expected_errors
 
 
@@ -961,7 +967,7 @@ def test_check_card_image_request_exception() -> None:
     with patch("requests.head") as mock_head:
         mock_head.side_effect = requests.RequestException("Connection error")
 
-        errors = check_card_image(metadata)
+        errors = source_file_checks.check_card_image(metadata)
         assert errors == [
             "Failed to load card image URL 'https://example.com/image.jpg': Connection error"
         ]
@@ -1074,7 +1080,7 @@ def test_check_table_alignments(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = check_table_alignments(test_file)
+    errors = source_file_checks.check_table_alignments(test_file)
     assert errors == expected_errors
 
 
@@ -1110,7 +1116,7 @@ permalink: /test
 
     # Should exit with code 1 due to missing table alignments
     with pytest.raises(SystemExit, match="1"):
-        main()
+        source_file_checks.main()
 
 
 @pytest.mark.parametrize(
@@ -1251,7 +1257,7 @@ def test_unescaped_braces(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = check_unescaped_braces(test_file)
+    errors = source_file_checks.check_unescaped_braces(test_file)
     assert sorted(errors) == sorted(expected_errors)
 
 
@@ -1289,7 +1295,7 @@ Some math: $x^2 + {y^2}$ and more {text}.
 
     # Should exit with code 1 due to unescaped braces
     with pytest.raises(SystemExit, match="1"):
-        main()
+        source_file_checks.main()
 
 
 @pytest.mark.parametrize(
@@ -1344,7 +1350,7 @@ def test_strip_code_and_math(input_text: str, expected_output: str) -> None:
         input_text: Input text with code/math elements
         expected_output: Expected text after stripping
     """
-    result = remove_code_and_math(input_text)
+    result = source_file_checks.remove_code_and_math(input_text)
     assert (
         result == expected_output
     ), f"Failed to strip code and math from: {input_text}"
@@ -1367,7 +1373,7 @@ def test_strip_code_and_math_with_fenced_blocks() -> None:
     More text.
     """
 
-    result = remove_code_and_math(input_text)
+    result = source_file_checks.remove_code_and_math(input_text)
 
     assert "```" not in result
     assert "def example():" not in result
@@ -1404,5 +1410,5 @@ def test_strip_code_and_math_with_block_math(
     """
     Test stripping multi-line math blocks.
     """
-    result = remove_code_and_math(input_text)
+    result = source_file_checks.remove_code_and_math(input_text)
     assert result == expected_output

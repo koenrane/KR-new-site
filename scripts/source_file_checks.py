@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Literal, Set
 
-import requests
+import requests  # type: ignore[import]
 
 # Add the project root to sys.path
 # pylint: disable=wrong-import-position
