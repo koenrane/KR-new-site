@@ -706,6 +706,8 @@ I automatically merge test-passing pull requests from `dependabot`, reducing sec
       "shellcheck"
     ],
     "*.py": [
+      "ruff check --fix",
+      "pyupgrade",
       "autoflake --in-place",
       "isort",
       "autopep8 --in-place",

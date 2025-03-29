@@ -423,7 +423,7 @@ Test content here
         update_lib.write_to_yaml(test_file, metadata, content)
 
         # Read the result and verify
-        with open(test_file, "r") as f:
+        with open(test_file) as f:
             result = f.read()
 
         assert '"Quoted Title"' in result  # Double quotes preserved
@@ -457,7 +457,7 @@ Content here
         update_lib.write_to_yaml(test_file, metadata, content)
 
         # Read the result and verify
-        with open(test_file, "r") as f:
+        with open(test_file) as f:
             result = f.read()
 
         # Check that quotes and comments are preserved
@@ -570,7 +570,7 @@ Content
     update_lib.update_publish_date(metadata)
     update_lib.write_to_yaml(test_file, metadata, content)
 
-    with open(test_file, "r") as f:
+    with open(test_file) as f:
         result = f.read()
 
     assert "# Header comment" in result
