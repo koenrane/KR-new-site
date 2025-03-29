@@ -62,7 +62,7 @@ def get_last_step(
     if not STATE_FILE_PATH.exists():
         return None
     try:
-        with open(STATE_FILE_PATH, "r", encoding="utf-8") as f:
+        with open(STATE_FILE_PATH, encoding="utf-8") as f:
             state = json.load(f)
             last_step = state.get("last_successful_step")
             # Only validate if available_steps is provided

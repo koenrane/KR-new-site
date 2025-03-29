@@ -101,7 +101,7 @@ def update_markdown_references(
     for text_file_path in script_utils.get_files(
         references_dir, (".md",), use_git_ignore=False
     ):
-        with open(text_file_path, "r", encoding="utf-8") as f:
+        with open(text_file_path, encoding="utf-8") as f:
             file_content: str = f.read()
 
         escaped_original_path: str = re.escape(str(relative_original_path))

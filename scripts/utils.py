@@ -237,7 +237,7 @@ def parse_html_file(file_path: Path) -> BeautifulSoup:
     """
     Parse an HTML file and return a BeautifulSoup object.
     """
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(file_path, encoding="utf-8") as file:
         return BeautifulSoup(file.read(), "html.parser")
 
 

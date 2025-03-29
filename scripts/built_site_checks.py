@@ -118,7 +118,7 @@ def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
                 full_path = full_path.with_suffix(".html")
 
             if full_path.is_file():
-                with open(full_path, "r", encoding="utf-8") as f:
+                with open(full_path, encoding="utf-8") as f:
                     page_soup = BeautifulSoup(f.read(), "html.parser")
                 if not page_soup.find(id=anchor):
                     invalid_anchors.append(href)
@@ -863,7 +863,7 @@ def get_md_asset_counts(md_path: Path) -> Counter[str]:
     Get the counts of all assets referenced in the markdown file.
     """
     # skipcq: PTC-W6004, it's just serverside open -- not user-facing
-    with open(md_path, "r", encoding="utf-8") as f:
+    with open(md_path, encoding="utf-8") as f:
         content = f.read()
         # Match ![alt](src) pattern, capturing the src
         md_pattern_assets = re.findall(r"!\[.*?\]\((.*?)\)", content)
@@ -1096,7 +1096,7 @@ def check_css_issues(file_path: Path) -> List[str]:
     if not file_path.exists():
         return [f"CSS file {file_path} does not exist"]
     file_path = _PUBLIC_DIR / "index.css"
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(file_path, encoding="utf-8") as f:
         content = f.read()
         if not re.search(r"@supports", content):
             return [

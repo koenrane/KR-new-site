@@ -157,7 +157,7 @@ def convert_asset(
     for md_file in script_utils.get_files(
         dir_to_search=md_references_dir, filetypes_to_match=(".md",)
     ):
-        with open(md_file, "r", encoding="utf-8") as file:
+        with open(md_file, encoding="utf-8") as file:
             content = file.read()
         content = re.sub(original_pattern, replacement_pattern, content)
 

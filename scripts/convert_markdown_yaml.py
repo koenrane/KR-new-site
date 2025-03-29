@@ -188,7 +188,7 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     Process the 'card_image' in the YAML frontmatter of the given md file.
     """
     # Read and parse the markdown file
-    with open(md_file, "r", encoding="utf-8") as file:
+    with open(md_file, encoding="utf-8") as file:
         content = file.read()
 
     parsed = _parse_markdown_frontmatter(content)
