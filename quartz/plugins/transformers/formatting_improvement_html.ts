@@ -469,7 +469,20 @@ export function formatOrdinalSuffixes(tree: Root): void {
   })
 }
 
-const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
+export const CHARS_TO_MOVE_INTO_LINK_FROM_RIGHT = [
+  ".",
+  ",",
+  "!",
+  "?",
+  ";",
+  ":",
+  "`",
+  "”",
+  '"',
+  "'",
+  "’",
+  "s",
+]
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
 const LEFT_QUOTES = ['"', "“", "'", "‘"]
 
@@ -642,7 +655,7 @@ export const rearrangeLinkPunctuation = (
   if (!("value" in lastChild)) {
     return
   }
-  while (ACCEPTED_PUNCTUATION.includes(firstChar) && textNode.value.length > 0) {
+  while (CHARS_TO_MOVE_INTO_LINK_FROM_RIGHT.includes(firstChar) && textNode.value.length > 0) {
     lastChild.value = lastChild.value + firstChar
     textNode.value = textNode.value.slice(1) // Remove the first char
     firstChar = textNode.value.charAt(0) // Get the next char

@@ -15,6 +15,7 @@ import {
   transformElement,
   assertSmartQuotesMatch,
   enDashNumberRange,
+  CHARS_TO_MOVE_INTO_LINK_FROM_RIGHT,
   minusReplace,
   l_pRegex,
   collectTransformableElements,
@@ -575,7 +576,6 @@ describe("HTMLFormattingImprovement", () => {
 })
 
 describe("rearrangeLinkPunctuation", () => {
-  const punctuationToMove = [".", ",", "!", "?", ";", ":", "`"]
   const specialCases = [
     [
       '<p>"<a href="https://example.com">Link</a>"</p>',
@@ -611,8 +611,12 @@ describe("rearrangeLinkPunctuation", () => {
     ],
   ]
 
+  // Ignore chars which will be transformed into smart quotes; will error
+  const CHARS_TO_TEST = CHARS_TO_MOVE_INTO_LINK_FROM_RIGHT.filter(
+    (char) => !['"', "'"].includes(char),
+  )
   const generateLinkScenarios = () => {
-    const basicScenarios = punctuationToMove.map((mark) => [
+    const basicScenarios = CHARS_TO_TEST.map((mark: string) => [
       `<p><a href="https://example.com">Link</a>${mark}</p>`,
       `<p><a href="https://example.com">Link${mark}</a></p>`,
     ])
