@@ -38,7 +38,8 @@
       "autoflake --in-place",
       "isort",
       "autopep8 --in-place",
-      "black"
+      "black",
+      "ruff check --fix"
     ],
     "!(*.vale-styles)/**/*.md": [
       "prettier --write",
