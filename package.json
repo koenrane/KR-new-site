@@ -18,7 +18,8 @@
     "profile": "NODE_OPTIONS='--enable-source-maps' 0x --output-dir ./prof/ ./node_modules/.bin/tsx ./quartz/bootstrap-cli.ts build --concurrency=1",
     "postinstall": "npx playwright install && patch-package && npm install --os=linux --cpu=x64 sharp",
     "test:visual": "npx playwright test",
-    "generate:scss": "tsx quartz/styles/generate-variables.ts"
+    "generate:scss": "tsx quartz/styles/generate-variables.ts",
+    "setup:python": "pip install pyupgrade autoflake isort autopep8 black"
   },
   "lint-staged": {
     "*.{css,scss,json}": "prettier --write",

@@ -1095,7 +1095,6 @@ def check_css_issues(file_path: Path) -> List[str]:
     """
     if not file_path.exists():
         return [f"CSS file {file_path} does not exist"]
-    file_path = _PUBLIC_DIR / "index.css"
     with open(file_path, encoding="utf-8") as f:
         content = f.read()
         if not re.search(r"@supports", content):
