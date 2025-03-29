@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import ANY, MagicMock, call, patch
 
-import psutil
+import psutil  # type: ignore[import]
 import pytest
 from rich.style import Style
 
@@ -499,7 +499,6 @@ def test_argument_parsing(resume_flag, temp_state_dir):
             ),
             patch("scripts.run_push_checks.run_checks") as mock_run,
             patch("scripts.run_push_checks.create_server") as mock_create,
-            patch("scripts.run_push_checks.kill_process") as mock_kill,
         ):
             # Set up create_server to return a ServerInfo
             mock_create.return_value = run_push_checks.ServerInfo(12345, False)
@@ -529,9 +528,8 @@ def test_main_clears_state_on_success(temp_state_dir):
             "argparse.ArgumentParser.parse_args",
             return_value=MagicMock(resume=False),
         ),
-        patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.kill_process") as mock_kill,
+        patch("scripts.run_push_checks.kill_process"),
         patch(
             "scripts.run_push_checks.get_check_steps",
             return_value=(
@@ -559,7 +557,6 @@ def test_main_preserves_state_on_failure(temp_state_dir):
         ),
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.kill_process") as mock_kill,
         patch(
             "scripts.run_push_checks.get_check_steps",
             return_value=(
@@ -595,7 +592,6 @@ def test_main_skips_pre_server_steps(temp_state_dir):
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
         patch("scripts.run_push_checks.console.log") as mock_log,
-        patch("scripts.run_push_checks.kill_process") as mock_kill,
     ):
         mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         mock_run.return_value = None  # Successful runs

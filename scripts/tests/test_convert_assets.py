@@ -1,3 +1,5 @@
+import re
+import subprocess
 import unittest.mock as mock  # Import the mock module
 from pathlib import Path
 
@@ -8,11 +10,11 @@ from .. import utils as script_utils
 
 try:
     from . import utils as test_utils
+
+    # ruff: noqa: F401
+    from .utils import setup_test_env  # Import the fixture
 except ImportError:
     import utils as test_utils  # type: ignore
-
-import re
-import subprocess
 
 mock_r2_upload = mock.MagicMock()
 mock.patch.dict("sys.modules", {"r2_upload": mock_r2_upload}).start()
@@ -32,7 +34,7 @@ def test_image_conversion(ext: str, setup_test_env):
     assert avif_path.exists()  # Check if AVIF file was created
 
     # Check that name conversion occurred
-    with open(content_path, "r") as f:
+    with open(content_path) as f:
         file_content = f.read()
     assert asset_path.exists()
 
@@ -49,7 +51,7 @@ def test_video_conversion(ext: str, setup_test_env):
     content_path: Path = (
         Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
     )
-    with open(content_path, "r") as f:
+    with open(content_path) as f:
         file_content: str = f.read()
 
     convert_assets.convert_asset(
@@ -59,7 +61,7 @@ def test_video_conversion(ext: str, setup_test_env):
     )
 
     assert mp4_path.exists()
-    with open(content_path, "r") as f:
+    with open(content_path) as f:
         file_content = f.read()
 
     video_tags = "autoplay loop muted playsinline " if ext == ".gif" else ""
@@ -229,7 +231,9 @@ asset_pattern = convert_assets.asset_staging_pattern
     ],
 )
 def test_video_patterns(
-    input_file: Path, expected_source_pattern: str, expected_target_pattern: str
+    input_file: Path,
+    expected_source_pattern: str,
+    expected_target_pattern: str,
 ):
     source_pattern, target_pattern = convert_assets._video_patterns(input_file)
 
@@ -275,7 +279,7 @@ def test_video_figure_caption_formatting(setup_test_env, initial_content):
     convert_assets.convert_asset(dummy_video, md_references_dir=content_dir)
 
     # Read the content of the file after conversion
-    with open(test_md, "r") as f:
+    with open(test_md) as f:
         converted_content = f.read()
 
     # Check if the pattern has been correctly modified
@@ -310,7 +314,7 @@ def test_asset_staging_path_conversion(setup_test_env) -> None:
     assert avif_path.exists()
 
     # Verify content was properly converted
-    with open(content_path, "r") as f:
+    with open(content_path) as f:
         file_content = f.read()
 
     expected_content = (
@@ -362,7 +366,7 @@ def test_path_pattern_variations(
     )
 
     # Verify content was properly converted
-    with open(content_path, "r") as f:
+    with open(content_path) as f:
         file_content = f.read()
 
     assert file_content.strip() == expected_content
@@ -414,7 +418,7 @@ def test_video_asset_staging_paths(
         )
 
     # Verify content was properly converted
-    with open(content_path, "r") as f:
+    with open(content_path) as f:
         file_content = f.read()
 
     assert file_content.strip() == expected_content

@@ -19,7 +19,7 @@
     "postinstall": "npx playwright install && patch-package && npm install --os=linux --cpu=x64 sharp",
     "test:visual": "npx playwright test",
     "generate:scss": "tsx quartz/styles/generate-variables.ts",
-    "setup:python": "pip install pyupgrade autoflake isort autopep8 black"
+    "setup:python": "pip install pyupgrade autoflake isort autopep8 black ruff"
   },
   "lint-staged": {
     "*.{css,scss,json}": "prettier --write",
@@ -37,7 +37,8 @@
       "autoflake --in-place",
       "isort",
       "autopep8 --in-place",
-      "black"
+      "black",
+      "ruff check --fix"
     ],
     "!(*.vale-styles)/**/*.md": [
       "prettier --write",

@@ -8,9 +8,10 @@ import pytest
 from .. import convert_markdown_yaml
 
 try:
-    pass
+    # ruff: noqa: F401
+    from .utils import setup_test_env  # type: ignore
 except ImportError:
-    pass  # type: ignore
+    pass
 
 
 @pytest.fixture
@@ -143,7 +144,7 @@ def test_download_image_failure(tmp_path):
     mock_response = mock.Mock()
     mock_response.status_code = 404
 
-    with mock.patch("requests.get", return_value=mock_response) as mock_get:
+    with mock.patch("requests.get", return_value=mock_response):
         with pytest.raises(ValueError, match="Failed to download image"):
             convert_markdown_yaml._download_image(url, output_path)
 
