@@ -361,10 +361,11 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
 
     // Append essential theme variables
     const themeCSS = `
-      * {
+      :root {
         font-family: var(--font-text);
       }
-      code {
+      code,
+      pre {
         font-family: var(--font-monospace);
       }
       a {
