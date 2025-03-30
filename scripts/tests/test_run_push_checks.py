@@ -528,6 +528,7 @@ def test_main_clears_state_on_success(temp_state_dir):
             "argparse.ArgumentParser.parse_args",
             return_value=MagicMock(resume=False),
         ),
+        patch("scripts.run_push_checks.run_checks") as mock_run,  # noqa: F841
         patch("scripts.run_push_checks.create_server") as mock_create,
         patch("scripts.run_push_checks.kill_process"),
         patch(
