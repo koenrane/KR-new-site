@@ -312,6 +312,33 @@ def resolve_media_path(src: str, base_dir: Path) -> Path:
     return full_path
 
 
+ALLOWED_ASSET_DOMAINS = {"assets.turntrout.com"}
+
+
+def check_media_asset_sources(soup: BeautifulSoup) -> List[str]:
+    """
+    Check that media assets (images, SVGs, videos) are only hosted from allowed
+    sources.
+
+    Returns:
+        List of asset URLs that are not from allowed sources
+    """
+    invalid_sources = []
+    media_tags = soup.find_all(["img", "video", "source", "svg"])
+
+    for tag in media_tags:
+        src = tag.get("src") or tag.get("href")
+        # Skip relative paths
+        if not src or src.startswith(("/", ".", "..")):
+            continue
+
+        # Check if source is from allowed domain
+        if "//" not in src or src.split("/")[2] not in ALLOWED_ASSET_DOMAINS:
+            invalid_sources.append(f"{src} (in {tag.name} tag)")
+
+    return invalid_sources
+
+
 def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
     """
     Verify the existence of local media files (images, videos, SVGs).
@@ -786,6 +813,7 @@ def check_file_for_issues(
         "problematic_iframes": check_iframe_sources(soup),
         "consecutive_periods": check_consecutive_periods(soup),
         "invalid_favicon_parents": check_favicon_parent_elements(soup),
+        "invalid_media_asset_sources": check_media_asset_sources(soup),
     }
 
     if should_check_fonts:

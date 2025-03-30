@@ -822,6 +822,7 @@ I use [`linkchecker`](https://linkchecker.github.io/) to validate these links.
 At this point, I check the built pages for a smattering of possible errors:
 
 - Links to my local server (`localhost:8080`) which validate but will become invalid on the Web;
+- Asset tags (like `<img>`) which source their content from external sources (not from my CDN);
 - I might have disabled [favicon rendering](#inline-favicons) to increase build speed;
 - Favicons which are not sandwiched within `span.favicon-span` tags will wrap on their own, [which is awkward](#inline-favicons);
 - Common Markdown errors:

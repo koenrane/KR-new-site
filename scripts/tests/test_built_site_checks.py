@@ -2016,3 +2016,89 @@ def test_command_line_arguments():
     with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
         args = built_site_checks.parser.parse_args()
         assert args.check_fonts is True
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test valid relative paths (should be allowed)
+        (
+            """
+            <img src="/images/test.jpg">
+            <img src="./images/test.jpg">
+            <img src="../images/test.jpg">
+            """,
+            [],
+        ),
+        # Test valid assets.turntrout.com domain
+        (
+            """
+            <img src="https://assets.turntrout.com/image.jpg">
+            <video src="https://assets.turntrout.com/video.mp4">
+            <source src="https://assets.turntrout.com/audio.mp3">
+            """,
+            [],
+        ),
+        # Test invalid domains
+        (
+            """
+            <img src="https://example.com/image.jpg">
+            <video src="https://invalid.com/video.mp4">
+            """,
+            [
+                "https://invalid.com/video.mp4 (in video tag)",
+                "https://example.com/image.jpg (in img tag)",
+            ],
+        ),
+        # Test protocol-relative URLs
+        (
+            """
+            <img src="https://assets.turntrout.com/image.jpg">
+            <img src="https://example.com/image.jpg">
+            """,
+            [
+                "https://example.com/image.jpg (in img tag)",
+            ],
+        ),
+        # Test SVG elements
+        (
+            """
+            <svg src="https://assets.turntrout.com/icon.svg"></svg>
+            <svg src="https://example.com/icon.svg"></svg>
+            """,
+            [
+                "https://example.com/icon.svg (in svg tag)",
+            ],
+        ),
+        # Test mixed content
+        (
+            """
+            <div>
+                <img src="/local/image.jpg">
+                <img src="https://assets.turntrout.com/valid.jpg">
+                <img src="https://invalid.com/image.jpg">
+                <video src="another.com/video.mp4"></video>
+            </div>
+            """,
+            [
+                "https://invalid.com/image.jpg (in img tag)",
+                "another.com/video.mp4 (in video tag)",
+            ],
+        ),
+        # Test elements without src attribute
+        (
+            """
+            <img>
+            <video></video>
+            <source>
+            <svg></svg>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_media_asset_sources(html, expected):
+    """Test the check_media_asset_sources function with various HTML structures."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = built_site_checks.check_media_asset_sources(soup)
+    assert sorted(result) == sorted(expected)
