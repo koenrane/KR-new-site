@@ -128,7 +128,7 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
 
 
 def test_check_problematic_paragraphs(sample_soup):
-    result = built_site_checks.check_problematic_paragraphs(sample_soup)
+    result = built_site_checks.paragraphs_contain_canary_phrases(sample_soup)
     assert len(result) == 3
     assert "Problematic paragraph: Table: This is a table description" in result
     assert "Problematic paragraph: Figure: This is a figure caption" in result
@@ -153,7 +153,7 @@ def test_check_problematic_paragraphs_with_direct_text():
     </html>
     """
     soup = BeautifulSoup(html, "html.parser")
-    result = built_site_checks.check_problematic_paragraphs(soup)
+    result = built_site_checks.paragraphs_contain_canary_phrases(soup)
     assert "Problematic paragraph: Figure: Text" in result
     assert "Problematic paragraph: Figure: Blockquote" in result
     assert "Problematic paragraph: Normal paragraph" not in result
@@ -603,7 +603,7 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
 def test_check_problematic_paragraphs_with_dt(html, expected):
     """Check that unrendered description list entries are flagged."""
     soup = BeautifulSoup(html, "html.parser")
-    result = built_site_checks.check_problematic_paragraphs(soup)
+    result = built_site_checks.paragraphs_contain_canary_phrases(soup)
     assert sorted(result) == sorted(expected)
 
 
@@ -726,7 +726,7 @@ def test_check_unrendered_spoilers_parametrized(html, expected):
 def test_check_problematic_paragraphs_with_headings(html, expected):
     """Check that unrendered headings (paragraphs starting with #) are flagged."""
     soup = BeautifulSoup(html, "html.parser")
-    result = built_site_checks.check_problematic_paragraphs(soup)
+    result = built_site_checks.paragraphs_contain_canary_phrases(soup)
     assert sorted(result) == sorted(expected)
 
 
@@ -837,7 +837,7 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
 def test_check_problematic_paragraphs_comprehensive(html, expected):
     """Comprehensive test suite for check_problematic_paragraphs function."""
     soup = BeautifulSoup(html, "html.parser")
-    result = built_site_checks.check_problematic_paragraphs(soup)
+    result = built_site_checks.paragraphs_contain_canary_phrases(soup)
     assert sorted(result) == sorted(expected)
 
 

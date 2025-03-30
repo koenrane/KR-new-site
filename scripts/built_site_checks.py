@@ -199,11 +199,11 @@ def _add_to_list(
             lst.append(prefix + to_append)
 
 
-def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
+def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> List[str]:
     """
     Check for text nodes starting with specific phrases.
 
-    Efficiently searches without duplicates, ignoring text within <code> tags.
+    Ignores text within <code> tags.
     """
     bad_anywhere = (r"> \[\![a-zA-Z]+\]",)  # Callout syntax
     bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ")
@@ -788,7 +788,7 @@ def check_file_for_issues(
         "localhost_links": check_localhost_links(soup),
         "invalid_internal_links": check_invalid_internal_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, base_dir),
-        "problematic_paragraphs": check_problematic_paragraphs(soup),
+        "problematic_paragraphs": paragraphs_contain_canary_phrases(soup),
         "missing_media_files": check_local_media_files(soup, base_dir),
         "trailing_blockquotes": check_blockquote_elements(soup),
         "missing_assets": check_asset_references(soup, file_path, base_dir),
