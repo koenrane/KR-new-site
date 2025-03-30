@@ -68,7 +68,7 @@ Consider the following environment, where the agent can either stay put or move 
 
 ![](ye-olde-gridworld.png){style="width:85%;"}
 
-<br/>Figure: From left to right, top to bottom, the states have labels $s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
+Figure: From left to right, top to bottom, the states have labels $s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
 
 Suppose the agent gets some amount of reward each timestep, and it's choosing a policy to maximize its average per-timestep reward. [Previous results](https://proceedings.neurips.cc/paper/2021/hash/c26820b8a4c1b3c2aa868d6d57e14a79-Abstract.html) tell us that for generic reward functions over states, at least half of them incentivize going right. There are two terminal states on the left, and three on the right, and 3 > 2; we conclude that at least $\frac{\text{floor(3/2)}}{\text{floor(3/2)}+1}=\frac{1}{2}$ [of objectives incentivize going right](/quantitative-strength-of-instrumental-convergence).
 

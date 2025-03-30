@@ -411,7 +411,7 @@ In fact, my preliminary finding is that for a constant depth-horizon $t-s = 10$,
 
 ## Generalization of linear, quadratic, and exponential DCTs
 
-<img src="https://hackmd.io/_uploads/rkLARlXmyl.png" alt="Sample complexity of different kinds of DCTs" class="transparent-image"/>
+![Sample complexity of different kinds of DCTs.](sample-complexity-dcts.png){.transparent-image}
 
 Figure: **Figure 1**: Sample complexity of DCTs.
 
@@ -433,7 +433,8 @@ A priori, it could have been the case that non-orthogonality was not that import
 
 Fortunately, exponential DCTs maintain much of the computational efficiency of linear DCTs, as they require only gradients rather than the second-order information needed by quadratic DCTs. Furthermore, the OGI algorithm parallelizes well and typically converges in just 10 iterations as long as one trains a sufficiently large number of factors ($m$).  For an illustration of this, below are training curves on the prompt "Tell me how to make a bomb" for increasing values of $m$:
 
-![training_curves (1)](https://hackmd.io/_uploads/H1h9s7pfJl.png)
+![](training-curves-dct.png)
+
 Figure: **Figure 2**: Training curves for different widths ($m$)
 
 Note that since OGI converges in roughly $10$ iterations when $m=512$, the total FLOPS is not that much larger for training an exponential DCT than it would be for computing the full Jacobian. In particular, since $d_\textrm{model}=4096$ for Qwen-1.5-7B-Chat, we would have to perform 4,096 backwards passes to compute a full Jacobian using backwards-mode auto-differentiation. In comparison, for $\tau=10,m=512$, we only have to compute $\tau\times m = 5120$ passes to run OGI, which is not that much larger than 4,096 (we also have to compute a QR decomposition in each step, but this is significantly cheaper in runtime than the backwards pass).

@@ -7,15 +7,16 @@ no_dropcap: "false"
 tags:
   - AI
   - understanding-the-world
-description: Norm growth in activations drowns out earlier computations - do transformers
-  just process recent sublayer outputs?
+description: Norm growth in activations drowns out earlier computations - do transformers just process recent sublayer outputs?
 date-published: 07/23/24
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image:
+card_image: 
 original_url: https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=onhHdxZ8iQ4qvSHgi
 date_published: 2024-10-27 19:14:04.653922
 date_updated: 2025-03-05 20:43:54.692493
+aliases:
+  - layer-horizon
 ---
 
 
@@ -58,9 +59,9 @@ To measure the importance of sublayer contributions originating much earlier in 
 
 > [!quote] [Joseph Miller](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=DpKyPSqGCBw3erajH)
 >
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DpKyPSqGCBw3erajH/eizrcqrewbamiyfsbdsp)
-  >
-   > We clearly see the same pattern again. As `TurnTrout` predicted, there seems be something like an exponential decay in the importance of previous layers as you go further back. I expect that on large models the effective layer horizon is an important consideration. ([Source code](https://gist.github.com/UFO-101/41b7ff0b250babe69bf16071e76658a6))
+> ![](layer-horizon-gpt2xl.png)
+>
+>  We clearly see the same pattern again. As `TurnTrout` predicted, there seems be something like an exponential decay in the importance of previous layers as you go further back. I expect that on large models the effective layer horizon is an important consideration. ([Source code](https://gist.github.com/UFO-101/41b7ff0b250babe69bf16071e76658a6))
 
 However, there _is_ a confounder. Suppose the layer horizon is 1. Consider the computation performed by layer 0's attention and MLP sublayers. Because layer 0 already uses all relevant information in its outputs (i.e. the embeddings), its computation is not affected if the layer horizon increases to 2. More generally, all layers up through $n$ are not affected by the layer horizon as long as the horizon is strictly greater than $n$. In a model like GPT-2-XL with 48 layers, shifts in layer horizon are less meaningful for e.g. $n>25$.
 

@@ -303,7 +303,8 @@ Table: Ensure that word wrapping works properly on table header elements to prev
 
 ## Images
 
-<img src="https://hackmd.io/_uploads/rkLARlXmyl.png" alt="Sample complexity of different kinds of DCTs" class="transparent-image"/>
+![Sample complexity of different kinds of DCTs.](sample-complexity-dcts.png){.transparent-image}
+
 Figure: This image should be transparent in light mode and have a light background in dark mode.
 
 ## Fatebook embed
