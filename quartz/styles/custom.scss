@@ -465,6 +465,10 @@ img.favicon {
     }
   }
 
+  :root[data-theme="dark"] &[src$="opentimestamps_org.avif"] {
+    filter: saturate(0%) invert(80%) sepia(6%) hue-rotate(185deg) contrast(92%);
+  }
+
   // Make the anchor icon less bright on dark mode
   &[src$="anchor.svg"] {
     // Rotate the anchor so that it resembles the trout within-site icon
