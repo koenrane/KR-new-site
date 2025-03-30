@@ -174,57 +174,52 @@ hr.desktop-only {
     }
 
     & .sidebar {
+      --sidebar-padding: calc(8 * #{$base-margin});
+
       flex: 1;
       flex-direction: column;
       top: 0;
       width: $side-panel-width;
       margin-top: $top-spacing;
       box-sizing: border-box;
-      padding: 0 calc(8 * $base-margin);
-      position: fixed;
 
-      &.right {
-        width: 100%;
+      &#left-sidebar {
+        padding-right: var(--sidebar-padding);
 
-        @media all and (min-width: $margins-begin) {
-          width: $right-width;
+        @media all and (max-width: $full-page-width) {
+          gap: 0;
+          align-items: center;
+          position: sticky;
+        }
+
+        @media all and (min-width: $full-page-width) {
+          left: calc(calc(100vw - $page-width) / 2 - $side-panel-width);
         }
       }
 
-      @media all and (max-width: $full-page-width) {
-        position: relative;
-        flex-direction: column;
-        max-width: 100vw;
-        padding: 0;
-        margin-top: 0;
+      &#right-sidebar {
+        width: 100%;
+        right: calc(calc(100vw - $page-width) / 2 - $right-width);
+        height: 96vh; // Leave room for bottom of ContentMeta
+        overflow-y: auto; // Allow scrolling
+        flex-wrap: wrap;
+
+        // TODO simplify?
+        @media all and (min-width: $margins-begin) {
+          width: $right-width;
+        }
+
+        @media all and (min-width: $full-page-width) {
+          padding-left: var(--sidebar-padding);
+        }
       }
-    }
-
-    & #left-sidebar {
-      display: flex;
-      margin-right: calc(6 * $base-margin);
-
-      @media all and (max-width: $full-page-width) {
-        gap: 0;
-        align-items: center;
-
-        // width: $page-width;
-        position: sticky;
-      }
-
-      @media all and (min-width: $full-page-width) {
-        left: calc(calc(100vw - $page-width) / 2 - $side-panel-width);
-      }
-    }
-
-    & #right-sidebar {
-      right: calc(calc(100vw - $page-width) / 2 - $right-width);
-      height: 96vh; // Leave room for bottom of ContentMeta
-      overflow-y: auto; // Allow scrolling
-      flex-wrap: wrap;
 
       @media all and (width >= calc($full-page-width + 100px)) {
         padding-right: calc(2 * $base-margin); // Make more space for ToC
+      }
+
+      @media all and (min-width: $full-page-width) {
+        position: fixed;
       }
 
       @media all and (max-width: $full-page-width) {
@@ -235,6 +230,14 @@ hr.desktop-only {
           min-width: 140px;
         }
       }
+    }
+
+    @media all and (max-width: $full-page-width) {
+      position: relative;
+      flex-direction: column;
+      max-width: 100vw;
+      padding: 0;
+      margin-top: 0;
     }
   }
 

@@ -264,7 +264,7 @@ export function renderPage(
   const Body = BodyConstructor()
 
   const LeftComponent = (
-    <div id="left-sidebar" className="left sidebar">
+    <div id="left-sidebar" className="sidebar">
       {left.map((BodyComponent) => (
         <BodyComponent {...componentData} key={BodyComponent.name} />
       ))}
@@ -272,7 +272,7 @@ export function renderPage(
   )
 
   const RightComponent = (
-    <div id="right-sidebar" className="right sidebar">
+    <div id="right-sidebar" className="sidebar">
       {right.map((BodyComponent) => (
         <BodyComponent {...componentData} key={BodyComponent.name} />
       ))}

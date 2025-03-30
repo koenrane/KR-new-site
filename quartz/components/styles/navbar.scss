@@ -184,6 +184,11 @@
   }
 }
 
+// Ordering the z stacks
+#left-sidebar {
+  z-index: 1;
+}
+
 @media all and (max-width: $full-page-width) {
   #quartz-body > #left-sidebar {
     width: 100%;
