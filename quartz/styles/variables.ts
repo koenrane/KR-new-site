@@ -1,4 +1,3 @@
-// Individual exports
 export const pageWidth = 750
 export const mobileBreakpoint = 600
 export const tabletBreakpoint = 1000
