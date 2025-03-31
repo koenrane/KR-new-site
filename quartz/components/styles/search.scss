@@ -131,7 +131,7 @@
       }
 
       &[data-preview] > #results-container {
-        flex: 0 0 min(30%, $right-width);
+        flex: 0 0 min(30%, $right-sidebar-width);
       }
 
       @media all and (min-width: $mobile-breakpoint) {

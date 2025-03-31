@@ -165,102 +165,93 @@ hr.desktop-only {
   }
 
   & > #quartz-body {
+    --sidebar-padding: calc(8 * #{$base-margin});
+
     width: 100%;
-    overflow-x: visible;
     display: flex;
 
     @media all and (max-width: $full-page-width) {
       flex-direction: column;
+      overflow-x: hidden; // Prevent horizontal scrolling on mobile
+    }
+
+    @media all and (min-width: $full-page-width) {
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: var(--sidebar-padding);
+      max-width: calc(#{$max-content-width} + 2 * var(--sidebar-padding));
+      margin: 0 auto;
     }
 
     & .sidebar {
-      --sidebar-padding: calc(8 * #{$base-margin});
-
-      flex: 1;
+      display: flex;
       flex-direction: column;
-      top: 0;
-      width: $side-panel-width;
       margin-top: $top-spacing;
       box-sizing: border-box;
+      flex-shrink: 0;
+
+      @media all and (min-width: $full-page-width) {
+        height: calc(100vh - #{$top-spacing});
+        overflow-y: auto;
+      }
 
       &#left-sidebar {
-        padding-right: var(--sidebar-padding);
-
         @media all and (max-width: $full-page-width) {
           gap: 0;
           align-items: center;
           position: sticky;
+          width: 100%;
+          height: auto;
+          overflow-y: visible;
         }
 
         @media all and (min-width: $full-page-width) {
-          left: calc(calc(100vw - $page-width) / 2 - $side-panel-width);
+          max-width: $left-sidebar-width;
         }
       }
 
       &#right-sidebar {
-        width: 100%;
-        right: calc(calc(100vw - $page-width) / 2 - $right-width);
-        height: 96vh; // Leave room for bottom of ContentMeta
-        overflow-y: auto; // Allow scrolling
         flex-wrap: wrap;
 
-        // TODO simplify?
-        @media all and (min-width: $margins-begin) {
-          width: $right-width;
-        }
-
         @media all and (min-width: $full-page-width) {
-          padding-left: var(--sidebar-padding);
+          max-width: $right-sidebar-width;
         }
-      }
 
-      @media all and (width >= calc($full-page-width + 100px)) {
-        padding-right: calc(2 * $base-margin); // Make more space for ToC
-      }
-
-      @media all and (min-width: $full-page-width) {
-        position: fixed;
-      }
-
-      @media all and (max-width: $full-page-width) {
-        left: 0;
-
-        & > * {
-          flex: 1;
-          min-width: 140px;
+        @media all and (max-width: $full-page-width) {
+          width: 100%;
+          height: auto;
+          overflow-y: visible;
+          margin-top: 0;
         }
       }
     }
 
-    @media all and (max-width: $full-page-width) {
-      position: relative;
-      flex-direction: column;
-      max-width: 100vw;
-      padding: 0;
-      margin-top: 0;
+    & .center {
+      flex-grow: 1;
+      flex-shrink: 1;
+      max-width: $page-width;
+      width: 100%;
+
+      @media all and (max-width: $full-page-width) {
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+      }
     }
   }
 
   & .page-header {
     width: $page-width;
     margin: $top-spacing auto 0 auto;
+    max-width: $page-width;
+    margin-left: auto;
+    margin-right: auto;
 
     @media all and (max-width: $full-page-width) {
       width: initial;
       margin-top: calc(2 * $base-margin);
-    }
-  }
-
-  & .center,
-  & footer {
-    margin-left: auto;
-    margin-right: auto;
-    width: $page-width;
-
-    @media all and (max-width: $full-page-width) {
-      width: initial;
-      margin-left: 0;
-      margin-right: 0;
+      max-width: none;
     }
   }
 }

@@ -2,12 +2,15 @@
 export const pageWidth = 750
 export const mobileBreakpoint = 600
 export const tabletBreakpoint = 1000
-export const sidePanelWidth = 380
-export const rightWidth = 450
+export const leftSidebarWidth = 380
+export const rightSidebarWidth = 450
 export const marginsBegin = 825
 export const topSpacing = "2rem"
-export const fullPageWidth = pageWidth + sidePanelWidth + rightWidth
+export const fullPageWidth = pageWidth + leftSidebarWidth + rightSidebarWidth
+
 export const baseMargin = "0.5rem"
+export const maxSidebarPadding = "4rem" // 8 * baseMargin
+export const maxContentWidth = pageWidth + rightSidebarWidth + 100 // 100 for padding
 export const boldWeight = 700
 export const semiBoldWeight = 600
 export const normalWeight = 400
@@ -19,11 +22,13 @@ export const variables = {
   pageWidth,
   mobileBreakpoint,
   tabletBreakpoint,
-  sidePanelWidth,
-  rightWidth,
+  leftSidebarWidth,
+  rightSidebarWidth,
   marginsBegin,
   topSpacing,
   fullPageWidth,
+  maxSidebarPadding,
+  maxContentWidth,
   baseMargin,
   boldWeight,
   semiBoldWeight,
