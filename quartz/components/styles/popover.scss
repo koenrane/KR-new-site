@@ -137,7 +137,7 @@
     opacity 0.15s ease,
     visibility 0.15s ease;
 
-  // $full-page-width is 1580px, but for some reason it isn't working
+  // $min-desktop-width is 1580px, but for some reason it isn't working
   //  so I manually set the breakpoint to 1580px
   @media all and (width <= 1580px) {
     display: none !important;

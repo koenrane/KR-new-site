@@ -1,7 +1,7 @@
 import { type Locator, type TestInfo, expect } from "@playwright/test"
 import { type Page } from "playwright"
 
-import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
+import { tabletBreakpoint, minDesktopWidth } from "../../styles/variables"
 import { type Theme } from "../scripts/darkmode"
 
 export interface RegressionScreenshotOptions {
@@ -270,5 +270,5 @@ export async function waitForTransitionEnd(element: Locator): Promise<void> {
 // TODO add tests
 export function isDesktopViewport(page: Page): boolean {
   const viewportSize = page.viewportSize()
-  return viewportSize ? viewportSize.width >= fullPageWidth : false // matches $full-page-width
+  return viewportSize ? viewportSize.width >= minDesktopWidth : false // matches $full-page-width
 }

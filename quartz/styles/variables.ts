@@ -6,8 +6,9 @@ export const leftSidebarWidth = 380
 export const rightSidebarWidth = 450
 export const marginsBegin = 825
 export const topSpacing = "2rem"
-export const fullPageWidth = pageWidth + leftSidebarWidth + rightSidebarWidth
-export const maxMobileWidth = fullPageWidth - 1
+export const minDesktopWidth = pageWidth + leftSidebarWidth + rightSidebarWidth
+// Prevent overlap of rules when width equals minDesktopWidth
+export const maxMobileWidth = minDesktopWidth - 1
 
 export const baseMargin = "0.5rem"
 export const maxSidebarGap = "4rem" // 8 * baseMargin
@@ -27,7 +28,7 @@ export const variables = {
   rightSidebarWidth,
   marginsBegin,
   topSpacing,
-  fullPageWidth,
+  minDesktopWidth,
   maxMobileWidth,
   maxSidebarGap,
   maxContentWidth,

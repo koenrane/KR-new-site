@@ -119,7 +119,7 @@ a {
 .desktop-only {
   display: initial;
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     display: none;
   }
 }
@@ -131,13 +131,13 @@ hr.desktop-only {
 .mobile-only {
   display: none;
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     display: initial;
   }
 }
 
 .page {
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     margin: 0 auto;
     padding: 0 calc(2 * $base-margin);
     max-width: $page-width;
@@ -168,13 +168,13 @@ hr.desktop-only {
     width: 100%;
     display: flex;
 
-    @media all and (max-width: $full-page-width) {
+    @media all and (max-width: $max-mobile-width) {
       flex-direction: column;
       overflow-x: hidden; // Prevent horizontal scrolling on mobile
       gap: 0;
     }
 
-    @media all and (min-width: $max-mobile-width) {
+    @media all and (min-width: $min-desktop-width) {
       flex-direction: row;
       justify-content: center;
       align-items: flex-start;
@@ -190,7 +190,7 @@ hr.desktop-only {
       box-sizing: border-box;
       flex-shrink: 0;
 
-      @media all and (min-width: $max-mobile-width) {
+      @media all and (min-width: $min-desktop-width) {
         height: calc(100vh - #{$top-spacing});
         position: sticky;
         top: $top-spacing;
@@ -198,7 +198,7 @@ hr.desktop-only {
       }
 
       &#left-sidebar {
-        @media all and (max-width: $full-page-width) {
+        @media all and (max-width: $max-mobile-width) {
           gap: 0;
           top: 0;
           left: 2.5%;
@@ -210,7 +210,7 @@ hr.desktop-only {
           position: fixed;
         }
 
-        @media all and (min-width: $max-mobile-width) {
+        @media all and (min-width: $min-desktop-width) {
           max-width: $left-sidebar-width;
           margin-left: calc(2 * $base-margin);
         }
@@ -219,11 +219,11 @@ hr.desktop-only {
       &#right-sidebar {
         flex-wrap: wrap;
 
-        @media all and (min-width: $max-mobile-width) {
+        @media all and (min-width: $min-desktop-width) {
           max-width: $right-sidebar-width;
         }
 
-        @media all and (max-width: $full-page-width) {
+        @media all and (max-width: $max-mobile-width) {
           width: 100%;
           height: auto;
           overflow-y: visible;
@@ -240,7 +240,7 @@ hr.desktop-only {
       max-width: $page-width;
       width: 100%;
 
-      @media all and (max-width: $full-page-width) {
+      @media all and (max-width: $max-mobile-width) {
         max-width: none;
         margin-left: 0;
         margin-right: 0;
@@ -256,7 +256,7 @@ hr.desktop-only {
     margin-left: auto;
     margin-right: auto;
 
-    @media all and (max-width: $full-page-width) {
+    @media all and (max-width: $max-mobile-width) {
       width: initial;
       margin-top: calc(2 * $base-margin);
       max-width: none;

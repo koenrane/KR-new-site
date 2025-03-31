@@ -96,7 +96,7 @@ a[id*="fnref-"] {
   border-radius: 5px;
   line-height: var(--line-height);
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     scroll-margin-top: calc(7 * $base-margin);
   }
 }
@@ -343,7 +343,7 @@ figure,
 #article-title {
   margin: 2rem 0 0;
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     margin-top: $base-margin;
   }
 
