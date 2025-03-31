@@ -184,7 +184,6 @@
   }
 }
 
-// Ordering the z stacks
 #left-sidebar {
   z-index: 1;
 }
@@ -218,12 +217,11 @@
 
 #navbar {
   display: flex;
-  justify-content: space-between;
-  flex-direction: column;
+  flex-direction: row;
   position: relative;
 
   @media all and (max-width: $full-page-width) {
-    flex-direction: row;
+    justify-content: space-between;
     width: 100.5%; // Prevent peek-through of other elements
     background-color: var(--background);
   }

@@ -173,6 +173,7 @@ hr.desktop-only {
     @media all and (max-width: $full-page-width) {
       flex-direction: column;
       overflow-x: hidden; // Prevent horizontal scrolling on mobile
+      gap: 0;
     }
 
     @media all and (min-width: $max-mobile-width) {
@@ -193,17 +194,22 @@ hr.desktop-only {
 
       @media all and (min-width: $max-mobile-width) {
         height: calc(100vh - #{$top-spacing});
+        position: sticky;
+        top: $top-spacing;
         overflow-y: auto;
       }
 
       &#left-sidebar {
         @media all and (max-width: $full-page-width) {
           gap: 0;
+          top: 0;
+          left: 2.5%;
+          margin-top: 0;
           align-items: center;
-          position: sticky;
-          width: 100%;
+          max-width: 95%;
           height: auto;
           overflow-y: visible;
+          position: fixed;
         }
 
         @media all and (min-width: $max-mobile-width) {
@@ -223,6 +229,8 @@ hr.desktop-only {
           height: auto;
           overflow-y: visible;
           margin-top: 0;
+          position: sticky;
+          top: $top-spacing;
         }
       }
     }
@@ -237,6 +245,7 @@ hr.desktop-only {
         max-width: none;
         margin-left: 0;
         margin-right: 0;
+        width: 100%;
       }
     }
   }
