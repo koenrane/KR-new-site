@@ -362,6 +362,7 @@ The NATO alliance met in the USA.  SMALLCAPS "capitalization" should be similar 
 - _ABCDEFGHIJKLMNOPQRSTUVWXYZ_
 - **ABCDEFGHIJKLMNOPQRSTUVWXYZ**
 - _**ABCDEFGHIJKLMNOPQRSTUVWXYZ**_
+- ~~ABCDEFGHIJKLMNOPQRSTUVWXYZ~~
 <!--spellchecker-enable-->
 
 ## Numbers and units
