@@ -2,9 +2,6 @@
 @use "search.scss" as *;
 
 .menu {
-  order: 1;
-  top: 5px;
-
   // Applies to all links in the navbar
   & ul {
     list-style: none;
@@ -42,7 +39,7 @@
     background-color: transparent;
     display: none;
     right: 0;
-    top: 80%;
+    top: 90%;
 
     &.visible {
       display: block;
