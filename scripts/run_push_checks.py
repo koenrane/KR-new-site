@@ -105,7 +105,9 @@ class ServerManager:
         self.cleanup()
         sys.exit(1)
 
-    def set_server_pid(self, pid: int, created_by_script: bool = False) -> None:
+    def set_server_pid(
+        self, pid: int, created_by_script: bool = False
+    ) -> None:
         """
         Set the server PID to track for cleanup.
 
@@ -219,7 +221,9 @@ def create_server(git_root_path: Path) -> ServerInfo:
             if is_port_in_use(8080):
                 progress.remove_task(task_id)
                 progress.stop()
-                console.log("[green]Quartz server successfully started[/green]")
+                console.log(
+                    "[green]Quartz server successfully started[/green]"
+                )
                 return ServerInfo(server_pid, True)
             progress.update(
                 task_id,
