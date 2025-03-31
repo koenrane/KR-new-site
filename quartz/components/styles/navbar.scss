@@ -181,16 +181,7 @@
   }
 }
 
-#left-sidebar {
-  z-index: 1;
-}
-
 @media all and (max-width: $max-mobile-width) {
-  #quartz-body > #left-sidebar {
-    width: 100%;
-    position: sticky;
-  }
-
   #quartz-body #navbar {
     opacity: 1;
     transition:

@@ -203,6 +203,8 @@ hr.desktop-only {
       }
 
       &#left-sidebar {
+        z-index: 1;
+
         @media all and (min-width: $min-desktop-width) {
           flex-basis: $left-sidebar-width;
           flex-shrink: 0.25;
@@ -216,10 +218,10 @@ hr.desktop-only {
         @media all and (max-width: $max-mobile-width) {
           gap: 0;
           top: 0;
-          left: 2.5%;
           margin-top: 0;
           align-items: center;
-          max-width: 95%;
+          width: 100%;
+          max-width: $page-width;
           height: auto;
           overflow-y: visible;
           position: fixed;
