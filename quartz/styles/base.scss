@@ -211,16 +211,16 @@ hr.desktop-only {
         }
 
         @media all and (min-width: $min-desktop-width) {
-          max-width: $left-sidebar-width;
-          margin-left: calc(2 * $base-margin);
+          flex-basis: $left-sidebar-width;
+          flex-shrink: 0.25;
+          margin-left: var(--sidebar-outer-padding);
         }
       }
 
       &#right-sidebar {
-        flex-wrap: wrap;
-
-        @media all and (min-width: $min-desktop-width) {
-          max-width: $right-sidebar-width;
+        @media all and (min-width: $max-mobile-width) {
+          flex-basis: $right-sidebar-width;
+          flex-shrink: 1;
         }
 
         @media all and (max-width: $max-mobile-width) {
