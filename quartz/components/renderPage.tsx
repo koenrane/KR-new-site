@@ -299,7 +299,7 @@ export function renderPage(
       <div id="quartz-root" className="page">
         <Body {...componentData}>
           {LeftComponent}
-          <div className="center">
+          <div id="center-content">
             {pageHeader}
             <Content {...componentData} />
           </div>
