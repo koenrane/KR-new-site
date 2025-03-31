@@ -1,11 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 # First initialize conda
-eval "$(conda shell.bash hook)"
+CONDA="/opt/homebrew/anaconda3/bin/conda"
+eval "$("$CONDA" shell.bash hook)"
 
 # Then check and activate environment
 if [ "$CONDA_DEFAULT_ENV" != "website" ]; then
-    conda activate website
+  conda activate website
 fi
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
