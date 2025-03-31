@@ -1,5 +1,6 @@
 import { test, expect, type Locator, type Page, type TestInfo } from "@playwright/test"
 
+import { fullPageWidth, maxMobileWidth } from "../../styles/variables"
 import {
   takeRegressionScreenshot,
   setTheme,
@@ -121,6 +122,18 @@ test.describe("Table of contents", () => {
 
     await takeRegressionScreenshot(page, testInfo, selector)
   })
+})
+
+test.describe("Layout Breakpoints", () => {
+  for (const width of [fullPageWidth, maxMobileWidth]) {
+    test(`Layout at breakpoint width ${width}px (lostpixel)`, async ({ page }, testInfo) => {
+      // Set viewport to the exact breakpoint width
+      await page.setViewportSize({ width, height: 480 }) // Don't show much
+
+      // Take a full page screenshot at this specific width
+      await takeRegressionScreenshot(page, testInfo, `layout-breakpoint-${width}px`)
+    })
+  }
 })
 
 test.describe("Admonitions", () => {

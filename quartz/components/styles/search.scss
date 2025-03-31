@@ -12,7 +12,7 @@
   flex-direction: row-reverse;
   min-width: fit-content;
 
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $max-mobile-width) {
     margin-top: calc(2 * $base-margin);
     margin-right: 0;
     width: 5rem;

@@ -175,7 +175,7 @@ hr.desktop-only {
       overflow-x: hidden; // Prevent horizontal scrolling on mobile
     }
 
-    @media all and (min-width: $full-page-width) {
+    @media all and (min-width: $max-mobile-width) {
       flex-direction: row;
       justify-content: center;
       align-items: flex-start;
@@ -191,7 +191,7 @@ hr.desktop-only {
       box-sizing: border-box;
       flex-shrink: 0;
 
-      @media all and (min-width: $full-page-width) {
+      @media all and (min-width: $max-mobile-width) {
         height: calc(100vh - #{$top-spacing});
         overflow-y: auto;
       }
@@ -206,7 +206,7 @@ hr.desktop-only {
           overflow-y: visible;
         }
 
-        @media all and (min-width: $full-page-width) {
+        @media all and (min-width: $max-mobile-width) {
           max-width: $left-sidebar-width;
         }
       }
@@ -214,7 +214,7 @@ hr.desktop-only {
       &#right-sidebar {
         flex-wrap: wrap;
 
-        @media all and (min-width: $full-page-width) {
+        @media all and (min-width: $max-mobile-width) {
           max-width: $right-sidebar-width;
         }
 

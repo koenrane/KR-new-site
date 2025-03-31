@@ -13,7 +13,7 @@
     background-color: var(--background);
     margin: 0;
 
-    @media all and (min-width: $full-page-width) {
+    @media all and (min-width: $max-mobile-width) {
       margin: $base-margin 0;
     }
 
@@ -29,7 +29,7 @@
   }
 
   // Desktop
-  @media (min-width: $full-page-width) {
+  @media (min-width: $max-mobile-width) {
     display: flex;
     text-align: center;
     flex-direction: column;
@@ -153,7 +153,7 @@
     font-size: var(--text-size-500);
   }
 
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $max-mobile-width) {
     margin-bottom: 0;
     margin-top: 0;
     margin-right: calc(0.25 * $base-margin); // Make it flush with the site links
@@ -167,7 +167,7 @@
   display: flex;
   align-items: center;
 
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $max-mobile-width) {
     flex-direction: column;
     align-items: flex-end;
   }
@@ -179,7 +179,7 @@
 }
 
 #navbar-right {
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $max-mobile-width) {
     margin-right: calc(0.25 * $base-margin);
   }
 }
@@ -248,7 +248,7 @@
 }
 
 #header-video-container {
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $max-mobile-width) {
     width: 188px;
     height: 188px;
     min-height: 188px;
@@ -294,7 +294,7 @@
     background-color: transparent;
     margin-right: calc(0.5 * $base-margin);
 
-    @media all and (min-width: $full-page-width) {
+    @media all and (min-width: $max-mobile-width) {
       margin-right: 0;
       margin-bottom: calc(0.5 * $base-margin);
       align-self: center; // Centered above the auto text
@@ -359,7 +359,7 @@
 }
 
 #nav-searchbar {
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $max-mobile-width) {
     order: 2; // Search bar comes after other links
     margin-top: calc(0.25 * $base-margin);
   }

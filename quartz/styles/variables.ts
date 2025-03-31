@@ -7,6 +7,7 @@ export const rightSidebarWidth = 450
 export const marginsBegin = 825
 export const topSpacing = "2rem"
 export const fullPageWidth = pageWidth + leftSidebarWidth + rightSidebarWidth
+export const maxMobileWidth = fullPageWidth - 1
 
 export const baseMargin = "0.5rem"
 export const maxSidebarPadding = "4rem" // 8 * baseMargin
@@ -27,6 +28,7 @@ export const variables = {
   marginsBegin,
   topSpacing,
   fullPageWidth,
+  maxMobileWidth,
   maxSidebarPadding,
   maxContentWidth,
   baseMargin,
