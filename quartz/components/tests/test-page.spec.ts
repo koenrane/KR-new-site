@@ -96,14 +96,24 @@ test.describe("Test page sections", () => {
 })
 
 test.describe("Various site pages", () => {
-  for (const pageSlug of ["404", "all-tags", "recent", "tags/personal"]) {
+  for (const pageSlug of ["", "404", "all-tags", "recent", "tags/personal"]) {
     test(`${pageSlug} (lostpixel)`, async ({ page }, testInfo) => {
       await page.goto(`http://localhost:8080/${pageSlug}`)
       await takeRegressionScreenshot(page, testInfo, `test-page-${pageSlug}`)
     })
   }
-})
 
+  test("Reward warning (lostpixel)", async ({ page }, testInfo) => {
+    await page.goto(
+      "http://localhost:8080/a-certain-formalization-of-corrigibility-is-vnm-incoherent",
+    )
+    const rewardWarning = page.getByText("Reward is not the optimization target").first()
+    await expect(rewardWarning).toBeVisible()
+    await takeRegressionScreenshot(page, testInfo, "reward-warning", {
+      element: rewardWarning,
+    })
+  })
+})
 test.describe("Table of contents", () => {
   function getTableOfContentsSelector(page: Page) {
     return isDesktopViewport(page) ? "#toc-content" : "*:has(> #toc-content-mobile)"
