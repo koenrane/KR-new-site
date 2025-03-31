@@ -165,8 +165,6 @@ hr.desktop-only {
   }
 
   & > #quartz-body {
-    --sidebar-padding: calc(8 * #{$base-margin});
-
     width: 100%;
     display: flex;
 
@@ -180,8 +178,8 @@ hr.desktop-only {
       flex-direction: row;
       justify-content: center;
       align-items: flex-start;
-      gap: var(--sidebar-padding);
-      max-width: calc(#{$max-content-width} + 2 * var(--sidebar-padding));
+      gap: #{$max-sidebar-gap};
+      max-width: calc(#{$max-content-width} + 2 * #{$max-sidebar-gap});
       margin: 0 auto;
     }
 
@@ -214,6 +212,7 @@ hr.desktop-only {
 
         @media all and (min-width: $max-mobile-width) {
           max-width: $left-sidebar-width;
+          margin-left: calc(2 * $base-margin);
         }
       }
 

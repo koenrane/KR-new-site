@@ -10,8 +10,8 @@ export const fullPageWidth = pageWidth + leftSidebarWidth + rightSidebarWidth
 export const maxMobileWidth = fullPageWidth - 1
 
 export const baseMargin = "0.5rem"
-export const maxSidebarPadding = "4rem" // 8 * baseMargin
-export const maxContentWidth = pageWidth + rightSidebarWidth + 100 // 100 for padding
+export const maxSidebarGap = "4rem" // 8 * baseMargin
+export const maxContentWidth = pageWidth + rightSidebarWidth + 100 // 100 for gap
 export const boldWeight = 700
 export const semiBoldWeight = 600
 export const normalWeight = 400
@@ -29,7 +29,7 @@ export const variables = {
   topSpacing,
   fullPageWidth,
   maxMobileWidth,
-  maxSidebarPadding,
+  maxSidebarGap,
   maxContentWidth,
   baseMargin,
   boldWeight,

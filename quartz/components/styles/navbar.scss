@@ -217,12 +217,13 @@
 
 #navbar {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: relative;
 
   @media all and (max-width: $full-page-width) {
     justify-content: space-between;
     width: 100.5%; // Prevent peek-through of other elements
+    flex-direction: row;
     background-color: var(--background);
   }
 }
