@@ -47,6 +47,7 @@ networkx==3.3
 nltk==3.9
 nodeenv==1.9.1
 numpy==2.1.1
+opentimestamps-client>=0.7.2
 packaging==23.2
 pathspec==0.12.1
 pillow==10.4.0
