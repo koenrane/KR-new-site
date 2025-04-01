@@ -172,7 +172,7 @@ hr.desktop-only {
 
     @media all and (max-width: $max-mobile-width) {
       flex-direction: column;
-      overflow-x: hidden; // Prevent horizontal scrolling on mobile
+      overflow-x: visible;
       gap: 0;
     }
 
@@ -218,13 +218,13 @@ hr.desktop-only {
         @media all and (max-width: $max-mobile-width) {
           gap: 0;
           top: 0;
+          position: sticky;
           margin-top: 0;
           align-items: center;
           width: 100%;
           max-width: $page-width;
           height: auto;
           overflow-y: visible;
-          position: fixed;
         }
       }
 
@@ -244,8 +244,6 @@ hr.desktop-only {
           height: auto;
           overflow-y: visible;
           margin-top: 0;
-          position: sticky;
-          top: $top-spacing;
         }
       }
     }
@@ -254,6 +252,7 @@ hr.desktop-only {
       flex-grow: 1;
       flex-shrink: 1;
       max-width: $page-width;
+      overflow-x: hidden;
       width: 100%;
 
       @media all and (max-width: $max-mobile-width) {
