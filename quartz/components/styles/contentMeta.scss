@@ -21,6 +21,10 @@
     vertical-align: 0.25em; // Because not using full height numbers
     text-decoration-thickness: 0.75px; // Underline is too heavy
   }
+
+  & a {
+    color: var(--foreground); // No link color
+  }
 }
 
 #backlinks-callout,
