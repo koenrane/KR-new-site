@@ -247,10 +247,8 @@ Plus, it might be that you can get by with four random reward functions in the t
 
 > [!idea] Exercise
 > Does your model of how AUP works predict this, or not? Think carefully, and then write down your credence.
-
-<hr/>
-
-Well, here's what you do – while filling PPO's action replay buffer with random actions, train a VAE to represent observations in a tiny latent space (we used a 16-dimensional one). Generate a single random linear functional over this space, drawing coefficients from $[-1,1]$. Congratulations, this is your single auxiliary reward function over observations.
+>
+> !> Well, here's what you do – while filling PPO's action replay buffer with random actions, train a VAE to represent observations in a tiny latent space (we used a 16-dimensional one). Generate a single random linear functional over this space, drawing coefficients from $[-1,1]$. Congratulations, this is your single auxiliary reward function over observations.
 
 And we're done.
 
