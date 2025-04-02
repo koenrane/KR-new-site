@@ -99,8 +99,9 @@ def _image_patterns(input_file: Path) -> tuple[str, str]:
     output_file: Path = pattern_file.with_suffix(".avif")
 
     # Handle paths that can start with ./, /, or /asset_staging/
-    return rf"(?:\./|/)?(?:asset_staging/)?{re.escape(str(pattern_file))}", str(
-        output_file
+    return (
+        rf"(?:\./|/)?(?:asset_staging/)?{re.escape(str(pattern_file))}",
+        str(output_file),
     )
 
 
@@ -148,7 +149,7 @@ def convert_asset(
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         original_pattern, replacement_pattern = _video_patterns(input_file)
-        compress.to_hevc_video(input_file)
+        compress.convert_video(input_file)
         output_file = input_file.with_suffix(".mp4")
 
     else:
