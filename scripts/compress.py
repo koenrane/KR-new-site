@@ -3,7 +3,6 @@ Script to compress images and videos.
 """
 
 import argparse
-import json
 import math
 import shutil
 import subprocess
@@ -11,6 +10,8 @@ import sys
 import tempfile
 from pathlib import Path
 from typing import Final, Optional
+
+import PIL
 
 # --- Constants ---
 IMAGE_QUALITY: Final[int] = 56
@@ -393,42 +394,7 @@ def _convert_gif(
 
 
 def _get_gif_frame_rate(gif_path: Path) -> int:
-    """
-    Probes GIF to determine average frame rate.
-    """
-    probe_cmd: list[str] = [
-        "ffprobe",
-        "-v",
-        "quiet",
-        "-print_format",
-        "json",
-        "-show_streams",
-        str(gif_path),
-    ]
-    try:
-        probe_output = subprocess.check_output(
-            probe_cmd, universal_newlines=True, stderr=subprocess.PIPE
-        )
-        probe_data = json.loads(probe_output)
-        for stream in probe_data.get("streams", []):
-            if stream.get("codec_type") == "video":
-                avg_frame_rate = stream.get("avg_frame_rate", "10/1")
-                if "/" in avg_frame_rate:
-                    num_str, den_str = avg_frame_rate.split("/")
-                    num, den = int(num_str), int(den_str)
-                    if den != 0:
-                        # Use ceil to avoid 0 fps for very slow GIFs
-                        return math.ceil(num / den)
-        return (
-            DEFAULT_GIF_FRAMERATE  # Default if not found or format unexpected
-        )
-    except (
-        subprocess.CalledProcessError,
-        json.JSONDecodeError,
-        ValueError,
-        KeyError,
-    ) as e:
-        raise RuntimeError(f"Failed to probe frame rate: {e}") from e
+    return math.floor(1000 / PIL.Image.open(gif_path).info["duration"])
 
 
 def _extract_gif_frames(

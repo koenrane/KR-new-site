@@ -5,6 +5,7 @@ import sys
 from io import StringIO
 from pathlib import Path
 
+import PIL
 import pytest
 
 from .. import compress
@@ -341,3 +342,82 @@ def test_avif_format_details(temp_dir: Path) -> None:
     assert re.search(
         r"Image Pixel Depth\s*:\s*8 8 8", result.stdout
     ), "AVIF should have 8-bit depth"
+
+
+@pytest.mark.parametrize(
+    "test_id, duration_ms, expected_fps",
+    [
+        ("standard", 100, 10),  # 100ms -> floor(1000/100) = 10 fps
+        ("slow", 500, 2),  # 500ms -> floor(1000/500) = 2 fps
+        (
+            "fast",
+            33,
+            33,
+        ),  # 33ms target -> ~30ms actual -> floor(1000/30) = 33 fps
+    ],
+)
+def test_get_gif_frame_rate_parametrized(
+    temp_dir: Path, test_id: str, duration_ms: int, expected_fps: int
+) -> None:
+    """Test _get_gif_frame_rate with various valid GIF durations."""
+    input_file = temp_dir / f"{test_id}.gif"
+    utils.create_test_gif(
+        input_file,
+        duration=duration_ms,
+        size=(10, 10),
+        fps=(round(1000 / duration_ms)),
+    )
+    assert compress._get_gif_frame_rate(input_file) == expected_fps
+
+
+def test_get_gif_frame_rate_zero_duration(temp_dir: Path, monkeypatch) -> None:
+    """Test _get_gif_frame_rate when Pillow reports zero duration."""
+    input_file = temp_dir / "zero_duration.gif"
+    utils.create_test_gif(
+        input_file, duration=100, size=(10, 10)
+    )  # Create a valid GIF first
+
+    class MockImage:
+        info: dict[str, int | None] = {"duration": 0}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
+    def mock_open(*args, **kwargs):
+        return MockImage()
+
+    monkeypatch.setattr(PIL.Image, "open", mock_open)
+
+    # Expect a ZeroDivisionError or potentially a default value if handled
+    with pytest.raises(ZeroDivisionError):
+        compress._get_gif_frame_rate(input_file)
+
+
+def test_get_gif_frame_rate_missing_duration(
+    temp_dir: Path, monkeypatch
+) -> None:
+    """Test _get_gif_frame_rate when duration info is missing."""
+    input_file = temp_dir / "missing_duration.gif"
+    utils.create_test_gif(
+        input_file, duration=100, size=(10, 10)
+    )  # Create a valid GIF first
+
+    class MockImage:
+        info: dict[str, int | None] = {}  # Missing 'duration'
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
+    def mock_open(*args, **kwargs):
+        return MockImage()
+
+    monkeypatch.setattr(PIL.Image, "open", mock_open)
+
+    with pytest.raises(KeyError):
+        compress._get_gif_frame_rate(input_file)
