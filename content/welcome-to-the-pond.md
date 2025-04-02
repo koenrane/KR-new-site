@@ -48,7 +48,7 @@ Many folks see the first <span class="dropcap" data-first-letter="D">d</span>rop
 
 The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond) - that choice inspired by the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of [this website's design](/design) was by my own taste.
 
-![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif)
+![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif){style="width:80%;"}
 Figure: Design comes naturally to me. I've loved SMALLCAPS and Garamond fonts for a long time, as seen in [my alignment PhD](/alignment-phd).
 
 _The Pond_ makes me feel graceful and grateful and proud. It's my home, and [I've worked hard towards perfection.](/design) I have so much hope and so many plans for this website!
