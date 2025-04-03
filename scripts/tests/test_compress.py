@@ -4,6 +4,7 @@ import subprocess
 import sys
 from io import StringIO
 from pathlib import Path
+from typing import Any
 
 import PIL
 import pytest
@@ -421,3 +422,49 @@ def test_get_gif_frame_rate_missing_duration(
 
     with pytest.raises(KeyError):
         compress._get_gif_frame_rate(input_file)
+
+
+# --- _check_if_hevc_codec Tests ---
+
+
+@pytest.mark.parametrize(
+    "test_id, mock_output, expected_result",
+    [
+        ("is_hevc", "hevc\n", True),
+        ("is_h264", "h264\n", False),
+        ("is_vp9", "vp9\n", False),
+        ("empty_output", "", False),
+        ("whitespace_output", " \n ", False),
+    ],
+)
+def test_check_if_hevc_codec(
+    temp_dir: Path,
+    monkeypatch,
+    test_id: str,
+    mock_output: str,
+    expected_result: bool,
+) -> None:
+    """Test _check_if_hevc_codec with various ffprobe outputs."""
+    input_file = temp_dir / f"test_{test_id}.mp4"
+    input_file.touch()
+
+    def mock_check_output(*args: Any, **kwargs: Any) -> str:
+        return mock_output
+
+    monkeypatch.setattr(subprocess, "check_output", mock_check_output)
+    assert compress._check_if_hevc_codec(input_file) is expected_result
+
+
+def test_check_if_hevc_codec_ffprobe_error(temp_dir: Path, monkeypatch) -> None:
+    """Test _check_if_hevc_codec raises error on ffprobe failure."""
+    input_file = temp_dir / "test_error.mp4"
+    input_file.touch()
+
+    def mock_check_output(*args: Any, **kwargs: Any) -> None:
+        raise subprocess.CalledProcessError(
+            cmd=list(args[0]), returncode=1, stderr="ffprobe error"
+        )
+
+    monkeypatch.setattr(subprocess, "check_output", mock_check_output)
+    with pytest.raises(subprocess.CalledProcessError):
+        compress._check_if_hevc_codec(input_file)

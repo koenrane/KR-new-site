@@ -353,27 +353,14 @@ def _convert_gif(
     mp4_exists = mp4_path.exists()
     webm_exists = webm_path.exists()
 
-    if mp4_exists and webm_exists:
-        raise FileExistsError(
-            f"Both {mp4_path.name} and {webm_path.name} already exist. Skipping GIF conversion."
-        )
-
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path: Path = Path(temp_dir)
         frames_pattern: Path = temp_path / "frame_%04d.png"
         frame_rate: int = DEFAULT_GIF_FRAMERATE
 
         if not mp4_exists or not webm_exists:
-            try:
-                frame_rate = _get_gif_frame_rate(gif_path)
-            except RuntimeError as e:
-                print(
-                    f"Warning: Could not determine frame rate for {gif_path.name}. Using default {frame_rate}fps. Error: {e}",
-                    file=sys.stderr,
-                )
-                frame_rate = DEFAULT_GIF_FRAMERATE
-
-        _extract_gif_frames(gif_path, frames_pattern, frame_rate)
+            frame_rate = _get_gif_frame_rate(gif_path)
+            _extract_gif_frames(gif_path, frames_pattern, frame_rate)
 
         if not mp4_exists:
             _run_ffmpeg_hevc(
@@ -421,17 +408,39 @@ def _extract_gif_frames(
             stderr=subprocess.PIPE,
         )
     except subprocess.CalledProcessError as e:
-        stderr_output = e.stderr.decode()
         # Ignore common, often harmless, non-monotonous DTS warning for GIFs
-        if "non-monotonous DTS" not in stderr_output:
+        if "non-monotonous DTS" not in e.stderr:
             raise RuntimeError(
-                f"Failed to extract frames: {stderr_output}\nCommand: {' '.join(extract_cmd)}"
+                f"Failed to extract frames: {e.stderr}\nCommand: {' '.join(extract_cmd)}"
             ) from e
-        else:
-            print(
-                f"Warning: Non-monotonous DTS detected extracting frames from {gif_path.name}, continuing.",
-                file=sys.stderr,
-            )
+        print(
+            f"Warning: Non-monotonous DTS detected extracting frames from {gif_path.name}, continuing.",
+            file=sys.stderr,
+        )
+
+
+_CMD_TO_CHECK_CODEC: tuple[str, ...] = (
+    "ffprobe",
+    "-v",
+    "error",
+    "-select_streams",
+    "v:0",
+    "-show_entries",
+    "stream=codec_name",
+    "-of",
+    "default=noprint_wrappers=1:nokey=1",
+)
+
+
+def _check_if_hevc_codec(video_path: Path) -> bool:
+    """
+    Checks if the video is already HEVC encoded.
+    """
+    args: tuple[str, ...] = _CMD_TO_CHECK_CODEC + (str(video_path),)
+    codec: str = subprocess.check_output(
+        args, universal_newlines=True, stderr=subprocess.PIPE
+    ).strip()
+    return codec == "hevc"
 
 
 def _to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
@@ -442,51 +451,22 @@ def _to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
     function.
     """
     output_path = video_path.with_suffix(".mp4")
-    if output_path.exists():
+
+    if not video_path.is_file():
+        raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
+
+    if video_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(video_path):
         print(
-            f"Output file {output_path.name} already exists. Skipping HEVC conversion.",
+            f"Input {video_path.name} is already HEVC MP4. Skipping conversion.",
             file=sys.stderr,
         )
         return
 
-    # Check if the input is already HEVC MP4
-    video_path_str: str = str(video_path)  # Check before probing
-    if video_path.suffix.lower() == ".mp4":
-        try:
-            probe_cmd: list[str] = [
-                "ffprobe",
-                "-v",
-                "error",
-                "-select_streams",
-                "v:0",
-                "-show_entries",
-                "stream=codec_name",
-                "-of",
-                "default=noprint_wrappers=1:nokey=1",
-                video_path_str,
-            ]
-            codec: str = subprocess.check_output(
-                probe_cmd, universal_newlines=True, stderr=subprocess.PIPE
-            ).strip()
-            if codec == "hevc":
-                print(
-                    f"Input {video_path.name} is already HEVC MP4. Skipping conversion.",
-                    file=sys.stderr,
-                )
-                return
-        except subprocess.CalledProcessError as e:
-            # Non-fatal: Proceed with conversion attempt if probing fails
-            print(
-                f"Warning: Could not probe codec for {video_path.name}: {e.stderr.decode()}",
-                file=sys.stderr,
-            )
-
-    # Call the helper function for actual conversion
     _run_ffmpeg_hevc(
-        input_spec=video_path_str,
+        input_spec=str(video_path),
         output_path=output_path,
         quality=quality,
-        is_gif=False,  # Explicitly false for non-GIF videos
+        is_gif=False,
     )
 
 
