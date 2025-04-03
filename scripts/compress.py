@@ -14,17 +14,16 @@ from typing import Final, Optional
 import PIL
 
 # --- Constants ---
-IMAGE_QUALITY: Final[int] = 56
-VIDEO_QUALITY: Final[int] = 28  # HEVC default CRF
-WEBM_QUALITY: Final[int] = 31  # VP9 default CRF
-DEFAULT_GIF_FRAMERATE: Final[int] = 10
+_DEFAULT_IMAGE_QUALITY: Final[int] = 56
+_DEFAULT_HEVC_CRF: Final[int] = 28  # HEVC default CRF
+_DEFAULT_VP9_CRF: Final[int] = 31  # VP9 default CRF
+_DEFAULT_GIF_FRAMERATE: Final[int] = 10
 
 ALLOWED_IMAGE_EXTENSIONS: Final[set[str]] = {".jpg", ".jpeg", ".png"}
 ALLOWED_VIDEO_EXTENSIONS: Final[set[str]] = {
     ".gif",
     ".mov",
     ".mp4",
-    ".webm",
     ".avi",
     ".mpeg",
 }
@@ -32,14 +31,12 @@ ALLOWED_EXTENSIONS: Final[set[str]] = (
     ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
 )
 
-# FFmpeg Codecs and Formats
-CODEC_HEVC: Final[str] = "libx265"
-CODEC_VP9: Final[str] = "libvpx-vp9"
-CODEC_AUDIO_OPUS: Final[str] = "libopus"
-PIXEL_FORMAT_YUV420P: Final[str] = "yuv420p"
-TAG_APPLE_COMPATIBILITY: Final[str] = "hvc1"
+_CODEC_HEVC: Final[str] = "libx265"
+_CODEC_VP9: Final[str] = "libvpx-vp9"
+_CODEC_AUDIO_OPUS: Final[str] = "libopus"
+_PIXEL_FORMAT_YUV420P: Final[str] = "yuv420p"
+_TAG_APPLE_COMPATIBILITY: Final[str] = "hvc1"
 
-# FFmpeg Arguments
 _FFMPEG_COMMON_OUTPUT_ARGS: Final[list[str]] = [
     "-movflags",
     "+faststart",
@@ -74,7 +71,7 @@ def _check_dependencies() -> None:
         )
 
 
-def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
+def image(image_path: Path, quality: int = _DEFAULT_IMAGE_QUALITY) -> None:
     """
     Converts an image to AVIF format using ImageMagick.
 
@@ -89,6 +86,7 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
 
     avif_path: Path = image_path.with_suffix(".avif")
     if avif_path.exists():
+        # TODO make print helper
         print(
             f"AVIF file '{avif_path.name}' already exists. Skipping conversion.",
             file=sys.stderr,
@@ -116,10 +114,10 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
         ) from e
 
 
-def to_video(
+def video(
     video_path: Path,
-    quality_hevc: int = VIDEO_QUALITY,
-    quality_webm: int = WEBM_QUALITY,
+    quality_hevc: int = _DEFAULT_HEVC_CRF,
+    quality_webm: int = _DEFAULT_VP9_CRF,
 ) -> None:
     """
     Converts a video to both mp4 (HEVC) and webm (VP9) formats using ffmpeg,
@@ -150,7 +148,7 @@ def _ensure_even_dimensions_ffmpeg_filter() -> str:
     return "scale=trunc(iw/2)*2:trunc(ih/2)*2"
 
 
-_hevc_audio_args: Final[list[str]] = [
+_HEVC_AUDIO_ARGS: Final[list[str]] = [
     "-map",
     "0:v:0",
     "-map",
@@ -160,8 +158,9 @@ _hevc_audio_args: Final[list[str]] = [
 ]
 
 
+# TODO get rid of is_gif by checking if input_spec ends with ".png"
 def _run_ffmpeg_hevc(
-    input_spec: str,
+    input_path: Path,
     output_path: Path,
     quality: int,
     framerate: Optional[int] = None,
@@ -175,10 +174,10 @@ def _run_ffmpeg_hevc(
         # Input specification
         *(["-framerate", str(framerate)] if framerate else []),
         "-i",
-        input_spec,
+        str(input_path),
         # Video settings
         "-c:v",
-        CODEC_HEVC,
+        _CODEC_HEVC,
         "-crf",
         str(quality),
         "-x265-params",
@@ -188,24 +187,26 @@ def _run_ffmpeg_hevc(
         # "-vf",
         # _ensure_even_dimensions_ffmpeg_filter(),
         "-pix_fmt",
-        PIXEL_FORMAT_YUV420P,
+        _PIXEL_FORMAT_YUV420P,
         "-tag:v",
-        TAG_APPLE_COMPATIBILITY,
-        *(["-an"] if is_gif else _hevc_audio_args),  # No audio for GIF output
+        _TAG_APPLE_COMPATIBILITY,
+        *(["-an"] if is_gif else _HEVC_AUDIO_ARGS),  # No audio for GIF output
         *(["-loop", "0"] if is_gif else []),
         *_FFMPEG_COMMON_OUTPUT_ARGS,
-        str(output_path),
     ]
 
     try:
-        subprocess.run(
-            ffmpeg_cmd,
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.PIPE,
-        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path: Path = Path(temp_dir) / output_path.name
+            subprocess.run(
+                ffmpeg_cmd + [str(temp_path)],
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.PIPE,
+            )
+            shutil.move(temp_path, output_path)
         print(
-            f"Successfully converted {'GIF frames' if is_gif else input_spec} to {output_path.name}"
+            f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
         )
     except subprocess.CalledProcessError as e:
         raise RuntimeError(
@@ -214,20 +215,20 @@ def _run_ffmpeg_hevc(
         ) from e
 
 
-_webm_audio_args: Final[list[str]] = [
+_WEBM_AUDIO_ARGS: Final[list[str]] = [
     "-map",
     "0:v:0",
     "-map",
     "0:a?",
     "-c:a",
-    CODEC_AUDIO_OPUS,
+    _CODEC_AUDIO_OPUS,
     "-b:a",
     "128k",
 ]
 
 
 def _run_ffmpeg_webm(
-    input_spec: str,
+    input_path: Path,
     output_path: Path,
     quality: int,
     framerate: Optional[int] = None,
@@ -242,9 +243,9 @@ def _run_ffmpeg_webm(
         "ffmpeg",
         *(["-framerate", str(framerate)] if framerate else []),
         "-i",
-        input_spec,
+        str(input_path),
         "-c:v",
-        CODEC_VP9,
+        _CODEC_VP9,
         "-crf",
         str(quality),
         "-b:v",
@@ -252,9 +253,9 @@ def _run_ffmpeg_webm(
         "-vf",
         _ensure_even_dimensions_ffmpeg_filter(),
         "-pix_fmt",
-        PIXEL_FORMAT_YUV420P,
+        _PIXEL_FORMAT_YUV420P,
         *_FFMPEG_VP9_QUALITY_ARGS,
-        *(["-an"] if is_gif else _webm_audio_args),
+        *(["-an"] if is_gif else _WEBM_AUDIO_ARGS),
         *(["-loop", "0"] if is_gif else []),
     ]
 
@@ -268,7 +269,7 @@ def _run_ffmpeg_webm(
             log_file_base_str: str = str(log_file_base)
 
             # First pass command (only video, minimal args)
-            pass1_input: str = str(input_spec)  # Ensure path is string
+            pass1_input: str = str(input_path)  # Ensure path is string
             pass1_cmd: list[str] = [
                 "ffmpeg",
                 "-i",
@@ -276,7 +277,7 @@ def _run_ffmpeg_webm(
                 "-map",
                 "0:v:0",
                 "-c:v",
-                CODEC_VP9,
+                _CODEC_VP9,
                 "-crf",
                 str(quality),
                 "-b:v",
@@ -284,7 +285,7 @@ def _run_ffmpeg_webm(
                 "-vf",
                 _ensure_even_dimensions_ffmpeg_filter(),
                 "-pix_fmt",
-                PIXEL_FORMAT_YUV420P,
+                _PIXEL_FORMAT_YUV420P,
                 *_FFMPEG_VP9_QUALITY_ARGS,
                 "-pass",
                 "1",
@@ -311,56 +312,50 @@ def _run_ffmpeg_webm(
             full_cmd_log.extend([" && "] + pass2_cmd)  # Append second command
             subprocess.run(pass2_cmd, check=True, capture_output=True)
             print(
-                f"Successfully converted {'GIF frames' if is_gif else input_spec} to {output_path.name}"
+                f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
             )
     except subprocess.CalledProcessError as e:
-        cmd_str: str = (
-            " ".join(full_cmd_log)
-            if full_cmd_log
-            else "[Command sequence not available]"
-        )
         raise RuntimeError(
             f"Error during WebM conversion to {output_path.name}: {e}\n"
-            f"Command: {cmd_str}"
+            f"Command: {full_cmd_log}"
         ) from e
 
 
 def _convert_gif(
     gif_path: Path,
-    quality_hevc: int = VIDEO_QUALITY,
-    quality_webm: int = WEBM_QUALITY,
+    quality_hevc: int = _DEFAULT_HEVC_CRF,
+    quality_webm: int = _DEFAULT_VP9_CRF,
 ) -> None:
     """
     Converts a GIF file to both MP4 (HEVC) and WebM (VP9) video, preserving the
     original frame rate.
 
-    Skips conversion if outputs exist. Uses ffmpeg helper functions.
+    Skips conversion if outputs exist.
     """
-    mp4_path = gif_path.with_suffix(".mp4")
-    webm_path = gif_path.with_suffix(".webm")
-    mp4_exists = mp4_path.exists()
-    webm_exists = webm_path.exists()
+    mp4_path, webm_path = (
+        gif_path.with_suffix(suffix) for suffix in (".mp4", ".webm")
+    )
 
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path: Path = Path(temp_dir)
         frames_pattern: Path = temp_path / "frame_%04d.png"
-        frame_rate: int = DEFAULT_GIF_FRAMERATE
+        frame_rate: int = _DEFAULT_GIF_FRAMERATE
 
-        if not mp4_exists or not webm_exists:
+        if not mp4_path.exists() or not webm_path.exists():
             frame_rate = _get_gif_frame_rate(gif_path)
             _extract_gif_frames(gif_path, frames_pattern, frame_rate)
 
-        if not mp4_exists:
+        if not mp4_path.exists():
             _run_ffmpeg_hevc(
-                input_spec=str(frames_pattern),
+                input_path=frames_pattern,
                 output_path=mp4_path,
                 quality=quality_hevc,
                 framerate=frame_rate,
                 is_gif=True,
             )
-        if not webm_exists:
+        if not webm_path.exists():
             _run_ffmpeg_webm(
-                input_spec=str(frames_pattern),
+                input_path=frames_pattern,
                 output_path=webm_path,
                 quality=quality_webm,
                 framerate=frame_rate,
@@ -431,12 +426,11 @@ def _check_if_hevc_codec(video_path: Path) -> bool:
     return codec == "hevc"
 
 
-def _to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
+def _to_hevc_video(video_path: Path, quality: int = _DEFAULT_HEVC_CRF) -> None:
     """
     Converts a non-GIF video to HEVC MP4.
 
-    Skips if output exists or input is already HEVC. Uses ffmpeg helper
-    function.
+    Skips if output exists or input is already HEVC.
     """
     output_path = video_path.with_suffix(".mp4")
 
@@ -451,18 +445,18 @@ def _to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
         return
 
     _run_ffmpeg_hevc(
-        input_spec=str(video_path),
+        input_path=video_path,
         output_path=output_path,
         quality=quality,
         is_gif=False,
     )
 
 
-def _to_webm_video(video_path: Path, quality: int = WEBM_QUALITY) -> None:
+def _to_webm_video(video_path: Path, quality: int = _DEFAULT_VP9_CRF) -> None:
     """
     Converts a non-GIF video to WebM/VP9 (two-pass).
 
-    Skips if output exists. Uses ffmpeg helper function.
+    Skips if output exists.
     """
     if not (0 <= quality <= 63):
         raise ValueError(
@@ -477,7 +471,7 @@ def _to_webm_video(video_path: Path, quality: int = WEBM_QUALITY) -> None:
         )
 
     _run_ffmpeg_webm(
-        input_spec=str(video_path),
+        input_path=video_path,
         output_path=output_path,
         quality=quality,
         is_gif=False,
@@ -495,21 +489,21 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--quality-img",
         type=int,
-        default=IMAGE_QUALITY,
-        help=f"Quality for image (AVIF) (0-100, lower means smaller file). Default: {IMAGE_QUALITY}",
+        default=_DEFAULT_IMAGE_QUALITY,
+        help=f"Quality for image (AVIF) (0-100, lower means smaller file). Default: {_DEFAULT_IMAGE_QUALITY}",
     )
     parser.add_argument(
         "--quality-hevc",
         type=int,
-        default=VIDEO_QUALITY,
-        help=f"Quality for video (HEVC CRF) (0-51, lower is better quality). Default: {VIDEO_QUALITY}",
+        default=_DEFAULT_HEVC_CRF,
+        help=f"Quality for video (HEVC CRF) (0-51, lower is better quality). Default: {_DEFAULT_HEVC_CRF}",
         choices=list(range(0, 52)),
     )
     parser.add_argument(
         "--quality-webm",
         type=int,
-        default=WEBM_QUALITY,
-        help=f"Quality for video (WebM CRF) (0-63, lower is better quality). Default: {WEBM_QUALITY}",
+        default=_DEFAULT_VP9_CRF,
+        help=f"Quality for video (WebM CRF) (0-63, lower is better quality). Default: {_DEFAULT_VP9_CRF}",
         choices=list(range(0, 64)),
     )
 
@@ -534,7 +528,7 @@ def main() -> None:
     if file_suffix_lower in ALLOWED_IMAGE_EXTENSIONS:
         image(file_path, args.quality_img)
     elif file_suffix_lower in ALLOWED_VIDEO_EXTENSIONS:
-        to_video(file_path, args.quality_hevc, args.quality_webm)
+        video(file_path, args.quality_hevc, args.quality_webm)
     else:
         raise ValueError(
             f"Error: Unsupported file type '{file_path.suffix}'. "

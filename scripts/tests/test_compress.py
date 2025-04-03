@@ -84,19 +84,19 @@ def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
     ) or video_ext == ".webm"  # Check if MP4 file is smaller
 
 
-def test_convert_mp4_fails_with_non_existent_file(temp_dir: Path) -> None:
+def test_to_video_fails_with_non_existent_file(temp_dir: Path) -> None:
     input_file = temp_dir / "non_existent_file.mov"
 
     with pytest.raises(FileNotFoundError):
-        compress._to_hevc_video(input_file)
+        compress.video(input_file)
 
 
-def test_convert_mp4_fails_with_invalid_extension(temp_dir: Path) -> None:
+def test_to_video_fails_with_invalid_extension(temp_dir: Path) -> None:
     input_file = temp_dir / "fakefile.fake"
     input_file.touch()
 
     with pytest.raises(ValueError):
-        compress._to_hevc_video(input_file)
+        compress.video(input_file)
 
 
 def test_convert_mp4_skips_if_mp4_already_exists(temp_dir: Path) -> None:
@@ -114,9 +114,9 @@ def test_convert_mp4_skips_if_mp4_already_exists(temp_dir: Path) -> None:
 
 def test_error_probing_codec(temp_dir: Path) -> None:
     input_file: Path = temp_dir / "test.mp4"
-    input_file.touch()
+    input_file.touch()  # Has no codec
 
-    with pytest.raises(RuntimeError):
+    with pytest.raises(subprocess.CalledProcessError):
         compress._to_hevc_video(input_file)
 
 
