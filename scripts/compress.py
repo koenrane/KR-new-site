@@ -74,9 +74,6 @@ def _check_dependencies() -> None:
         )
 
 
-# --- Image Compression ---
-
-
 def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
     """
     Converts an image to AVIF format using ImageMagick.
@@ -92,9 +89,11 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
 
     avif_path: Path = image_path.with_suffix(".avif")
     if avif_path.exists():
-        raise FileExistsError(
-            f"AVIF file '{avif_path.name}' already exists. Skipping conversion."
+        print(
+            f"AVIF file '{avif_path.name}' already exists. Skipping conversion.",
+            file=sys.stderr,
         )
+        return
 
     try:
         command: list[str | Path] = [
@@ -113,7 +112,7 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
         print(f"Successfully converted {image_path.name} to {avif_path.name}")
     except subprocess.CalledProcessError as e:
         raise RuntimeError(
-            f"Error during AVIF conversion of {image_path.name}: {e.stderr.decode()}"
+            f"Error during AVIF conversion of {image_path.name}: {e}"
         ) from e
 
 
@@ -151,6 +150,16 @@ def _ensure_even_dimensions_ffmpeg_filter() -> str:
     return "scale=trunc(iw/2)*2:trunc(ih/2)*2"
 
 
+_hevc_audio_args: Final[list[str]] = [
+    "-map",
+    "0:v:0",
+    "-map",
+    "0:a?",
+    "-c:a",
+    "copy",
+]
+
+
 def _run_ffmpeg_hevc(
     input_spec: str,
     output_path: Path,
@@ -161,7 +170,6 @@ def _run_ffmpeg_hevc(
     """
     Helper function to run the ffmpeg command for HEVC/MP4 conversion.
     """
-    output_path_str = str(output_path)  # Ensure path is string for command
     ffmpeg_cmd: list[str] = [
         "ffmpeg",
         # Input specification
@@ -175,25 +183,18 @@ def _run_ffmpeg_hevc(
         str(quality),
         "-x265-params",
         "log-level=warning",  # Keep logging minimal for x265
-        "-preset",
-        "slower",
-        "-vf",
-        _ensure_even_dimensions_ffmpeg_filter(),
+        # "-preset",
+        # "slower",
+        # "-vf",
+        # _ensure_even_dimensions_ffmpeg_filter(),
         "-pix_fmt",
         PIXEL_FORMAT_YUV420P,
         "-tag:v",
         TAG_APPLE_COMPATIBILITY,
-        # Conditional audio/map arguments
-        *(
-            ["-an"]  # No audio for GIF output
-            if is_gif
-            else ["-map", "0:v:0", "-map", "0:a?", "-c:a", "copy"]
-        ),
-        # Conditional loop argument
+        *(["-an"] if is_gif else _hevc_audio_args),  # No audio for GIF output
         *(["-loop", "0"] if is_gif else []),
-        # Common output arguments + output path
         *_FFMPEG_COMMON_OUTPUT_ARGS,
-        output_path_str,
+        str(output_path),
     ]
 
     try:
@@ -208,9 +209,21 @@ def _run_ffmpeg_hevc(
         )
     except subprocess.CalledProcessError as e:
         raise RuntimeError(
-            f"Error during HEVC conversion to {output_path.name}: {e.stderr.decode()}\n"
+            f"Error during HEVC conversion to {output_path.name}: {e.stderr}\n"
             f"Command: {' '.join(ffmpeg_cmd)}"
         ) from e
+
+
+_webm_audio_args: Final[list[str]] = [
+    "-map",
+    "0:v:0",
+    "-map",
+    "0:a?",
+    "-c:a",
+    CODEC_AUDIO_OPUS,
+    "-b:a",
+    "128k",
+]
 
 
 def _run_ffmpeg_webm(
@@ -223,10 +236,6 @@ def _run_ffmpeg_webm(
     """
     Helper function to run the ffmpeg command for WebM/VP9 conversion.
     """
-    encoding: str = CODEC_VP9
-    common_vf: str = _ensure_even_dimensions_ffmpeg_filter()
-    common_pix_fmt: str = PIXEL_FORMAT_YUV420P
-    output_path_str: str = str(output_path)  # Ensure path is string for command
 
     # Base command arguments (used for pass 2 or single pass)
     base_cmd: list[str] = [
@@ -235,33 +244,17 @@ def _run_ffmpeg_webm(
         "-i",
         input_spec,
         "-c:v",
-        encoding,
+        CODEC_VP9,
         "-crf",
         str(quality),
         "-b:v",
         "0",
         "-vf",
-        common_vf,
+        _ensure_even_dimensions_ffmpeg_filter(),
         "-pix_fmt",
-        common_pix_fmt,
-        # VP9 specific quality/speed args
+        PIXEL_FORMAT_YUV420P,
         *_FFMPEG_VP9_QUALITY_ARGS,
-        # Conditional audio/map arguments
-        *(
-            ["-an"]
-            if is_gif
-            else [
-                "-map",
-                "0:v:0",
-                "-map",
-                "0:a?",
-                "-c:a",
-                CODEC_AUDIO_OPUS,
-                "-b:a",
-                "128k",
-            ]
-        ),
-        # Conditional loop argument
+        *(["-an"] if is_gif else _webm_audio_args),
         *(["-loop", "0"] if is_gif else []),
     ]
 
@@ -272,7 +265,7 @@ def _run_ffmpeg_webm(
             log_file_base: Path = (
                 Path(temp_dir) / f"ffmpeg2pass-{output_path.stem}"
             )
-            log_file_base_str: str = str(log_file_base)  # Ensure path is string
+            log_file_base_str: str = str(log_file_base)
 
             # First pass command (only video, minimal args)
             pass1_input: str = str(input_spec)  # Ensure path is string
@@ -283,27 +276,22 @@ def _run_ffmpeg_webm(
                 "-map",
                 "0:v:0",
                 "-c:v",
-                encoding,
+                CODEC_VP9,
                 "-crf",
                 str(quality),
                 "-b:v",
                 "0",
-                "-vf",  # Add vf filter here too
-                common_vf,
-                "-pix_fmt",  # Add pix_fmt here too
-                common_pix_fmt,
-                *_FFMPEG_VP9_QUALITY_ARGS,  # Add VP9 args here too
+                "-vf",
+                _ensure_even_dimensions_ffmpeg_filter(),
+                "-pix_fmt",
+                PIXEL_FORMAT_YUV420P,
+                *_FFMPEG_VP9_QUALITY_ARGS,
                 "-pass",
                 "1",
                 "-passlogfile",
                 log_file_base_str,
                 "-an",
-                "-f",
-                "null",
-                "-y",
-                "-v",
-                "error",
-                "/dev/null",  # Use /dev/null for discarding output
+                *(_FFMPEG_COMMON_OUTPUT_ARGS + [str(output_path)]),
             ]
             full_cmd_log = pass1_cmd[:]  # Copy
             subprocess.run(pass1_cmd, check=True, capture_output=True)
@@ -318,7 +306,7 @@ def _run_ffmpeg_webm(
                     log_file_base_str,
                 ]
                 + _FFMPEG_COMMON_OUTPUT_ARGS
-                + [output_path_str]
+                + [str(output_path)]
             )
             full_cmd_log.extend([" && "] + pass2_cmd)  # Append second command
             subprocess.run(pass2_cmd, check=True, capture_output=True)
@@ -332,7 +320,7 @@ def _run_ffmpeg_webm(
             else "[Command sequence not available]"
         )
         raise RuntimeError(
-            f"Error during WebM conversion to {output_path.name}: {e.stderr.decode()}\n"
+            f"Error during WebM conversion to {output_path.name}: {e}\n"
             f"Command: {cmd_str}"
         ) from e
 
@@ -483,8 +471,9 @@ def _to_webm_video(video_path: Path, quality: int = WEBM_QUALITY) -> None:
 
     output_path: Path = video_path.with_suffix(".webm")
     if output_path.exists():
-        raise FileExistsError(
-            f"Output file {output_path.name} already exists. Skipping WebM conversion."
+        print(
+            f"WEBM already exists at {output_path=}; skipping conversion.",
+            file=sys.stderr,
         )
 
     _run_ffmpeg_webm(
@@ -553,6 +542,5 @@ def main() -> None:
         )
 
 
-# --- Main Execution ---
 if __name__ == "__main__":
     main()
