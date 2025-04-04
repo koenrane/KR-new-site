@@ -140,13 +140,6 @@ def video(
     _run_ffmpeg_webm(video_path, webm_output_path, quality_webm)
 
 
-def _ensure_even_dimensions_ffmpeg_filter() -> str:
-    """
-    Returns ffmpeg filter string to ensure even dimensions.
-    """
-    return "scale=trunc(iw/2)*2:trunc(ih/2)*2"
-
-
 _HEVC_AUDIO_ARGS: Final[list[str]] = [
     "-map",
     "0:v:0",
@@ -185,7 +178,7 @@ def _run_ffmpeg_hevc(
         "-preset",
         "slower",
         "-vf",
-        _ensure_even_dimensions_ffmpeg_filter(),
+        "scale=trunc(iw/2)*2:trunc(ih/2)*2",
         "-pix_fmt",
         _PIXEL_FORMAT_YUV420P,
         "-tag:v",
@@ -204,7 +197,7 @@ def _run_ffmpeg_hevc(
             stderr=subprocess.PIPE,
         )
         shutil.move(temp_path, output_path)
-    print(f"Successfully converted {input_path.name}     to {output_path.name}")
+    print(f"Successfully converted {input_path.name} to {output_path.name}")
 
 
 _WEBM_AUDIO_ARGS: Final[list[str]] = [
@@ -249,7 +242,7 @@ def _run_ffmpeg_webm(
         "-b:v",
         "0",
         "-vf",
-        _ensure_even_dimensions_ffmpeg_filter(),
+        "scale=trunc(iw/2)*2:trunc(ih/2)*2",
         "-pix_fmt",
         _PIXEL_FORMAT_YUV420P,
         *_FFMPEG_VP9_QUALITY_ARGS,
