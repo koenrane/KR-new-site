@@ -139,8 +139,11 @@ def video(
     if video_path.suffix.lower() == ".gif":
         _convert_gif(video_path, quality_hevc, quality_webm)
     else:
-        _to_hevc_video(video_path, quality_hevc)
-        _to_webm_video(video_path, quality_webm)
+        hevc_output_path: Path = video_path.with_suffix(".mp4")
+        _run_ffmpeg_hevc(video_path, hevc_output_path, quality_hevc)
+
+        webm_output_path: Path = video_path.with_suffix(".webm")
+        _run_ffmpeg_webm(video_path, webm_output_path, quality_webm)
 
 
 def _ensure_even_dimensions_ffmpeg_filter() -> str:
@@ -169,14 +172,16 @@ def _run_ffmpeg_hevc(
     """
     Helper function to run the ffmpeg command for HEVC/MP4 conversion.
     """
+    if input_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(input_path):
+        _print_filepath_warning(input_path)
+        return
+
     is_gif: bool = input_path.suffix.lower() == ".png"  # Using frames from GIF
     ffmpeg_cmd: list[str] = [
         "ffmpeg",
-        # Input specification
         *(["-framerate", str(framerate)] if framerate else []),
         "-i",
         str(input_path),
-        # Video settings
         "-c:v",
         _CODEC_HEVC,
         "-crf",
@@ -196,24 +201,18 @@ def _run_ffmpeg_hevc(
         *_FFMPEG_COMMON_OUTPUT_ARGS,
     ]
 
-    try:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            temp_path: Path = Path(temp_dir) / output_path.name
-            subprocess.run(
-                ffmpeg_cmd + [str(temp_path)],
-                check=True,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.PIPE,
-            )
-            shutil.move(temp_path, output_path)
-        print(
-            f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_path: Path = Path(temp_dir) / output_path.name
+        subprocess.run(
+            ffmpeg_cmd + [str(temp_path)],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
         )
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(
-            f"Error during HEVC conversion to {output_path.name}: {e.stderr}\n"
-            f"Command: {' '.join(ffmpeg_cmd)}"
-        ) from e
+        shutil.move(temp_path, output_path)
+    print(
+        f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
+    )
 
 
 _WEBM_AUDIO_ARGS: Final[list[str]] = [
@@ -237,8 +236,15 @@ def _run_ffmpeg_webm(
     """
     Helper function to run the ffmpeg command for WebM/VP9 conversion.
     """
-    is_gif = input_path.suffix.lower() == ".png"
+    if not (0 <= quality <= 63):
+        raise ValueError(
+            f"WebM quality (CRF) must be between 0 and 63, got {quality}."
+        )
+    if output_path.exists():
+        _print_filepath_warning(output_path)
+        return
 
+    is_gif = input_path.suffix.lower() == ".png"
     base_cmd: list[str] = [
         "ffmpeg",
         *(["-framerate", str(framerate)] if framerate else []),
@@ -378,51 +384,6 @@ def _check_if_hevc_codec(video_path: Path) -> bool:
         args, universal_newlines=True, stderr=subprocess.PIPE
     ).strip()
     return codec == "hevc"
-
-
-def _to_hevc_video(video_path: Path, quality: int = _DEFAULT_HEVC_CRF) -> None:
-    """
-    Converts a non-GIF video to HEVC MP4.
-
-    Skips if output exists or input is already HEVC.
-    """
-    output_path = video_path.with_suffix(".mp4")
-
-    if not video_path.is_file():
-        raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
-
-    if video_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(video_path):
-        _print_filepath_warning(video_path)
-        return
-
-    _run_ffmpeg_hevc(
-        input_path=video_path,
-        output_path=output_path,
-        quality=quality,
-    )
-
-
-def _to_webm_video(video_path: Path, quality: int = _DEFAULT_VP9_CRF) -> None:
-    """
-    Converts a non-GIF video to WebM/VP9 (two-pass).
-
-    Skips if output exists.
-    """
-    if not (0 <= quality <= 63):
-        raise ValueError(
-            f"WebM quality (CRF) must be between 0 and 63, got {quality}."
-        )
-
-    output_path: Path = video_path.with_suffix(".webm")
-    if output_path.exists():
-        _print_filepath_warning(output_path)
-        return
-
-    _run_ffmpeg_webm(
-        input_path=video_path,
-        output_path=output_path,
-        quality=quality,
-    )
 
 
 def _parse_args() -> argparse.Namespace:
