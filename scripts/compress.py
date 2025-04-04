@@ -71,6 +71,13 @@ def _check_dependencies() -> None:
         )
 
 
+def _print_filepath_warning(file_path: Path) -> None:
+    print(
+        f"File '{file_path.name}' already exists. Skipping conversion.",
+        file=sys.stderr,
+    )
+
+
 def image(image_path: Path, quality: int = _DEFAULT_IMAGE_QUALITY) -> None:
     """
     Converts an image to AVIF format using ImageMagick.
@@ -86,11 +93,7 @@ def image(image_path: Path, quality: int = _DEFAULT_IMAGE_QUALITY) -> None:
 
     avif_path: Path = image_path.with_suffix(".avif")
     if avif_path.exists():
-        # TODO make print helper
-        print(
-            f"AVIF file '{avif_path.name}' already exists. Skipping conversion.",
-            file=sys.stderr,
-        )
+        _print_filepath_warning(avif_path)
         return
 
     try:
@@ -438,10 +441,7 @@ def _to_hevc_video(video_path: Path, quality: int = _DEFAULT_HEVC_CRF) -> None:
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
 
     if video_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(video_path):
-        print(
-            f"Input {video_path.name} is already HEVC MP4. Skipping conversion.",
-            file=sys.stderr,
-        )
+        _print_filepath_warning(video_path)
         return
 
     _run_ffmpeg_hevc(
@@ -465,10 +465,8 @@ def _to_webm_video(video_path: Path, quality: int = _DEFAULT_VP9_CRF) -> None:
 
     output_path: Path = video_path.with_suffix(".webm")
     if output_path.exists():
-        print(
-            f"WEBM already exists at {output_path=}; skipping conversion.",
-            file=sys.stderr,
-        )
+        _print_filepath_warning(output_path)
+        return
 
     _run_ffmpeg_webm(
         input_path=video_path,
