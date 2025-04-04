@@ -78,15 +78,14 @@ def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
     compress.video(input_file)
 
     mp4_file: Path = input_file.with_suffix(".mp4")
-    assert mp4_file.exists()  # Check if MP4 file was created
+    assert mp4_file.exists()
     assert (
         mp4_file.stat().st_size <= original_size
     ) or video_ext == ".webm"  # Check if MP4 file is smaller
 
     webm_file: Path = input_file.with_suffix(".webm")
-    assert webm_file.exists()  # Check if WebM file was created
-    if video_ext != ".gif":  # GIF conversion handled separately for WebM size
-        assert webm_file.stat().st_size < original_size
+    assert webm_file.exists()
+    assert webm_file.stat().st_size < original_size
 
 
 def test_to_video_fails_with_non_existent_file(temp_dir: Path) -> None:
@@ -126,13 +125,11 @@ def test_convert_webm_skips_if_webm_already_exists(temp_dir: Path) -> None:
     stderr_capture = StringIO()
     sys.stderr = stderr_capture
 
-    # Run only the WebM part of the conversion
     compress._run_ffmpeg_webm(input_file, webm_file, compress._DEFAULT_VP9_CRF)
 
     sys.stderr = sys.__stderr__
 
     assert "already exists. Skipping conversion" in stderr_capture.getvalue()
-    # Ensure the dummy file wasn't overwritten (check modification time or size if needed)
     assert webm_file.stat().st_size == 0
 
 
@@ -155,17 +152,11 @@ def test_error_probing_codec(temp_dir: Path) -> None:
 
 
 def test_convert_gif(temp_dir: Path) -> None:
-    """
-    Test that a GIF file is successfully converted to MP4.
-    """
-    # Create a test GIF file
     input_file = temp_dir / "test.gif"
     utils.create_test_gif(input_file, duration=1, size=(100, 100))
 
-    # Compress the GIF
     compress.video(input_file)
 
-    # Check if MP4 file was created
     output_file = input_file.with_suffix(".mp4")
     assert output_file.exists(), f"MP4 file {output_file} was not created"
 
@@ -206,53 +197,61 @@ def test_convert_gif(temp_dir: Path) -> None:
     ), f"Temporary PNG files were not cleaned up: {png_files}"
 
 
-def test_convert_gif_preserves_frame_rate(temp_dir: Path) -> None:
+def _get_frame_rate(file_path: Path) -> float:
+    result = subprocess.run(
+        [
+            "ffprobe",
+            "-v",
+            "quiet",
+            "-print_format",
+            "json",
+            "-show_streams",
+            str(file_path),
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    probe_data = json.loads(result.stdout)
+    for stream in probe_data.get("streams", []):
+        if stream.get("codec_type") == "video":
+            avg_frame_rate = stream.get("avg_frame_rate", "0/0")
+            num, den = map(int, avg_frame_rate.split("/"))
+            return num / den if den != 0 else 0
+    return 0
+
+
+@pytest.mark.parametrize("framerate", [15, 30, 60])
+def test_convert_gif_preserves_frame_rate(
+    temp_dir: Path, framerate: int
+) -> None:
     """
     Test that GIF compression preserves the detected frame rate.
     """
     # Create a test GIF file
     input_file = temp_dir / "test_framerate.gif"
-    utils.create_test_gif(input_file, duration=1, size=(100, 100), fps=15)
+    utils.create_test_gif(
+        input_file, duration=1, size=(100, 100), fps=framerate
+    )
 
-    compress._convert_gif(input_file)
+    compress.video(input_file)
 
-    # Check if MP4 file was created
-    output_file = input_file.with_suffix(".mp4")
-    assert output_file.exists(), f"MP4 file {output_file} was not created"
+    # Check files were created
+    input_fps = _get_frame_rate(input_file)
+    for suffix in (".mp4", ".webm"):
+        output_file = input_file.with_suffix(suffix)
+        assert (
+            output_file.exists()
+        ), f"{suffix} file {output_file} was not created"
 
-    # Get frame rates for both input and output files
-    def get_frame_rate(file_path):
-        result = subprocess.run(
-            [
-                "ffprobe",
-                "-v",
-                "quiet",
-                "-print_format",
-                "json",
-                "-show_streams",
-                str(file_path),
-            ],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
+        output_fps = _get_frame_rate(output_file)
 
-        probe_data = json.loads(result.stdout)
-        for stream in probe_data.get("streams", []):
-            if stream.get("codec_type") == "video":
-                avg_frame_rate = stream.get("avg_frame_rate", "0/0")
-                num, den = map(int, avg_frame_rate.split("/"))
-                return num / den if den != 0 else 0
-        return 0
-
-    input_fps = get_frame_rate(input_file)
-    output_fps = get_frame_rate(output_file)
-
-    # Compare frame rates
-    relative_error = abs(output_fps - input_fps) / input_fps
-    assert (
-        relative_error < 0.05
-    ), f"Output frame rate ({output_fps}) differs significantly from input frame rate ({input_fps}). Relative error: {relative_error:.2%}"
+        # Compare frame rates
+        relative_error = abs(output_fps - input_fps) / input_fps
+        assert (
+            relative_error < 0.05
+        ), f"Output frame rate ({output_fps}) differs significantly from input frame rate ({input_fps}). Relative error: {relative_error:.2%}"
 
 
 def test_avif_preserves_color_profile(temp_dir: Path) -> None:

@@ -17,7 +17,6 @@ _DEFAULT_IMAGE_QUALITY: Final[int] = 56
 _DEFAULT_HEVC_CRF: Final[int] = 28
 _DEFAULT_VP9_CRF: Final[int] = 31
 _DEFAULT_GIF_FRAMERATE: Final[int] = 10
-
 ALLOWED_IMAGE_EXTENSIONS: Final[set[str]] = {".jpg", ".jpeg", ".png"}
 ALLOWED_VIDEO_EXTENSIONS: Final[set[str]] = {
     ".gif",
@@ -124,8 +123,6 @@ def video(
     """
     Converts a video to both mp4 (HEVC) and webm (VP9) formats using ffmpeg,
     unless the output files already exist.
-
-    Handles GIF and other video types.
     """
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
@@ -136,14 +133,11 @@ def video(
             f"Supported types are: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}."
         )
 
-    if video_path.suffix.lower() == ".gif":
-        _convert_gif(video_path, quality_hevc, quality_webm)
-    else:
-        hevc_output_path: Path = video_path.with_suffix(".mp4")
-        _run_ffmpeg_hevc(video_path, hevc_output_path, quality_hevc)
+    hevc_output_path: Path = video_path.with_suffix(".mp4")
+    _run_ffmpeg_hevc(video_path, hevc_output_path, quality_hevc)
 
-        webm_output_path: Path = video_path.with_suffix(".webm")
-        _run_ffmpeg_webm(video_path, webm_output_path, quality_webm)
+    webm_output_path: Path = video_path.with_suffix(".webm")
+    _run_ffmpeg_webm(video_path, webm_output_path, quality_webm)
 
 
 def _ensure_even_dimensions_ffmpeg_filter() -> str:
@@ -210,9 +204,7 @@ def _run_ffmpeg_hevc(
             stderr=subprocess.PIPE,
         )
         shutil.move(temp_path, output_path)
-    print(
-        f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
-    )
+    print(f"Successfully converted {input_path.name}     to {output_path.name}")
 
 
 _WEBM_AUDIO_ARGS: Final[list[str]] = [
@@ -276,83 +268,8 @@ def _run_ffmpeg_webm(
     print(f"Successfully converted {input_path.name} to {output_path.name}")
 
 
-def _convert_gif(
-    gif_path: Path,
-    quality_hevc: int = _DEFAULT_HEVC_CRF,
-    quality_webm: int = _DEFAULT_VP9_CRF,
-) -> None:
-    """
-    Converts a GIF file to both MP4 (HEVC) and WebM (VP9) video, preserving the
-    original frame rate.
-
-    Skips conversion if outputs exist.
-    """
-    mp4_path, webm_path = (
-        gif_path.with_suffix(suffix) for suffix in (".mp4", ".webm")
-    )
-
-    with tempfile.TemporaryDirectory() as temp_dir:
-        temp_path: Path = Path(temp_dir)
-        frames_pattern: Path = temp_path / "frame_%04d.png"
-        frame_rate: int = _DEFAULT_GIF_FRAMERATE
-
-        if not mp4_path.exists() or not webm_path.exists():
-            frame_rate = _get_gif_frame_rate(gif_path)
-            _extract_gif_frames(gif_path, frames_pattern, frame_rate)
-
-        if not mp4_path.exists():
-            _run_ffmpeg_hevc(
-                input_path=frames_pattern,
-                output_path=mp4_path,
-                quality=quality_hevc,
-                framerate=frame_rate,
-            )
-        if not webm_path.exists():
-            _run_ffmpeg_webm(
-                input_path=frames_pattern,
-                output_path=webm_path,
-                quality=quality_webm,
-                framerate=frame_rate,
-            )
-
-
 def _get_gif_frame_rate(gif_path: Path) -> int:
     return math.floor(1000 / PIL.Image.open(gif_path).info["duration"])
-
-
-def _extract_gif_frames(
-    gif_path: Path, frames_pattern: Path, frame_rate: int
-) -> None:
-    """
-    Extracts frames from GIF using ffmpeg at a specified constant frame rate.
-    """
-    extract_cmd: list[str] = [
-        "ffmpeg",
-        "-i",
-        str(gif_path),
-        "-vf",
-        f"fps={frame_rate}",  # Set frame rate for extraction
-        "-vsync",
-        "cfr",  # Ensure Constant Frame Rate for output PNGs
-        str(frames_pattern),
-    ]
-    try:
-        subprocess.run(
-            extract_cmd,
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.PIPE,
-        )
-    except subprocess.CalledProcessError as e:
-        # Ignore common, often harmless, non-monotonous DTS warning for GIFs
-        if "non-monotonous DTS" not in e.stderr:
-            raise RuntimeError(
-                f"Failed to extract frames: {e.stderr}\nCommand: {' '.join(extract_cmd)}"
-            ) from e
-        print(
-            f"Warning: Non-monotonous DTS detected extracting frames from {gif_path.name}, continuing.",
-            file=sys.stderr,
-        )
 
 
 _CMD_TO_CHECK_CODEC: tuple[str, ...] = (
