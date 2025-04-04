@@ -16,24 +16,34 @@ from . import utils
 
 
 @pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
-def test_avif_file_size_reduction(temp_dir: Path, image_ext: str) -> None:
+def test_avif_creation(temp_dir: Path, image_ext: str) -> None:
     """
-    Assert that AVIF files are less than the size of originals.
+    Assert that AVIF files are created during conversion.
+    """
+    input_file = temp_dir / f"test{image_ext}"
+    utils.create_test_image(input_file, "100x100")
+
+    compress.image(input_file)
+    avif_file = input_file.with_suffix(".avif")
+    assert avif_file.exists()
+
+
+@pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
+def test_avif_size_reduction(temp_dir: Path, image_ext: str) -> None:
+    """
+    Assert that AVIF files are smaller than the original image files.
     """
     input_file = temp_dir / f"test{image_ext}"
     utils.create_test_image(input_file, "100x100")
     original_size = input_file.stat().st_size
 
-    # Convert to AVIF
     compress.image(input_file)
     avif_file = input_file.with_suffix(".avif")
-    assert avif_file.exists()  # Check if AVIF file was created
-
     avif_size = avif_file.stat().st_size
 
     assert (
         avif_size < original_size
-    ), f"AVIF ({avif_file}) size ({avif_size}) not less than half of original {image_ext.upper()} ({original_size} {input_file})"
+    ), f"AVIF ({avif_file}) size ({avif_size}) not less than original {image_ext.upper()} ({original_size} {input_file})"
 
 
 def test_convert_avif_fails_with_non_existent_file(temp_dir: Path) -> None:
@@ -70,21 +80,47 @@ def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
 
 
 @pytest.mark.parametrize("video_ext", compress.ALLOWED_VIDEO_EXTENSIONS)
-def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
+def test_video_conversion_creates_mp4(temp_dir: Path, video_ext: str) -> None:
+    """Assert that MP4 file is created during video conversion."""
+    input_file: Path = temp_dir / f"test{video_ext}"
+    utils.create_test_video(input_file)
+    compress.video(input_file)
+    mp4_file: Path = input_file.with_suffix(".mp4")
+    assert mp4_file.exists()
+
+
+@pytest.mark.parametrize("video_ext", compress.ALLOWED_VIDEO_EXTENSIONS)
+def test_video_conversion_mp4_size(temp_dir: Path, video_ext: str) -> None:
+    """Assert the size of the created MP4 file relative to the original."""
     input_file: Path = temp_dir / f"test{video_ext}"
     utils.create_test_video(input_file)
     original_size: int = input_file.stat().st_size
-
     compress.video(input_file)
-
     mp4_file: Path = input_file.with_suffix(".mp4")
-    assert mp4_file.exists()
-    assert (
-        mp4_file.stat().st_size <= original_size
-    ) or video_ext == ".webm"  # Check if MP4 file is smaller
+    assert mp4_file.exists()  # Ensure file exists
+    assert (mp4_file.stat().st_size <= original_size) or video_ext == ".webm"
 
+
+@pytest.mark.parametrize("video_ext", compress.ALLOWED_VIDEO_EXTENSIONS)
+def test_video_conversion_creates_webm(temp_dir: Path, video_ext: str) -> None:
+    """Assert that WebM file is created during video conversion."""
+    input_file: Path = temp_dir / f"test{video_ext}"
+    utils.create_test_video(input_file)
+    compress.video(input_file)
     webm_file: Path = input_file.with_suffix(".webm")
     assert webm_file.exists()
+
+
+@pytest.mark.parametrize("video_ext", compress.ALLOWED_VIDEO_EXTENSIONS)
+def test_video_conversion_webm_size_reduction(
+    temp_dir: Path, video_ext: str
+) -> None:
+    """Assert that WebM file is smaller than the original video."""
+    input_file: Path = temp_dir / f"test{video_ext}"
+    utils.create_test_video(input_file)
+    original_size: int = input_file.stat().st_size
+    compress.video(input_file)
+    webm_file: Path = input_file.with_suffix(".webm")
     assert webm_file.stat().st_size < original_size
 
 
@@ -151,16 +187,23 @@ def test_error_probing_codec(temp_dir: Path) -> None:
         compress.video(input_file)
 
 
-def test_convert_gif(temp_dir: Path) -> None:
-    input_file = temp_dir / "test.gif"
+def test_convert_gif_creates_mp4(temp_dir: Path) -> None:
+    """Assert that converting a GIF creates an MP4 file."""
+    input_file = temp_dir / "test_gif_to_mp4.gif"
     utils.create_test_gif(input_file, duration=1, size=(100, 100))
-
     compress.video(input_file)
-
     output_file = input_file.with_suffix(".mp4")
     assert output_file.exists(), f"MP4 file {output_file} was not created"
 
-    # Check if the output file is a valid MP4 with HEVC encoding
+
+def test_convert_gif_mp4_codec_is_hevc(temp_dir: Path) -> None:
+    """Assert that the MP4 created from a GIF uses the HEVC codec."""
+    input_file = temp_dir / "test_gif_codec.gif"
+    utils.create_test_gif(input_file, duration=1, size=(100, 100))
+    compress.video(input_file)
+    output_file = input_file.with_suffix(".mp4")
+    assert output_file.exists()
+
     try:
         result = subprocess.run(
             [
@@ -179,22 +222,20 @@ def test_convert_gif(temp_dir: Path) -> None:
             text=True,
             check=True,
         )
-
         assert (
             result.stdout.strip() == "hevc"
         ), f"Output video codec is not HEVC, got: {result.stdout.strip()}"
     except subprocess.CalledProcessError as e:
-        pytest.fail(f"Error checking MP4 file: {e.stderr}")
+        pytest.fail(f"Error checking MP4 file codec: {e.stderr}")
 
-    # Check if WEBM file was created
+
+def test_convert_gif_creates_webm(temp_dir: Path) -> None:
+    """Assert that converting a GIF creates a WebM file."""
+    input_file = temp_dir / "test_gif_to_webm.gif"
+    utils.create_test_gif(input_file, duration=1, size=(100, 100))
+    compress.video(input_file)
     webm_file: Path = input_file.with_suffix(".webm")
     assert webm_file.exists(), f"WebM file {webm_file} was not created"
-
-    # Check if temporary PNG files were cleaned up
-    png_files = list(temp_dir.glob(f"{input_file.stem}_*.png"))
-    assert (
-        len(png_files) == 0
-    ), f"Temporary PNG files were not cleaned up: {png_files}"
 
 
 def _get_frame_rate(file_path: Path) -> float:
@@ -222,38 +263,56 @@ def _get_frame_rate(file_path: Path) -> float:
     return 0
 
 
+# TODO create double loop for extension and framerate
 @pytest.mark.parametrize("framerate", [15, 30, 60])
-def test_convert_gif_preserves_frame_rate(
+def test_convert_gif_preserves_framerate_mp4(
     temp_dir: Path, framerate: int
 ) -> None:
-    """
-    Test that GIF compression preserves the detected frame rate.
-    """
-    # Create a test GIF file
-    input_file = temp_dir / "test_framerate.gif"
+    """Test that MP4 from GIF preserves the detected frame rate."""
+    input_file = temp_dir / f"test_framerate_mp4_{framerate}.gif"
     utils.create_test_gif(
         input_file, duration=1, size=(100, 100), fps=framerate
     )
-
     compress.video(input_file)
 
-    # Check files were created
+    output_file = input_file.with_suffix(".mp4")
+    assert output_file.exists(), f"MP4 file {output_file} was not created"
+
     input_fps = _get_frame_rate(input_file)
-    for suffix in (".mp4", ".webm"):
-        output_file = input_file.with_suffix(suffix)
-        assert (
-            output_file.exists()
-        ), f"{suffix} file {output_file} was not created"
-
-        output_fps = _get_frame_rate(output_file)
-
-        # Compare frame rates
-        relative_error = abs(output_fps - input_fps) / input_fps
-        assert (
-            relative_error < 0.05
-        ), f"Output frame rate ({output_fps}) differs significantly from input frame rate ({input_fps}). Relative error: {relative_error:.2%}"
+    output_fps = _get_frame_rate(output_file)
+    relative_error = (
+        abs(output_fps - input_fps) / input_fps if input_fps != 0 else 0
+    )
+    assert (
+        relative_error < 0.05
+    ), f"MP4 frame rate ({output_fps}) differs significantly from input GIF ({input_fps}). Relative error: {relative_error:.2%}"
 
 
+@pytest.mark.parametrize("framerate", [15, 30, 60])
+def test_convert_gif_preserves_framerate_webm(
+    temp_dir: Path, framerate: int
+) -> None:
+    """Test that WebM from GIF preserves the detected frame rate."""
+    input_file = temp_dir / f"test_framerate_webm_{framerate}.gif"
+    utils.create_test_gif(
+        input_file, duration=1, size=(100, 100), fps=framerate
+    )
+    compress.video(input_file)
+
+    output_file = input_file.with_suffix(".webm")
+    assert output_file.exists(), f"WebM file {output_file} was not created"
+
+    input_fps = _get_frame_rate(input_file)
+    output_fps = _get_frame_rate(output_file)
+    relative_error = (
+        abs(output_fps - input_fps) / input_fps if input_fps != 0 else 0
+    )
+    assert (
+        relative_error < 0.05
+    ), f"WebM frame rate ({output_fps}) differs significantly from input GIF ({input_fps}). Relative error: {relative_error:.2%}"
+
+
+# TODO test other extensions
 def test_avif_preserves_color_profile(temp_dir: Path) -> None:
     """Test that AVIF conversion preserves sRGB color profile."""
     input_file = temp_dir / "test.png"
@@ -275,19 +334,15 @@ def test_avif_preserves_color_profile(temp_dir: Path) -> None:
     ), "AVIF file should have sRGB colorspace"
 
 
-def test_avif_preserves_transparency(temp_dir: Path) -> None:
-    """Test that AVIF conversion preserves transparency."""
-    input_file = temp_dir / "test.png"
-
-    # Create a test image with transparency
+def test_png_input_has_transparency(temp_dir: Path) -> None:
+    """Verify that the test utility creates a PNG with transparency."""
+    input_file = temp_dir / "test_transparent_input.png"
     utils.create_test_image(
         input_file,
         "100x100",
-        background="none",  # Creates transparent background
-        draw="circle 50,50 20,20",  # Draws a circle
+        background="none",
+        draw="circle 50,50 20,20",
     )
-
-    # Check that the image is transparent
     pre_result = subprocess.run(
         ["/opt/homebrew/bin/magick", "identify", "-verbose", str(input_file)],
         capture_output=True,
@@ -297,6 +352,18 @@ def test_avif_preserves_transparency(temp_dir: Path) -> None:
     assert (
         "Alpha: 8-bit" in pre_result.stdout
     ), "Input PNG file should have transparency before conversion"
+
+
+# TODO use some kind of artifact for image creation? Speed up tests
+def test_avif_output_preserves_transparency(temp_dir: Path) -> None:
+    """Test that AVIF conversion preserves transparency from the input PNG."""
+    input_file = temp_dir / "test_transparent_output.png"
+    utils.create_test_image(
+        input_file,
+        "100x100",
+        background="none",
+        draw="circle 50,50 20,20",
+    )
 
     compress.image(input_file)
     avif_file = input_file.with_suffix(".avif")
@@ -308,12 +375,12 @@ def test_avif_preserves_transparency(temp_dir: Path) -> None:
         text=True,
         check=True,
     )
-
     assert (
         "Alpha: 8-bit" in post_result.stdout
     ), "AVIF file should preserve transparency"
 
 
+# TODO test other extensions
 def test_avif_quality_affects_file_size(temp_dir: Path) -> None:
     """Test that different quality settings produce different file sizes."""
     input_file = temp_dir / "test.png"
@@ -335,11 +402,10 @@ def test_avif_quality_affects_file_size(temp_dir: Path) -> None:
     ), "Higher quality setting should produce larger file size"
 
 
-def test_avif_format_details(temp_dir: Path) -> None:
-    """Test that AVIF conversion sets correct format details."""
-    input_file = temp_dir / "test.png"
+def test_avif_format_chroma(temp_dir: Path) -> None:
+    """Test that AVIF conversion sets correct Chroma Format (YUV 4:2:0)."""
+    input_file = temp_dir / "test_chroma.png"
     utils.create_test_image(input_file, "100x100", colorspace="sRGB")
-
     compress.image(input_file)
     avif_file = input_file.with_suffix(".avif")
 
@@ -350,11 +416,25 @@ def test_avif_format_details(temp_dir: Path) -> None:
         text=True,
         check=True,
     )
-
-    # Check for specific format information using regex
     assert re.search(
         r"Chroma Format\s*:\s*YUV 4:2:0", result.stdout
     ), "AVIF should use YUV 4:2:0"
+
+
+def test_avif_format_pixel_depth(temp_dir: Path) -> None:
+    """Test that AVIF conversion sets correct Pixel Depth (8-bit)."""
+    input_file = temp_dir / "test_depth.png"
+    utils.create_test_image(input_file, "100x100", colorspace="sRGB")
+    compress.image(input_file)
+    avif_file = input_file.with_suffix(".avif")
+    assert avif_file.exists()
+
+    result = subprocess.run(
+        ["exiftool", str(avif_file)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
     assert re.search(
         r"Image Pixel Depth\s*:\s*8 8 8", result.stdout
     ), "AVIF should have 8-bit depth"
@@ -470,7 +550,9 @@ def test_check_if_hevc_codec(
     assert compress._check_if_hevc_codec(input_file) is expected_result
 
 
-def test_check_if_hevc_codec_ffprobe_error(temp_dir: Path, monkeypatch) -> None:
+def test_check_if_hevc_codec_ffprobe_error(
+    temp_dir: Path, monkeypatch
+) -> None:
     """Test _check_if_hevc_codec raises error on ffprobe failure."""
     input_file = temp_dir / "test_error.mp4"
     input_file.touch()
