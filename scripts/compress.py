@@ -42,16 +42,6 @@ _FFMPEG_COMMON_OUTPUT_ARGS: Final[list[str]] = [
     "-v",
     "error",
 ]
-_FFMPEG_VP9_QUALITY_ARGS: Final[list[str]] = [
-    "-deadline",
-    "good",
-    "-cpu-used",
-    "4",
-    "-row-mt",
-    "1",
-    "-auto-alt-ref",
-    "1",
-]
 
 
 def _check_dependencies() -> None:
@@ -87,7 +77,9 @@ def image(image_path: Path, quality: int = _DEFAULT_IMAGE_QUALITY) -> None:
     if not image_path.is_file():
         raise FileNotFoundError(f"Error: File '{image_path}' not found.")
     if image_path.suffix.lower() not in ALLOWED_IMAGE_EXTENSIONS:
-        raise ValueError(f"Error: Unsupported file type '{image_path.suffix}'.")
+        raise ValueError(
+            f"Error: Unsupported file type '{image_path.suffix}'."
+        )
 
     avif_path: Path = image_path.with_suffix(".avif")
     if avif_path.exists():
@@ -140,16 +132,6 @@ def video(
     _run_ffmpeg_webm(video_path, webm_output_path, quality_webm)
 
 
-_HEVC_AUDIO_ARGS: Final[list[str]] = [
-    "-map",
-    "0:v:0",
-    "-map",
-    "0:a?",
-    "-c:a",
-    "copy",
-]
-
-
 def _run_ffmpeg_hevc(
     input_path: Path,
     output_path: Path,
@@ -159,11 +141,22 @@ def _run_ffmpeg_hevc(
     """
     Helper function to run the ffmpeg command for HEVC/MP4 conversion.
     """
-    if input_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(input_path):
+    if input_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(
+        input_path
+    ):
         _print_filepath_warning(input_path)
         return
 
     is_gif: bool = input_path.suffix.lower() == ".png"  # Using frames from GIF
+    audio_args = [
+        "-map",
+        "0:v:0",
+        "-map",
+        "0:a?",
+        "-c:a",
+        "copy",
+    ]
+
     ffmpeg_cmd: list[str] = [
         "ffmpeg",
         *(["-framerate", str(framerate)] if framerate else []),
@@ -183,7 +176,7 @@ def _run_ffmpeg_hevc(
         _PIXEL_FORMAT_YUV420P,
         "-tag:v",
         _TAG_APPLE_COMPATIBILITY,
-        *(["-an"] if is_gif else _HEVC_AUDIO_ARGS),  # No audio for GIF output
+        *(["-an"] if is_gif else audio_args),  # No audio for GIF output
         *(["-loop", "0"] if is_gif else []),
         *_FFMPEG_COMMON_OUTPUT_ARGS,
     ]
@@ -245,7 +238,14 @@ def _run_ffmpeg_webm(
         "scale=trunc(iw/2)*2:trunc(ih/2)*2",
         "-pix_fmt",
         _PIXEL_FORMAT_YUV420P,
-        *_FFMPEG_VP9_QUALITY_ARGS,
+        "-deadline",
+        "good",
+        "-cpu-used",
+        "4",
+        "-row-mt",
+        "1",
+        "-auto-alt-ref",
+        "1",
         *(["-an"] if is_gif else _WEBM_AUDIO_ARGS),
         *(["-loop", "0"] if is_gif else []),
         *_FFMPEG_COMMON_OUTPUT_ARGS,
@@ -296,7 +296,9 @@ def _parse_args() -> argparse.Namespace:
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
         description="Compress assets: image to AVIF, video to MP4/HEVC and WebM/VP9."
     )
-    parser.add_argument("path", type=Path, help="Path to the file to compress.")
+    parser.add_argument(
+        "path", type=Path, help="Path to the file to compress."
+    )
     parser.add_argument(
         "--quality-img",
         type=int,
