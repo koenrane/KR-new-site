@@ -131,8 +131,8 @@ def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
 # because it probably needed a newline before it
 def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
     """
-    Check for blockquote elements ending with ">" as long as they don't end in a
-    "<\\w+>" pattern.
+    Check for blockquote elements ending with ">" as long as they don't end in
+    a "<\\w+>" pattern.
     """
     problematic_blockquotes: List[str] = []
     blockquotes = soup.find_all("blockquote")
@@ -579,8 +579,8 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
 
 def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
     """
-    Check for text nodes containing multiple dashes (-- or ---) that should have
-    been processed into em dashes by formatting_improvement_html.ts.
+    Check for text nodes containing multiple dashes (-- or ---) that should
+    have been processed into em dashes by formatting_improvement_html.ts.
     """
     problematic_dashes: List[str] = []
 
@@ -693,8 +693,8 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
 
 def check_consecutive_periods(soup: BeautifulSoup) -> List[str]:
     """
-    Check for consecutive periods in text content, including cases where they're
-    separated by quotation marks.
+    Check for consecutive periods in text content, including cases where
+    they're separated by quotation marks.
 
     Returns:
         List of strings containing problematic text with consecutive periods
@@ -959,7 +959,9 @@ def check_spacing(
     Check spacing between element and a sibling.
     """
     sibling = (
-        element.previous_sibling if prefix == "before" else element.next_sibling
+        element.previous_sibling
+        if prefix == "before"
+        else element.next_sibling
     )
     if not isinstance(sibling, NavigableString) or not sibling.strip():
         return []
@@ -1004,15 +1006,15 @@ def _check_element_spacing(
     Returns:
         List of strings describing spacing issues
     """
-    return check_spacing(element, prev_allowed_chars, "before") + check_spacing(
-        element, next_allowed_chars, "after"
-    )
+    return check_spacing(
+        element, prev_allowed_chars, "before"
+    ) + check_spacing(element, next_allowed_chars, "after")
 
 
 def check_link_spacing(soup: BeautifulSoup) -> List[str]:
     """
-    Check for non-footnote links that don't have proper spacing with surrounding
-    text.
+    Check for non-footnote links that don't have proper spacing with
+    surrounding text.
 
     Links should have a space before them unless preceded by specific
     characters.

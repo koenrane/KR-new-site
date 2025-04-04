@@ -1,5 +1,6 @@
 """
-Check source files for issues, like invalid links, missing required fields, etc.
+Check source files for issues, like invalid links, missing required fields,
+etc.
 """
 
 import re
@@ -260,7 +261,9 @@ def check_card_image(metadata: dict) -> List[str]:
         return errors
 
     if not card_image_url.startswith(("http://", "https://")):
-        errors.append(f"Card image URL '{card_image_url}' must be a remote URL")
+        errors.append(
+            f"Card image URL '{card_image_url}' must be a remote URL"
+        )
         return errors
 
     try:
@@ -330,8 +333,8 @@ _END_OF_LINE_BRACES_REGEX = r"{[^$`\\]*}\s*$"
 
 def check_unescaped_braces(file_path: Path) -> List[str]:
     """
-    Check for unescaped braces in markdown files that aren't at beginning/end of
-    line or inside of katex element.
+    Check for unescaped braces in markdown files that aren't at beginning/end
+    of line or inside of katex element.
 
     Args:
         file_path: Path to the markdown file to check
