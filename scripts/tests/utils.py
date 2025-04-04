@@ -58,16 +58,21 @@ def create_test_image(
 
 
 def create_test_video(
-    path: Path, codec: Optional[str] = None, duration: int = 1
+    path: Path,
+    codec: Optional[str] = None,
+    duration: int = 1,
+    fps: Optional[int] = None,
 ) -> None:
     """
-    Creates a test video using FFmpeg with intentionally inefficient encoding.
+    Creates a test video using FFmpeg with a silent audio track.
     Uses MPEG-2 with high bitrate and all I-frames for maximum inefficiency.
 
 
     Args:
         path (Path): The file path where the video will be saved.
         codec (str, optional): The video codec to use for encoding. If None, FFmpeg's default codec is used.
+        duration (int): Duration of the video in seconds. Default is 1.
+        fps (int, optional): Frames per second for the video. If None, defaults to 15.
 
     Returns:
         None
@@ -80,24 +85,34 @@ def create_test_video(
         Standard output and error are suppressed to keep the console clean during test runs.
     """
     output_extension = path.suffix.lower()
+    frame_rate: int = (
+        fps if fps is not None else 15
+    )  # Default to 15 fps if not provided
     base_command = [
         "ffmpeg",
         "-f",
         "lavfi",
         "-i",
-        "testsrc=size=160x120:rate=15",  # Tiny video, lower framerate
-        "-t",
-        str(duration),
+        # Generate video
+        f"testsrc=size=160x120:rate={frame_rate}:duration={duration}",
+        "-f",
+        "lavfi",
+        "-i",
+        # Generate silent audio
+        f"anullsrc=channel_layout=stereo:sample_rate=44100:duration={duration}",
+        # Finish encoding when the shortest input stream ends (video or audio)
+        "-shortest",
         "-v",
         "error",  # Reduce noise in test output
     ]
 
     if output_extension == ".gif":
-        # Parameters specific to GIF output
+        # Parameters specific to GIF output - GIF does not support audio
         base_command.extend(
             [
+                "-an",  # Explicitly disable audio for GIF
                 "-vf",
-                "fps=15,scale=160:-1:flags=lanczos",
+                f"fps={frame_rate},scale=160:-1:flags=lanczos",
                 "-loop",
                 "0",
             ]

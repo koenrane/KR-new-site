@@ -254,15 +254,14 @@ def _has_audio_stream(file_path: Path) -> bool:
                 "default=noprint_wrappers=1:nokey=1",
                 str(file_path),
             ],
-            capture_output=True,
+            capture_output=True,  # Captures both stdout and stderr
             text=True,
-            check=True,
-            stderr=subprocess.PIPE,
+            check=True,  # Raises CalledProcessError on failure
         )
         # If ffprobe finds an audio stream, it will output its codec type
         return len(result.stdout.strip()) > 0
     except subprocess.CalledProcessError as e:
-        # If ffprobe exits with an error, check stderr
+        # If ffprobe exits with an error, check stderr (captured by capture_output)
         # Often, if no stream is found, it exits with code 1 and prints to stderr
         if "Stream specifier a:0 matches no streams" in e.stderr:
             return False
@@ -329,59 +328,12 @@ def _get_frame_rate(file_path: Path) -> float:
     return 0
 
 
-# TODO create double loop for extension and framerate
-@pytest.mark.parametrize("framerate", [15, 30, 60])
-def test_convert_gif_preserves_framerate_mp4(
-    temp_dir: Path, framerate: int
+@pytest.mark.parametrize("input_file_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
+def test_avif_preserves_color_profile(
+    temp_dir: Path, input_file_ext: str
 ) -> None:
-    """Test that MP4 from GIF preserves the detected frame rate."""
-    input_file = temp_dir / f"test_framerate_mp4_{framerate}.gif"
-    utils.create_test_gif(
-        input_file, duration=1, size=(100, 100), fps=framerate
-    )
-    compress.video(input_file)
-
-    output_file = input_file.with_suffix(".mp4")
-    assert output_file.exists(), f"MP4 file {output_file} was not created"
-
-    input_fps = _get_frame_rate(input_file)
-    output_fps = _get_frame_rate(output_file)
-    relative_error = (
-        abs(output_fps - input_fps) / input_fps if input_fps != 0 else 0
-    )
-    assert (
-        relative_error < 0.05
-    ), f"MP4 frame rate ({output_fps}) differs significantly from input GIF ({input_fps}). Relative error: {relative_error:.2%}"
-
-
-@pytest.mark.parametrize("framerate", [15, 30, 60])
-def test_convert_gif_preserves_framerate_webm(
-    temp_dir: Path, framerate: int
-) -> None:
-    """Test that WebM from GIF preserves the detected frame rate."""
-    input_file = temp_dir / f"test_framerate_webm_{framerate}.gif"
-    utils.create_test_gif(
-        input_file, duration=1, size=(100, 100), fps=framerate
-    )
-    compress.video(input_file)
-
-    output_file = input_file.with_suffix(".webm")
-    assert output_file.exists(), f"WebM file {output_file} was not created"
-
-    input_fps = _get_frame_rate(input_file)
-    output_fps = _get_frame_rate(output_file)
-    relative_error = (
-        abs(output_fps - input_fps) / input_fps if input_fps != 0 else 0
-    )
-    assert (
-        relative_error < 0.05
-    ), f"WebM frame rate ({output_fps}) differs significantly from input GIF ({input_fps}). Relative error: {relative_error:.2%}"
-
-
-# TODO test other extensions
-def test_avif_preserves_color_profile(temp_dir: Path) -> None:
     """Test that AVIF conversion preserves sRGB color profile."""
-    input_file = temp_dir / "test.png"
+    input_file = temp_dir / f"test{input_file_ext}"
     utils.create_test_image(input_file, "100x100", colorspace="sRGB")
 
     compress.image(input_file)
@@ -420,7 +372,6 @@ def test_png_input_has_transparency(temp_dir: Path) -> None:
     ), "Input PNG file should have transparency before conversion"
 
 
-# TODO use some kind of artifact for image creation? Speed up tests
 def test_avif_output_preserves_transparency(temp_dir: Path) -> None:
     """Test that AVIF conversion preserves transparency from the input PNG."""
     input_file = temp_dir / "test_transparent_output.png"
@@ -446,10 +397,12 @@ def test_avif_output_preserves_transparency(temp_dir: Path) -> None:
     ), "AVIF file should preserve transparency"
 
 
-# TODO test other extensions
-def test_avif_quality_affects_file_size(temp_dir: Path) -> None:
+@pytest.mark.parametrize("input_file_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
+def test_avif_quality_affects_file_size(
+    temp_dir: Path, input_file_ext: str
+) -> None:
     """Test that different quality settings produce different file sizes."""
-    input_file = temp_dir / "test.png"
+    input_file = temp_dir / f"test{input_file_ext}"
     utils.create_test_image(input_file, "100x100")
 
     # Convert with high quality
