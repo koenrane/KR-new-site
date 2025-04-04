@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from typing import Final, Optional
+from typing import Final
 
 import PIL
 
@@ -133,21 +133,21 @@ def video(
 
 
 def _run_ffmpeg_hevc(
-    input_path: Path,
+    input_video_path: Path,
     output_path: Path,
     quality: int,
-    framerate: Optional[int] = None,
+    framerate: int | None = None,
 ) -> None:
     """
     Helper function to run the ffmpeg command for HEVC/MP4 conversion.
     """
-    if input_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(
-        input_path
+    if input_video_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(
+        input_video_path
     ):
-        _print_filepath_warning(input_path)
+        _print_filepath_warning(input_video_path)
         return
 
-    is_gif: bool = input_path.suffix.lower() == ".png"  # Using frames from GIF
+    is_gif: bool = input_video_path.suffix.lower() == ".gif"
     audio_args = [
         "-map",
         "0:v:0",
@@ -161,7 +161,7 @@ def _run_ffmpeg_hevc(
         "ffmpeg",
         *(["-framerate", str(framerate)] if framerate else []),
         "-i",
-        str(input_path),
+        str(input_video_path),
         "-c:v",
         _CODEC_HEVC,
         "-crf",
@@ -190,7 +190,9 @@ def _run_ffmpeg_hevc(
             stderr=subprocess.PIPE,
         )
         shutil.move(temp_path, output_path)
-    print(f"Successfully converted {input_path.name} to {output_path.name}")
+    print(
+        f"Successfully converted {input_video_path.name} to {output_path.name}"
+    )
 
 
 _WEBM_AUDIO_ARGS: Final[list[str]] = [
@@ -206,10 +208,10 @@ _WEBM_AUDIO_ARGS: Final[list[str]] = [
 
 
 def _run_ffmpeg_webm(
-    input_path: Path,
+    input_video_path: Path,
     output_path: Path,
     quality: int,
-    framerate: Optional[int] = None,
+    framerate: int | None = None,
 ) -> None:
     """
     Helper function to run the ffmpeg command for WebM/VP9 conversion.
@@ -222,12 +224,12 @@ def _run_ffmpeg_webm(
         _print_filepath_warning(output_path)
         return
 
-    is_gif = input_path.suffix.lower() == ".png"
+    is_gif: bool = input_video_path.suffix.lower() == ".gif"
     ffmpeg_cmd: list[str] = [
         "ffmpeg",
         *(["-framerate", str(framerate)] if framerate else []),
         "-i",
-        str(input_path),
+        str(input_video_path),
         "-c:v",
         _CODEC_VP9,
         "-crf",
@@ -258,7 +260,9 @@ def _run_ffmpeg_webm(
         stderr=subprocess.PIPE,
     )
 
-    print(f"Successfully converted {input_path.name} to {output_path.name}")
+    print(
+        f"Successfully converted {input_video_path.name} to {output_path.name}"
+    )
 
 
 def _get_gif_frame_rate(gif_path: Path) -> int:

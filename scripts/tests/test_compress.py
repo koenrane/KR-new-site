@@ -238,6 +238,72 @@ def test_convert_gif_creates_webm(temp_dir: Path) -> None:
     assert webm_file.exists(), f"WebM file {webm_file} was not created"
 
 
+def _has_audio_stream(file_path: Path) -> bool:
+    """Check if a video file contains an audio stream using ffprobe."""
+    try:
+        result = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-select_streams",
+                "a:0",  # Select only the first audio stream
+                "-show_entries",
+                "stream=codec_type",
+                "-of",
+                "default=noprint_wrappers=1:nokey=1",
+                str(file_path),
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+            stderr=subprocess.PIPE,
+        )
+        # If ffprobe finds an audio stream, it will output its codec type
+        return len(result.stdout.strip()) > 0
+    except subprocess.CalledProcessError as e:
+        # If ffprobe exits with an error, check stderr
+        # Often, if no stream is found, it exits with code 1 and prints to stderr
+        if "Stream specifier a:0 matches no streams" in e.stderr:
+            return False
+        # Re-raise if it's a different error
+        pytest.fail(
+            f"ffprobe error checking audio stream for {file_path}: {e.stderr}"
+        )
+    except FileNotFoundError:
+        pytest.fail("ffprobe command not found. Ensure ffmpeg is installed.")
+    return False  # Default to false if unexpected issues arise
+
+
+def test_convert_gif_output_has_no_audio(temp_dir: Path) -> None:
+    """Verify that converting a GIF results in video files without audio streams."""
+    input_file = temp_dir / "test_gif_no_audio.gif"
+    utils.create_test_gif(input_file, duration=1, size=(50, 50))
+    compress.video(input_file)
+
+    for suffix in [".mp4", ".webm"]:
+        output_file = input_file.with_suffix(suffix)
+        assert output_file.exists(), f"{suffix} file not created from GIF"
+        assert not _has_audio_stream(
+            output_file
+        ), f"{suffix} output from GIF should not have audio"
+
+
+def test_convert_video_output_has_audio(temp_dir: Path) -> None:
+    """Verify that converting a standard video preserves the audio stream."""
+    input_file = temp_dir / "test_video_with_audio.mov"
+    # create_test_video generates a video with a default silent audio track
+    utils.create_test_video(input_file)
+    compress.video(input_file)
+
+    for suffix in [".mp4", ".webm"]:
+        output_file = input_file.with_suffix(suffix)
+        assert output_file.exists(), f"{suffix} file not created from video"
+        assert _has_audio_stream(
+            output_file
+        ), f"{suffix} output from video should have audio"
+
+
 def _get_frame_rate(file_path: Path) -> float:
     result = subprocess.run(
         [
