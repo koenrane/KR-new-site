@@ -289,7 +289,7 @@
 
 .callout-content,
 .timeline-info {
-  & p:not(.subtitle):first-child,
+  & *:not(.subtitle):first-child,
   & > .vsc-controller + p {
     // vsc-controllers can be spawned ahead of the first paragraph
     margin-top: 0;
