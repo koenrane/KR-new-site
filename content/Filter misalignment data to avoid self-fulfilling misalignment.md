@@ -257,7 +257,7 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 > Let's turn to reality for recourse. We can test the effect of including e.g. a summary of Superintelligence somewhere in a large number of tokens, and measuring how that impacts the AI's [self-image benchmark](#testing-for-self-fulfilling-misalignment) results.
 
 > [!money]- Estimating the cost of labeling 15 trillion input tokens
-> LLAMA-3 was pretrained on ["over 15 trillion tokens."](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) Let's imagine use Gemini Flash Lite 2.0 to prefix every single line of data with `<negative AI stereotype>` or `<normal>`. As of Feb. 20th, 2025, [Flash-Lite costs](https://ai.google.dev/gemini-api/docs/pricing) \$0.075 per million input tokens and \$0.30 per million output tokens. Let's say we're labeling chunks of data every, say, 100 tokens on average. Then for $T$ tokens, our cost will be $0.075T + 0.3 \times \frac{1}{100}T = .0078T$. For $T=1.5\times 10^{13}$, the price would be about \$117,000. (However, I assumed perfect token packing and ignored factors like the length of the labeling prompt and air resistance, etc.)
+> LLAMA-3 was pretrained on ["over 15 trillion tokens."](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) Let's imagine we use Gemini Flash Lite 2.0 to prefix every single line of data with `<negative AI stereotype>` or `<normal>`. As of Feb. 20th, 2025, [Flash-Lite costs](https://ai.google.dev/gemini-api/docs/pricing) \$0.075 per million input tokens and \$0.30 per million output tokens. Let's say we're labeling chunks of data every, say, 100 tokens on average. Then for $T$ tokens, our cost will be $0.075T + 0.3 \times \frac{1}{100}T = .0078T$. For $T=1.5\times 10^{13}$, the price would be about \$117,000. (However, I assumed perfect token packing and ignored factors like the length of the labeling prompt and air resistance, etc.)
 
 > [!idea]- Brainstorming data sources to filter
 >
@@ -293,6 +293,7 @@ The simplest method would be to curate and generate a lot of high-quality data o
 
 - The [AI Optimism](https://optimists.ai/) blog
 - [Top AI risk skepticism posts on LessWrong](https://www.lesswrong.com/w/ai-risk-skepticism)
+- [Machines of Loving Grace](https://darioamodei.com/machines-of-loving-grace)
 
 Though honestly, I don't have a good tab on what to include here. Maybe it'll have to be synthetic.
 
@@ -363,4 +364,4 @@ In these experiments, the baseline would be an existing "teacher" model which ex
 Let us avoid the dark irony of creating evil AI because some folks worried that AI would be evil. If self-fulfilling misalignment has a strong effect, then we should act. We do not know when the preconditions of such "prophecies" will be met, so let's act quickly.
 
 > [!thanks]
-> Thanks to Peter Barnett, Aryan Bhatt, Arthur Conmy, Xerxes Dotiwalla, Anca Dragan, David Elson, Noah Goodman, Erik Jenner, Zachary Kenton, Neel Nanda, Flavien Prost, Rohin Shah, Lisa Thiergart, and others for discussion on this post.
+> Thanks to Peter Barnett, Aryan Bhatt, Arthur Conmy, Xerxes Dotiwalla, Anca Dragan, David Elson, Noah Goodman, Erik Jenner, Zachary Kenton, Neel Nanda, Flavien Prost, Rohin Shah, Lisa Thiergart, and others for discussion on this post. Thanks to Arthur Conmy for suggesting "Machines of Loving Grace" as pro-optimism content.
