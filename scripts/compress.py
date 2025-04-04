@@ -13,10 +13,9 @@ from typing import Final, Optional
 
 import PIL
 
-# --- Constants ---
 _DEFAULT_IMAGE_QUALITY: Final[int] = 56
-_DEFAULT_HEVC_CRF: Final[int] = 28  # HEVC default CRF
-_DEFAULT_VP9_CRF: Final[int] = 31  # VP9 default CRF
+_DEFAULT_HEVC_CRF: Final[int] = 28
+_DEFAULT_VP9_CRF: Final[int] = 31
 _DEFAULT_GIF_FRAMERATE: Final[int] = 10
 
 ALLOWED_IMAGE_EXTENSIONS: Final[set[str]] = {".jpg", ".jpeg", ".png"}
@@ -161,17 +160,16 @@ _HEVC_AUDIO_ARGS: Final[list[str]] = [
 ]
 
 
-# TODO get rid of is_gif by checking if input_spec ends with ".png"
 def _run_ffmpeg_hevc(
     input_path: Path,
     output_path: Path,
     quality: int,
     framerate: Optional[int] = None,
-    is_gif: bool = False,
 ) -> None:
     """
     Helper function to run the ffmpeg command for HEVC/MP4 conversion.
     """
+    is_gif: bool = input_path.suffix.lower() == ".png"  # Using frames from GIF
     ffmpeg_cmd: list[str] = [
         "ffmpeg",
         # Input specification
@@ -185,10 +183,10 @@ def _run_ffmpeg_hevc(
         str(quality),
         "-x265-params",
         "log-level=warning",  # Keep logging minimal for x265
-        # "-preset",
-        # "slower",
-        # "-vf",
-        # _ensure_even_dimensions_ffmpeg_filter(),
+        "-preset",
+        "slower",
+        "-vf",
+        _ensure_even_dimensions_ffmpeg_filter(),
         "-pix_fmt",
         _PIXEL_FORMAT_YUV420P,
         "-tag:v",
@@ -235,18 +233,15 @@ def _run_ffmpeg_webm(
     output_path: Path,
     quality: int,
     framerate: Optional[int] = None,
-    is_gif: bool = False,
 ) -> None:
     """
     Helper function to run the ffmpeg command for WebM/VP9 conversion.
     """
+    is_gif = input_path.suffix.lower() == ".png"
 
-    # Base command arguments (used for pass 2 or single pass)
     base_cmd: list[str] = [
         "ffmpeg",
         *(["-framerate", str(framerate)] if framerate else []),
-        "-i",
-        str(input_path),
         "-c:v",
         _CODEC_VP9,
         "-crf",
@@ -260,68 +255,26 @@ def _run_ffmpeg_webm(
         *_FFMPEG_VP9_QUALITY_ARGS,
         *(["-an"] if is_gif else _WEBM_AUDIO_ARGS),
         *(["-loop", "0"] if is_gif else []),
+        *(_FFMPEG_COMMON_OUTPUT_ARGS + [str(output_path)]),
+        "-i",
+        str(input_path),
     ]
 
-    full_cmd_log: list[str] = []  # For logging full command sequence if error
+    with tempfile.TemporaryDirectory() as temp_dir:
+        log_file_base: Path = Path(temp_dir) / f"ffmpeg2pass-{output_path.stem}"
+        log_file_base_str: str = str(log_file_base)
+        log_file_args: list[str] = ["-passlogfile", log_file_base_str]
 
-    try:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            log_file_base: Path = (
-                Path(temp_dir) / f"ffmpeg2pass-{output_path.stem}"
-            )
-            log_file_base_str: str = str(log_file_base)
+        pass_1_extra_args: list[str] = ["-pass", "1"]
+        pass1_cmd: list[str] = base_cmd + pass_1_extra_args + log_file_args
+        subprocess.run(pass1_cmd, check=True, capture_output=True)
 
-            # First pass command (only video, minimal args)
-            pass1_input: str = str(input_path)  # Ensure path is string
-            pass1_cmd: list[str] = [
-                "ffmpeg",
-                "-i",
-                pass1_input,
-                "-map",
-                "0:v:0",
-                "-c:v",
-                _CODEC_VP9,
-                "-crf",
-                str(quality),
-                "-b:v",
-                "0",
-                "-vf",
-                _ensure_even_dimensions_ffmpeg_filter(),
-                "-pix_fmt",
-                _PIXEL_FORMAT_YUV420P,
-                *_FFMPEG_VP9_QUALITY_ARGS,
-                "-pass",
-                "1",
-                "-passlogfile",
-                log_file_base_str,
-                "-an",
-                *(_FFMPEG_COMMON_OUTPUT_ARGS + [str(output_path)]),
-            ]
-            full_cmd_log = pass1_cmd[:]  # Copy
-            subprocess.run(pass1_cmd, check=True, capture_output=True)
+        pass2_cmd: list[str] = base_cmd + ["-pass", "2"]
+        subprocess.run(pass2_cmd, check=True, capture_output=True)
 
-            # Second pass command (base + pass args + common output)
-            pass2_cmd: list[str] = (
-                base_cmd
-                + [
-                    "-pass",
-                    "2",
-                    "-passlogfile",
-                    log_file_base_str,
-                ]
-                + _FFMPEG_COMMON_OUTPUT_ARGS
-                + [str(output_path)]
-            )
-            full_cmd_log.extend([" && "] + pass2_cmd)  # Append second command
-            subprocess.run(pass2_cmd, check=True, capture_output=True)
-            print(
-                f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
-            )
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(
-            f"Error during WebM conversion to {output_path.name}: {e}\n"
-            f"Command: {full_cmd_log}"
-        ) from e
+    print(
+        f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
+    )
 
 
 def _convert_gif(
@@ -354,7 +307,6 @@ def _convert_gif(
                 output_path=mp4_path,
                 quality=quality_hevc,
                 framerate=frame_rate,
-                is_gif=True,
             )
         if not webm_path.exists():
             _run_ffmpeg_webm(
@@ -362,7 +314,6 @@ def _convert_gif(
                 output_path=webm_path,
                 quality=quality_webm,
                 framerate=frame_rate,
-                is_gif=True,
             )
 
 
@@ -448,7 +399,6 @@ def _to_hevc_video(video_path: Path, quality: int = _DEFAULT_HEVC_CRF) -> None:
         input_path=video_path,
         output_path=output_path,
         quality=quality,
-        is_gif=False,
     )
 
 
@@ -472,7 +422,6 @@ def _to_webm_video(video_path: Path, quality: int = _DEFAULT_VP9_CRF) -> None:
         input_path=video_path,
         output_path=output_path,
         quality=quality,
-        is_gif=False,
     )
 
 
