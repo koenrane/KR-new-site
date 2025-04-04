@@ -83,6 +83,11 @@ def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
         mp4_file.stat().st_size <= original_size
     ) or video_ext == ".webm"  # Check if MP4 file is smaller
 
+    webm_file: Path = input_file.with_suffix(".webm")
+    assert webm_file.exists()  # Check if WebM file was created
+    if video_ext != ".gif":  # GIF conversion handled separately for WebM size
+        assert webm_file.stat().st_size < original_size
+
 
 def test_to_video_fails_with_non_existent_file(temp_dir: Path) -> None:
     input_file = temp_dir / "non_existent_file.mov"
@@ -110,6 +115,35 @@ def test_convert_mp4_skips_if_mp4_already_exists(temp_dir: Path) -> None:
     sys.stderr = sys.__stderr__
 
     assert "Skipping conversion" in stderr_capture.getvalue()
+
+
+def test_convert_webm_skips_if_webm_already_exists(temp_dir: Path) -> None:
+    input_file: Path = temp_dir / "test.mov"
+    utils.create_test_video(input_file)
+    webm_file: Path = input_file.with_suffix(".webm")
+    webm_file.touch()  # Create dummy WebM file
+
+    stderr_capture = StringIO()
+    sys.stderr = stderr_capture
+
+    # Run only the WebM part of the conversion
+    compress._run_ffmpeg_webm(input_file, webm_file, compress._DEFAULT_VP9_CRF)
+
+    sys.stderr = sys.__stderr__
+
+    assert "already exists. Skipping conversion" in stderr_capture.getvalue()
+    # Ensure the dummy file wasn't overwritten (check modification time or size if needed)
+    assert webm_file.stat().st_size == 0
+
+
+@pytest.mark.parametrize("quality", [-1, 64, 1000])
+def test_convert_webm_invalid_quality(temp_dir: Path, quality: int) -> None:
+    input_file: Path = temp_dir / "test.mov"
+    utils.create_test_video(input_file)
+    webm_file: Path = input_file.with_suffix(".webm")
+
+    with pytest.raises(ValueError, match="must be between 0 and 63"):
+        compress._run_ffmpeg_webm(input_file, webm_file, quality)
 
 
 def test_error_probing_codec(temp_dir: Path) -> None:
@@ -160,6 +194,10 @@ def test_convert_gif(temp_dir: Path) -> None:
         ), f"Output video codec is not HEVC, got: {result.stdout.strip()}"
     except subprocess.CalledProcessError as e:
         pytest.fail(f"Error checking MP4 file: {e.stderr}")
+
+    # Check if WEBM file was created
+    webm_file: Path = input_file.with_suffix(".webm")
+    assert webm_file.exists(), f"WebM file {webm_file} was not created"
 
     # Check if temporary PNG files were cleaned up
     png_files = list(temp_dir.glob(f"{input_file.stem}_*.png"))

@@ -245,9 +245,11 @@ def _run_ffmpeg_webm(
         return
 
     is_gif = input_path.suffix.lower() == ".png"
-    base_cmd: list[str] = [
+    ffmpeg_cmd: list[str] = [
         "ffmpeg",
         *(["-framerate", str(framerate)] if framerate else []),
+        "-i",
+        str(input_path),
         "-c:v",
         _CODEC_VP9,
         "-crf",
@@ -261,26 +263,17 @@ def _run_ffmpeg_webm(
         *_FFMPEG_VP9_QUALITY_ARGS,
         *(["-an"] if is_gif else _WEBM_AUDIO_ARGS),
         *(["-loop", "0"] if is_gif else []),
-        *(_FFMPEG_COMMON_OUTPUT_ARGS + [str(output_path)]),
-        "-i",
-        str(input_path),
+        *_FFMPEG_COMMON_OUTPUT_ARGS,
     ]
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        log_file_base: Path = Path(temp_dir) / f"ffmpeg2pass-{output_path.stem}"
-        log_file_base_str: str = str(log_file_base)
-        log_file_args: list[str] = ["-passlogfile", log_file_base_str]
-
-        pass_1_extra_args: list[str] = ["-pass", "1"]
-        pass1_cmd: list[str] = base_cmd + pass_1_extra_args + log_file_args
-        subprocess.run(pass1_cmd, check=True, capture_output=True)
-
-        pass2_cmd: list[str] = base_cmd + ["-pass", "2"]
-        subprocess.run(pass2_cmd, check=True, capture_output=True)
-
-    print(
-        f"Successfully converted {'GIF frames' if is_gif else input_path} to {output_path.name}"
+    subprocess.run(
+        ffmpeg_cmd + [str(output_path)],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
     )
+
+    print(f"Successfully converted {input_path.name} to {output_path.name}")
 
 
 def _convert_gif(
