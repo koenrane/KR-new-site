@@ -170,7 +170,9 @@ def upload_to_r2(
         # Add metadata option for SVG files
         # otherwise CORS will deny the request by the client
         if file_path.suffix.lower() == ".svg":
-            rclone_args.extend(["--metadata-set", "content-type=image/svg+xml"])
+            rclone_args.extend(
+                ["--metadata-set", "content-type=image/svg+xml"]
+            )
         subprocess.run(rclone_args, check=True)
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Failed to upload file to R2: {e}") from e
@@ -276,7 +278,7 @@ def main() -> None:
         "-t",
         "--filetypes",
         nargs="+",
-        default=(".mp4", ".svg", ".avif"),
+        default=(".mp4", ".svg", ".avif", ".webm"),
         help="File types to upload when using --upload-from-directory",
     )
     parser.add_argument(
