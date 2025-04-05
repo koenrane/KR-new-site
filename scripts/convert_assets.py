@@ -73,23 +73,30 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     # Combine all possible link capture groups
     all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
 
-    # Convert to .mp4 and .webm video
-    video_tags: str = (
-        " autoplay loop muted playsinline"
-        if input_file.suffix == ".gif"
-        else ""
-    )
-    # TODO extra space if earlyTagInfo is empty
-    replacement_pattern: str = (
-        # Use mp4 as the main src for wider compatibility initially
-        rf"<video{video_tags} "
-        r"\g<earlyTagInfo>\g<tagInfo>\g<endVideoTagInfo>>"
-        # Add WebM source first for browsers that support it
-        rf'<source src="{all_links}{input_file.stem}.webm" type="video/webm">'
-        # Fallback MP4 source
-        rf'<source src="{all_links}{input_file.stem}.mp4" type="video/mp4">'
-        r"</video>"
-    )
+    # Define replacement based on input type
+    replacement_pattern: str  # Declare variable before assignment
+    if input_file.suffix == ".gif":
+        # For GIFs, replace <img> with <video> using specific attributes
+        replacement_pattern = (
+            # Add specific attributes for GIF autoplay
+            r"<video autoplay loop muted playsinline >"
+            # Add WebM source first
+            rf'<source src="{all_links}{input_file.stem}.webm" type="video/webm">'
+            # Fallback MP4 source
+            rf'<source src="{all_links}{input_file.stem}.mp4" type="video/mp4">'
+            r"</video>"
+        )
+    else:
+        # For other videos, replace <video> preserving captured attributes
+        replacement_pattern = (
+            # Preserve attributes captured from the original video tag
+            r"<video \g<earlyTagInfo>\g<tagInfo>\g<endVideoTagInfo>>"
+            # Add WebM source first
+            rf'<source src="{all_links}{input_file.stem}.webm" type="video/webm">'
+            # Fallback MP4 source
+            rf'<source src="{all_links}{input_file.stem}.mp4" type="video/mp4">'
+            r"</video>"
+        )
 
     return original_pattern, replacement_pattern
 

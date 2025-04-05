@@ -221,7 +221,7 @@ asset_pattern = convert_assets.asset_staging_pattern
             rf"\!?\[\]\({asset_pattern}(?P<link_parens>[^\)]*)animation\.gif\)|"
             rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
             rf"<img (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)animation\.gif\"(?P<tagInfo>[^>]*(?<!/))(?P<endVideoTagInfo>)/?>",
-            r'<video autoplay loop muted playsinline><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
+            r'<video autoplay loop muted playsinline ><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.webm" type="video/webm"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
         ),
     ]
     + [
@@ -232,7 +232,7 @@ asset_pattern = convert_assets.asset_staging_pattern
             rf"<video (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)video\{ext}\"(?P<tagInfo>[^>]*)(?:type=\"video/"
             + ext.lstrip(".")
             + r"\")?(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)",
-            r'<video \g<earlyTagInfo>\g<tagInfo> \g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
+            r'<video \g<earlyTagInfo>\g<tagInfo>\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.webm" type="video/webm"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
         )
         for ext in [".webm", ".mov", ".avi", ".mp4"]
     ],
