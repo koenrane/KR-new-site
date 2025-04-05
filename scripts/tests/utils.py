@@ -97,10 +97,22 @@ def create_test_video(
         "-i",
         # Tiny video, lower framerate
         f"testsrc=size=160x120:rate={framerate}",
+        "-f",
+        "lavfi",
+        "-i",
+        "anullsrc",
+        "-map",
+        "0:v",
+        "-map",
+        "1:a",
+        "-c:a",
+        # Use mp2 for mpeg, aac otherwise
+        "mp2" if output_extension == ".mpeg" else "aac",
+        "-shortest",
         "-t",
         str(duration),
         "-v",
-        "error",  # Reduce noise in test output
+        "error",
     ]
 
     if output_extension == ".webm":
