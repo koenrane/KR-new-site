@@ -63,7 +63,7 @@ def forward(self, x: Tensor, gradient_mask: list[Tensor]):
   return x
 ```
 
-Code: The user specifies the `gradient_masks` corresponding to each batch of data `x`.
+Code: The user specifies the `gradient_mask` corresponding to each batch of data `x`.
 
 Note: We say “route X to Y” to mean “limit gradient updates on data X to region Y of the network.”
 
