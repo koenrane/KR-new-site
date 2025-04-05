@@ -149,11 +149,13 @@ def convert_asset(
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         original_pattern, replacement_pattern = _video_patterns(input_file)
-        compress.convert_video(input_file)
+        compress.video(input_file)
         output_file = input_file.with_suffix(".mp4")
 
     else:
-        raise ValueError(f"Error: Unsupported file type '{input_file.suffix}'.")
+        raise ValueError(
+            f"Error: Unsupported file type '{input_file.suffix}'."
+        )
 
     for md_file in script_utils.get_files(
         dir_to_search=md_references_dir, filetypes_to_match=(".md",)

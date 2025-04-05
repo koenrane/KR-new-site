@@ -7,7 +7,6 @@ cd "$GIT_ROOT" || exit
 
 cleanup() {
   find "$GIT_ROOT" -type f -name "*_temp.*" -delete
-  find "$STATIC_DIR" -name "*.*_original" -delete
 }
 
 trap cleanup EXIT
