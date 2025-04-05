@@ -64,10 +64,10 @@ def test_video_conversion(ext: str, setup_test_env):
     with open(content_path) as f:
         file_content = f.read()
 
-    video_tags = "autoplay loop muted playsinline " if ext == ".gif" else ""
+    video_tags = " autoplay loop muted playsinline" if ext == ".gif" else ""
     for alt_tag in ("", 'alt="shrek" '):  # The source-tag had an alt
         assert (
-            f'<video {video_tags}src="static/asset.mp4" {alt_tag}type="video/mp4"><source src="static/asset.mp4" type="video/mp4"></video>'
+            f'<video{video_tags}><source src="static/asset.mp4" type="video/mp4"></video>'
             in file_content
         )
 
@@ -87,10 +87,10 @@ def test_remove_source_files(setup_test_env, remove_originals):
 
 
 def test_strip_metadata(setup_test_env):
-    dummy_image: Path = (
-        Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
+    image_path: Path = (
+        Path(setup_test_env) / "quartz" / "static" / "asset_with_exif.jpg"
     )
-    test_utils.create_test_image(dummy_image, "32x32")
+    test_utils.create_test_image(image_path, "32x32")
 
     # Simulate adding metadata using exiftool
     with mock.patch("subprocess.run") as mock_exiftool:
@@ -102,14 +102,14 @@ def test_strip_metadata(setup_test_env):
                 "exiftool",
                 "-Artist=Test Artist",
                 "-Copyright=Test Copyright",
-                str(dummy_image),
+                str(image_path),
             ],
             check=True,
         )
 
     # Convert the image to AVIF
     convert_assets.convert_asset(
-        dummy_image,
+        image_path,
         strip_metadata=True,
         md_references_dir=Path(setup_test_env),
     )
@@ -118,7 +118,7 @@ def test_strip_metadata(setup_test_env):
     with mock.patch("subprocess.check_output") as mock_check_output:
         mock_check_output.return_value = b""  # No EXIF data should be returned
         exif_output = subprocess.check_output(
-            ["exiftool", dummy_image.with_suffix(".avif")]
+            ["exiftool", image_path.with_suffix(".avif")]
         )
         assert (
             "Test Artist" not in exif_output.decode()
@@ -214,7 +214,7 @@ asset_pattern = convert_assets.asset_staging_pattern
             rf"\!?\[\]\({asset_pattern}(?P<link_parens>[^\)]*)animation\.gif\)|"
             rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
             rf"<img (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)animation\.gif\"(?P<tagInfo>[^>]*(?<!/))(?P<endVideoTagInfo>)/?>",
-            r'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
+            r'<video autoplay loop muted playsinline><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
         ),
     ]
     + [
@@ -225,7 +225,7 @@ asset_pattern = convert_assets.asset_staging_pattern
             rf"<video (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)video\{ext}\"(?P<tagInfo>[^>]*)(?:type=\"video/"
             + ext.lstrip(".")
             + r"\")?(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)",
-            r'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
+            r'<video \g<earlyTagInfo>\g<tagInfo> \g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
         )
         for ext in [".webm", ".mov", ".avi", ".mp4"]
     ],
@@ -380,14 +380,14 @@ prefixes = ("", ".")
     [
         (
             f'<video src="{prefix}/asset_staging/static/video.mp4"></video>',
-            '<video src="static/video.mp4" type="video/mp4"><source src="static/video.mp4" type="video/mp4"></video>',
+            '<video><source src="static/video.mp4" type="video/mp4"></video>',
         )
         for prefix in prefixes
     ]
     + [
         (
             f'<img src="{prefix}/asset_staging/static/animation.gif"/>',
-            '<video autoplay loop muted playsinline src="static/animation.mp4" type="video/mp4"><source src="static/animation.mp4" type="video/mp4"></video>',
+            '<video autoplay loop muted playsinline><source src="static/animation.mp4" type="video/mp4"></video>',
         )
         for prefix in prefixes
     ],

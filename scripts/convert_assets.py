@@ -6,7 +6,6 @@ import argparse
 import re
 import subprocess
 from pathlib import Path
-from typing import Optional
 
 try:
     from . import compress
@@ -25,7 +24,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     """
 
     # create named capture groups for different link patterns
-    def link_pattern_fn(tag):
+    def link_pattern_fn(tag: str) -> str:
         return rf"(?P<link_{tag}>[^\)]*)"
 
     input_file_pattern: str = rf"{input_file.stem}\{input_file.suffix}"
@@ -50,20 +49,20 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
-            rf"<img (?P<earlyTagInfo>[^>]*)"
+            r"<img (?P<earlyTagInfo>[^>]*)"
             rf"src=\"{tag_link_pattern}\""
-            rf"(?P<tagInfo>[^>]*(?<!/))"
+            r"(?P<tagInfo>[^>]*(?<!/))"
             # Ensure group exists; self-closing optional
-            rf"(?P<endVideoTagInfo>)/?>"
+            r"(?P<endVideoTagInfo>)/?>"
         )
     else:
         # Pattern for <video> tags (used for other video formats)
         tag_pattern = (
-            rf"<video (?P<earlyTagInfo>[^>]*)"
+            r"<video (?P<earlyTagInfo>[^>]*)"
             rf"src=\"{tag_link_pattern}\""
             rf"(?P<tagInfo>[^>]*)(?:type=\"video/{input_file.suffix[1:]}\")?"
             # will ignore existing </video> tags
-            rf"(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)"
+            r"(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)"
         )
 
     # Combine all patterns into one, separated by '|' (OR)
@@ -74,17 +73,21 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     # Combine all possible link capture groups
     all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
 
-    # Convert to .mp4 video
+    # Convert to .mp4 and .webm video
     video_tags: str = (
         "autoplay loop muted playsinline "
         if input_file.suffix == ".gif"
         else ""
     )
     replacement_pattern: str = (
-        rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"'
-        rf'\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>>'
+        # Use mp4 as the main src for wider compatibility initially
+        rf"<video {video_tags}"
+        r"\g<earlyTagInfo>\g<tagInfo>\g<endVideoTagInfo>>"
+        # Add WebM source first for browsers that support it
+        rf'<source src="{all_links}{input_file.stem}.webm" type="video/webm">'
+        # Fallback MP4 source
         rf'<source src="{all_links}{input_file.stem}.mp4" type="video/mp4">'
-        rf"</video>"
+        r"</video>"
     )
 
     return original_pattern, replacement_pattern
@@ -109,7 +112,7 @@ def convert_asset(
     input_file: Path,
     remove_originals: bool = False,
     strip_metadata: bool = False,
-    md_references_dir: Optional[Path] = Path("content/"),
+    md_references_dir: Path | None = Path("content/"),
 ) -> None:
     """
     Converts an image or video to a more efficient format. Replaces references
@@ -119,8 +122,8 @@ def convert_asset(
         input_file: The path to the file to convert.
         remove_originals: Whether to remove the original file.
         strip_metadata: Whether to strip metadata from the converted
-        file.
-        replacement_dir: The directory to search for markdown files
+            file.
+        md_references_dir: The directory to search for markdown files
     Side-effects:
         - Converts the input file to a more efficient format.
         - Replaces references to the input file in markdown files,
@@ -128,9 +131,9 @@ def convert_asset(
         - Optionally removes the original file.
         - Optionally strips metadata from the converted file.
     Errors:
-        - FileNotFoundError: If the input file does not exist.
-        - NotADirectoryError: If the replacement directory does not exist.
-        - ValueError: If the input file is not an image or video.
+        - `FileNotFoundError`: If the input file does not exist.
+        - `NotADirectoryError`: If the replacement directory does not exist.
+        - `ValueError`: If the input file is not an image or video.
     """
 
     if not input_file.is_file():
