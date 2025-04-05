@@ -22,8 +22,7 @@ Many people know me as `TurnTrout`, but you can call me "Alex". I want to let yo
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory) (but I'm [open to several possibilities](#possible-dealbreakers)).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) for many years. 💕 (And by "best friend", I mean "wife.")
-[^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
+I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) for many years. 💕 (And by "best friend", I mean "wife.")
 
 # About me
 
@@ -139,7 +138,7 @@ Reading textbooks
 
 1. I probably (70%) will want kids within the next 5 years.
 <!-- vale off -->
-2. Polyamory is important to me. I find it natural to form romantic attachments with multiple people and am not very jealous. However, my "minimal viable polyamory" looks like "I keep seeing my partner Emma a few times a year, and talking with her regularly, while living with and marrying the person I'm currently looking for, and not engaging in any other relationships."
+2. I've historically been polyamorous but I'm open to monogamy. I find it natural to form romantic attachments with multiple people and am not very jealous. I talk regularly with my ex-girlfriend Emma - I want my friendship with her to stay strong.
 <!-- vale on -->
 3. I currently live in Berkeley. I'm open to (but disprefer) a long-distance relationship if there's a good chance we end up in the same location, assuming the relationship is great! In particular, cities like New York and London are more workable (as DeepMind has offices there I could work out of).
 
@@ -147,7 +146,7 @@ Reading textbooks
 
 - I'm a positive presence. When my friends self-deprecate, I often scold them for insulting my friend (i.e. themselves).
 - As of November 2024, my [attachment style](https://en.wikipedia.org/wiki/Attachment_theory#Attachment_styles_in_adults) leans "anxious-preoccupied." However, over the past few years, my style was "secure." I find it easy to date anxious folks because I like supporting my partners through reassurance and praise.
-- My [love language](https://en.wikipedia.org/wiki/The_Five_Love_Languages) is "quality time", closely followed by "words of affirmation." I want to find a life _partner_ - a mutually supportive and committed relationship. I want to do things together.
+- My [love language](https://en.wikipedia.org/wiki/The_Five_Love_Languages) is "quality time" and "physical touch", closely followed by "words of affirmation." I want to find a life _partner_ - a mutually supportive and committed relationship. I want to do things together.
 
 ## What I appreciate in a partner
 
