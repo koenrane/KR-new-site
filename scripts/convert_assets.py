@@ -75,13 +75,14 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
     # Convert to .mp4 and .webm video
     video_tags: str = (
-        "autoplay loop muted playsinline "
+        " autoplay loop muted playsinline"
         if input_file.suffix == ".gif"
         else ""
     )
+    # TODO extra space if earlyTagInfo is empty
     replacement_pattern: str = (
         # Use mp4 as the main src for wider compatibility initially
-        rf"<video {video_tags}"
+        rf"<video{video_tags} "
         r"\g<earlyTagInfo>\g<tagInfo>\g<endVideoTagInfo>>"
         # Add WebM source first for browsers that support it
         rf'<source src="{all_links}{input_file.stem}.webm" type="video/webm">'

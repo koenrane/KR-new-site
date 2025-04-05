@@ -46,7 +46,9 @@ def test_image_conversion(ext: str, setup_test_env):
 
 @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
 def test_video_conversion(ext: str, setup_test_env):
-    asset_path: Path = Path(setup_test_env) / "quartz/static" / f"asset{ext}"
+    asset_path: Path = (
+        Path(setup_test_env) / "quartz" / "static" / f"asset{ext}"
+    )
     mp4_path: Path = asset_path.with_suffix(".mp4")
     content_path: Path = (
         Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
@@ -65,9 +67,12 @@ def test_video_conversion(ext: str, setup_test_env):
         file_content = f.read()
 
     video_tags = " autoplay loop muted playsinline" if ext == ".gif" else ""
-    for alt_tag in ("", 'alt="shrek" '):  # The source-tag had an alt
+
+    assert f"<video{video_tags} >" in file_content
+
+    for output_ext in ("mp4", "webm"):
         assert (
-            f'<video{video_tags}><source src="static/asset.mp4" type="video/mp4"></video>'
+            f'<source src="static/asset.{output_ext}" type="video/{output_ext}">'
             in file_content
         )
 
@@ -87,7 +92,7 @@ def test_remove_source_files(setup_test_env, remove_originals):
 
 
 def test_strip_metadata(setup_test_env):
-    image_path: Path = (
+    image_path = (
         Path(setup_test_env) / "quartz" / "static" / "asset_with_exif.jpg"
     )
     test_utils.create_test_image(image_path, "32x32")
@@ -127,7 +132,7 @@ def test_strip_metadata(setup_test_env):
 
 
 def test_ignores_unsupported_file_types(setup_test_env):
-    asset_path = Path(setup_test_env) / "quartz/static/unsupported.txt"
+    asset_path = Path(setup_test_env) / "quartz" / "static" / "unsupported.txt"
 
     with pytest.raises(ValueError):
         convert_assets.convert_asset(
@@ -137,7 +142,9 @@ def test_ignores_unsupported_file_types(setup_test_env):
 
 def test_file_not_found(setup_test_env):
     # Create a path to a non-existent file
-    non_existent_file = Path(setup_test_env) / "quartz/static/non_existent.jpg"
+    non_existent_file = (
+        Path(setup_test_env) / "quartz" / "static" / "non_existent.jpg"
+    )
 
     # Ensure the file doesn't actually exist
     assert not non_existent_file.exists()
@@ -179,7 +186,7 @@ def test_ignores_non_static_path(setup_test_env):
         ("/quartz/static/js/script.js", "quartz/static/js/script.js"),
     ],
 )
-def test_valid_paths(input_path, expected_output):
+def test_valid_paths(input_path: str, expected_output: str) -> None:
     assert script_utils.path_relative_to_quartz_parent(
         Path(input_path)
     ) == Path(expected_output)
@@ -198,7 +205,7 @@ def test_valid_paths(input_path, expected_output):
         ),
     ],
 )
-def test_invalid_paths(input_path, error_message):
+def test_invalid_paths(input_path: str, error_message: str) -> None:
     with pytest.raises(ValueError, match=error_message):
         script_utils.path_relative_to_quartz_parent(Path(input_path))
 
@@ -296,7 +303,7 @@ def test_video_figure_caption_formatting(setup_test_env, initial_content):
 
 def test_asset_staging_path_conversion(setup_test_env) -> None:
     test_dir = Path(setup_test_env)
-    asset_path: Path = test_dir / "quartz/static" / "asset.jpg"
+    asset_path: Path = test_dir / "quartz" / "static" / "asset.jpg"
     avif_path: Path = asset_path.with_suffix(".avif")
     content_path = Path(setup_test_env) / "content" / "staging.md"
 
@@ -380,14 +387,14 @@ prefixes = ("", ".")
     [
         (
             f'<video src="{prefix}/asset_staging/static/video.mp4"></video>',
-            '<video><source src="static/video.mp4" type="video/mp4"></video>',
+            '<video ><source src="static/video.webm" type="video/webm"><source src="static/video.mp4" type="video/mp4"></video>',
         )
         for prefix in prefixes
     ]
     + [
         (
             f'<img src="{prefix}/asset_staging/static/animation.gif"/>',
-            '<video autoplay loop muted playsinline><source src="static/animation.mp4" type="video/mp4"></video>',
+            '<video autoplay loop muted playsinline ><source src="static/animation.webm" type="video/webm"><source src="static/animation.mp4" type="video/mp4"></video>',
         )
         for prefix in prefixes
     ],
@@ -396,8 +403,8 @@ def test_video_asset_staging_paths(
     setup_test_env, input_content: str, expected_content: str
 ) -> None:
     test_dir = Path(setup_test_env)
-    asset_path: Path = test_dir / "quartz/static" / "video.mp4"
-    gif_path: Path = test_dir / "quartz/static" / "animation.gif"
+    asset_path: Path = test_dir / "quartz" / "static" / "video.mp4"
+    gif_path: Path = test_dir / "quartz" / "static" / "animation.gif"
 
     test_utils.create_test_video(asset_path)
     test_utils.create_test_video(gif_path)
