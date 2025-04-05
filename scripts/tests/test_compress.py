@@ -190,7 +190,7 @@ def test_error_probing_codec(temp_dir: Path) -> None:
 def test_convert_gif_creates_mp4(temp_dir: Path) -> None:
     """Assert that converting a GIF creates an MP4 file."""
     input_file = temp_dir / "test_gif_to_mp4.gif"
-    utils.create_test_gif(input_file, duration=1, size=(100, 100))
+    utils._create_test_gif(input_file)
     compress.video(input_file)
     output_file = input_file.with_suffix(".mp4")
     assert output_file.exists(), f"MP4 file {output_file} was not created"
@@ -199,7 +199,7 @@ def test_convert_gif_creates_mp4(temp_dir: Path) -> None:
 def test_convert_gif_mp4_codec_is_hevc(temp_dir: Path) -> None:
     """Assert that the MP4 created from a GIF uses the HEVC codec."""
     input_file = temp_dir / "test_gif_codec.gif"
-    utils.create_test_gif(input_file, duration=1, size=(100, 100))
+    utils._create_test_gif(input_file)
     compress.video(input_file)
     output_file = input_file.with_suffix(".mp4")
     assert output_file.exists()
@@ -232,14 +232,14 @@ def test_convert_gif_mp4_codec_is_hevc(temp_dir: Path) -> None:
 def test_convert_gif_creates_webm(temp_dir: Path) -> None:
     """Assert that converting a GIF creates a WebM file."""
     input_file = temp_dir / "test_gif_to_webm.gif"
-    utils.create_test_gif(input_file, duration=1, size=(100, 100))
+    utils._create_test_gif(input_file)
     compress.video(input_file)
     webm_file: Path = input_file.with_suffix(".webm")
     assert webm_file.exists(), f"WebM file {webm_file} was not created"
 
 
 def _has_audio_stream(file_path: Path) -> bool:
-    """Check if a video file contains an audio stream using ffprobe."""
+    """Check if a video file contains an audio stream using `ffprobe`."""
     try:
         result = subprocess.run(
             [
@@ -254,9 +254,9 @@ def _has_audio_stream(file_path: Path) -> bool:
                 "default=noprint_wrappers=1:nokey=1",
                 str(file_path),
             ],
-            capture_output=True,  # Captures both stdout and stderr
+            capture_output=True,
             text=True,
-            check=True,  # Raises CalledProcessError on failure
+            check=True,
         )
         # If ffprobe finds an audio stream, it will output its codec type
         return len(result.stdout.strip()) > 0
@@ -265,19 +265,20 @@ def _has_audio_stream(file_path: Path) -> bool:
         # Often, if no stream is found, it exits with code 1 and prints to stderr
         if "Stream specifier a:0 matches no streams" in e.stderr:
             return False
-        # Re-raise if it's a different error
         pytest.fail(
-            f"ffprobe error checking audio stream for {file_path}: {e.stderr}"
+            f"`ffprobe` error checking audio stream for {file_path}: {e.stderr}"
         )
     except FileNotFoundError:
-        pytest.fail("ffprobe command not found. Ensure ffmpeg is installed.")
-    return False  # Default to false if unexpected issues arise
+        pytest.fail(
+            "`ffprobe` command not found. Ensure `ffmpeg` is installed."
+        )
+    return False
 
 
 def test_convert_gif_output_has_no_audio(temp_dir: Path) -> None:
     """Verify that converting a GIF results in video files without audio streams."""
     input_file = temp_dir / "test_gif_no_audio.gif"
-    utils.create_test_gif(input_file, duration=1, size=(50, 50))
+    utils._create_test_gif(input_file)
     compress.video(input_file)
 
     for suffix in [".mp4", ".webm"]:
@@ -459,38 +460,39 @@ def test_avif_format_pixel_depth(temp_dir: Path) -> None:
     ), "AVIF should have 8-bit depth"
 
 
+# TODO move to test_test_utils.py? Lol.
 @pytest.mark.parametrize(
-    "test_id, duration_ms, expected_fps",
+    "test_id, length_in_seconds, expected_fps",
     [
-        ("standard", 100, 10),  # 100ms -> floor(1000/100) = 10 fps
-        ("slow", 500, 2),  # 500ms -> floor(1000/500) = 2 fps
+        ("standard", 100, 10),  # 100s -> floor(1000/100) = 10 fps
+        ("slow", 500, 2),  # 500s -> floor(1000/500) = 2 fps
         (
             "fast",
             33,
             33,
-        ),  # 33ms target -> ~30ms actual -> floor(1000/30) = 33 fps
+        ),  # 33s target -> ~30s actual -> floor(1000/30) = 33 fps
     ],
 )
 def test_get_gif_frame_rate_parametrized(
-    temp_dir: Path, test_id: str, duration_ms: int, expected_fps: int
+    temp_dir: Path, test_id: str, length_in_seconds: float, expected_fps: int
 ) -> None:
-    """Test _get_gif_frame_rate with various valid GIF durations."""
+    """Test `_get_gif_frame_rate` with various valid GIF `length_in_seconds`."""
     input_file = temp_dir / f"{test_id}.gif"
-    utils.create_test_gif(
+    utils._create_test_gif(
         input_file,
-        duration=duration_ms,
+        length_in_seconds=length_in_seconds,
         size=(10, 10),
-        fps=(round(1000 / duration_ms)),
+        framerate=expected_fps,
     )
-    assert compress._get_gif_frame_rate(input_file) == expected_fps
+    assert round(utils._get_gif_frame_rate(input_file)) == expected_fps
 
 
-def test_get_gif_frame_rate_zero_duration(temp_dir: Path, monkeypatch) -> None:
-    """Test _get_gif_frame_rate when Pillow reports zero duration."""
-    input_file = temp_dir / "zero_duration.gif"
-    utils.create_test_gif(
-        input_file, duration=100, size=(10, 10)
-    )  # Create a valid GIF first
+def test_get_gif_frame_rate_zero_length_in_seconds(
+    temp_dir: Path, monkeypatch
+) -> None:
+    """Test `_get_gif_frame_rate` when Pillow reports zero `length_in_seconds`."""
+    input_file = temp_dir / "zero_length_in_seconds.gif"
+    utils._create_test_gif(input_file)
 
     class MockImage:
         info: dict[str, int | None] = {"duration": 0}
@@ -508,20 +510,18 @@ def test_get_gif_frame_rate_zero_duration(temp_dir: Path, monkeypatch) -> None:
 
     # Expect a ZeroDivisionError or potentially a default value if handled
     with pytest.raises(ZeroDivisionError):
-        compress._get_gif_frame_rate(input_file)
+        utils._get_gif_frame_rate(input_file)
 
 
-def test_get_gif_frame_rate_missing_duration(
+def test_get_gif_frame_rate_missing_length_in_seconds(
     temp_dir: Path, monkeypatch
 ) -> None:
-    """Test _get_gif_frame_rate when duration info is missing."""
-    input_file = temp_dir / "missing_duration.gif"
-    utils.create_test_gif(
-        input_file, duration=100, size=(10, 10)
-    )  # Create a valid GIF first
+    """Test `_get_gif_frame_rate` when `length_in_seconds` info is missing."""
+    input_file = temp_dir / "missing_length_in_seconds.gif"
+    utils._create_test_gif(input_file)
 
     class MockImage:
-        info: dict[str, int | None] = {}  # Missing 'duration'
+        info: dict[str, int | None] = {}  # Missing 'length_in_seconds'
 
         def __enter__(self):
             return self
@@ -535,10 +535,7 @@ def test_get_gif_frame_rate_missing_duration(
     monkeypatch.setattr(PIL.Image, "open", mock_open)
 
     with pytest.raises(KeyError):
-        compress._get_gif_frame_rate(input_file)
-
-
-# --- _check_if_hevc_codec Tests ---
+        utils._get_gif_frame_rate(input_file)
 
 
 @pytest.mark.parametrize(
@@ -558,7 +555,7 @@ def test_check_if_hevc_codec(
     mock_output: str,
     expected_result: bool,
 ) -> None:
-    """Test _check_if_hevc_codec with various ffprobe outputs."""
+    """Test `_check_if_hevc_codec` with various `ffprobe` outputs."""
     input_file = temp_dir / f"test_{test_id}.mp4"
     input_file.touch()
 
@@ -572,7 +569,7 @@ def test_check_if_hevc_codec(
 def test_check_if_hevc_codec_ffprobe_error(
     temp_dir: Path, monkeypatch
 ) -> None:
-    """Test _check_if_hevc_codec raises error on ffprobe failure."""
+    """Test `_check_if_hevc_codec` raises error on `ffprobe` failure."""
     input_file = temp_dir / "test_error.mp4"
     input_file.touch()
 
@@ -584,3 +581,31 @@ def test_check_if_hevc_codec_ffprobe_error(
     monkeypatch.setattr(subprocess, "check_output", mock_check_output)
     with pytest.raises(subprocess.CalledProcessError):
         compress._check_if_hevc_codec(input_file)
+
+
+@pytest.mark.parametrize("input_video_ext", compress.ALLOWED_VIDEO_EXTENSIONS)
+@pytest.mark.parametrize("framerate", [15, 30, 60, 45.53])
+def test_video_preserves_framerate(
+    temp_dir: Path, input_video_ext: str, framerate: float
+) -> None:
+    """Test that WebM from video preserves the original frame rate."""
+    input_file = temp_dir / f"test_framerate_{framerate}{input_video_ext}"
+
+    utils.create_test_video(input_file, framerate=framerate)
+    compress.video(input_file)
+
+    input_fps = utils._get_frame_rate(input_file)
+
+    # TODO `create_test_video` framerate isn't reliable for GIFs
+    if input_video_ext != ".gif":
+        assert input_fps == pytest.approx(
+            framerate, rel=0.05
+        ), f"Input FPS {input_fps} does not match expected FPS {framerate}"
+
+    for output_video_ext in [".webm", ".mp4"]:
+        output_file = input_file.with_suffix(output_video_ext)
+        output_fps = _get_frame_rate(output_file)
+
+        assert output_fps == pytest.approx(
+            input_fps, rel=0.05
+        ), f"Output FPS {output_fps} does not match expected FPS {input_fps}"

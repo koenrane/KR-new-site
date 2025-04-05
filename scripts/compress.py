@@ -3,7 +3,6 @@ Script to compress images and videos.
 """
 
 import argparse
-import math
 import shutil
 import subprocess
 import sys
@@ -11,12 +10,9 @@ import tempfile
 from pathlib import Path
 from typing import Final
 
-import PIL
-
 _DEFAULT_IMAGE_QUALITY: Final[int] = 56
 _DEFAULT_HEVC_CRF: Final[int] = 28
 _DEFAULT_VP9_CRF: Final[int] = 31
-_DEFAULT_GIF_FRAMERATE: Final[int] = 10
 ALLOWED_IMAGE_EXTENSIONS: Final[set[str]] = {".jpg", ".jpeg", ".png"}
 ALLOWED_VIDEO_EXTENSIONS: Final[set[str]] = {
     ".gif",
@@ -136,7 +132,6 @@ def _run_ffmpeg_hevc(
     input_video_path: Path,
     output_path: Path,
     quality: int,
-    framerate: int | None = None,
 ) -> None:
     """
     Helper function to run the ffmpeg command for HEVC/MP4 conversion.
@@ -159,7 +154,6 @@ def _run_ffmpeg_hevc(
 
     ffmpeg_cmd: list[str] = [
         "ffmpeg",
-        *(["-framerate", str(framerate)] if framerate else []),
         "-i",
         str(input_video_path),
         "-c:v",
@@ -211,7 +205,6 @@ def _run_ffmpeg_webm(
     input_video_path: Path,
     output_path: Path,
     quality: int,
-    framerate: int | None = None,
 ) -> None:
     """
     Helper function to run the ffmpeg command for WebM/VP9 conversion.
@@ -227,7 +220,6 @@ def _run_ffmpeg_webm(
     is_gif: bool = input_video_path.suffix.lower() == ".gif"
     ffmpeg_cmd: list[str] = [
         "ffmpeg",
-        *(["-framerate", str(framerate)] if framerate else []),
         "-i",
         str(input_video_path),
         "-c:v",
@@ -263,10 +255,6 @@ def _run_ffmpeg_webm(
     print(
         f"Successfully converted {input_video_path.name} to {output_path.name}"
     )
-
-
-def _get_gif_frame_rate(gif_path: Path) -> int:
-    return math.floor(1000 / PIL.Image.open(gif_path).info["duration"])
 
 
 _CMD_TO_CHECK_CODEC: tuple[str, ...] = (
