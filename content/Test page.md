@@ -293,9 +293,11 @@ Table: Ensure that word wrapping works properly on table header elements to prev
 
 ## Video
 
-<video autoplay muted loop playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
+![The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level.](prune_still-easy_trajectories.mp4)
 
-<video controls width="100%" src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
+<video autoplay muted loop playsinline alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.webm" type="video/webm"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
+
+<video controls width="100%"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
 
 ## Audio
 
