@@ -1497,6 +1497,21 @@ def test_check_emphasis_spacing_whitelist(html, expected):
     assert sorted(result) == sorted(expected)
 
 
+def test_check_spacing_after_branch():
+    html = "<p><a href='#'>link</a>missing_space</p>"
+    soup = BeautifulSoup(html, "html.parser")
+
+    link_element = soup.find("a")
+
+    # Test the "after" branch specifically
+    result = built_site_checks.check_spacing(
+        link_element, built_site_checks.ALLOWED_ELT_FOLLOWING_CHARS, "after"
+    )
+
+    expected = ["Missing space after: <a>link</a>missing_space"]
+    assert result == expected
+
+
 _MAX_DESCRIPTION_LENGTH = built_site_checks.MAX_DESCRIPTION_LENGTH
 _MIN_DESCRIPTION_LENGTH = built_site_checks.MIN_DESCRIPTION_LENGTH
 
