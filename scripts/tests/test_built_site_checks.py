@@ -1,7 +1,7 @@
 import subprocess
 import sys
 from pathlib import Path
-from typing import List
+from typing import TYPE_CHECKING, List
 from unittest.mock import patch
 
 import pytest
@@ -12,12 +12,96 @@ from .. import utils as script_utils
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from typing import TYPE_CHECKING
-
 if TYPE_CHECKING:
     from .. import built_site_checks
 else:
     import built_site_checks
+
+
+@pytest.fixture
+def site_setup(tmp_path):
+    """Set up a basic site directory structure."""
+    public_dir = tmp_path / "public"
+    content_dir = tmp_path / "content"
+    public_dir.mkdir()
+    content_dir.mkdir()
+
+    return {
+        "public_dir": public_dir,
+        "content_dir": content_dir,
+        "tmp_path": tmp_path,
+    }
+
+
+@pytest.fixture
+def mock_environment(site_setup, monkeypatch):
+    """Set up common mocks and environment variables."""
+    public_dir = site_setup["public_dir"]
+    tmp_path = site_setup["tmp_path"]
+
+    # Mock functions and constants
+    monkeypatch.setattr(built_site_checks, "_PUBLIC_DIR", public_dir)
+    monkeypatch.setattr(built_site_checks, "_GIT_ROOT", tmp_path)
+    monkeypatch.setattr(sys, "argv", ["built_site_checks.py"])
+
+    # Mock common utility functions
+    monkeypatch.setattr(script_utils, "collect_aliases", lambda md_dir: set())
+
+    return site_setup
+
+
+@pytest.fixture
+def valid_css_file(mock_environment):
+    """Create a valid CSS file."""
+    public_dir = mock_environment["public_dir"]
+    index_css = public_dir / "index.css"
+    index_css.write_text(
+        "@supports (initial-letter: 4) { p::first-letter { initial-letter: 4; } }"
+    )
+    return index_css
+
+
+@pytest.fixture
+def invalid_css_file(mock_environment):
+    """Create an invalid CSS file (missing @supports)."""
+    public_dir = mock_environment["public_dir"]
+    index_css = public_dir / "index.css"
+    index_css.write_text("p::first-letter { float: left; font-size: 4em; }")
+    return index_css
+
+
+@pytest.fixture
+def robots_txt_file(mock_environment):
+    """Create a robots.txt file."""
+    public_dir = mock_environment["public_dir"]
+    robots_txt = public_dir / "robots.txt"
+    robots_txt.touch()
+    return robots_txt
+
+
+@pytest.fixture
+def html_file(mock_environment):
+    """Create a test HTML file."""
+    public_dir = mock_environment["public_dir"]
+    html_file = public_dir / "test.html"
+    html_file.write_text("<html><body>Test content</body></html>")
+    return html_file
+
+
+@pytest.fixture
+def md_file(mock_environment):
+    """Create a markdown file corresponding to the test HTML file."""
+    content_dir = mock_environment["content_dir"]
+    md_file = content_dir / "test.md"
+    md_file.touch()
+    return md_file
+
+
+@pytest.fixture
+def disable_md_requirement(monkeypatch):
+    monkeypatch.setattr(
+        script_utils, "should_have_md", lambda file_path: False
+    )
 
 
 @pytest.mark.parametrize(
@@ -2230,22 +2314,6 @@ def test_check_file_for_issues_with_fonts(tmp_path):
     assert "missing_preloaded_font" not in issues
 
 
-def test_command_line_arguments():
-    """Test that the command-line arguments work correctly."""
-
-    # Test with default arguments
-    test_args = []
-    with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
-        args = built_site_checks.parser.parse_args()
-        assert args.check_fonts is False
-
-    # Test with --check-fonts flag
-    test_args = ["--check-fonts"]
-    with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
-        args = built_site_checks.parser.parse_args()
-        assert args.check_fonts is True
-
-
 @pytest.mark.parametrize(
     "html,expected",
     [
@@ -2515,3 +2583,235 @@ def test_check_file_for_issues_favicon_check_called(
         assert issues["missing_favicon"] is True
     else:
         assert "missing_favicon" not in issues
+
+
+@pytest.mark.parametrize(
+    "test_args,expected_check_fonts",
+    [
+        ([], False),
+        (["--check-fonts"], True),
+    ],
+)
+def test_parser_args_check_fonts(
+    test_args: list[str], expected_check_fonts: bool
+):
+    with patch.object(sys, "argv", ["built_site_checks.py"] + test_args):
+        args = built_site_checks.parser.parse_args()
+        assert args.check_fonts == expected_check_fonts
+
+
+def test_main_no_issues(
+    mock_environment,
+    valid_css_file,
+    robots_txt_file,
+    html_file,
+    monkeypatch,
+    disable_md_requirement,
+):
+    """Test main() when no issues are found."""
+    monkeypatch.setattr(
+        built_site_checks, "check_file_for_issues", lambda *args, **kwargs: {}
+    )
+
+    monkeypatch.setattr(
+        script_utils, "build_html_to_md_map", lambda md_dir: {}
+    )
+
+    # For successful execution, sys.exit should not be called
+    with patch.object(sys, "exit") as mock_exit:
+        built_site_checks.main()
+        mock_exit.assert_not_called()
+
+
+def test_main_css_issues(
+    mock_environment,
+    invalid_css_file,
+    robots_txt_file,
+    html_file,
+    monkeypatch,
+    disable_md_requirement,
+):
+    monkeypatch.setattr(
+        built_site_checks, "check_file_for_issues", lambda *args, **kwargs: {}
+    )
+
+    monkeypatch.setattr(
+        script_utils, "build_html_to_md_map", lambda md_dir: {}
+    )
+
+    with patch.object(built_site_checks, "print_issues") as mock_print:
+        with pytest.raises(SystemExit) as excinfo:
+            built_site_checks.main()
+        assert excinfo.value.code == 1
+
+        mock_print.assert_any_call(
+            invalid_css_file,
+            {
+                "CSS_issues": [
+                    "CSS file index.css does not contain @supports, which is required for dropcaps in Firefox"
+                ]
+            },
+        )
+
+
+def test_main_robots_txt_issues(
+    mock_environment,
+    valid_css_file,
+    html_file,
+    monkeypatch,
+    disable_md_requirement,
+):
+    """Test main() when robots.txt is missing."""
+    monkeypatch.setattr(
+        built_site_checks, "check_file_for_issues", lambda *args, **kwargs: {}
+    )
+
+    monkeypatch.setattr(
+        script_utils, "build_html_to_md_map", lambda md_dir: {}
+    )
+
+    with patch.object(built_site_checks, "print_issues") as mock_print:
+        with pytest.raises(SystemExit) as excinfo:
+            built_site_checks.main()
+        assert excinfo.value.code == 1
+
+        # Verify robots.txt issues were printed
+        mock_print.assert_any_call(
+            mock_environment["public_dir"],
+            {"robots_txt_issues": ["robots.txt not found in site root"]},
+        )
+
+
+def test_main_html_issues(
+    mock_environment,
+    valid_css_file,
+    robots_txt_file,
+    html_file,
+    monkeypatch,
+    disable_md_requirement,
+):
+    """Test main() when HTML files have issues."""
+    html_issues = {"localhost_links": ["http://localhost:8000"]}
+
+    monkeypatch.setattr(
+        built_site_checks,
+        "check_file_for_issues",
+        lambda *args, **kwargs: html_issues,
+    )
+
+    monkeypatch.setattr(
+        script_utils, "build_html_to_md_map", lambda md_dir: {}
+    )
+
+    # Mock print_issues to verify correct issue types
+    with patch.object(built_site_checks, "print_issues") as mock_print:
+        with pytest.raises(SystemExit) as excinfo:
+            built_site_checks.main()
+        assert excinfo.value.code == 1
+
+        # Verify HTML issues were printed
+        mock_print.assert_any_call(html_file, html_issues)
+
+
+def test_main_handles_markdown_mapping(
+    mock_environment,
+    valid_css_file,
+    robots_txt_file,
+    html_file,
+    md_file,
+    monkeypatch,
+    disable_md_requirement,
+):
+    """Test that main() correctly handles markdown path mapping."""
+    md_map = {"test": md_file}
+
+    # Create a spy on check_file_for_issues to verify md_path parameter
+    with patch.object(
+        built_site_checks, "check_file_for_issues", return_value={}
+    ) as mock_check:
+        monkeypatch.setattr(
+            script_utils, "build_html_to_md_map", lambda md_dir: md_map
+        )
+
+        built_site_checks.main()
+
+        # Verify check_file_for_issues was called with correct md_path
+        mock_check.assert_called_with(
+            html_file,
+            mock_environment["public_dir"],
+            md_file,
+            should_check_fonts=False,
+        )
+
+
+def test_main_markdown_not_found_error(
+    mock_environment,
+    valid_css_file,
+    robots_txt_file,
+    html_file,
+    monkeypatch,
+):
+    """Test that main() raises ValueError when a required markdown file is missing."""
+    # Set up empty md map (missing the mapping)
+    md_map = {}
+
+    # Mock mapping functions
+    monkeypatch.setattr(
+        script_utils, "build_html_to_md_map", lambda md_dir: md_map
+    )
+
+    # Set should_have_md to return True (indicating it needs markdown)
+    monkeypatch.setattr(script_utils, "should_have_md", lambda file_path: True)
+
+    # Run main function, expect ValueError
+    with pytest.raises(
+        FileNotFoundError,
+        match=f"Markdown file for {html_file.stem} not found",
+    ):
+        built_site_checks.main()
+
+
+def test_main_command_line_args(
+    mock_environment,
+    valid_css_file,
+    robots_txt_file,
+    html_file,
+    monkeypatch,
+    disable_md_requirement,
+):
+    """Test that main() correctly handles command line arguments."""
+    monkeypatch.setattr(sys, "argv", ["built_site_checks.py", "--check-fonts"])
+
+    # Create a spy on check_file_for_issues to verify should_check_fonts parameter
+    with patch.object(
+        built_site_checks, "check_file_for_issues", return_value={}
+    ) as mock_check:
+        monkeypatch.setattr(
+            script_utils, "build_html_to_md_map", lambda md_dir: {}
+        )
+
+        built_site_checks.main()
+
+        # Verify check_file_for_issues was called with should_check_fonts=True
+        mock_check.assert_called_with(
+            html_file,
+            mock_environment["public_dir"],
+            None,
+            should_check_fonts=True,
+        )
+
+
+def test_main_skips_drafts(
+    mock_environment,
+    valid_css_file,
+    robots_txt_file,
+    html_file,
+    monkeypatch,
+):
+    monkeypatch.setattr(
+        script_utils, "should_have_md", lambda file_path: False
+    )
+
+    with patch.object(built_site_checks, "print_issues") as mock_print:
+        built_site_checks.main()
+        mock_print.assert_not_called()

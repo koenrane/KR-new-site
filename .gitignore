@@ -10,7 +10,7 @@ private/
 *subset.woff2
 *zopfli*
 .timestamps
-.coverage
+.coverage*
 
 *snapshots*
 lost-pixel/*

@@ -851,8 +851,7 @@ def check_rss_file_for_issues(
     )
 
 
-# pragma: no cover
-def print_issues(
+def print_issues(  # pragma: no cover
     file_path: Path,
     issues: _IssuesDict,
 ) -> None:
@@ -1147,6 +1146,7 @@ def main() -> None:
     """
     Check all HTML files in the public directory for issues.
     """
+    args = parser.parse_args()
     issues_found: bool = False
 
     # check_rss_file_for_issues(git_root)
@@ -1179,7 +1179,7 @@ def main() -> None:
                         file_path.stem
                     ) or permalink_to_md_path_map.get(file_path.stem.lower())
                     if not md_path and script_utils.should_have_md(file_path):
-                        raise ValueError(
+                        raise FileNotFoundError(
                             f"Markdown file for {file_path.stem} not found"
                         )
 
@@ -1200,5 +1200,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    args = parser.parse_args()
     main()
