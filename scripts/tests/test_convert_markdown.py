@@ -87,6 +87,81 @@ def test_process_card_image_in_markdown_skips_cases(
         assert md_file.read_text() == markdown_content
 
 
+@pytest.mark.parametrize(
+    "test_id, markdown_content, md_filename_suffix",
+    [
+        (
+            "no_url",
+            """---
+title: Test Post
+date: 2023-10-10
+---
+Content with no card_image.""",
+            "no_url.md",
+        ),
+        (
+            "wrong_extension",
+            """---
+title: Test Post
+date: 2023-10-10
+card_image: static/image.gif
+---
+Content with non-convertible card_image.""",
+            "wrong_ext.md",
+        ),
+        (
+            "already_processed",
+            """---
+title: Test Post
+date: 2023-10-10
+card_image: https://assets.turntrout.com/images/card_images/image.png
+---
+Content with already processed card_image.""",
+            "processed.md",
+        ),
+        (
+            "no_frontmatter",
+            """
+Some content without YAML front matter.
+![](static/image.avif)
+""",
+            "no_frontmatter.md",
+        ),
+    ],
+)
+def test_process_card_image_in_markdown_skips(
+    setup_test_env,
+    mock_git_root,
+    test_id,
+    markdown_content,
+    md_filename_suffix,
+):
+    """Test skipping conditions for process_card_image_in_markdown."""
+    md_file_path = (
+        mock_git_root
+        / "static"
+        / "images"
+        / "posts"
+        / f"test_{md_filename_suffix}"
+    )
+    md_file_path.write_text(markdown_content)
+
+    with (
+        mock.patch("requests.get") as mock_get,
+        mock.patch("subprocess.run") as mock_subproc_run,
+        mock.patch("shutil.move") as mock_shutil_move,
+        mock.patch(
+            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
+        ) as mock_r2_upload,
+    ):
+        convert_markdown_yaml.process_card_image_in_markdown(md_file_path)
+        mock_get.assert_not_called()
+        mock_subproc_run.assert_not_called()
+        mock_shutil_move.assert_not_called()
+        mock_r2_upload.assert_not_called()
+        assert md_file_path.read_text() == markdown_content
+
+
 def test_parse_markdown_frontmatter():
     """
     Test parsing of markdown frontmatter.
