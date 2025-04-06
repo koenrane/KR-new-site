@@ -126,7 +126,9 @@ def test_verbose_output(
     test_file.touch()
 
     with patch("subprocess.run"), patch("shutil.move"):
-        r2_upload.upload_and_move(test_file, verbose=True, move_to_dir=tmp_path)
+        r2_upload.upload_and_move(
+            test_file, verbose=True, move_to_dir=tmp_path
+        )
 
     captured = capsys.readouterr()
     assert f"Uploading {test_file}" in captured.out
@@ -504,7 +506,9 @@ def test_upload_non_existing_file(mock_git_root: Path, tmp_path: Path):
         patch("shutil.move") as mock_move,
     ):
 
-        r2_upload.upload_and_move(test_file, verbose=True, move_to_dir=tmp_path)
+        r2_upload.upload_and_move(
+            test_file, verbose=True, move_to_dir=tmp_path
+        )
 
         mock_check.assert_called_once_with(
             f"r2:{r2_upload.R2_BUCKET_NAME}/static/test_non_existing.jpg", True
@@ -546,6 +550,71 @@ def test_upload_and_move_file_exists(
     )
 
 
+def test_upload_to_r2_overwrite_print(
+    mock_git_root: Path, capsys: pytest.CaptureFixture[str]
+):
+    """Test red print output when overwriting an existing file."""
+    test_file = mock_git_root / "quartz" / "static" / "test_overwrite_out.jpg"
+    test_file.parent.mkdir(parents=True, exist_ok=True)
+    test_file.touch()
+
+    with (
+        patch("scripts.r2_upload.check_exists_on_r2", return_value=True),
+        patch("scripts.r2_upload._download_from_r2"),
+    ):
+        r2_upload.upload_to_r2(
+            test_file, verbose=True, overwrite_existing=True
+        )
+
+    captured = capsys.readouterr()
+    # Check for the red color ANSI escape codes in the output
+    red_start = "\033[91m"
+    red_end = "\033[0m"
+    expected_output = (
+        f"{red_start}Overwriting existing file in R2: "
+        f"static/test_overwrite_out.jpg{red_end}"
+    )
+    assert expected_output in captured.out
+    assert "Downloaded backup from R2" in captured.out
+
+
+_DUMMY_CONTENT = "dummy content"
+
+
+def _mock_download(upload_target: str, target: Path) -> None:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.touch()
+    target.write_text(_DUMMY_CONTENT)
+
+
+def test_upload_to_r2_download_backup(mock_git_root: Path, tmp_path: Path):
+    """Test file move logic when overwriting an existing file."""
+    test_file = mock_git_root / "quartz" / "static" / "test_overwrite_move.jpg"
+    test_file.parent.mkdir(parents=True, exist_ok=True)
+    test_file.write_text("Shouldn't appear")
+    move_to_dir = tmp_path / "moved_files_overwrite"
+    move_to_dir.mkdir()
+
+    with (
+        patch("scripts.r2_upload.check_exists_on_r2", return_value=True),
+        patch("scripts.r2_upload._download_from_r2", _mock_download),
+        patch("subprocess.run"),
+    ):
+        r2_upload.upload_to_r2(
+            test_file,
+            overwrite_existing=True,
+        )
+
+    # Verify the backup file was created by the mock
+    expected_backup_path = Path(tempfile.gettempdir()) / test_file.name
+    assert expected_backup_path.exists()
+    assert expected_backup_path.read_text() == _DUMMY_CONTENT
+
+    # Verify the original file still exists
+    assert test_file.exists()
+    assert test_file.read_text() == "Shouldn't appear"
+
+
 # Ensure we tell rclone to handle the MIME header correctly
 def test_upload_svg_with_metadata(mock_git_root: Path):
     test_file = mock_git_root / "quartz" / "static" / "test.svg"
@@ -584,7 +653,9 @@ def test_move_uploaded_file(mock_git_root: Path, tmp_path: Path):
     assert not source_file.exists()
 
 
-def test_move_uploaded_file_error_handling(mock_git_root: Path, tmp_path: Path):
+def test_move_uploaded_file_error_handling(
+    mock_git_root: Path, tmp_path: Path
+):
     """Test error handling when move operation fails."""
     source_file = mock_git_root / "quartz" / "static" / "test.jpg"
     source_file.parent.mkdir(parents=True)
