@@ -13,6 +13,7 @@ import signal
 import socket
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from collections import deque, namedtuple
@@ -29,7 +30,7 @@ console = Console()
 SERVER_START_WAIT_TIME: int = 90
 
 # skipcq: BAN-B108
-TEMP_DIR = Path("/tmp/quartz_checks")
+TEMP_DIR = Path(tempfile.gettempdir()) / "quartz_checks"
 os.makedirs(TEMP_DIR, exist_ok=True)
 STATE_FILE_PATH = TEMP_DIR / "last_successful_step.json"
 

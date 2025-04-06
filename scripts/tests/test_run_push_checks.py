@@ -2,6 +2,7 @@
 Unit tests for run_push_checks.py
 """
 
+import importlib
 import signal
 import subprocess
 import tempfile
@@ -31,6 +32,8 @@ def temp_state_dir():
         tempfile.TemporaryDirectory() as temp_dir,
         patch("tempfile.gettempdir", return_value=temp_dir),
     ):
+        # Reload module to pick up mocked tempdir
+        importlib.reload(run_push_checks)
         # Clear any existing state before tests run
         run_push_checks.reset_saved_progress()
         yield temp_dir
@@ -67,7 +70,9 @@ def test_is_port_in_use(monkeypatch):
     with patch("socket.socket") as mock_socket_cls:
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 1
-        mock_socket_cls.return_value.__enter__.return_value = mock_sock_instance
+        mock_socket_cls.return_value.__enter__.return_value = (
+            mock_sock_instance
+        )
         assert run_push_checks.is_port_in_use(8080) is False
 
 
@@ -779,7 +784,9 @@ def test_create_server_progress_bar():
         patch("scripts.run_push_checks.Progress") as mock_progress_cls,
         patch("subprocess.Popen") as mock_popen,
         patch("time.sleep"),  # Don't actually sleep in tests
-        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
+        patch(
+            "scripts.run_push_checks.find_quartz_process", return_value=None
+        ),
     ):
         # Set up mocks
         # First two checks are for the initial port check and first loop iteration
@@ -906,7 +913,9 @@ def test_server_process_continues_running():
         patch("scripts.run_push_checks.is_port_in_use") as mock_port_check,
         patch("subprocess.Popen") as mock_popen,
         patch("time.sleep"),  # Don't actually sleep in tests
-        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
+        patch(
+            "scripts.run_push_checks.find_quartz_process", return_value=None
+        ),
         patch(
             "shutil.which", return_value="npx"
         ),  # Mock shutil.which to return just "npx"
