@@ -62,6 +62,11 @@ def valid_metadata() -> Dict[str, str | List[str]]:
             {"description": "Test", "tags": ["test"], "permalink": "/test"},
             ["Missing title field"],
         ),
+        # Test case 4: No metadata given
+        (
+            {},
+            ["No valid frontmatter found"],
+        ),
     ],
 )
 def test_check_required_fields(
@@ -1412,3 +1417,47 @@ def test_strip_code_and_math_with_block_math(
     """
     result = source_file_checks.remove_code_and_math(input_text)
     assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    "slug,metadata,expected",
+    [
+        # Test case 1: Slug matches permalink
+        ("/test", {"permalink": "/test"}, True),
+        # Test case 2: Slug matches an alias
+        (
+            "/alias",
+            {"permalink": "/test", "aliases": ["/alias", "/other"]},
+            True,
+        ),
+        # Test case 3: Slug doesn't match permalink or any alias
+        (
+            "/notfound",
+            {"permalink": "/test", "aliases": ["/alias", "/other"]},
+            False,
+        ),
+        # Test case 4: Aliases field doesn't exist
+        ("/alias", {"permalink": "/test"}, False),
+        # Test case 5: Aliases field is empty
+        ("/alias", {"permalink": "/test", "aliases": []}, False),
+        # Test case 6: Permalink doesn't match but exists
+        ("/notfound", {"permalink": "/test"}, False),
+        # Test case 7: Slug matches an alias in a string (not list) aliases field
+        ("/alias", {"permalink": "/test", "aliases": "/alias"}, True),
+        # Test case 8: Slug doesn't match the string alias
+        ("/notfound", {"permalink": "/test", "aliases": "/alias"}, False),
+    ],
+)
+def test_slug_in_metadata(slug: str, metadata: dict, expected: bool) -> None:
+    """
+    Test the _slug_in_metadata function with various combinations of slug and metadata.
+
+    Args:
+        slug: The slug to check for
+        metadata: The metadata dictionary to check in
+        expected: Whether the slug is expected to be found in the metadata
+    """
+    result = source_file_checks._slug_in_metadata(slug, metadata)
+    assert (
+        result == expected
+    ), f"Expected {expected} but got {result} for slug '{slug}' in metadata {metadata}"

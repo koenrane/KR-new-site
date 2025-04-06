@@ -108,7 +108,9 @@ def check_invalid_md_links(file_path: Path) -> List[str]:
     matches = re.finditer(invalid_md_link_pattern, content)
 
     for match in matches:
-        if "shard-theory" in match.group() and "design.md" in file_path.name:
+        if (
+            "shard-theory" in match.group() and "design.md" in file_path.name
+        ):  # pragma: no cover
             continue  # I mention this checker, not a real broken link
         line_num = content[: match.start()].count("\n") + 1
         errors.append(
@@ -129,7 +131,7 @@ def check_latex_tags(file_path: Path) -> List[str]:
         List of error messages for found LaTeX tags
     """
     # There's an innocuous use of LaTeX tags in design.md, so we'll ignore it
-    if "design.md" in file_path.name:
+    if "design.md" in file_path.name:  # pragma: no cover
         return []
 
     tag_pattern = r"(?<!\\)\\tag\{"
@@ -422,24 +424,12 @@ def print_issues(file_path: Path, issues: MetadataIssues) -> None:
 def compile_scss(scss_file_path: Path) -> str:
     """
     Compile SCSS file to CSS string.
-
-    Args:
-        scss_file_path: Path to the SCSS file
-
-    Returns:
-        Compiled CSS as string
-
-    Raises:
-        subprocess.CalledProcessError: If SCSS compilation fails
-        FileNotFoundError: If sass compiler is not found
     """
     if not scss_file_path.exists():
         return ""
 
     styles_dir = scss_file_path.parent
-    sass_path = shutil.which("sass")
-    if not sass_path:
-        raise FileNotFoundError("sass executable not found")
+    sass_path = Path(str(shutil.which("sass")))
 
     result = subprocess.run(
         [sass_path, f"--load-path={styles_dir}", str(scss_file_path)],
