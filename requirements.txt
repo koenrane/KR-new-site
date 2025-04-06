@@ -57,3 +57,4 @@ tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1727140
 untokenize @ file:///home/conda/feedstock_root/build_artifacts/untokenize_1723841446890/work
 urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1734859416348/work
 zstandard==0.23.0
+pytest-xdist==3.1.0

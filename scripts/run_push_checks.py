@@ -470,7 +470,7 @@ def get_check_steps(
         ),
         CheckStep(
             name="Running Python unit tests",
-            command=["pytest", f"{git_root_path}/scripts"],
+            command=["pytest", f"{git_root_path}/scripts", "-n", "auto"],
         ),
         CheckStep(
             name="Compressing and uploading local assets",
