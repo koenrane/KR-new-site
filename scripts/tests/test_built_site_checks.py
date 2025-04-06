@@ -2303,3 +2303,116 @@ def test_check_media_asset_sources(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = built_site_checks.check_media_asset_sources(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html_content, existing_files, expected_missing",
+    [
+        # Test case 1: All assets exist
+        (
+            """
+            <link rel="stylesheet" href="/styles/main.css">
+            <link rel="preload" href="./styles/preloaded.css" as="style">
+            <script src="/js/script.js"></script>
+            <script src="./js/relative.js"></script>
+            """,
+            [
+                "styles/main.css",
+                "styles/preloaded.css",
+                "js/script.js",
+                "js/relative.js",
+            ],
+            [],
+        ),
+        # Test case 2: Some assets missing
+        (
+            """
+            <link rel="stylesheet" href="/styles/main.css">
+            <link rel="stylesheet" href="/styles/missing.css">
+            <script src="/js/script.js"></script>
+            <script src="missing.js"></script>
+            """,
+            ["styles/main.css", "js/script.js"],
+            [
+                "/styles/missing.css (resolved to public/styles/missing.css)",
+                "missing.js (resolved to public/missing.js)",
+            ],
+        ),
+        # Test case 3: External assets (should be ignored)
+        (
+            """
+            <link rel="stylesheet" href="https://example.com/style.css">
+            <script src="https://example.com/script.js"></script>
+            """,
+            [],
+            [],
+        ),
+        # Test case 4: Missing href/src attributes
+        (
+            """
+            <link rel="stylesheet">
+            <script></script>
+            """,
+            [],
+            [],
+        ),
+        # Test case 5: Link with list-like rel attribute
+        (
+            """
+            <link rel="preload stylesheet" href="/styles/list_rel.css">
+            """,
+            ["styles/list_rel.css"],
+            [],
+        ),
+        # Test case 6: Mixed missing and existing
+        (
+            """
+            <link rel="stylesheet" href="/styles/exists1.css">
+            <script src="missing1.js"></script>
+            <link rel="stylesheet" href="missing2.css">
+            <script src="/js/exists2.js"></script>
+            """,
+            ["styles/exists1.css", "js/exists2.js"],
+            [
+                "missing1.js (resolved to public/missing1.js)",
+                "missing2.css (resolved to public/missing2.css)",
+            ],
+        ),
+    ],
+)
+def test_check_asset_references(
+    tmp_path: Path,
+    html_content: str,
+    existing_files: List[str],
+    expected_missing: List[str],
+) -> None:
+    """Test the check_asset_references function."""
+    base_dir = tmp_path / "public"
+    base_dir.mkdir()
+    # Create a dummy html file path relative to base_dir
+    html_file_path = base_dir / "index.html"
+    html_file_path.touch()
+
+    # Create existing asset files
+    for file_rel_path in existing_files:
+        asset_path = base_dir / file_rel_path
+        asset_path.parent.mkdir(parents=True, exist_ok=True)
+        asset_path.touch()
+
+    soup = BeautifulSoup(
+        f"<html><head>{html_content}</head></html>", "html.parser"
+    )
+
+    # Adjust expected paths to be relative to the base_dir for assertion
+    # TODO is this needed?
+    expected_missing_resolved = sorted(
+        [
+            exp.replace("(resolved to public/", f"(resolved to {base_dir}/")
+            for exp in expected_missing
+        ]
+    )
+
+    missing_assets = built_site_checks.check_asset_references(
+        soup, html_file_path, base_dir
+    )
+    assert sorted(missing_assets) == expected_missing_resolved

@@ -378,9 +378,7 @@ def check_asset_references(
         if href and not href.startswith(("http://", "https://")):
             full_path = resolve_asset_path(href)
             if not full_path.is_file():
-                missing_assets.append(
-                    f"{href} (resolved to {full_path.relative_to(base_dir)})"
-                )
+                missing_assets.append(f"{href} (resolved to {full_path})")
 
     # Check link tags for CSS files (including preloaded stylesheets)
     for link in soup.find_all("link"):
