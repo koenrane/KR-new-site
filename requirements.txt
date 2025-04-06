@@ -61,6 +61,7 @@ tomli @ file:///home/conda/feedstock_root/build_artifacts/tomli_1731426768275/wo
 tqdm==4.67.1
 types-psutil @ file:///home/conda/feedstock_root/build_artifacts/types-psutil_1734758640583/work
 types-pytz @ file:///home/conda/feedstock_root/build_artifacts/types-pytz_1727940197272/work
+types-PyYAML==6.0.12.20250402
 types-requests==2.32.0.20250328
 types-tqdm @ file:///home/conda/feedstock_root/build_artifacts/types-tqdm_1713338972121/work
 typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1733188668063/work

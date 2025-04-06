@@ -39,4 +39,5 @@ exclude_lines = [
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
     "^except ImportError:",
+    "if verbose:",
 ]
