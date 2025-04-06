@@ -15,9 +15,11 @@ except ImportError:
     import utils as script_utils  # type: ignore
 
 
-asset_staging_pattern: str = r"(?:\.?/asset_staging/)?"
+ASSET_STAGING_PATTERN: str = r"(?:\.?/asset_staging/)?"
+GIF_ATTRIBUTES: str = r"autoplay loop muted playsinline"
 
 
+# TODO split into original and replacement pattern functions
 def _video_patterns(input_file: Path) -> tuple[str, str]:
     """
     Returns the original and replacement patterns for video files.
@@ -29,23 +31,24 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
     input_file_pattern: str = rf"{input_file.stem}\{input_file.suffix}"
 
-    # Pattern for markdown image syntax: ![](link)
+    # Pattern for markdown image syntax: ![alt text](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({asset_staging_pattern}"
+        rf"\!?\[(?P<markdown_alt_text>.*?)\]\({ASSET_STAGING_PATTERN}"
         rf"{link_pattern_fn('parens')}{input_file_pattern}\)"
     )
 
     # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{asset_staging_pattern}"
+        rf"\!?\[\[{ASSET_STAGING_PATTERN}"
         rf"{link_pattern_fn('brackets')}{input_file_pattern}\]\]"
     )
 
     # Link pattern for HTML tags
     tag_link_pattern: str = (
-        rf"{asset_staging_pattern}{link_pattern_fn('tag')}{input_file_pattern}"
+        rf"{ASSET_STAGING_PATTERN}{link_pattern_fn('tag')}{input_file_pattern}"
     )
 
+    # TODO check alt information being incorporated
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
@@ -79,7 +82,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         # For GIFs, replace <img> with <video> using specific attributes
         replacement_pattern = (
             # Add specific attributes for GIF autoplay
-            r"<video autoplay loop muted playsinline >"
+            rf'<video {GIF_ATTRIBUTES} alt="\g<markdown_alt_text>">'
             # Add WebM source first
             rf'<source src="{all_links}'
             rf'{input_file.stem}.webm" type="video/webm">'
@@ -93,7 +96,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         replacement_pattern = (
             # Preserve attributes captured from the original video tag
             r"<video \g<earlyTagInfo>\g<tagInfo>"
-            r"\g<endVideoTagInfo>>"
+            r'\g<endVideoTagInfo> alt="\g<markdown_alt_text>">'
             # Add WebM source first
             rf'<source src="{all_links}'
             rf'{input_file.stem}.webm" type="video/webm">'
@@ -128,6 +131,36 @@ def _strip_metadata(file_path: Path) -> None:
         stderr=subprocess.DEVNULL,
         check=False,
     )
+
+
+def _replace_content(
+    content: str, original_pattern: str, replacement_pattern: str
+) -> str:
+    def _process_match(match: re.Match[str]) -> str:
+        matched_text = match.group(0)
+        original_alt_was_empty = 'alt=""' in matched_text
+
+        replaced_text = re.sub(
+            original_pattern, replacement_pattern, matched_text
+        )
+
+        if not original_alt_was_empty:
+            replaced_text = replaced_text.replace('alt=""', "")
+        replaced_text = re.sub(r" +\>", ">", replaced_text)
+        replaced_text = re.sub(r" {2,}", " ", replaced_text)
+
+        return replaced_text
+
+    replaced_content = re.sub(original_pattern, _process_match, content)
+
+    # Handle the </video><br/>Figure: pattern
+    spaced_figure_content = re.sub(
+        r"</video>\s*(<br/?>)?\s*Figure:",
+        "</video>\n\nFigure:",
+        replaced_content,
+    )
+
+    return spaced_figure_content
 
 
 def convert_asset(
@@ -188,15 +221,13 @@ def convert_asset(
     ):
         with open(md_file, encoding="utf-8") as file:
             content = file.read()
-        content = re.sub(original_pattern, replacement_pattern, content)
 
-        # Add a second pass to handle the </video><br/>Figure: pattern
-        content = re.sub(
-            r"</video>\s*(<br/?>)?\s*Figure:", "</video>\n\nFigure:", content
+        replaced_content = _replace_content(
+            content, original_pattern, replacement_pattern
         )
 
         with open(md_file, "w", encoding="utf-8") as file:
-            file.write(content)
+            file.write(replaced_content)
 
     if remove_originals and input_file.suffix not in (".mp4", ".avif"):
         input_file.unlink()
