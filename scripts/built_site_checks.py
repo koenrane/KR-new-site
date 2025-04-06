@@ -851,6 +851,7 @@ def check_rss_file_for_issues(
     )
 
 
+# pragma: no cover
 def print_issues(
     file_path: Path,
     issues: _IssuesDict,
