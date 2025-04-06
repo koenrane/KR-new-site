@@ -2416,3 +2416,75 @@ def test_check_asset_references(
         soup, html_file_path, base_dir
     )
     assert sorted(missing_assets) == expected_missing_resolved
+
+
+def test_check_file_for_issues_markdown_check_called(tmp_path):
+    """Test that check_markdown_assets_in_html is called when md_path is valid."""
+    base_dir = tmp_path / "public"
+    base_dir.mkdir()
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+
+    html_file_path = base_dir / "test.html"
+    html_file_path.write_text("<html><body>Test</body></html>")
+    md_file_path = content_dir / "test.md"
+    md_file_path.touch()
+
+    with patch(
+        "built_site_checks.check_markdown_assets_in_html",
+        return_value=[],
+    ) as mock_check:
+        issues = built_site_checks.check_file_for_issues(
+            html_file_path, base_dir, md_file_path, should_check_fonts=False
+        )
+
+    mock_check.assert_called_once()
+    assert "missing_markdown_assets" in issues
+    assert issues["missing_markdown_assets"] == []
+
+    # Test case where md_path is None or doesn't exist to ensure it's NOT called
+    with patch(
+        "built_site_checks.check_markdown_assets_in_html",
+        return_value=[],
+    ) as mock_check_none:
+        issues_none = built_site_checks.check_file_for_issues(
+            html_file_path, base_dir, None, should_check_fonts=False
+        )
+        issues_non_existent = built_site_checks.check_file_for_issues(
+            html_file_path,
+            base_dir,
+            content_dir / "non_existent.md",
+            should_check_fonts=False,
+        )
+
+    mock_check_none.assert_not_called()
+    assert "missing_markdown_assets" not in issues_none
+    assert "missing_markdown_assets" not in issues_non_existent
+
+
+@pytest.mark.parametrize(
+    "filename, should_check_favicon",
+    [
+        ("about.html", True),
+        ("index.html", False),
+        ("other.html", False),
+    ],
+)
+def test_check_file_for_issues_favicon_check_called(
+    tmp_path, filename, should_check_favicon
+):
+    """Test that check_favicons_missing is called only for about.html."""
+    base_dir = tmp_path / "public"
+    base_dir.mkdir()
+    file_path = base_dir / filename
+    file_path.write_text("<html><body>No favicon info</body></html>")
+
+    # We don't need to mock check_favicons_missing, just check if the key is added
+    issues = built_site_checks.check_file_for_issues(
+        file_path, base_dir, None, should_check_fonts=False
+    )
+
+    if should_check_favicon:
+        assert issues["missing_favicon"] is True
+    else:
+        assert "missing_favicon" not in issues
