@@ -6,7 +6,6 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-import ruamel.yaml.scanner
 import yaml
 from ruamel.yaml.timestamp import TimeStamp
 
@@ -257,11 +256,13 @@ def test_split_yaml_malformed_yaml(temp_content_dir):
     """
     file_path = temp_content_dir / "malformed.md"
     file_path.write_text(
-        "---\ntitle: 'Unclosed quote\n---\nContent", encoding="utf-8"
+        '---\ntitle: "Unclosed quote\n---\nContent', encoding="utf-8"
     )
 
-    with pytest.raises(ruamel.yaml.scanner.ScannerError):
-        metadata, content = script_utils.split_yaml(file_path)
+    # Expect split_yaml to return empty metadata and content for malformed files
+    metadata, content = script_utils.split_yaml(file_path, verbose=True)
+    assert metadata == {}
+    assert content == ""
 
 
 def test_write_to_yaml_preserves_order(temp_content_dir):

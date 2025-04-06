@@ -738,3 +738,162 @@ def test_get_non_code_text():
     result_normalized = " ".join(result.split())
     expected_normalized = "Normal text More normal text Paragraph with and normal text Text with and more text Final text"
     assert result_normalized == expected_normalized
+
+
+@pytest.mark.parametrize(
+    "md_contents, expected_aliases",
+    [
+        # Basic cases
+        (
+            {
+                "test.md": """---
+title: Test
+aliases: [/alias1, /alias2]
+---
+# Content
+"""
+            },
+            {"/alias1", "/alias2"},
+        ),
+        (
+            {
+                "test1.md": """---
+title: Test 1
+aliases: [/alias1, /alias2]
+---
+# Content
+""",
+                "test2.md": """---
+title: Test 2
+aliases: [/alias3, /alias4]
+---
+# Content
+""",
+            },
+            {"/alias1", "/alias2", "/alias3", "/alias4"},
+        ),
+        # No aliases
+        (
+            {
+                "test.md": """---
+title: Test
+---
+# Content
+"""
+            },
+            set(),
+        ),
+        # Permalink removal
+        (
+            {
+                "test.md": """---
+title: Test
+permalink: /test
+aliases: [/alias1, /test, /alias2]
+---
+# Content
+"""
+            },
+            {"/alias1", "/alias2"},
+        ),
+        # String alias (ignored)
+        (
+            {
+                "test.md": """---
+title: Test
+aliases: /single-alias
+---
+# Content
+"""
+            },
+            set(),
+        ),
+        # Mixed files
+        (
+            {
+                "with_aliases.md": """---
+title: With Aliases
+aliases: [alias1, alias2]
+---
+# Content
+""",
+                "without_aliases.md": """---
+title: Without Aliases
+---
+# Content
+""",
+            },
+            {"alias1", "alias2"},
+        ),
+        # Invalid YAML (skipped)
+        (
+            {
+                "invalid.md": """---
+title: "Unclosed quote
+aliases: [/alias1, /alias2]
+---
+# Content
+"""
+            },
+            set(),
+        ),
+        # Nested directories
+        (
+            {
+                "root.md": """---
+title: Root
+aliases: [/root-alias1, /root-alias2]
+---
+# Content
+""",
+                "nested/nested.md": """---
+title: Nested
+aliases: [/nested-alias1, /nested-alias2]
+---
+# Content
+""",
+            },
+            {
+                "/root-alias1",
+                "/root-alias2",
+                "/nested-alias1",
+                "/nested-alias2",
+            },
+        ),
+        # Empty front matter
+        (
+            {
+                "empty.md": """---
+---
+# Content
+"""
+            },
+            set(),
+        ),
+        # No front matter
+        (
+            {
+                "no_front_matter.md": """# Content without front matter
+"""
+            },
+            set(),
+        ),
+    ],
+)
+def test_collect_aliases(
+    tmp_path: Path, md_contents: dict[str, str], expected_aliases: set[str]
+) -> None:
+    """
+    Test collect_aliases with various file contents and structures.
+    """
+    # Create test files and directories
+    for file_path_str, content in md_contents.items():
+        file_path = tmp_path / file_path_str
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_text(content)
+
+    # Collect aliases
+    result = script_utils.collect_aliases(tmp_path)
+
+    # Check results
+    assert result == expected_aliases
