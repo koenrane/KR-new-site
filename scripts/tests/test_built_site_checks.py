@@ -127,10 +127,128 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
     assert set(result) == {"#invalid-anchor", "/other-page#invalid-anchor"}
 
 
+@pytest.mark.parametrize(
+    "index_html_content, target_html_content, other_files_content, expected_invalid_anchors",
+    [
+        # Case 1: Valid anchor in target.html
+        (
+            '<a href="/target.html#valid-anchor">Link</a>',
+            '<div id="valid-anchor"></div>',
+            {},
+            [],
+        ),
+        # Case 2: Invalid anchor in target.html (anchor missing)
+        (
+            '<a href="/target.html#missing-anchor">Link</a>',
+            '<div id="valid-anchor"></div>',
+            {},
+            ["/target.html#missing-anchor"],
+        ),
+        # Case 3: Link to a non-existent page
+        (
+            '<a href="/missing.html#anchor">Link</a>',
+            '<div id="valid-anchor"></div>',  # target.html exists but isn't linked
+            {},
+            ["/missing.html#anchor"],
+        ),
+        # Case 4: Relative path link (./) to valid anchor
+        (
+            '<a href="./target.html#valid-anchor">Link</a>',
+            '<div id="valid-anchor"></div>',
+            {},
+            [],
+        ),
+        # Case 5: Relative path link (./) to invalid anchor
+        (
+            '<a href="./target.html#missing-anchor">Link</a>',
+            '<div id="valid-anchor"></div>',
+            {},
+            ["./target.html#missing-anchor"],
+        ),
+        # Case 6: Link without .html suffix to existing page with valid anchor
+        (
+            '<a href="/target#valid-anchor">Link</a>',
+            '<div id="valid-anchor"></div>',
+            {},
+            [],
+        ),
+        # Case 7: Link without .html suffix to existing page with invalid anchor
+        (
+            '<a href="/target#missing-anchor">Link</a>',
+            '<div id="valid-anchor"></div>',
+            {},
+            ["/target#missing-anchor"],
+        ),
+        # Case 8: Link without .html suffix to non-existent page
+        (
+            '<a href="/missing#anchor">Link</a>',
+            '<div id="valid-anchor"></div>',  # target.html exists but isn't linked
+            {},
+            ["/missing#anchor"],
+        ),
+        # Case 9: Multiple links, some valid, some invalid
+        (
+            """
+            <a href="/target.html#valid-anchor">Valid 1</a>
+            <a href="/target.html#missing-anchor">Invalid 1</a>
+            <a href="/other.html#valid-other-anchor">Valid 2</a>
+            <a href="/other.html#missing-other-anchor">Invalid 2</a>
+            <a href="/missing.html#anchor">Invalid 3 (Page Missing)</a>
+            <a href="./target.html#valid-anchor">Valid Relative</a>
+            <a href="/target#valid-anchor">Valid No Suffix</a>
+            <a href="/other#missing-other-anchor">Invalid No Suffix</a>
+            """,
+            '<div id="valid-anchor"></div>',
+            {"other.html": '<div id="valid-other-anchor"></div>'},
+            [
+                "/target.html#missing-anchor",
+                "/other.html#missing-other-anchor",
+                "/missing.html#anchor",
+                "/other#missing-other-anchor",
+            ],
+        ),
+    ],
+)
+def test_check_invalid_anchors_external_page(
+    temp_site_root: Path,
+    index_html_content: str,
+    target_html_content: str,
+    other_files_content: dict[str, str],
+    expected_invalid_anchors: list[str],
+):
+    """
+    Test check_invalid_anchors for links pointing to anchors on other pages
+    within the site.
+    """
+    # Create index.html
+    index_path = temp_site_root / "index.html"
+    index_path.write_text(f"<html><body>{index_html_content}</body></html>")
+
+    # Create target.html
+    target_path = temp_site_root / "target.html"
+    target_path.write_text(f"<html><body>{target_html_content}</body></html>")
+
+    # Create other specified HTML files
+    for filename, content in other_files_content.items():
+        other_path = temp_site_root / filename
+        other_path.write_text(f"<html><body>{content}</body></html>")
+
+    # Parse index.html
+    soup = BeautifulSoup(index_path.read_text(), "html.parser")
+
+    # Run the check
+    result = built_site_checks.check_invalid_anchors(soup, temp_site_root)
+
+    # Assert the results
+    assert sorted(result) == sorted(expected_invalid_anchors)
+
+
 def test_check_problematic_paragraphs(sample_soup):
     result = built_site_checks.paragraphs_contain_canary_phrases(sample_soup)
     assert len(result) == 3
-    assert "Problematic paragraph: Table: This is a table description" in result
+    assert (
+        "Problematic paragraph: Table: This is a table description" in result
+    )
     assert "Problematic paragraph: Figure: This is a figure caption" in result
     assert "Problematic paragraph: Code: This is a code snippet" in result
     assert "Problematic paragraph: Normal paragraph" not in result
