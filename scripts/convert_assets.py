@@ -81,10 +81,10 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
             # Add specific attributes for GIF autoplay
             r"<video autoplay loop muted playsinline >"
             # Add WebM source first
-            rf'<source src="{all_links}"'
+            rf'<source src="{all_links}'
             rf'{input_file.stem}.webm" type="video/webm">'
             # Fallback MP4 source
-            rf'<source src="{all_links}"'
+            rf'<source src="{all_links}'
             rf'{input_file.stem}.mp4" type="video/mp4">'
             r"</video>"
         )
@@ -95,10 +95,10 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
             r"<video \g<earlyTagInfo>\g<tagInfo>"
             r"\g<endVideoTagInfo>>"
             # Add WebM source first
-            rf'<source src="{all_links}"'
+            rf'<source src="{all_links}'
             rf'{input_file.stem}.webm" type="video/webm">'
             # Fallback MP4 source
-            rf'<source src="{all_links}"'
+            rf'<source src="{all_links}'
             rf'{input_file.stem}.mp4" type="video/mp4">'
             r"</video>"
         )

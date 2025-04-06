@@ -111,7 +111,10 @@ def test_video_conversion_creates_webm(temp_dir: Path, video_ext: str) -> None:
     assert webm_file.exists()
 
 
-@pytest.mark.parametrize("video_ext", compress.ALLOWED_VIDEO_EXTENSIONS)
+@pytest.mark.parametrize(
+    "video_ext",
+    [ext for ext in compress.ALLOWED_VIDEO_EXTENSIONS if ext != ".webm"],
+)
 def test_video_conversion_webm_size_reduction(
     temp_dir: Path, video_ext: str
 ) -> None:
