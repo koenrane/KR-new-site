@@ -19,12 +19,7 @@ ASSET_STAGING_PATTERN: str = r"(?:\.?/asset_staging/)?"
 GIF_ATTRIBUTES: str = r"autoplay loop muted playsinline"
 
 
-# TODO split into original and replacement pattern functions
-def _video_patterns(input_file: Path) -> tuple[str, str]:
-    """
-    Returns the original and replacement patterns for video files.
-    """
-
+def _video_original_pattern(input_file: Path) -> str:
     # create named capture groups for different link patterns
     def link_pattern_fn(tag: str) -> str:
         return rf"(?P<link_{tag}>[^\)]*)"
@@ -48,7 +43,6 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         rf"{ASSET_STAGING_PATTERN}{link_pattern_fn('tag')}{input_file_pattern}"
     )
 
-    # TODO check alt information being incorporated
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
@@ -73,6 +67,10 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
     )
 
+    return original_pattern
+
+
+def _video_replacement_pattern(input_file: Path) -> str:
     # Combine all possible link capture groups
     all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
 
@@ -106,7 +104,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
             r"</video>"
         )
 
-    return original_pattern, replacement_pattern
+    return replacement_pattern
 
 
 def _image_patterns(input_file: Path) -> tuple[str, str]:
@@ -206,7 +204,8 @@ def convert_asset(
         if strip_metadata:
             _strip_metadata(input_file.with_suffix(".avif"))
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
-        original_pattern, replacement_pattern = _video_patterns(input_file)
+        original_pattern = _video_original_pattern(input_file)
+        replacement_pattern = _video_replacement_pattern(input_file)
         compress.video(input_file)
         if strip_metadata:
             for suffix in [".mp4", ".webm"]:

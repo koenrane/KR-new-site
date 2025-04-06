@@ -256,7 +256,8 @@ def test_video_patterns(
     expected_source_pattern: str,
     expected_target_pattern: str,
 ):
-    source_pattern, target_pattern = convert_assets._video_patterns(input_file)
+    source_pattern = convert_assets._video_original_pattern(input_file)
+    target_pattern = convert_assets._video_replacement_pattern(input_file)
 
     assert source_pattern == expected_source_pattern
     assert target_pattern == expected_target_pattern
@@ -527,7 +528,7 @@ def test_video_asset_staging_paths(
                 "link_tag": None,
                 "earlyTagInfo": None,
                 "tagInfo": None,
-                "markdown_alt_text": None,
+                "markdown_alt_text": "",
                 "endVideoTagInfo": None,
             },
         ),
@@ -562,9 +563,9 @@ def test_video_pattern_matching(
     """Test the regex patterns for video/gif tags directly to verify matching behavior"""
     ext = ".gif" if "gif" in input_str else ".mp4"
     test_file = Path(f"test{ext}")
-    pattern, _ = convert_assets._video_patterns(test_file)
+    original_pattern = convert_assets._video_original_pattern(test_file)
 
-    match = re.match(pattern, input_str)
+    match = re.match(original_pattern, input_str)
     if expected_groups is None:
         assert match is None, f"Avoided matching with {input_str}"
         return
@@ -575,7 +576,7 @@ def test_video_pattern_matching(
         actual_value = match.group(group_name)
         assert (
             actual_value == expected_value
-        ), f"For {input_str}, group {group_name} captured '{actual_value}' but expected '{expected_value}'\npattern: {pattern}"
+        ), f"For {input_str}, group {group_name} captured '{actual_value}' but expected '{expected_value}'\npattern: {original_pattern}"
 
 
 @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
