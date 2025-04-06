@@ -772,7 +772,7 @@ I lastly check that my CSS:
 
 ### Unit tests
 
-I have 1,430 JavaScript unit tests and 607 Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance.
+I have 1,430 JavaScript unit tests and 607 Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance. In fact, I use [`coverage`](https://github.com/nedbat/coveragepy) to ensure 100\% coverage of my Python files.
 
 ### Simulating site interactions
 

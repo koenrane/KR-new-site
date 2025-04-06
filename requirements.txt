@@ -44,6 +44,7 @@ pyflakes @ file:///home/conda/feedstock_root/build_artifacts/pyflakes_1704424584
 Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1736243443484/work
 PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1733217236728/work
 pytest @ file:///home/conda/feedstock_root/build_artifacts/pytest_1740946542080/work
+pytest-cov==6.1.1
 pytest-xdist==3.6.1
 python-bitcoinlib==0.12.2
 python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1709299778482/work
