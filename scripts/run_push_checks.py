@@ -60,27 +60,38 @@ def get_last_step(
         The name of the last successful step, or None if no state exists
         or validation fails.
     """
+    # Create stderr console for error messages
+    err_console = Console(stderr=True)
+
     if not STATE_FILE_PATH.exists():
         return None
+
     try:
         with open(STATE_FILE_PATH, encoding="utf-8") as f:
             state = json.load(f)
-            last_step = state.get("last_successful_step")
-            # Only validate if available_steps is provided
-            if (
-                last_step
-                and available_steps is not None
-                and last_step not in available_steps
-            ):
-                return None
-            return last_step
-    except (json.JSONDecodeError, KeyError):
-        return None
+
+        last_step = state.get("last_successful_step")
+        if last_step is None:
+            err_console.print(
+                f"No 'last_successful_step' key in {STATE_FILE_PATH}"
+            )
+            return None
+
+        if available_steps is not None and last_step not in available_steps:
+            err_console.print(
+                f"Last successful step '{last_step}' not in available steps"
+            )
+            return None
+
+        return last_step
+    except json.JSONDecodeError:
+        err_console.print(f"Error parsing JSON in {STATE_FILE_PATH}")
+    return None
 
 
 # pylint: disable=missing-function-docstring
 def reset_saved_progress() -> None:
-    print("Clearing state")
+    console.print("Clearing state")
     if STATE_FILE_PATH.exists():
         STATE_FILE_PATH.unlink()
 
@@ -151,7 +162,7 @@ def find_quartz_process() -> int | None:
                 "quartz" in cmd.lower() for cmd in cmdline
             ):
                 return proc.pid
-        except (psutil.NoSuchProcess, psutil.AccessDenied):
+        except (psutil.NoSuchProcess, psutil.AccessDenied):  # pragma: no cover
             continue
     return None
 
@@ -400,7 +411,7 @@ def run_command(
 
             return return_code == 0, stdout, stderr
 
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError as e:  # pragma: no cover
         return False, e.stdout or "", e.stderr or ""
 
 
@@ -587,9 +598,6 @@ def main() -> None:
 
     except KeyboardInterrupt:
         console.log("\n[yellow]Process interrupted by user.[/yellow]")
-        raise
-    except Exception as e:
-        console.log(f"\n[red]Error: {str(e)}[/red]")
         raise
     finally:
         server_manager.cleanup()
