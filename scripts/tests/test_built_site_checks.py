@@ -115,6 +115,89 @@ def sample_soup_with_assets(sample_html_with_assets: str) -> BeautifulSoup:
     return BeautifulSoup(sample_html_with_assets, "html.parser")
 
 
+@pytest.mark.parametrize(
+    "preview_chars",
+    [0, -1],
+)
+def test_add_to_list_exceptions(preview_chars: int) -> None:
+    """Test that _add_to_list raises ValueError for non-positive preview_chars."""
+    lst: List[str] = []
+    with pytest.raises(
+        ValueError, match="preview_chars must be greater than 0"
+    ):
+        built_site_checks._add_to_list(
+            lst, "test", preview_chars=preview_chars
+        )
+
+
+@pytest.mark.parametrize(
+    "input_text, prefix, expected_output",
+    [
+        ("short text", "", ["short text"]),
+        ("short text", "Prefix: ", ["Prefix: short text"]),
+        ("", "", []),
+        ("", "Prefix: ", []),
+    ],
+)
+def test_add_to_list_no_truncation(
+    input_text: str, prefix: str, expected_output: List[str]
+) -> None:
+    """Test _add_to_list when text length <= preview_chars."""
+    lst: List[str] = []
+    built_site_checks._add_to_list(
+        lst, input_text, preview_chars=20, prefix=prefix
+    )
+    assert lst == expected_output
+
+
+LONG_TEXT = "This is a very long text that needs to be truncated."
+PREVIEW_CHARS = 10
+
+
+@pytest.mark.parametrize(
+    "prefix, expected_output",
+    [
+        ("", ["This is a "]),
+        ("Prefix: ", ["Prefix: This is a "]),
+    ],
+)
+def test_add_to_list_truncate_start(
+    prefix: str, expected_output: List[str]
+) -> None:
+    """Test _add_to_list truncation with show_end=False."""
+    lst: List[str] = []
+    built_site_checks._add_to_list(
+        lst,
+        LONG_TEXT,
+        preview_chars=PREVIEW_CHARS,
+        show_end=False,
+        prefix=prefix,
+    )
+    assert lst == expected_output
+
+
+@pytest.mark.parametrize(
+    "prefix, expected_output",
+    [
+        ("", ["truncated...."]),
+        ("Prefix: ", ["Prefix: truncated...."]),
+    ],
+)
+def test_add_to_list_truncate_end(
+    prefix: str, expected_output: List[str]
+) -> None:
+    """Test _add_to_list truncation with show_end=True."""
+    lst: List[str] = []
+    built_site_checks._add_to_list(
+        lst,
+        LONG_TEXT,
+        preview_chars=PREVIEW_CHARS,
+        show_end=True,
+        prefix=prefix,
+    )
+    assert lst == expected_output
+
+
 def test_check_localhost_links(sample_soup):
     result = built_site_checks.check_localhost_links(sample_soup)
     assert result == ["http://localhost:8000"]
