@@ -112,7 +112,9 @@ def path_relative_to_quartz_parent(input_file: Path) -> Path:
         # Get the path relative to quartz
         return input_file.relative_to(quartz_dir.parent)
     except StopIteration as e:
-        raise ValueError("The path must be within a 'quartz' directory.") from e
+        raise ValueError(
+            "The path must be within a 'quartz' directory."
+        ) from e
 
 
 def split_yaml(file_path: Path, verbose: bool = False) -> tuple[dict, str]:
@@ -141,7 +143,6 @@ def split_yaml(file_path: Path, verbose: bool = False) -> tuple[dict, str]:
             print(f"Skipping {file_path}: No valid frontmatter found")
         return {}, ""
 
-    # Parse YAML frontmatter
     try:
         metadata = yaml.load(parts[1])
         if not metadata:
@@ -212,8 +213,8 @@ def is_redirect(soup: BeautifulSoup) -> bool:
     meta = soup.find(
         "meta",
         attrs={
-            "http-equiv": lambda x: x and x.lower() == "refresh",
-            "content": lambda x: x and "url=" in x.lower(),
+            "http-equiv": lambda x: x is not None and x.lower() == "refresh",
+            "content": lambda x: x is not None and "url=" in x.lower(),
         },
     )
     return meta is not None
