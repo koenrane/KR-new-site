@@ -610,3 +610,88 @@ def test_markdown_video_with_alt_text(ext: str, setup_test_env):
     )
 
     assert converted_content.strip() == expected_html
+
+
+def test_convert_asset_not_a_directory(setup_test_env):
+    asset_path = Path(setup_test_env) / "quartz" / "static" / "asset.jpg"
+    with pytest.raises(NotADirectoryError):
+        convert_assets.convert_asset(
+            asset_path, md_references_dir=Path(setup_test_env) / "made-up"
+        )
+
+
+def test_main_runs(setup_test_env):
+    """Verify that the main function runs and calls convert_asset."""
+    test_dir = Path(setup_test_env)
+    asset_dir = test_dir / "quartz" / "static"
+    asset_path = asset_dir / "main_test.jpg"
+    test_utils.create_test_image(asset_path, size="100x100")
+
+    mock_args = mock.Mock()
+    mock_args.remove_originals = False
+    mock_args.strip_metadata = False
+    mock_args.asset_directory = str(asset_dir)
+    mock_args.ignore_files = None
+
+    with (
+        mock.patch(
+            "argparse.ArgumentParser.parse_args", return_value=mock_args
+        ),
+        mock.patch("scripts.convert_assets.convert_asset") as mock_convert,
+        mock.patch(
+            "scripts.utils.get_files",
+            return_value=[asset_path],
+        ),
+    ):
+        convert_assets.main()
+
+    # Ensure convert_asset was called with the correct asset path
+    mock_convert.assert_called_once_with(
+        asset_path,
+        remove_originals=False,
+        strip_metadata=False,
+        md_references_dir=Path("content/"),
+    )
+
+
+def test_main_ignores_files(setup_test_env):
+    """Verify that the main function ignores specified files."""
+    test_dir = Path(setup_test_env)
+    asset_dir = test_dir / "quartz" / "static"
+    ignored_asset_name = "ignored_asset.png"
+    converted_asset_name = "converted_asset.jpg"
+    ignored_asset_path = asset_dir / ignored_asset_name
+    converted_asset_path = asset_dir / converted_asset_name
+
+    test_utils.create_test_image(ignored_asset_path, size="100x100")
+    test_utils.create_test_image(converted_asset_path, size="100x100")
+
+    mock_args = mock.Mock()
+    mock_args.remove_originals = False
+    mock_args.strip_metadata = False
+    mock_args.asset_directory = str(asset_dir)
+    mock_args.ignore_files = [ignored_asset_name]
+
+    with (
+        mock.patch(
+            "argparse.ArgumentParser.parse_args", return_value=mock_args
+        ),
+        mock.patch("scripts.convert_assets.convert_asset") as mock_convert,
+        mock.patch(
+            "scripts.utils.get_files",
+            return_value=[ignored_asset_path, converted_asset_path],
+        ),
+    ):
+        convert_assets.main()
+
+    # Ensure convert_asset was called only for the non-ignored asset
+    mock_convert.assert_called_once_with(
+        converted_asset_path,
+        remove_originals=False,
+        strip_metadata=False,
+        md_references_dir=Path("content/"),
+    )
+
+    # Verify it wasn't called for the ignored asset
+    for call in mock_convert.call_args_list:
+        assert call.args[0] != ignored_asset_path

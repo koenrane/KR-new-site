@@ -2499,7 +2499,6 @@ def test_check_asset_references(
     )
 
     # Adjust expected paths to be relative to the base_dir for assertion
-    # TODO is this needed?
     expected_missing_resolved = sorted(
         [
             exp.replace("(resolved to public/", f"(resolved to {base_dir}/")

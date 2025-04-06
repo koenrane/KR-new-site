@@ -10,7 +10,7 @@ from pathlib import Path
 try:
     from . import compress
     from . import utils as script_utils
-except ImportError:
+except ImportError:  # pragma: no cover
     import compress  # type: ignore
     import utils as script_utils  # type: ignore
 

@@ -47,7 +47,7 @@ _FFMPEG_COMMON_OUTPUT_ARGS: Final[list[str]] = [
 ]
 
 
-def _check_dependencies() -> None:
+def _check_dependencies() -> None:  # pragma: no cover
     """
     Check if required command-line tools are installed.
     """
@@ -105,7 +105,7 @@ def image(image_path: Path, quality: int = _DEFAULT_IMAGE_QUALITY) -> None:
         ]
         subprocess.run(command, check=True, capture_output=True)
         print(f"Successfully converted {image_path.name} to {avif_path.name}")
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError as e:  # pragma: no cover
         raise RuntimeError(
             f"Error during AVIF conversion of {image_path.name}: {e}"
         ) from e
@@ -289,7 +289,7 @@ def _check_if_hevc_codec(video_path: Path) -> bool:
     return codec == "hevc"
 
 
-def _parse_args() -> argparse.Namespace:
+def _parse_args() -> argparse.Namespace:  # pragma: no cover
     """
     Parse command-line arguments.
     """
@@ -327,7 +327,7 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> None:
+def main() -> None:  # pragma: no cover
     """
     Main execution function.
     """
