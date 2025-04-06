@@ -2,15 +2,20 @@ appdirs==1.4.4
 autoflake @ file:///home/conda/feedstock_root/build_artifacts/autoflake_1665733413003/work
 autopep8 @ file:///home/conda/feedstock_root/build_artifacts/autopep8_1719133654277/work
 beautifulsoup4 @ file:///home/conda/feedstock_root/build_artifacts/beautifulsoup4_1738740337718/work
+black==25.1.0
 Brotli @ file:///Users/runner/miniforge3/conda-bld/brotli-split_1725267563793/work
 certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1739515848642/work/certifi
 cffi @ file:///Users/runner/miniforge3/conda-bld/cffi_1725560551097/work
 charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1728479282467/work
+click==8.1.8
 colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1733218098505/work
+coverage==7.8.0
 docformatter @ file:///home/conda/feedstock_root/build_artifacts/docformatter_1689652499088/work
 exceptiongroup @ file:///home/conda/feedstock_root/build_artifacts/exceptiongroup_1733208806608/work
+execnet==2.1.1
 gitdb==4.0.12
 GitPython==3.1.44
+google==3.0.0
 h2 @ file:///home/conda/feedstock_root/build_artifacts/h2_1738578511449/work
 hpack @ file:///home/conda/feedstock_root/build_artifacts/hpack_1737618293087/work
 hyperframe @ file:///home/conda/feedstock_root/build_artifacts/hyperframe_1737618333194/work
@@ -20,13 +25,16 @@ isort==6.0.1
 libsass @ file:///Users/runner/miniforge3/conda-bld/libsass_1742562609981/work
 markdown-it-py @ file:///home/conda/feedstock_root/build_artifacts/markdown-it-py_1733250460757/work
 mdurl @ file:///home/conda/feedstock_root/build_artifacts/mdurl_1733255585584/work
+mypy-extensions==1.0.0
 numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1742254867999/work/dist/numpy-2.2.4-cp311-cp311-macosx_11_0_arm64.whl#sha256=10701f95f0b55ae60eb6c620ad18ef4823f33de7d2ed4c3914518ed68a58caeb
 opentimestamps==0.4.5
 opentimestamps-client==0.7.2
 packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1731802491770/work
 pandas @ file:///Users/runner/miniforge3/conda-bld/pandas_1726878432242/work
 pandas-stubs @ file:///home/conda/feedstock_root/build_artifacts/pandas-stubs_1728505590299/work
+pathspec==0.12.1
 pillow==11.1.0
+platformdirs==4.3.7
 pluggy @ file:///home/conda/feedstock_root/build_artifacts/pluggy_1733222765875/work
 psutil @ file:///Users/runner/miniforge3/conda-bld/psutil_1740663164053/work
 pycodestyle @ file:///home/conda/feedstock_root/build_artifacts/pycodestyle_1722846760694/work
@@ -36,6 +44,7 @@ pyflakes @ file:///home/conda/feedstock_root/build_artifacts/pyflakes_1704424584
 Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1736243443484/work
 PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1733217236728/work
 pytest @ file:///home/conda/feedstock_root/build_artifacts/pytest_1740946542080/work
+pytest-xdist==3.6.1
 python-bitcoinlib==0.12.2
 python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1709299778482/work
 pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1706886791323/work
@@ -57,4 +66,3 @@ tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1727140
 untokenize @ file:///home/conda/feedstock_root/build_artifacts/untokenize_1723841446890/work
 urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1734859416348/work
 zstandard==0.23.0
-pytest-xdist==3.1.0
