@@ -19,7 +19,7 @@ import time
 from collections import deque, namedtuple
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Deque, List, Optional, TextIO, Tuple
+from typing import Collection, Deque, Sequence, TextIO, Tuple
 
 import psutil
 from rich.console import Console
@@ -47,14 +47,14 @@ def save_state(step_name: str) -> None:
 
 
 def get_last_step(
-    available_steps: Optional[List[str]] = None,
-) -> Optional[str]:
+    available_steps: Collection[str] | None = None,
+) -> str | None:
     """
     Get the name of the last successful step.
 
     Args:
-        available_steps: Optional list of valid step names. If provided,
-                       validates that the last step is in this list.
+        available_steps: Optional collection of valid step names. If provided,
+                         validates that the last step is in this collection.
 
     Returns:
         The name of the last successful step, or None if no state exists
@@ -90,7 +90,7 @@ class ServerManager:
     Manages the quartz server process and handles cleanup on interrupts.
     """
 
-    _server_pid: Optional[int] = None
+    _server_pid: int | None = None
     _is_server_created_by_script: bool = False
 
     def __init__(self):
@@ -98,7 +98,7 @@ class ServerManager:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
 
-    def _signal_handler(self, _: int, __: Optional[object]) -> None:
+    def _signal_handler(self, _: int, __: object) -> None:
         """
         Handle interrupt signals by cleaning up server and exiting.
         """
@@ -138,7 +138,7 @@ def is_port_in_use(port: int) -> bool:
         return s.connect_ex(("localhost", port)) == 0
 
 
-def find_quartz_process() -> Optional[int]:
+def find_quartz_process() -> int | None:
     """
     Find the PID of any running quartz server.
 
@@ -250,17 +250,17 @@ class CheckStep:
     """
 
     name: str
-    command: List[str]
+    command: Sequence[str]
     shell: bool = False
-    cwd: Optional[str] = None
+    cwd: str | None = None
 
 
-def run_checks(steps: List[CheckStep], resume: bool = False) -> None:
+def run_checks(steps: Sequence[CheckStep], resume: bool = False) -> None:
     """
-    Run a list of check steps and handle their output.
+    Run a sequence of check steps and handle their output.
 
     Args:
-        steps: List of check steps to run
+        steps: Sequence of check steps to run
         resume: Whether to resume from last successful step
     """
     step_names = [step.name for step in steps]
@@ -363,11 +363,11 @@ def run_command(
             stderr=subprocess.PIPE,
             text=True,
         ) as process:
-            stdout_lines: List[str] = []
-            stderr_lines: List[str] = []
+            stdout_lines: list[str] = []
+            stderr_lines: list[str] = []
             last_lines: Deque[str] = deque(maxlen=5)
 
-            def stream_reader(stream: TextIO, lines_list: List[str]) -> None:
+            def stream_reader(stream: TextIO, lines_list: list[str]) -> None:
                 for line in iter(stream.readline, ""):
                     lines_list.append(line)
                     last_lines.append(line.rstrip())
