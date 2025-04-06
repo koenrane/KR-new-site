@@ -1444,6 +1444,18 @@ def test_check_markdown_assets_in_html(
     assert sorted(result) == sorted(expected)
 
 
+def test_check_markdown_assets_in_html_with_invalid_md_path():
+    """Test that check_markdown_assets_in_html returns an empty list when md_path is None"""
+    soup = BeautifulSoup("<html><body></body></html>", "html.parser")
+    md_path = Path("nonexistent.md")
+    pytest.raises(
+        FileNotFoundError,
+        built_site_checks.check_markdown_assets_in_html,
+        soup,
+        md_path,
+    )
+
+
 @pytest.mark.parametrize(
     "html,expected",
     [

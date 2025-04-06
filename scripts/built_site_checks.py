@@ -921,7 +921,7 @@ def check_markdown_assets_in_html(
         List of asset references that have fewer instances in HTML
     """
     if not md_path.exists():
-        raise ValueError(f"Markdown file {md_path} does not exist")
+        raise FileNotFoundError(f"Markdown file {md_path} does not exist")
 
     md_asset_counts = get_md_asset_counts(md_path)
 
@@ -940,10 +940,6 @@ def check_markdown_assets_in_html(
             missing_assets.append(
                 f"Asset {asset} appears {md_count} times in markdown "
                 f"but only {html_count} times in HTML"
-            )
-        elif html_count == 0:
-            missing_assets.append(
-                f"Asset {asset} from markdown not found in HTML"
             )
 
     return missing_assets
