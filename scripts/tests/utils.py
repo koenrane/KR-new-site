@@ -90,6 +90,13 @@ def create_test_video(
         _create_test_gif(path, length_in_seconds=duration, framerate=framerate)
         return
 
+    match output_extension:
+        case ".webm":
+            audio_codec = "libopus"
+        case ".mpeg":
+            audio_codec = "mp2"
+        case _:
+            audio_codec = "aac"
     base_command = [
         "ffmpeg",
         "-f",
@@ -106,8 +113,7 @@ def create_test_video(
         "-map",
         "1:a",
         "-c:a",
-        # Use mp2 for mpeg, aac otherwise
-        "mp2" if output_extension == ".mpeg" else "aac",
+        audio_codec,
         "-shortest",
         "-t",
         str(duration),

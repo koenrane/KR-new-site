@@ -116,6 +116,15 @@ def _image_patterns(input_file: Path) -> tuple[str, str]:
     )
 
 
+def _strip_metadata(file_path: Path) -> None:
+    subprocess.run(
+        ["exiftool", "-all=", str(file_path), "--verbose"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+
+
 def convert_asset(
     input_file: Path,
     remove_originals: bool = False,
@@ -156,13 +165,14 @@ def convert_asset(
         # Get patterns first so that we trigger relative path errors if needed
         original_pattern, replacement_pattern = _image_patterns(input_file)
         compress.image(input_file)
-        output_file = input_file.with_suffix(".avif")
-
+        if strip_metadata:
+            _strip_metadata(input_file.with_suffix(".avif"))
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         original_pattern, replacement_pattern = _video_patterns(input_file)
         compress.video(input_file)
-        output_file = input_file.with_suffix(".mp4")
-
+        if strip_metadata:
+            for suffix in [".mp4", ".webm"]:
+                _strip_metadata(input_file.with_suffix(suffix))
     else:
         raise ValueError(
             f"Error: Unsupported file type '{input_file.suffix}'."
@@ -182,14 +192,6 @@ def convert_asset(
 
         with open(md_file, "w", encoding="utf-8") as file:
             file.write(content)
-
-    if strip_metadata:
-        subprocess.run(
-            ["exiftool", "-all=", str(output_file), "--verbose"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=False,
-        )
 
     if remove_originals and input_file.suffix not in (".mp4", ".avif"):
         input_file.unlink()

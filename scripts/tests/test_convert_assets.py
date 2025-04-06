@@ -91,28 +91,26 @@ def test_remove_source_files(setup_test_env, remove_originals):
     assert asset_path.exists() == (not remove_originals)
 
 
-def test_strip_metadata(setup_test_env):
+def _add_metadata(file_path: Path) -> None:
+    subprocess.run(
+        [
+            "exiftool",
+            "-Artist=Test Artist",
+            "-Copyright=Test Copyright",
+            str(file_path),
+        ],
+        check=True,
+    )
+
+
+def test_strip_image_metadata(setup_test_env):
     image_path = (
         Path(setup_test_env) / "quartz" / "static" / "asset_with_exif.jpg"
     )
     test_utils.create_test_image(image_path, "32x32")
 
-    # Simulate adding metadata using exiftool
-    with mock.patch("subprocess.run") as mock_exiftool:
-        mock_exiftool.return_value = subprocess.CompletedProcess(
-            args=[], returncode=0
-        )
-        subprocess.run(
-            [
-                "exiftool",
-                "-Artist=Test Artist",
-                "-Copyright=Test Copyright",
-                str(image_path),
-            ],
-            check=True,
-        )
+    _add_metadata(image_path)
 
-    # Convert the image to AVIF
     convert_assets.convert_asset(
         image_path,
         strip_metadata=True,
@@ -120,14 +118,36 @@ def test_strip_metadata(setup_test_env):
     )
 
     # Read the output of exiftool on the AVIF file and assert that no EXIF data is present
-    with mock.patch("subprocess.check_output") as mock_check_output:
-        mock_check_output.return_value = b""  # No EXIF data should be returned
+    exif_output = subprocess.check_output(
+        ["exiftool", image_path.with_suffix(".avif")]
+    )
+    assert (
+        "Test Artist" not in exif_output.decode()
+    )  # Check for a specific tag
+    assert "Test Copyright" not in exif_output.decode()
+
+
+@pytest.mark.parametrize("ext", [".mp4", ".mov"])
+def test_strip_video_metadata(ext: str, setup_test_env):
+    asset_path: Path = (
+        Path(setup_test_env) / "quartz" / "static" / f"asset{ext}"
+    )
+
+    test_utils.create_test_video(asset_path)
+
+    _add_metadata(asset_path)
+
+    convert_assets.convert_asset(
+        asset_path,
+        strip_metadata=True,
+        md_references_dir=Path(setup_test_env),
+    )
+
+    for suffix in [".mp4", ".webm"]:
         exif_output = subprocess.check_output(
-            ["exiftool", image_path.with_suffix(".avif")]
+            ["exiftool", asset_path.with_suffix(suffix)]
         )
-        assert (
-            "Test Artist" not in exif_output.decode()
-        )  # Check for a specific tag
+        assert "Test Artist" not in exif_output.decode()
         assert "Test Copyright" not in exif_output.decode()
 
 

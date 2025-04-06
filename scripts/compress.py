@@ -20,6 +20,7 @@ ALLOWED_VIDEO_EXTENSIONS: Final[set[str]] = {
     ".mp4",
     ".avi",
     ".mpeg",
+    ".webm",
 }
 ALLOWED_EXTENSIONS: Final[set[str]] = (
     ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
