@@ -13,17 +13,23 @@ from typing import Final
 _DEFAULT_IMAGE_QUALITY: Final[int] = 56
 _DEFAULT_HEVC_CRF: Final[int] = 28
 _DEFAULT_VP9_CRF: Final[int] = 31
-ALLOWED_IMAGE_EXTENSIONS: Final[set[str]] = {".jpg", ".jpeg", ".png"}
-ALLOWED_VIDEO_EXTENSIONS: Final[set[str]] = {
-    ".gif",
-    ".mov",
-    ".mp4",
-    ".avi",
-    ".mpeg",
-    ".webm",
-}
-ALLOWED_EXTENSIONS: Final[set[str]] = (
-    ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
+ALLOWED_IMAGE_EXTENSIONS: Final[tuple[str, ...]] = tuple(
+    sorted((".jpg", ".jpeg", ".png"))
+)
+ALLOWED_VIDEO_EXTENSIONS: Final[tuple[str, ...]] = tuple(
+    sorted(
+        (
+            ".gif",
+            ".mov",
+            ".mp4",
+            ".avi",
+            ".mpeg",
+            ".webm",
+        )
+    )
+)
+ALLOWED_EXTENSIONS: Final[tuple[str, ...]] = (
+    ALLOWED_IMAGE_EXTENSIONS + ALLOWED_VIDEO_EXTENSIONS
 )
 
 _CODEC_HEVC: Final[str] = "libx265"
@@ -69,7 +75,8 @@ def image(image_path: Path, quality: int = _DEFAULT_IMAGE_QUALITY) -> None:
 
     Args:
         `image_path`: The path to the image file.
-        `quality`: The AVIF quality (0-100). Lower quality means smaller file size.
+        `quality`: The AVIF quality (0-100).
+            Lower quality means smaller file size.
     """
     if not image_path.is_file():
         raise FileNotFoundError(f"Error: File '{image_path}' not found.")
@@ -210,7 +217,7 @@ def _run_ffmpeg_webm(
     """
     Helper function to run the ffmpeg command for WebM/VP9 conversion.
     """
-    if not (0 <= quality <= 63):
+    if not 0 <= quality <= 63:
         raise ValueError(
             f"WebM quality (CRF) must be between 0 and 63, got {quality}."
         )
@@ -287,7 +294,8 @@ def _parse_args() -> argparse.Namespace:
     Parse command-line arguments.
     """
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
-        description="Compress assets: image to AVIF, video to MP4/HEVC and WebM/VP9."
+        description="Compress assets: image to AVIF,"
+        " video to MP4/HEVC and WebM/VP9."
     )
     parser.add_argument(
         "path", type=Path, help="Path to the file to compress."
@@ -296,20 +304,23 @@ def _parse_args() -> argparse.Namespace:
         "--quality-img",
         type=int,
         default=_DEFAULT_IMAGE_QUALITY,
-        help=f"Quality for image (AVIF) (0-100, lower means smaller file). Default: {_DEFAULT_IMAGE_QUALITY}",
+        help=f"Quality for image (AVIF) (0-100, lower means smaller file)."
+        f" Default: {_DEFAULT_IMAGE_QUALITY}",
     )
     parser.add_argument(
         "--quality-hevc",
         type=int,
         default=_DEFAULT_HEVC_CRF,
-        help=f"Quality for video (HEVC CRF) (0-51, lower is better quality). Default: {_DEFAULT_HEVC_CRF}",
+        help=f"Quality for video (HEVC CRF) (0-51, lower is better quality)."
+        f" Default: {_DEFAULT_HEVC_CRF}",
         choices=list(range(0, 52)),
     )
     parser.add_argument(
         "--quality-webm",
         type=int,
         default=_DEFAULT_VP9_CRF,
-        help=f"Quality for video (WebM CRF) (0-63, lower is better quality). Default: {_DEFAULT_VP9_CRF}",
+        help=f"Quality for video (WebM CRF) (0-63, lower is better quality)."
+        f" Default: {_DEFAULT_VP9_CRF}",
         choices=list(range(0, 64)),
     )
 
