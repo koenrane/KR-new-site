@@ -89,7 +89,7 @@ I think of AUP as addressing the single-principal (AI designer) / single-agent (
 
 In this setting, negotiated agent policies usually destroy option value.
 
-![](option-value-multiple-stakeholders-conservative-agency.png)
+![](https://assets.turntrout.com/static/images/posts/option-value-multiple-stakeholders-conservative-agency.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/mp-aup-large-theta.avif)
 <br/>Figure: Optimal actions when $\theta>\frac{1}{2}$ .

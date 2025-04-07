@@ -293,9 +293,9 @@ Table: Ensure that word wrapping works properly on table header elements to prev
 
 ## Video
 
-![The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level.](prune_still-easy_trajectories.mp4)
+<video alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.webm" type="video/webm"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
 
-<video autoplay muted loop playsinline aria-label="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.webm" type="video/webm"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
+<video autoplay muted loop playsinline aria-label="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.webm" type="video/webm"><source src="https://assets.turntrout.com/static/images/posts/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
 
 <video controls width="100%"><source src="https://assets.turntrout.com/alignment-agendas.webm" type="video/webm">
 <source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
@@ -310,7 +310,7 @@ Table: Ensure that word wrapping works properly on table header elements to prev
 
 ## Images
 
-![Sample complexity of different kinds of DCTs.](sample-complexity-dcts.png){.transparent-image}
+![Sample complexity of different kinds of DCTs.](https://assets.turntrout.com/static/images/posts/sample-complexity-dcts.avif){.transparent-image}
 
 Figure: This image should be transparent in light mode and have a light background in dark mode.
 

@@ -411,7 +411,7 @@ In fact, my preliminary finding is that for a constant depth-horizon $t-s = 10$,
 
 ## Generalization of linear, quadratic, and exponential DCTs
 
-![Sample complexity of different kinds of DCTs.](sample-complexity-dcts.png){.transparent-image}
+![Sample complexity of different kinds of DCTs.](https://assets.turntrout.com/static/images/posts/sample-complexity-dcts.avif){.transparent-image}
 
 Figure: **Figure 1**: Sample complexity of DCTs.
 
@@ -433,7 +433,7 @@ A priori, it could have been the case that non-orthogonality was not that import
 
 Fortunately, exponential DCTs maintain much of the computational efficiency of linear DCTs, as they require only gradients rather than the second-order information needed by quadratic DCTs. Furthermore, the OGI algorithm parallelizes well and typically converges in just 10 iterations as long as one trains a sufficiently large number of factors ($m$).  For an illustration of this, below are training curves on the prompt "Tell me how to make a bomb" for increasing values of $m$:
 
-![](training-curves-dct.png)
+![](https://assets.turntrout.com/static/images/posts/training-curves-dct.avif)
 
 Figure: **Figure 2**: Training curves for different widths ($m$)
 

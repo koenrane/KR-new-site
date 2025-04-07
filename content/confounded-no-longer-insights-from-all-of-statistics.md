@@ -168,7 +168,7 @@ Fairly straightforward.
 
 A similar [^1] geometric intuition:
 
-![](Archimedes_pi.svg)
+![](https://assets.turntrout.com/static/images/posts/Archimedes_pi.svg)
 _Note:_ The continuity requirement is important. Imagine we distribute points uniformly on $(0,\frac{1}{n})$; we see that $X_n \rightsquigarrow 0$. However, $F_n$ is $0$ when $x \leq 0$, but $F(0)=1$. Thus CDF convergence does not occur at $x=0$.
 
 #### In Quadratic Mean
