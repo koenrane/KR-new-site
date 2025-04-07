@@ -261,7 +261,8 @@ Seed 0's vector seems to transfer quite well. However, top-right vectors from sm
 
 Subtracting the cheese vector often makes the agent (nearly) ignore the cheese, and adding the top-right vector often attracts the agent to the top-right corner. It turns out that you can mix and match these effects by adding one or both vectors halfway through the forward pass.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/w_940.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/w_940.webm" type="video/webm">
+<source src="https://assets.turntrout.com/static/images/posts/w_940.mp4" type="video/mp4"></video>
 
 Figure: **Different x-vectors have roughly additive effects.** The indicated modification(s) are applied by adding the relevant vector(s) to the activations at [the second Impala block's first residual addition](https://assets.turntrout.com/static/images/posts/gxvochz2uulosefsmuif.avif).
 

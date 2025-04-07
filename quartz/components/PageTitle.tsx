@@ -15,13 +15,20 @@ import {
 const altText = "A goose and a trout play in a pond in front of a castle."
 export const headerVideoContainer = (
   <span id="header-video-container">
-    <img
-      src="https://assets.turntrout.com/static/pond.gif"
-      id="header-gif"
+    <video
+      id="pond-video"
       className="no-select no-vsc"
-      alt={altText}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
       spa-preserve
-    />
+      aria-label={altText}
+    >
+      <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm" />
+      <source src="https://assets.turntrout.com/static/pond.mp4" type="video/mp4" />
+    </video>
   </span>
 )
 

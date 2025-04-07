@@ -214,7 +214,8 @@ This might feel too abstract, so let's run through examples.
 ![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
 <br/>Figure: At all discount rates $\gamma\in[0,1]$, it's optimal for _most reward functions_ to get `blue-gems` because that leads to strictly more options. We can permute every `red-gems` reward function into a `blue-gems` reward function.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vase.webm" type="video/webm">
+<source src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"></video>
 
 Figure: Consider a robot  (<span style="color:blue">■</span>) navigating through a room with a vase (■). By the logic of "every `destroying-vase-is-optimal` reward function can be permuted into a `preserving-vase-is-optimal` reward function", my results (specifically, [Proposition 6.9](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=6.09) and its generalization via [Lemma E.49](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=36.78)) suggest[^suggest] that optimal policies tend to avoid breaking the vase, since doing so would strictly decrease available options.
   
@@ -222,7 +223,8 @@ Figure: Consider a robot  (<span style="color:blue">■</span>) navigating throu
   
 [^suggest]: "Suggest" instead of "prove" because E.49's preconditions may not always be met, depending on the details of the dynamics. I think this is probably unimportant, but that's for future work. Also, the argument may barely not apply to _this_ gridworld, but if you could move the vase around without destroying it, I think it goes through fine.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/safelife3.webm" type="video/webm">
+<source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
 
 Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can irreversibly destroy green cell patterns. By the logic of "every `destroy-green-pattern` reward function can be permuted into a `preserve-green-pattern` reward function", Lemma E.49 suggests that optimal policies tend to not disturb any given green cell pattern (although most probably destroy _some_ pattern). The permutation would swap \{states reachable after destroying the pattern\} with \{states reachable after not destroying the pattern\}. <br/><br/>However, the converse is not true: you cannot fix a permutation which turns all `preserve-green-pattern` reward functions into `destroy-green-pattern` reward functions. There are simply too many extra ways for preserving green cells to be optimal.  <br/><br/>Assuming some conjectures I have about the combinatorial properties of power-seeking, this helps explain why [AUP works in SafeLife using a single auxiliary reward function](/avoiding-side-effects-in-complex-environments) - but more on that in another post.
 

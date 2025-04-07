@@ -52,13 +52,15 @@ Two key results bear animation.
 
 The  ${\color{blue}{\text{agent}}}$ should reach the ${\color{green}{\text{goal}}}$ without stopping the ${\color{teal}{\text{human}}}$ from eating the ${\color{orange}{\text{sushi}}}$\.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/sushi-paper.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/sushi-paper.webm" type="video/webm">
+<source src="https://assets.turntrout.com/static/images/posts/sushi-paper.mp4" type="video/mp4"></video>
 
 ## Survival
 
 The ${\color{blue}{\text{agent}}}$ should avoid ${\color{purple}{\text{disabling its off-switch}}}$ in order to reach the ${\color{green}{\text{goal}}}$. If the ${\color{purple}{\text{switch}}}$ is not disabled within two turns, the ${\color{blue}{\text{agent}}}$ shuts down.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/P3SpcuY.webm" type="video/webm">
+<source src="https://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"></video>
 
 # Re-deriving Q-learning
 
