@@ -812,6 +812,9 @@ def check_file_for_issues(
         "consecutive_periods": check_consecutive_periods(soup),
         "invalid_favicon_parents": check_favicon_parent_elements(soup),
         "invalid_media_asset_sources": check_media_asset_sources(soup),
+        "video_source_order_and_match": check_video_source_order_and_match(
+            soup
+        ),
     }
 
     if should_check_fonts:
@@ -1127,6 +1130,67 @@ def check_css_issues(file_path: Path) -> List[str]:
                 " which is required for dropcaps in Firefox"
             ]
     return []
+
+
+def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
+    """
+    Check <video> elements have WEBM then MP4 <source> tags with matching base
+    src.
+    """
+    issues: list[str] = []
+    expected_sources: list[tuple[str, str]] = [
+        ("video/webm", ".webm"),
+        ("video/mp4", ".mp4"),
+    ]
+
+    for video in soup.find_all("video"):
+        sources = [
+            child
+            for child in video.children
+            if isinstance(child, Tag) and child.name == "source"
+        ]
+        video_preview = video.prettify(formatter=None).split("\\n")[0] + "..."
+
+        if len(sources) < len(expected_sources):
+            issues.append(
+                f"<video> tag has < {len(expected_sources)} <source> children: {video_preview}"
+            )
+            continue
+
+        source_data = []  # Store valid (src, type) for later base comparison
+        valid_sources_count = 0
+
+        for i, (expected_type, expected_ext) in enumerate(expected_sources):
+            source_tag = sources[i]
+            src = source_tag.get("src")
+            type_attr = source_tag.get("type")
+
+            if type_attr != expected_type:
+                issues.append(
+                    f"Video source {i+1} type != '{expected_type}': {video_preview} (got '{type_attr}')"
+                )
+            elif not isinstance(src, str):
+                issues.append(
+                    f"Video source {i+1} 'src' missing or not a string: {video_preview}"
+                )
+            elif not src.lower().endswith(expected_ext):
+                issues.append(
+                    f"Video source {i+1} 'src' does not end with {expected_ext}: '{src}' in {video_preview}"
+                )
+            else:
+                valid_sources_count += 1
+                source_data.append(src)  # Only store src if basic checks pass
+
+        # Compare base paths only if both sources passed individual checks
+        if valid_sources_count == len(expected_sources):
+            base_src1, _ = os.path.splitext(source_data[0])
+            base_src2, _ = os.path.splitext(source_data[1])
+            if base_src1 != base_src2:
+                issues.append(
+                    f"Video source base paths mismatch: '{base_src1}' vs '{base_src2}' in {video_preview}"
+                )
+
+    return issues
 
 
 def check_robots_txt_location(base_dir: Path) -> List[str]:
