@@ -41,6 +41,23 @@ def check_required_fields(metadata: dict) -> List[str]:
     return errors
 
 
+def validate_video_tags(file_path: Path) -> List[str]:
+    """
+    Validate that the video tag is valid.
+
+    Returns:
+        List of error messages for invalid video tags
+    """
+    with open(file_path, encoding="utf-8") as f:
+        content = f.read()
+    issues = []
+    for match in re.finditer(r"<video[^>]*\s(src|type)\s*=", content):
+        issues.append(
+            f"Video tag contains forbidden 'src' or 'type' attribute: {match.group()}"
+        )
+    return issues
+
+
 def check_url_uniqueness(
     urls: Set[str], existing_urls: PathMap, source_path: Path
 ) -> List[str]:
@@ -392,6 +409,7 @@ def check_file_data(
         "latex_tags": check_latex_tags(file_path),
         "table_alignments": check_table_alignments(file_path),
         "unescaped_braces": check_unescaped_braces(file_path),
+        "video_tags": validate_video_tags(file_path),
     }
 
     if metadata:

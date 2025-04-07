@@ -1,4 +1,5 @@
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple
 from unittest.mock import patch
@@ -1461,3 +1462,45 @@ def test_slug_in_metadata(slug: str, metadata: dict, expected: bool) -> None:
     assert (
         result == expected
     ), f"Expected {expected} but got {result} for slug '{slug}' in metadata {metadata}"
+
+
+@pytest.mark.parametrize(
+    "video_tag, should_raise",
+    [
+        # Valid tags (should not raise)
+        ("<video autoplay muted></video>", False),
+        ('<video controls alt="Test"></video>', False),
+        ("<video></video>", False),
+        # Invalid tags (should raise ValueError)
+        ('<video src="path/to/video.mp4"></video>', True),
+        ('<video type="video/webm"></video>', True),
+        ('<video controls src="vid.mov" alt="Test"></video>', True),
+        ('<video type="video/mp4" autoplay></video>', True),
+        # Check spacing variations
+        ('<video   src="vid.mp4"></video>', True),
+        ('<video type = "video/avi"></video>', True),
+        # Ensure it doesn't match src/type in attribute values
+        ('<video data-source="src=value"></video>', False),
+        ('<video alt="type=something"></video>', False),
+    ],
+)
+def test_validate_video_tag(video_tag: str, should_raise: bool):
+    """Tests the validate_video_tags function."""
+    with tempfile.NamedTemporaryFile(
+        "w", suffix=".md", delete=False
+    ) as tmp_file:
+        tmp_file.write(video_tag)
+    tmp_path = Path(tmp_file.name)
+
+    try:
+        issues = source_file_checks.validate_video_tags(tmp_path)
+    finally:
+        tmp_path.unlink()  # Clean up the temporary file
+
+    if should_raise:
+        assert issues, f"Expected errors for tag: {video_tag}, but got none."
+        assert "forbidden 'src' or 'type' attribute" in issues[0]
+    else:
+        assert (
+            not issues
+        ), f"Expected no errors for tag: {video_tag}, but got: {issues}"

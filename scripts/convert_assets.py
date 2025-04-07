@@ -58,8 +58,7 @@ def _video_original_pattern(input_file: Path) -> str:
             r"<video (?P<earlyTagInfo>[^>]*)"
             rf"src=\"{tag_link_pattern}\""
             rf"(?P<tagInfo>[^>]*)(?:type=\"video/{input_file.suffix[1:]}\")?"
-            # TODO Assumes that type and href not set for <video>
-            # will ignore existing </video> tags, source tags
+            # TODO will ignore existing source tags
             r"(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)"
         )
 
@@ -137,6 +136,7 @@ def _replace_content(
 ) -> str:
     def _process_match(match: re.Match[str]) -> str:
         matched_text = match.group(0)
+
         original_alt_was_empty = 'alt=""' in matched_text
 
         replaced_text = re.sub(
