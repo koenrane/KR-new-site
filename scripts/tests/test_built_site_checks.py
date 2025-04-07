@@ -2814,3 +2814,212 @@ def test_main_skips_drafts(
     with patch.object(built_site_checks, "print_issues") as mock_print:
         built_site_checks.main()
         mock_print.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "html,expected_issues",
+    [
+        # Valid case: WEBM then MP4, matching base names
+        (
+            """
+            <video>
+                <source src="video.webm" type="video/webm">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            """,
+            [],
+        ),
+        # Incorrect order: MP4 then WEBM
+        (
+            """
+            <video>
+                <source src="video.mp4" type="video/mp4">
+                <source src="video.webm" type="video/webm">
+            </video>
+            """,
+            [
+                "Video source 1 type != 'video/webm': <video>... (got 'video/mp4')",
+                "Video source 1 'src' does not end with .webm: 'video.mp4' in <video>...",
+                "Video source 2 type != 'video/mp4': <video>... (got 'video/webm')",
+                "Video source 2 'src' does not end with .mp4: 'video.webm' in <video>...",
+            ],
+        ),
+        # Missing WEBM source (only MP4 present)
+        (
+            """
+            <video>
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            """,
+            ["<video> tag has < 2 <source> children: <video>..."],
+        ),
+        # Missing MP4 source (only WEBM present)
+        (
+            """
+            <video>
+                <source src="video.webm" type="video/webm">
+            </video>
+            """,
+            ["<video> tag has < 2 <source> children: <video>..."],
+        ),
+        # Wrong type attribute for WEBM
+        (
+            """
+            <video>
+                <source src="video.webm" type="video/ogg">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            """,
+            [
+                "Video source 1 type != 'video/webm': <video>... (got 'video/ogg')"
+            ],
+        ),
+        # Wrong type attribute for MP4
+        (
+            """
+            <video>
+                <source src="video.webm" type="video/webm">
+                <source src="video.mp4" type="video/ogg">
+            </video>
+            """,
+            [
+                "Video source 2 type != 'video/mp4': <video>... (got 'video/ogg')"
+            ],
+        ),
+        # Wrong file extension for WEBM src
+        (
+            """
+            <video>
+                <source src="video.ogg" type="video/webm">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            """,
+            [
+                "Video source 1 'src' does not end with .webm: 'video.ogg' in <video>..."
+            ],
+        ),
+        # Wrong file extension for MP4 src
+        (
+            """
+            <video>
+                <source src="video.webm" type="video/webm">
+                <source src="video.ogg" type="video/mp4">
+            </video>
+            """,
+            [
+                "Video source 2 'src' does not end with .mp4: 'video.ogg' in <video>..."
+            ],
+        ),
+        # Mismatched base names in src
+        (
+            """
+            <video>
+                <source src="video1.webm" type="video/webm">
+                <source src="video2.mp4" type="video/mp4">
+            </video>
+            """,
+            [
+                "Video source base paths mismatch: 'video1' vs 'video2' in <video>..."
+            ],
+        ),
+        # Fewer than two source tags
+        (
+            """
+            <video>
+                <source src="video.webm" type="video/webm">
+            </video>
+            """,
+            ["<video> tag has < 2 <source> children: <video>..."],
+        ),
+        # Source tags missing src
+        (
+            """
+            <video>
+                <source type="video/webm">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            """,
+            [
+                "Video source 1 'src' missing or not a string: <video>...",
+                "Video source 1 'src' does not end with .webm: 'None' in <video>...",
+            ],
+        ),
+        # Source tags missing type
+        (
+            """
+            <video>
+                <source src="video.webm">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            """,
+            ["Video source 1 type != 'video/webm': <video>... (got 'None')"],
+        ),
+        # Video tags with no source children
+        (
+            """
+            <video controls>
+                Your browser does not support the video tag.
+            </video>
+            """,
+            ['<video> tag has < 2 <source> children: <video controls="">...'],
+        ),
+        # Multiple video tags, one valid, one invalid
+        (
+            """
+            <video>
+                <source src="good.webm" type="video/webm">
+                <source src="good.mp4" type="video/mp4">
+            </video>
+            <video>
+                <source src="bad.mp4" type="video/mp4">
+                <source src="bad.webm" type="video/webm">
+            </video>
+            """,
+            [
+                "Video source 1 type != 'video/webm': <video>... (got 'video/mp4')",
+                "Video source 1 'src' does not end with .webm: 'bad.mp4' in <video>...",
+                "Video source 2 type != 'video/mp4': <video>... (got 'video/webm')",
+                "Video source 2 'src' does not end with .mp4: 'bad.webm' in <video>...",
+            ],
+        ),
+        # Case variations in extensions and types (should still be valid)
+        (
+            """
+            <video>
+                <source src="video.WEBm" type="VIDEO/webm">
+                <source src="video.MP4" type="VIDEO/MP4">
+            </video>
+            """,
+            [],
+        ),
+        # Paths with query strings or fragments (should compare base correctly)
+        (
+            """
+            <video>
+                <source src="video.webm?v=1#t=10" type="video/webm">
+                <source src="video.mp4?v=1#t=10" type="video/mp4">
+            </video>
+            """,
+            [],
+        ),
+        (
+            """
+            <video>
+                <source src="video.webm?v=1" type="video/webm">
+                <source src="video.mp4?v=2" type="video/mp4">
+            </video>
+            """,
+            [
+                "Video source base paths mismatch: 'video?v=1' vs 'video?v=2' in <video>..."
+            ],
+        ),
+    ],
+)
+def test_check_video_source_order_and_match(
+    html: str, expected_issues: List[str]
+) -> None:
+    """Test the check_video_source_order_and_match function."""
+    soup = BeautifulSoup(html, "html.parser")
+    # Ensure the function being tested is correctly referenced
+    result = built_site_checks.check_video_source_order_and_match(soup)
+    assert sorted(result) == sorted(expected_issues)

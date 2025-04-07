@@ -11,6 +11,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 from typing import Dict, List, Literal, Set
+from urllib.parse import urlparse
 
 import requests  # type: ignore[import]
 import tqdm
@@ -1149,7 +1150,10 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
             for child in video.children
             if isinstance(child, Tag) and child.name == "source"
         ]
-        video_preview = video.prettify(formatter=None).split("\\n")[0] + "..."
+        # Use a simpler preview for error messages, keeping attributes
+        video_tag_str = str(video)
+        open_tag = video_tag_str.split(">", 1)[0] + ">"
+        video_preview = f"{open_tag}..."
 
         if len(sources) < len(expected_sources):
             issues.append(
@@ -1157,34 +1161,67 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
             )
             continue
 
-        source_data = []  # Store valid (src, type) for later base comparison
-        valid_sources_count = 0
+        source_data: list[str] = (
+            []
+        )  # Store valid src paths for base comparison
+        source_check_passed: list[bool] = [False] * len(expected_sources)
 
         for i, (expected_type, expected_ext) in enumerate(expected_sources):
             source_tag = sources[i]
             src = source_tag.get("src")
             type_attr = source_tag.get("type")
+            current_source_valid = True
 
-            if type_attr != expected_type:
+            # Check type attribute (case-insensitive)
+            if not type_attr or type_attr.lower() != expected_type.lower():
                 issues.append(
                     f"Video source {i+1} type != '{expected_type}': {video_preview} (got '{type_attr}')"
                 )
-            elif not isinstance(src, str):
+                current_source_valid = False
+
+            # Check src attribute presence
+            if not isinstance(src, str):
                 issues.append(
                     f"Video source {i+1} 'src' missing or not a string: {video_preview}"
                 )
-            elif not src.lower().endswith(expected_ext):
+                current_source_valid = False
+                # Add specific extension error if src is missing/None, matching test expectation
                 issues.append(
                     f"Video source {i+1} 'src' does not end with {expected_ext}: '{src}' in {video_preview}"
                 )
             else:
-                valid_sources_count += 1
-                source_data.append(src)  # Only store src if basic checks pass
+                # Parse URL to ignore query/fragment for extension check
+                parsed_src = urlparse(src)
+                path_only = parsed_src.path
+                _, ext = os.path.splitext(path_only)
+                if ext.lower() != expected_ext.lower():
+                    issues.append(
+                        f"Video source {i+1} 'src' does not end with {expected_ext}: '{src}' in {video_preview}"
+                    )
+                    current_source_valid = False
 
-        # Compare base paths only if both sources passed individual checks
-        if valid_sources_count == len(expected_sources):
-            base_src1, _ = os.path.splitext(source_data[0])
-            base_src2, _ = os.path.splitext(source_data[1])
+            if current_source_valid:
+                source_check_passed[i] = True
+                source_data.append(src)  # Store original src if checks pass
+            elif len(source_data) == i:
+                # Add placeholder if src was invalid and hasn't been added yet
+                source_data.append("")
+
+        # Compare base paths only if *both* individual source checks passed
+        if all(source_check_passed):
+            # Parse URLs and extract base path including query string for comparison
+            parsed_src1 = urlparse(source_data[0])
+            base_src1_path, _ = os.path.splitext(parsed_src1.path)
+            base_src1 = base_src1_path + (
+                f"?{parsed_src1.query}" if parsed_src1.query else ""
+            )
+
+            parsed_src2 = urlparse(source_data[1])
+            base_src2_path, _ = os.path.splitext(parsed_src2.path)
+            base_src2 = base_src2_path + (
+                f"?{parsed_src2.query}" if parsed_src2.query else ""
+            )
+
             if base_src1 != base_src2:
                 issues.append(
                     f"Video source base paths mismatch: '{base_src1}' vs '{base_src2}' in {video_preview}"
