@@ -22,7 +22,7 @@ GIF_ATTRIBUTES: str = r"autoplay loop muted playsinline"
 def _video_original_pattern(input_file: Path) -> str:
     # create named capture groups for different link patterns
     def link_pattern_fn(tag: str) -> str:
-        return rf"(?P<link_{tag}>[^\)]*)"
+        return rf"(?P<link_{tag}>[^\)\"]*)"
 
     input_file_pattern: str = rf"{input_file.stem}\{input_file.suffix}"
 
@@ -58,7 +58,8 @@ def _video_original_pattern(input_file: Path) -> str:
             r"<video (?P<earlyTagInfo>[^>]*)"
             rf"src=\"{tag_link_pattern}\""
             rf"(?P<tagInfo>[^>]*)(?:type=\"video/{input_file.suffix[1:]}\")?"
-            # will ignore existing </video> tags
+            # TODO Assumes that type and href not set for <video>
+            # will ignore existing </video> tags, source tags
             r"(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)"
         )
 

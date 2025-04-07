@@ -684,7 +684,6 @@ def test_main_ignores_files(setup_test_env):
     ):
         convert_assets.main()
 
-    # Ensure convert_asset was called only for the non-ignored asset
     mock_convert.assert_called_once_with(
         converted_asset_path,
         remove_originals=False,
@@ -695,3 +694,26 @@ def test_main_ignores_files(setup_test_env):
     # Verify it wasn't called for the ignored asset
     for call in mock_convert.call_args_list:
         assert call.args[0] != ignored_asset_path
+
+
+def test_video_conversion_long_html(setup_test_env):
+    test_dir = Path(setup_test_env)
+    content_dir = test_dir / "content"
+    asset_name = "prune_still-easy_trajectories"
+    asset_filename = f"{asset_name}.mp4"
+    dummy_video_path = test_dir / "quartz" / "static" / asset_filename
+
+    test_md_path = content_dir / "test_absolute_url.md"
+    input_html = '<video autoplay muted loop playsinline src="/asset_staging/static/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."></video>'
+    test_md_path.write_text(input_html)
+
+    test_utils.create_test_video(dummy_video_path)
+    convert_assets.convert_asset(
+        dummy_video_path, md_references_dir=content_dir
+    )
+
+    with open(test_md_path) as f:
+        converted_content = f.read()
+
+    expected_html = '<video autoplay muted loop playsinline alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="static/prune_still-easy_trajectories.webm" type="video/webm"><source src="static/prune_still-easy_trajectories.mp4" type="video/mp4"></video>'
+    assert converted_content == expected_html
