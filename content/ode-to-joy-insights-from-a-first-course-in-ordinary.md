@@ -54,7 +54,7 @@ date_updated: 2024-12-05 16:17:06.041179
 
 Sometimes, it's easier to say how things change than to say how things are.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/WCYZkZ4.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/WCYZkZ4.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/WCYZkZ4.mp4" type="video/mp4"></video>
 
 Figure: From [3Blue1Brown: Differential Equations](https://www.youtube.com/watch?v=p_di4Zn4wz4)
 

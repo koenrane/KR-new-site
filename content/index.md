@@ -29,6 +29,6 @@ I also enjoy writing more personal content and sharing a bit [about myself](/abo
 
 To get started, check out [my posts](/posts). Stay a while! The water's great.
 
-<video autoplay="" loop="" muted="" playsinline="" spa-preserve ><source src="https://assets.turntrout.com/static/pond-calming.webm" class="no-vsc" type="video/webm">
+<video autoplay="" loop="" muted="" playsinline="" spa-preserve><source src="https://assets.turntrout.com/static/pond-calming.webm" class="no-vsc" type="video/webm">
 
 > </video>

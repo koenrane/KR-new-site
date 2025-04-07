@@ -43,7 +43,7 @@ date_updated: 2024-11-22 20:04:30.137574
 
 
 
-<video controls width="100%" src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
+<video controls width="100%"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
 
 The video is also [available on YouTube](https://www.youtube.com/watch?v=02kbWY5mahQ).
 
