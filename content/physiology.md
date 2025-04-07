@@ -169,7 +169,8 @@ For example. Neutrophils are a first-responder immune cell and a type of white b
 
 <figure style="display: flex;" >
 <span class="subfigure">
-<video autoplay loop muted playsinline ></video>
+<video autoplay loop muted playsinline ><source src="https://assets.turntrout.com/static/images/posts/wbc.webm" type="video/webm">
+<source src="https://assets.turntrout.com/static/images/posts/wbc.mp4" type="video/mp4"></video>
 <figcaption>A stylized and wholly unfaithful depiction of phagocytosis.</figcaption>
 </span>
 
