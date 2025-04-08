@@ -142,7 +142,7 @@ def check_blockquote_elements(soup: BeautifulSoup) -> list[str]:
         if contents:
             last_part = contents[-1].strip()
             if last_part.endswith(">") and not re.search(r"<\w+>$", last_part):
-                _add_to_list(
+                _append_to_list(
                     problematic_blockquotes,
                     " ".join(contents),
                     prefix="Problematic blockquote: ",
@@ -169,7 +169,7 @@ def check_unrendered_html(soup: BeautifulSoup) -> list[str]:
                 # Look for HTML-like patterns
                 matches = re.findall(tag_pattern, text)
                 if matches:
-                    _add_to_list(
+                    _append_to_list(
                         problematic_texts,
                         text,
                         prefix=f"Unrendered HTML {matches}: ",
@@ -178,26 +178,29 @@ def check_unrendered_html(soup: BeautifulSoup) -> list[str]:
     return problematic_texts
 
 
-def _add_to_list(
+def _append_to_list(
     lst: list[str],
     text: str,
     show_end: bool = False,
     preview_chars: int = 100,
     prefix: str = "",
 ) -> None:
+    """
+    Append a text string to a list, truncating if necessary.
+    """
     if preview_chars <= 0:
         raise ValueError("preview_chars must be greater than 0")
 
-    if text:
-        if len(text) <= preview_chars:
-            lst.append(prefix + text)
-        else:
-            to_append = (
-                text[-preview_chars:] + "..."
-                if show_end
-                else text[:preview_chars]
-            )
-            lst.append(prefix + to_append)
+    if not text:
+        return
+
+    to_append = text
+    if len(text) > preview_chars:
+        to_append = (
+            text[-preview_chars:] + "..." if show_end else text[:preview_chars]
+        )
+
+    lst.append(prefix + to_append)
 
 
 def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> list[str]:
@@ -217,7 +220,7 @@ def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> list[str]:
         if any(re.search(pattern, text) for pattern in bad_anywhere) or any(
             re.search(prefix, text) for prefix in bad_prefixes
         ):
-            _add_to_list(
+            _append_to_list(
                 problematic_paragraphs, text, prefix="Problematic paragraph: "
             )
 
@@ -227,7 +230,7 @@ def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> list[str]:
             re.search(prefix, element.text)
             for prefix in bad_paragraph_starting_prefixes
         ):
-            _add_to_list(
+            _append_to_list(
                 problematic_paragraphs,
                 element.text,
                 prefix="Problematic paragraph: ",
@@ -257,7 +260,7 @@ def check_unrendered_spoilers(soup: BeautifulSoup) -> list[str]:
             if child.name == "p":
                 text = child.get_text().strip()
                 if text.startswith("! "):
-                    _add_to_list(
+                    _append_to_list(
                         unrendered_spoilers,
                         text,
                         prefix="Unrendered spoiler: ",
@@ -276,7 +279,7 @@ def check_unrendered_subtitles(soup: BeautifulSoup) -> list[str]:
         if text.startswith("Subtitle:") and "subtitle" not in p.get(
             "class", []
         ):
-            _add_to_list(
+            _append_to_list(
                 unrendered_subtitles, text, prefix="Unrendered subtitle: "
             )
     return unrendered_subtitles
@@ -406,7 +409,7 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> list[str]:
     katex_elements = soup.select(".katex-error")
     for element in katex_elements:
         content = element.get_text().strip()
-        _add_to_list(problematic_katex, content, prefix="KaTeX error: ")
+        _append_to_list(problematic_katex, content, prefix="KaTeX error: ")
     return problematic_katex
 
 
@@ -425,7 +428,7 @@ def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> list[str]:
         content = katex.get_text().strip()
         # Check if content starts with '>' and isn't inside a blockquote
         if content.startswith(">"):
-            _add_to_list(problematic_katex, content, prefix="KaTeX error: ")
+            _append_to_list(problematic_katex, content, prefix="KaTeX error: ")
 
     return problematic_katex
 
@@ -517,7 +520,7 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> list[str]:
         stripped_text = script_utils.get_non_code_text(text_elt)
 
         if stripped_text and (re.search(r"\*|\_(?!\_* +\%)", stripped_text)):
-            _add_to_list(
+            _append_to_list(
                 problematic_texts,
                 stripped_text,
                 show_end=True,
@@ -567,7 +570,7 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> list[str]:
             # Look for straight quotes
             straight_quotes = re.findall(r'["\']', element.string)
             if straight_quotes:
-                _add_to_list(
+                _append_to_list(
                     problematic_quotes,
                     element.string,
                     prefix=f"Unprocessed quotes {straight_quotes}: ",
@@ -587,7 +590,7 @@ def check_unprocessed_dashes(soup: BeautifulSoup) -> list[str]:
         if element.strip() and not should_skip(element):
             # Look for two or more dashes in a row
             if re.search(r"[~\–\—\-\–]{2,}", element.string):
-                _add_to_list(
+                _append_to_list(
                     problematic_dashes,
                     element.string,
                     prefix="Unprocessed dashes: ",
@@ -704,7 +707,7 @@ def check_consecutive_periods(soup: BeautifulSoup) -> list[str]:
         if element.strip() and not should_skip(element):
             # Look for two periods with optional quote marks between
             if re.search(r'(?!\.\.\?)\.["“”]*\.', element.string):
-                _add_to_list(
+                _append_to_list(
                     problematic_texts,
                     element.string,
                     prefix="Consecutive periods found: ",

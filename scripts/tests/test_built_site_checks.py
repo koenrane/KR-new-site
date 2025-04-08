@@ -209,7 +209,7 @@ def test_add_to_list_exceptions(preview_chars: int) -> None:
     with pytest.raises(
         ValueError, match="preview_chars must be greater than 0"
     ):
-        built_site_checks._add_to_list(
+        built_site_checks._append_to_list(
             lst, "test", preview_chars=preview_chars
         )
 
@@ -228,7 +228,7 @@ def test_add_to_list_no_truncation(
 ) -> None:
     """Test _add_to_list when text length <= preview_chars."""
     lst: list[str] = []
-    built_site_checks._add_to_list(
+    built_site_checks._append_to_list(
         lst, input_text, preview_chars=20, prefix=prefix
     )
     assert lst == expected_output
@@ -250,7 +250,7 @@ def test_add_to_list_truncate_start(
 ) -> None:
     """Test _add_to_list truncation with show_end=False."""
     lst: list[str] = []
-    built_site_checks._add_to_list(
+    built_site_checks._append_to_list(
         lst,
         LONG_TEXT,
         preview_chars=PREVIEW_CHARS,
@@ -272,7 +272,7 @@ def test_add_to_list_truncate_end(
 ) -> None:
     """Test _add_to_list truncation with show_end=True."""
     lst: list[str] = []
-    built_site_checks._add_to_list(
+    built_site_checks._append_to_list(
         lst,
         LONG_TEXT,
         preview_chars=PREVIEW_CHARS,
