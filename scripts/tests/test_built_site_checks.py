@@ -1,7 +1,7 @@
 import subprocess
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 import pytest
@@ -205,7 +205,7 @@ def sample_soup_with_assets(sample_html_with_assets: str) -> BeautifulSoup:
 )
 def test_add_to_list_exceptions(preview_chars: int) -> None:
     """Test that _add_to_list raises ValueError for non-positive preview_chars."""
-    lst: List[str] = []
+    lst: list[str] = []
     with pytest.raises(
         ValueError, match="preview_chars must be greater than 0"
     ):
@@ -224,10 +224,10 @@ def test_add_to_list_exceptions(preview_chars: int) -> None:
     ],
 )
 def test_add_to_list_no_truncation(
-    input_text: str, prefix: str, expected_output: List[str]
+    input_text: str, prefix: str, expected_output: list[str]
 ) -> None:
     """Test _add_to_list when text length <= preview_chars."""
-    lst: List[str] = []
+    lst: list[str] = []
     built_site_checks._add_to_list(
         lst, input_text, preview_chars=20, prefix=prefix
     )
@@ -246,10 +246,10 @@ PREVIEW_CHARS = 10
     ],
 )
 def test_add_to_list_truncate_start(
-    prefix: str, expected_output: List[str]
+    prefix: str, expected_output: list[str]
 ) -> None:
     """Test _add_to_list truncation with show_end=False."""
-    lst: List[str] = []
+    lst: list[str] = []
     built_site_checks._add_to_list(
         lst,
         LONG_TEXT,
@@ -268,10 +268,10 @@ def test_add_to_list_truncate_start(
     ],
 )
 def test_add_to_list_truncate_end(
-    prefix: str, expected_output: List[str]
+    prefix: str, expected_output: list[str]
 ) -> None:
     """Test _add_to_list truncation with show_end=True."""
-    lst: List[str] = []
+    lst: list[str] = []
     built_site_checks._add_to_list(
         lst,
         LONG_TEXT,
@@ -1305,7 +1305,7 @@ def test_check_unprocessed_quotes(html, expected):
         ('<div class="no-formatting">Text with -- dash</div>', []),
         ('<div class="elvish">Text with -- dash</div>', []),
         # Special cases that should be ignored (from formatting_improvement_html.ts tests)
-        ("<p>- First level\n - Second level</p>", []),  # List items
+        ("<p>- First level\n - Second level</p>", []),  # list items
         ("<p>> - First level</p>", []),  # Quoted lists
         ("<p>a browser- or OS-specific fashion</p>", []),  # Compound words
         # Mixed content
@@ -1385,7 +1385,7 @@ def test_check_unprocessed_dashes(html, expected):
         ("<p>Math like 2 < x > 1</p>", []),
         # Complex case with nested elements
         (
-            """<p>&lt;video autoplay loop muted playsinline src="<a href="https://assets.turntrout.com/static/images/posts/safelife2.mp4" class="external alias" target="_blank">https://assets.turntrout.com/static/images/posts/safelife2.<abbr class="small-caps">mp4</abbr><span style="white-space:nowrap;">"<img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" class="favicon" alt=""></span></a> style="width: 100%; height: 100%; object-fit: cover; margin: 0" ／type="video/<abbr class="small-caps">mp4</abbr>"&gt;<source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></p>""",
+            """<p>&lt;video autoplay loop muted playsinline src="<a href="https://assets.turntrout.com/static/images/posts/safelife2.mp4" class="external alias" target="_blank">https://assets.turntrout.com/static/images/posts/safelife2.<abbr class="small-caps">mp4</abbr><span style="white-space:nowrap;">"<img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" class="favicon" alt=""></span></a> style="width: 100%; height: 100%; object-fit: cover; margin: 0" ／type="video/<abbr class="small-caps">mp4</abbr>"&gt;<source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4; codecs=hvc1"></p>""",
             [
                 "Unrendered HTML ['<video ']: <video autoplay loop muted playsinline src=\""
             ],
@@ -2187,7 +2187,7 @@ def test_check_favicon_parent_elements(html, expected):
     ],
 )
 def test_check_robots_txt_location(
-    tmp_path: Path, file_structure: List[str], expected: List[str]
+    tmp_path: Path, file_structure: list[str], expected: list[str]
 ):
     """Test the check_robots_txt_location function with various file structures."""
     # Create the test files
@@ -2478,8 +2478,8 @@ def test_check_media_asset_sources(html, expected):
 def test_check_asset_references(
     tmp_path: Path,
     html_content: str,
-    existing_files: List[str],
-    expected_missing: List[str],
+    existing_files: list[str],
+    expected_missing: list[str],
 ) -> None:
     """Test the check_asset_references function."""
     base_dir = tmp_path / "public"
@@ -2823,32 +2823,32 @@ def test_main_skips_drafts(
         (
             """
             <video>
+                <source src="video.mp4" type="video/mp4; codecs=hvc1">
                 <source src="video.webm" type="video/webm">
-                <source src="video.mp4" type="video/mp4">
             </video>
             """,
             [],
         ),
-        # Incorrect order: MP4 then WEBM
+        # Incorrect order: WEBM then MP4
         (
             """
             <video>
-                <source src="video.mp4" type="video/mp4">
                 <source src="video.webm" type="video/webm">
+                <source src="video.mp4" type="video/mp4; codecs=hvc1">
             </video>
             """,
             [
-                "Video source 1 type != 'video/webm': <video>... (got 'video/mp4')",
-                "Video source 1 'src' does not end with .webm: 'video.mp4' in <video>...",
-                "Video source 2 type != 'video/mp4': <video>... (got 'video/webm')",
-                "Video source 2 'src' does not end with .mp4: 'video.webm' in <video>...",
+                "Video source 2 type != 'video/webm': <video>... (got 'video/mp4; codecs=hvc1')",
+                "Video source 2 'src' does not end with .webm: 'video.mp4' in <video>...",
+                "Video source 1 type != 'video/mp4; codecs=hvc1': <video>... (got 'video/webm')",
+                "Video source 1 'src' does not end with .mp4: 'video.webm' in <video>...",
             ],
         ),
         # Missing WEBM source (only MP4 present)
         (
             """
             <video>
-                <source src="video.mp4" type="video/mp4">
+                <source src="video.mp4" type="video/mp4; codecs=hvc1">
             </video>
             """,
             ["<video> tag has < 2 <source> children: <video>..."],
@@ -2866,60 +2866,48 @@ def test_main_skips_drafts(
         (
             """
             <video>
+                <source src="video.mp4" type="video/mp4; codecs=hvc1">
                 <source src="video.webm" type="video/ogg">
-                <source src="video.mp4" type="video/mp4">
             </video>
             """,
             [
-                "Video source 1 type != 'video/webm': <video>... (got 'video/ogg')"
+                "Video source 2 type != 'video/webm': <video>... (got 'video/ogg')"
             ],
         ),
         # Wrong type attribute for MP4
         (
             """
             <video>
-                <source src="video.webm" type="video/webm">
                 <source src="video.mp4" type="video/ogg">
+                <source src="video.webm" type="video/webm">
             </video>
             """,
             [
-                "Video source 2 type != 'video/mp4': <video>... (got 'video/ogg')"
+                "Video source 1 type != 'video/mp4; codecs=hvc1': <video>... (got 'video/ogg')"
             ],
         ),
         # Wrong file extension for WEBM src
         (
             """
             <video>
+                <source src="video.mp4" type="video/mp4; codecs=hvc1">
                 <source src="video.ogg" type="video/webm">
-                <source src="video.mp4" type="video/mp4">
             </video>
             """,
             [
-                "Video source 1 'src' does not end with .webm: 'video.ogg' in <video>..."
+                "Video source 2 'src' does not end with .webm: 'video.ogg' in <video>..."
             ],
         ),
         # Wrong file extension for MP4 src
         (
             """
             <video>
+                <source src="video.ogg" type="video/mp4; codecs=hvc1">
                 <source src="video.webm" type="video/webm">
-                <source src="video.ogg" type="video/mp4">
             </video>
             """,
             [
-                "Video source 2 'src' does not end with .mp4: 'video.ogg' in <video>..."
-            ],
-        ),
-        # Mismatched base names in src
-        (
-            """
-            <video>
-                <source src="video1.webm" type="video/webm">
-                <source src="video2.mp4" type="video/mp4">
-            </video>
-            """,
-            [
-                "Video source base paths mismatch: 'video1' vs 'video2' in <video>..."
+                "Video source 1 'src' does not end with .mp4: 'video.ogg' in <video>..."
             ],
         ),
         # Fewer than two source tags
@@ -2935,24 +2923,24 @@ def test_main_skips_drafts(
         (
             """
             <video>
+                <source src="video.mp4" type="video/mp4; codecs=hvc1">
                 <source type="video/webm">
-                <source src="video.mp4" type="video/mp4">
             </video>
             """,
             [
-                "Video source 1 'src' missing or not a string: <video>...",
-                "Video source 1 'src' does not end with .webm: 'None' in <video>...",
+                "Video source 2 'src' missing or not a string: <video>...",
+                "Video source 2 'src' does not end with .webm: 'None' in <video>...",
             ],
         ),
         # Source tags missing type
         (
             """
             <video>
+                <source src="video.mp4" type="video/mp4; codecs=hvc1">
                 <source src="video.webm">
-                <source src="video.mp4" type="video/mp4">
             </video>
             """,
-            ["Video source 1 type != 'video/webm': <video>... (got 'None')"],
+            ["Video source 2 type != 'video/webm': <video>... (got 'None')"],
         ),
         # Video tags with no source children
         (
@@ -2967,27 +2955,27 @@ def test_main_skips_drafts(
         (
             """
             <video>
+                <source src="good.mp4" type="video/mp4; codecs=hvc1">
                 <source src="good.webm" type="video/webm">
-                <source src="good.mp4" type="video/mp4">
             </video>
             <video>
-                <source src="bad.mp4" type="video/mp4">
                 <source src="bad.webm" type="video/webm">
+                <source src="bad.mp4" type="video/mp4; codecs=hvc1">
             </video>
             """,
             [
-                "Video source 1 type != 'video/webm': <video>... (got 'video/mp4')",
-                "Video source 1 'src' does not end with .webm: 'bad.mp4' in <video>...",
-                "Video source 2 type != 'video/mp4': <video>... (got 'video/webm')",
-                "Video source 2 'src' does not end with .mp4: 'bad.webm' in <video>...",
+                "Video source 2 type != 'video/webm': <video>... (got 'video/mp4; codecs=hvc1')",
+                "Video source 2 'src' does not end with .webm: 'bad.mp4' in <video>...",
+                "Video source 1 type != 'video/mp4; codecs=hvc1': <video>... (got 'video/webm')",
+                "Video source 1 'src' does not end with .mp4: 'bad.webm' in <video>...",
             ],
         ),
         # Case variations in extensions and types (should still be valid)
         (
             """
             <video>
+                <source src="video.MP4" type="VIDEO/MP4; codecs=hvc1">
                 <source src="video.WEBm" type="VIDEO/webm">
-                <source src="video.MP4" type="VIDEO/MP4">
             </video>
             """,
             [],
@@ -2996,8 +2984,8 @@ def test_main_skips_drafts(
         (
             """
             <video>
+                <source src="video.mp4?v=1#t=10" type="video/mp4; codecs=hvc1">
                 <source src="video.webm?v=1#t=10" type="video/webm">
-                <source src="video.mp4?v=1#t=10" type="video/mp4">
             </video>
             """,
             [],
@@ -3005,18 +2993,18 @@ def test_main_skips_drafts(
         (
             """
             <video>
-                <source src="video.webm?v=1" type="video/webm">
-                <source src="video.mp4?v=2" type="video/mp4">
+                <source src="FIRSTvideo.mp4" type="video/mp4; codecs=hvc1">
+                <source src="SECONDvideo.webm" type="video/webm">
             </video>
             """,
             [
-                "Video source base paths mismatch: 'video?v=1' vs 'video?v=2' in <video>..."
+                "Video source base paths mismatch: 'FIRSTvideo' vs 'SECONDvideo' in <video>..."
             ],
         ),
     ],
 )
 def test_check_video_source_order_and_match(
-    html: str, expected_issues: List[str]
+    html: str, expected_issues: list[str]
 ) -> None:
     """Test the check_video_source_order_and_match function."""
     soup = BeautifulSoup(html, "html.parser")
