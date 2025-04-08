@@ -20,10 +20,20 @@ export default [
     },
   },
 
-  { files: ["quartz/**/*.{js,mjs,cjs,ts,jsx,tsx}", "quartz.{layout,config}.ts"] },
+  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
 
   {
-    ignores: ["**/*!*", "quartz/.quartz-cache/", "**/*.min.js", "**/*.min.ts", "quartz/i18n/"],
+    ignores: [
+      "content/",
+      "public/",
+      "backstop/",
+      "**/*!*",
+      "quartz/.quartz-cache/",
+      "node_modules/",
+      "**/*.min.js",
+      "**/*.min.ts",
+      "quartz/i18n/",
+    ],
   },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
