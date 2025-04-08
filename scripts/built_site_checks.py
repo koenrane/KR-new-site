@@ -10,7 +10,7 @@ import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Dict, List, Literal, Set
+from typing import Dict, Literal, Set
 from urllib.parse import urlparse
 
 import requests  # type: ignore[import]
@@ -28,7 +28,7 @@ _GIT_ROOT = script_utils.get_git_root()
 _PUBLIC_DIR: Path = _GIT_ROOT / "public"
 RSS_XSD_PATH = _GIT_ROOT / "scripts" / ".rss-2.0.xsd"
 
-_IssuesDict = Dict[str, List[str] | bool]
+_IssuesDict = Dict[str, list[str] | bool]
 
 # Define the parser but don't parse immediately
 parser = argparse.ArgumentParser(
@@ -42,7 +42,7 @@ parser.add_argument(
 )
 
 
-def check_localhost_links(soup: BeautifulSoup) -> List[str]:
+def check_localhost_links(soup: BeautifulSoup) -> list[str]:
     """
     Check for localhost links in the HTML.
     """
@@ -64,7 +64,7 @@ def check_favicons_missing(soup: BeautifulSoup) -> bool:
     return not soup.select("article p img.favicon")
 
 
-def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
+def check_unrendered_footnotes(soup: BeautifulSoup) -> list[str]:
     """
     Check for unrendered footnotes in the format [^something].
 
@@ -82,7 +82,7 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
     return unrendered_footnotes
 
 
-def check_invalid_internal_links(soup: BeautifulSoup) -> List[str]:
+def check_invalid_internal_links(soup: BeautifulSoup) -> list[str]:
     """
     Check for links which do not have an href attribute or which start with
     "https://".
@@ -96,7 +96,7 @@ def check_invalid_internal_links(soup: BeautifulSoup) -> List[str]:
     return invalid_internal_links
 
 
-def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
+def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> list[str]:
     """
     Check for invalid internal anchor links in the HTML.
     """
@@ -130,12 +130,12 @@ def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
 
 # Check that no blockquote element ends with ">",
 # because it probably needed a newline before it
-def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
+def check_blockquote_elements(soup: BeautifulSoup) -> list[str]:
     """
     Check for blockquote elements ending with ">" as long as they don't end in
     a "<\\w+>" pattern.
     """
-    problematic_blockquotes: List[str] = []
+    problematic_blockquotes: list[str] = []
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
         contents = list(blockquote.stripped_strings)
@@ -150,14 +150,14 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
     return problematic_blockquotes
 
 
-def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
+def check_unrendered_html(soup: BeautifulSoup) -> list[str]:
     """
     Check for unrendered HTML in the page.
 
     Looks for text content containing HTML-like patterns (<tag>, </tag>, or
     <tag/>) that should have been rendered by the markdown processor.
     """
-    problematic_texts: List[str] = []
+    problematic_texts: list[str] = []
 
     # Basic HTML tag pattern
     tag_pattern = r"(</?[a-zA-Z][a-zA-Z0-9]*(?: |/?>))"
@@ -179,7 +179,7 @@ def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
 
 
 def _add_to_list(
-    lst: List[str],
+    lst: list[str],
     text: str,
     show_end: bool = False,
     preview_chars: int = 100,
@@ -200,7 +200,7 @@ def _add_to_list(
             lst.append(prefix + to_append)
 
 
-def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> List[str]:
+def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> list[str]:
     """
     Check for text nodes starting with specific phrases.
 
@@ -210,7 +210,7 @@ def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> List[str]:
     bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ")
     bad_paragraph_starting_prefixes = (r"^: ", r"^#+ ")
 
-    problematic_paragraphs: List[str] = []
+    problematic_paragraphs: list[str] = []
 
     def _maybe_add_text(text: str) -> None:
         text = text.strip()
@@ -245,11 +245,11 @@ def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> List[str]:
     return problematic_paragraphs
 
 
-def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
+def check_unrendered_spoilers(soup: BeautifulSoup) -> list[str]:
     """
     Check for unrendered spoilers.
     """
-    unrendered_spoilers: List[str] = []
+    unrendered_spoilers: list[str] = []
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
         # Check each paragraph / text child in the blockquote
@@ -265,11 +265,11 @@ def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
     return unrendered_spoilers
 
 
-def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
+def check_unrendered_subtitles(soup: BeautifulSoup) -> list[str]:
     """
     Check for unrendered subtitle lines.
     """
-    unrendered_subtitles: List[str] = []
+    unrendered_subtitles: list[str] = []
     paragraphs = soup.find_all("p")
     for p in paragraphs:
         text = p.get_text().strip()
@@ -316,13 +316,13 @@ def resolve_media_path(src: str, base_dir: Path) -> Path:
 ALLOWED_ASSET_DOMAINS = {"assets.turntrout.com"}
 
 
-def check_media_asset_sources(soup: BeautifulSoup) -> List[str]:
+def check_media_asset_sources(soup: BeautifulSoup) -> list[str]:
     """
     Check that media assets (images, SVGs, videos) are only hosted from allowed
     sources.
 
     Returns:
-        List of asset URLs that are not from allowed sources
+        list of asset URLs that are not from allowed sources
     """
     invalid_sources = []
     media_tags = soup.find_all(["img", "video", "source", "svg"])
@@ -340,7 +340,7 @@ def check_media_asset_sources(soup: BeautifulSoup) -> List[str]:
     return invalid_sources
 
 
-def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
+def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> list[str]:
     """
     Verify the existence of local media files (images, videos, SVGs).
     """
@@ -362,7 +362,7 @@ def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
 
 def check_asset_references(
     soup: BeautifulSoup, file_path: Path, base_dir: Path
-) -> List[str]:
+) -> list[str]:
     """
     Check for asset references and verify their existence.
     """
@@ -398,11 +398,11 @@ def check_asset_references(
     return missing_assets
 
 
-def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
+def check_katex_elements_for_errors(soup: BeautifulSoup) -> list[str]:
     """
     Check for KaTeX elements with color #cc0000.
     """
-    problematic_katex: List[str] = []
+    problematic_katex: list[str] = []
     katex_elements = soup.select(".katex-error")
     for element in katex_elements:
         content = element.get_text().strip()
@@ -410,14 +410,14 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     return problematic_katex
 
 
-def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> List[str]:
+def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> list[str]:
     """
     Check for KaTeX display elements that start with '>>' but aren't inside a
     blockquote.
 
     These mathematical statements should be inside a blockquote.
     """
-    problematic_katex: List[str] = []
+    problematic_katex: list[str] = []
 
     # Find all KaTeX display elements
     katex_displays = soup.find_all(class_="katex-display")
@@ -441,7 +441,7 @@ def check_critical_css(soup: BeautifulSoup) -> bool:
     return False
 
 
-def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
+def check_duplicate_ids(soup: BeautifulSoup) -> list[str]:
     """
     Check for duplicate anchor IDs in the HTML.
 
@@ -499,7 +499,7 @@ EMPHASIS_ELEMENTS_TO_SEARCH = (
 )
 
 
-def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
+def check_unrendered_emphasis(soup: BeautifulSoup) -> list[str]:
     """
     Check for any unrendered emphasis characters (* or _) in text content.
     Excludes code blocks, scripts, styles, and KaTeX elements.
@@ -508,9 +508,9 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
         soup: BeautifulSoup object to check
 
     Returns:
-        List of strings containing problematic text with emphasis characters
+        list of strings containing problematic text with emphasis characters
     """
-    problematic_texts: List[str] = []
+    problematic_texts: list[str] = []
 
     for text_elt in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
         # Get text excluding code and KaTeX elements
@@ -550,7 +550,7 @@ def should_skip(element: Tag | NavigableString) -> bool:
     return False
 
 
-def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
+def check_unprocessed_quotes(soup: BeautifulSoup) -> list[str]:
     """
     Check for text nodes containing straight quotes (" or ') that should have
     been processed by formatting_improvement_html.ts.
@@ -559,7 +559,7 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
     - Inside code, pre, script, style tags
     - Elements with classes: no-formatting, elvish, bad-handwriting
     """
-    problematic_quotes: List[str] = []
+    problematic_quotes: list[str] = []
 
     # Check all text nodes
     for element in soup.find_all(string=True):
@@ -576,12 +576,12 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
     return problematic_quotes
 
 
-def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
+def check_unprocessed_dashes(soup: BeautifulSoup) -> list[str]:
     """
     Check for text nodes containing multiple dashes (-- or ---) that should
     have been processed into em dashes by formatting_improvement_html.ts.
     """
-    problematic_dashes: List[str] = []
+    problematic_dashes: list[str] = []
 
     for element in soup.find_all(string=True):
         if element.strip() and not should_skip(element):
@@ -600,7 +600,7 @@ def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
 MAX_META_HEAD_SIZE = 9 * 1024  # 9 instead of 10 to avoid splitting tags
 
 
-def meta_tags_early(file_path: Path) -> List[str]:
+def meta_tags_early(file_path: Path) -> list[str]:
     """
     Check that meta and title tags are NOT present between MAX_HEAD_SIZE and
     </head>. EG Facebook only checks the first 10KB.
@@ -609,9 +609,9 @@ def meta_tags_early(file_path: Path) -> List[str]:
         file_path: Path to the HTML file to check
 
     Returns:
-        List of tags found after MAX_HEAD_SIZE but before </head>
+        list of tags found after MAX_HEAD_SIZE but before </head>
     """
-    issues: List[str] = []
+    issues: list[str] = []
 
     # Read entire HTML content first.
     # skipcq: PTC-W6004 - Only used for checks, not user-facing
@@ -653,7 +653,7 @@ def meta_tags_early(file_path: Path) -> List[str]:
     return issues
 
 
-def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
+def check_iframe_sources(soup: BeautifulSoup) -> list[str]:
     """
     Check that all iframe sources are responding with a successful status code.
     """
@@ -690,15 +690,15 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
     return problematic_iframes
 
 
-def check_consecutive_periods(soup: BeautifulSoup) -> List[str]:
+def check_consecutive_periods(soup: BeautifulSoup) -> list[str]:
     """
     Check for consecutive periods in text content, including cases where
     they're separated by quotation marks.
 
     Returns:
-        List of strings containing problematic text with consecutive periods
+        list of strings containing problematic text with consecutive periods
     """
-    problematic_texts: List[str] = []
+    problematic_texts: list[str] = []
 
     for element in soup.find_all(string=True):
         if element.strip() and not should_skip(element):
@@ -713,15 +713,15 @@ def check_consecutive_periods(soup: BeautifulSoup) -> List[str]:
     return problematic_texts
 
 
-def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
+def check_favicon_parent_elements(soup: BeautifulSoup) -> list[str]:
     """
     Check that all img.favicon elements are direct children of span elements.
 
     Returns:
-        List of strings describing favicons that are not direct
+        list of strings describing favicons that are not direct
          children of span elements.
     """
-    problematic_favicons: List[str] = []
+    problematic_favicons: list[str] = []
 
     for favicon in soup.select("img.favicon:not(.no-span)"):
         parent = favicon.parent
@@ -911,7 +911,7 @@ def get_md_asset_counts(md_path: Path) -> Counter[str]:
 
 def check_markdown_assets_in_html(
     soup: BeautifulSoup, md_path: Path
-) -> List[str]:
+) -> list[str]:
     """
     Check that all assets referenced in the markdown source appear in the HTML
     at least as many times as they appear in the markdown.
@@ -921,7 +921,7 @@ def check_markdown_assets_in_html(
         md_path: Path to the markdown file that generated the HTML file
 
     Returns:
-        List of asset references that have fewer instances in HTML
+        list of asset references that have fewer instances in HTML
     """
     if not md_path.exists():
         raise FileNotFoundError(f"Markdown file {md_path} does not exist")
@@ -952,7 +952,7 @@ def check_spacing(
     element: Tag,
     allowed_chars: str,
     prefix: Literal["before", "after"],
-) -> List[str]:
+) -> list[str]:
     """
     Check spacing between element and a sibling.
     """
@@ -992,7 +992,7 @@ def _check_element_spacing(
     element: Tag,
     prev_allowed_chars: str,
     next_allowed_chars: str,
-) -> List[str]:
+) -> list[str]:
     """
     Helper function to check spacing around HTML elements.
 
@@ -1002,14 +1002,14 @@ def _check_element_spacing(
         next_allowed_chars: Characters allowed after the element without space
 
     Returns:
-        List of strings describing spacing issues
+        list of strings describing spacing issues
     """
     return check_spacing(
         element, prev_allowed_chars, "before"
     ) + check_spacing(element, next_allowed_chars, "after")
 
 
-def check_link_spacing(soup: BeautifulSoup) -> List[str]:
+def check_link_spacing(soup: BeautifulSoup) -> list[str]:
     """
     Check for non-footnote links that don't have proper spacing with
     surrounding text.
@@ -1017,7 +1017,7 @@ def check_link_spacing(soup: BeautifulSoup) -> List[str]:
     Links should have a space before them unless preceded by specific
     characters.
     """
-    problematic_links: List[str] = []
+    problematic_links: list[str] = []
 
     # Find all links that aren't footnotes
     for link in soup.find_all("a"):
@@ -1041,14 +1041,14 @@ WHITELISTED_EMPHASIS = {
 }
 
 
-def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
+def check_emphasis_spacing(soup: BeautifulSoup) -> list[str]:
     """
     Check for emphasis/strong elements that don't have proper spacing with
     surrounding text.
 
     Ignores specific whitelisted cases.
     """
-    problematic_emphasis: List[str] = []
+    problematic_emphasis: list[str] = []
 
     # Find all emphasis elements
     for element in soup.find_all(["em", "strong", "i", "b", "del"]):
@@ -1087,7 +1087,7 @@ MAX_DESCRIPTION_LENGTH = 155
 MIN_DESCRIPTION_LENGTH = 10
 
 
-def check_description_length(soup: BeautifulSoup) -> List[str]:
+def check_description_length(soup: BeautifulSoup) -> list[str]:
     """
     Check if the page description is within the recommended length for social
     media previews.
@@ -1117,7 +1117,7 @@ def check_description_length(soup: BeautifulSoup) -> List[str]:
     return ["Description not found"]
 
 
-def check_css_issues(file_path: Path) -> List[str]:
+def check_css_issues(file_path: Path) -> list[str]:
     """
     Check for CSS issues in a file.
     """
@@ -1133,15 +1133,16 @@ def check_css_issues(file_path: Path) -> List[str]:
     return []
 
 
+# TODO too long
 def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
     """
-    Check <video> elements have WEBM then MP4 <source> tags with matching base
-    src.
+    Check <video> elements have the MP4 <source> tag first, then the WEBM
+    <source> tag, with matching base src.
     """
     issues: list[str] = []
     expected_sources: list[tuple[str, str]] = [
+        ("video/mp4; codecs=hvc1", ".mp4"),
         ("video/webm", ".webm"),
-        ("video/mp4", ".mp4"),
     ]
 
     for video in soup.find_all("video"):
@@ -1173,7 +1174,10 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
             current_source_valid = True
 
             # Check type attribute (case-insensitive)
-            if not type_attr or type_attr.lower() != expected_type.lower():
+            if (
+                not isinstance(type_attr, str)
+                or type_attr.lower() != expected_type.lower()
+            ):
                 issues.append(
                     f"Video source {i+1} type != '{expected_type}': {video_preview} (got '{type_attr}')"
                 )
@@ -1200,7 +1204,7 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
                     )
                     current_source_valid = False
 
-            if current_source_valid:
+            if current_source_valid and isinstance(src, str):
                 source_check_passed[i] = True
                 source_data.append(src)  # Store original src if checks pass
             elif len(source_data) == i:
@@ -1230,7 +1234,7 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
     return issues
 
 
-def check_robots_txt_location(base_dir: Path) -> List[str]:
+def check_robots_txt_location(base_dir: Path) -> list[str]:
     """
     Check that robots.txt exists in the root directory and not in
     subdirectories.
