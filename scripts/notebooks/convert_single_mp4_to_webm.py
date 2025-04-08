@@ -17,8 +17,8 @@ except ImportError:
     script_dir = Path(__file__).parent
     parent_dir = script_dir.parent
     sys.path.insert(0, str(parent_dir))
-    import compress
-    import r2_upload
+    import compress  # type: ignore
+    import r2_upload  # type: ignore
     import utils as script_utils  # type: ignore
 
 
@@ -257,8 +257,6 @@ def process_markdown_file(md_path: Path, temp_dir: Path) -> None:
 
 
 def main() -> None:
-    """Main function."""
-    # Check base dependencies
     try:
         compress._check_dependencies()  # Checks ffmpeg, ffprobe, magick
         if not shutil.which("rclone"):
