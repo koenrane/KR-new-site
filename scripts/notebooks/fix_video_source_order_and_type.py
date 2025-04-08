@@ -112,8 +112,8 @@ def _process_video_content(video_content: str) -> Tuple[str, bool]:
                 "      Warning: Could not find original source tag positions for reordering check.",
                 file=sys.stderr,
             )
-        elif mp4_pos < webm_pos:
-            print("      Swapping MP4 and WEBM source order.")
+        elif webm_pos < mp4_pos:  # Check if WEBM is currently before MP4
+            print("      Ensuring MP4 source comes before WEBM source.")
             # Extract tags and the content between them
             mp4_tag_to_swap = original_sources_str["mp4"]
             webm_tag_to_swap = original_sources_str["webm"]
