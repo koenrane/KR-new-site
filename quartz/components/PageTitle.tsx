@@ -26,8 +26,8 @@ export const headerVideoContainer = (
       spa-preserve
       aria-label={altText}
     >
+      <source src="https://assets.turntrout.com/static/pond.mov" type="video/mp4; codecs=hvc1" />
       <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm" />
-      <source src="https://assets.turntrout.com/static/pond.mp4" type="video/mp4" />
     </video>
   </span>
 )

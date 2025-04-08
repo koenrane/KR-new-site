@@ -161,7 +161,7 @@ I use the darkest text color sparingly. The margin text is medium-contrast, as a
 
 Color is important to this website, but I need to be tasteful and strict in my usage or the site turns into a mess. For example, in-line [favicons](https://en.wikipedia.org/wiki/Favicon) are colorless (e.g. [YouTube's](https://youtube.com) logo is definitely red). To choose otherwise is to choose chaos and distraction.
 
-When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond GIF (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor).
+When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond video (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor).
 
 During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme. I even override and standardize the colors used for syntax highlighting in the code blocks.
 
@@ -206,13 +206,23 @@ Figure: Now the huge savings of AVIF are clearer.
 
 Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
 
-Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_.[^safari]
+Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs, or to render transparency_.[^safari]
 
-[^safari]: Safari _does_ support HEVC-encoded mp4s, but only if they are tagged with `hvc1` and not `hev1`. To "autoplay" these mp4s, I had to include the `src=` attribute in the `video` tag and then wait for the user to interact with the page. Apparently Firefox doesn't support HEVC, so I'll need to add alternative Firefox-compatible `<source/>`s.
+[^safari]: Safari _does_ support HEVC-encoded MP4s and MOVs, but only if they are tagged with `hvc1` and not `hev1`. Furthermore, the `source` element must contain the attribute `type="video/mp4"; codecs=hvc1`.
 
-The problem gets worse because - although Safari will autoplay & loop HEVC, Safari _refuses to render transparency_. Therefore, for the looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. That asset shows up on every page, so that stings a bit. Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets.
+After reading [an article on how to stably display transparent videos across browsers](https://rotato.app/blog/transparent-videos-for-the-web), I implemented the following scheme:
 
-However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC. I'll fix that later - possibly I need to try a different codec.
+```html
+<video [attributes]>
+    // Only Safari should support hvc1
+    <source src=".../video.mp4" type="video/mp4; codecs=hvc1">
+    // All other browsers skip the MP4 and use the second source
+    <source src=".../video.webm" type="video/webm">
+```
+
+However, it was quite difficult to get Safari to display a transparent MP4. I eventually used `ffmpeg` to convert a file into ProRes 444. I then used my Mac's Finder's built-in encoding tool to convert the ProRes 444 to a MOV with transparency. Phew.
+
+Originally, the GIF weighed 561KB. Now, the WEBM weighs 58KB and the MOV weighs 260KB.
 
 ### CSS purging
 
