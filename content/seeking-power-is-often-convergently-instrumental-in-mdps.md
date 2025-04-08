@@ -92,8 +92,8 @@ The table’s convergently instrumental strategies are about maintaining, gainin
 
 My theorems apply to finite MDPs; for the unfamiliar, I’ll illustrate with Pac-Man.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.webm" type="video/webm"></video>
 
 <dl>
 <dt>Full observability</dt>

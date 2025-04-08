@@ -58,8 +58,8 @@ date_updated: 2025-03-22 12:22:59.421452
 
 
 
-<video autoplay loop muted playsinline   webkit-playsinline preload="auto"><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline   webkit-playsinline preload="auto"><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.webm" type="video/webm"></video>
 
 Figure: **Locally** [**retargeting the search**](https://www.alignmentforum.org/posts/w4aeAFzSAguvqA5qu/how-to-go-from-interpretability-to-alignment-just-retarget) **by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals. <br/><br/>(_The red dot is not part of the image observed by the network_, it just represents the modified activation. Also, this GIF is selected to look cool. Our simple technique often works, but it isn't effortless, and some dot locations are harder to steer towards.)
 
@@ -136,13 +136,13 @@ Code: For more background on training and architecture and task set, see [the or
 ![](https://assets.turntrout.com/static/images/posts/vpfzpqv3tkzmu0glog3e.avif)
 <br/>Figure: During RL training, cheese was randomly located in the top-right 5x5 corner of the randomly generated mazes. In deployment, cheese can be anywhere. What will the agent do?
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.webm" type="video/webm"></video>
 
 Figure: Sometimes, the agent goes to the cheese.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.webm" type="video/webm"></video>
 
 Figure: Sometimes, the agent ignores the cheese. (Maze colors vary.)
 
@@ -475,8 +475,8 @@ We had this cheese vector technique pretty early on. But we still felt frustrate
 
 That was about to change. Uli built a graphical maze editor, and Alex had built an activation visualization tool, which automatically updates along with the maze editor:
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/u9fehxegabydsaxguzaa.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/u9fehxegabydsaxguzaa.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/u9fehxegabydsaxguzaa.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/u9fehxegabydsaxguzaa.webm" type="video/webm"></video>
 
 Figure: Inspection reveals that channel 55 (visualized) puts positive numbers (blue) on cheese and negative (red) elsewhere. Use [this Colab](https://colab.research.google.com/drive/11yqoQgckV3lpe7adN0gkaqUcsKEutiCS?usp=sharing) to play around with the activations yourself.
 
@@ -493,8 +493,8 @@ This was our "in"—we had found a piece of the agent's cognition which seemed t
 
 Alex had a hunch that if he moved the positive numbers in channel 55, he'd move the mouse in the maze. (In a fit of passion, he failed to book predictions before finding out.) As shown in the introduction, that's exactly what happens.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.webm" type="video/webm"></video>
 
 To understand in mechanistic detail what's happening here, it's time to learn a few more facts about the network. Channel 55 is one of 128 residual channels at a `ResidualAdd` layer halfway through the network.
 
@@ -538,8 +538,8 @@ To understand in mechanistic detail what's happening here, it's time to learn a 
 
 Each of these 128 residual add channels is a 16x16 grid. For channel 55, moving the cheese e.g. to the left will [equivariantly](https://en.wikipedia.org/wiki/Equivariant_map) move channel 55's positive activations to the left. There are several channels like this, in fact:
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/z5jub7jnrdc7c71vhbpa.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/z5jub7jnrdc7c71vhbpa.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/z5jub7jnrdc7c71vhbpa.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/z5jub7jnrdc7c71vhbpa.webm" type="video/webm"></video>
 
 Figure: By visually inspecting the 128 residual addition output channels, Peli and Alex found eleven channels which visibly and equivariantly track the location of the cheese. Namely: 7, 8, 42, 44, 55, 77, 82, 88, 89, 99, 113.
 
@@ -550,22 +550,22 @@ To retarget the agent as shown in the GIF, modify channel 55's activations by _c
 
 If you want the agent to go to e.g. the middle of the maze, clamp a positive number in the middle of channel 55.[^8] Often that works, but sometimes it doesn't. Look for yourself:
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/phdm6uoq0djzqybscgrz.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/phdm6uoq0djzqybscgrz.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/phdm6uoq0djzqybscgrz.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/phdm6uoq0djzqybscgrz.webm" type="video/webm"></video>
 
 Figure: Seed 0. The red dot indicates the maze location of the clamped positive activation. This retargeting works reliably in the top half of `seed=0`, but less well in the bottom half. This pattern appears to hold across seeds, although we haven't done a quantitative analysis of this.
 
 <br/>
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/xafpj5bsljohtcar76nz.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/xafpj5bsljohtcar76nz.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/xafpj5bsljohtcar76nz.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/xafpj5bsljohtcar76nz.webm" type="video/webm"></video>
 
 Figure: Seed 60.
 
 Clamping an activation in channel 88 produces a similar effect. However, modifying channel 42 has a different effect:
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vsplnp2dbe4sz0usspf8.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/vsplnp2dbe4sz0usspf8.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vsplnp2dbe4sz0usspf8.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/vsplnp2dbe4sz0usspf8.webm" type="video/webm"></video>
 
 Channel 42's effect seems strictly more localized to certain parts of the maze—possibly including the top-right corner. Uli gathered mechanistic evidence from integrated gradients that e.g. channels 55 and 42 are used differently by the rest of the forward pass.
 
@@ -573,25 +573,25 @@ Channel 42's effect seems strictly more localized to certain parts of the maze�
 
 As mentioned before, we leafed through the channels and found eleven which visibly track the cheese as we relocate it throughout a maze. It turns out that you can modify all the channels at once and retarget behavior that way:
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/wd5rb3yvlhshfaeaguzd.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/wd5rb3yvlhshfaeaguzd.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/wd5rb3yvlhshfaeaguzd.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/wd5rb3yvlhshfaeaguzd.webm" type="video/webm"></video>
 
 Here's retargetability on three randomly generated seeds (we uploaded the first three, not selecting for impressiveness):
 
 <figcaption>Seed 45,720</figcaption>
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/hlv0nboiwjhb1jdenjc2.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/hlv0nboiwjhb1jdenjc2.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/hlv0nboiwjhb1jdenjc2.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/hlv0nboiwjhb1jdenjc2.webm" type="video/webm"></video>
 
 <figcaption>Seed 45,874 isn't retargetable.</figcaption>
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/dhjhldyhmp4ec7pbsqun.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/dhjhldyhmp4ec7pbsqun.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/dhjhldyhmp4ec7pbsqun.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/dhjhldyhmp4ec7pbsqun.webm" type="video/webm"></video>
 
 <figcaption>Seed 72,660 is a larger maze, which seems to allow greater retargetability.</figcaption>
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/czduetvhfk6tfvpd8jvt.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/czduetvhfk6tfvpd8jvt.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/czduetvhfk6tfvpd8jvt.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/czduetvhfk6tfvpd8jvt.webm" type="video/webm"></video>
 
 The cheese subshards didn't have to be so trivially retargetable. For example, if the agent had used cheese locations to infer where top-right was, then channel 55 saying "cheese on the left" and channel 88 saying "cheese on the right" could seriously degrade the policy's maze-navigation competence.
 
@@ -601,8 +601,8 @@ We can often retarget the agent, but how and why does this work? What are these 
 
 We don't know the answers yet, but we have some strong clues.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/zsbfpcfdxxp0wzvrpcy5.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/zsbfpcfdxxp0wzvrpcy5.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/zsbfpcfdxxp0wzvrpcy5.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/zsbfpcfdxxp0wzvrpcy5.webm" type="video/webm"></video>
 
 Eyeballing these channels, it seems like the blue positive activations matter, but there's not that obvious of a pattern to the red negative areas. Maybe the reds are just random garbage, and the important information comes from the blue cheese location?
 

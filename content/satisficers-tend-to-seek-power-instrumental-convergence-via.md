@@ -236,8 +236,8 @@ For example, if agents trained on objectives $R$ tend to go right, switching rew
 
 Suppose we're training an RL agent to go right in MuJoCo, with reward equal to its $x$\-coordinate.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/hopper.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/hopper.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/hopper.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/hopper.webm" type="video/webm"></video>
 
 Figure: If you permute the reward so that high $y$\-values are rewarded, the trained policies should nearly perfectly symmetrically reflect that change. Insofar as $x$\-maximizing policies were trained, now $y$\-maximizing policies will be trained.
 

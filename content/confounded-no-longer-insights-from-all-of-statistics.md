@@ -163,8 +163,8 @@ Random variables are functions $Y:\Omega\to\mathbb{R}$, assigning a number to ea
 
 Fairly straightforward.
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/converge_distribution.webm" type="video/webm">
-<source src="https://assets.turntrout.com/static/images/posts/converge_distribution.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/converge_distribution.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/converge_distribution.webm" type="video/webm"></video>
 
 A similar [^1] geometric intuition:
 
