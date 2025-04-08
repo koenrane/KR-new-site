@@ -2929,7 +2929,6 @@ def test_main_skips_drafts(
             """,
             [
                 "Video source 2 'src' missing or not a string: <video>...",
-                "Video source 2 'src' does not end with .webm: 'None' in <video>...",
             ],
         ),
         # Source tags missing type

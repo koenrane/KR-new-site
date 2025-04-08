@@ -10,7 +10,7 @@ import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Dict, Literal, Set
+from typing import Dict, Literal, NamedTuple, Set
 from urllib.parse import urlparse
 
 import requests  # type: ignore[import]
@@ -1136,7 +1136,103 @@ def check_css_issues(file_path: Path) -> list[str]:
     return []
 
 
-# TODO too long
+def _validate_source_type(
+    type_attr: str | list[str] | None,
+    expected_type: str,
+    source_index: int,
+    video_preview: str,
+) -> list[str]:
+    """
+    Validate the type attribute of a <source> tag.
+    """
+    issues: list[str] = []
+    if (
+        not isinstance(type_attr, str)
+        or type_attr.lower() != expected_type.lower()
+    ):
+        issues.append(
+            f"Video source {source_index} type != '{expected_type}': {video_preview} (got '{type_attr}')"
+        )
+    return issues
+
+
+IssuesAndMaybeSrc = NamedTuple(
+    "IssuesAndMaybeSrc", [("issues", list[str]), ("valid_src", str | None)]
+)
+
+
+def _validate_source_src(
+    src_attr: str | list[str] | None,
+    expected_ext: str,
+    source_index: int,
+    video_preview: str,
+) -> IssuesAndMaybeSrc:
+    """
+    Validate the src attribute of a <source> tag.
+    """
+    if not isinstance(src_attr, str):
+        return [
+            f"Video source {source_index} 'src' missing or not a string: {video_preview}"
+        ], None
+
+    issues: list[str] = []
+
+    # Parse URL to ignore query/fragment for extension check
+    parsed_src = urlparse(src_attr)
+    path_only = parsed_src.path
+    _, ext = os.path.splitext(path_only)
+    if ext.lower() != expected_ext.lower():
+        issues.append(
+            f"Video source {source_index} 'src' does not end with {expected_ext}: '{src_attr}' in {video_preview}"
+        )
+        validated_src = None
+    else:
+        validated_src = src_attr  # Store the original src if valid
+
+    return IssuesAndMaybeSrc(issues, validated_src)
+
+
+def _validate_single_source_tag(
+    source_tag: Tag,
+    expected_type: str,
+    expected_ext: str,
+    source_index: int,
+    video_preview: str,
+) -> IssuesAndMaybeSrc:
+    """
+    Validate a single <source> tag using helper functions.
+    """
+    type_issues = _validate_source_type(
+        source_tag.get("type"), expected_type, source_index, video_preview
+    )
+    src_issues, valid_src = _validate_source_src(
+        source_tag.get("src"), expected_ext, source_index, video_preview
+    )
+
+    all_issues = type_issues + src_issues
+    src_to_return = valid_src if not all_issues else None
+    return IssuesAndMaybeSrc(all_issues, src_to_return)
+
+
+def _compare_base_paths(src1: str, src2: str, video_preview: str) -> list[str]:
+    """
+    Compare the base paths (including query strings) of two source URLs.
+    """
+    paths = {}
+    for source_idx, src in enumerate([src1, src2]):
+        parsed = urlparse(src)
+        base_path, _ = os.path.splitext(parsed.path)
+        paths[source_idx] = base_path + (
+            f"?{parsed.query}" if parsed.query else ""
+        )
+
+    if paths[0] != paths[1]:
+        return [
+            f"Video source base paths mismatch: '{paths[0]}' vs '{paths[1]}' in {video_preview}"
+        ]
+    return []
+
+
 def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
     """
     Check <video> elements have the MP4 <source> tag first, then the WEBM
@@ -1165,74 +1261,29 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
             )
             continue
 
-        source_data: list[str] = (
-            []
-        )  # Store valid src paths for base comparison
-        source_check_passed: list[bool] = [False] * len(expected_sources)
+        all_sources_valid = True
+        valid_srcs: list[str | None] = []
 
         for i, (expected_type, expected_ext) in enumerate(expected_sources):
             source_tag = sources[i]
-            src = source_tag.get("src")
-            type_attr = source_tag.get("type")
-            current_source_valid = True
-
-            # Check type attribute (case-insensitive)
-            if (
-                not isinstance(type_attr, str)
-                or type_attr.lower() != expected_type.lower()
-            ):
-                issues.append(
-                    f"Video source {i+1} type != '{expected_type}': {video_preview} (got '{type_attr}')"
-                )
-                current_source_valid = False
-
-            # Check src attribute presence
-            if not isinstance(src, str):
-                issues.append(
-                    f"Video source {i+1} 'src' missing or not a string: {video_preview}"
-                )
-                current_source_valid = False
-                # Add specific extension error if src is missing/None, matching test expectation
-                issues.append(
-                    f"Video source {i+1} 'src' does not end with {expected_ext}: '{src}' in {video_preview}"
-                )
-            else:
-                # Parse URL to ignore query/fragment for extension check
-                parsed_src = urlparse(src)
-                path_only = parsed_src.path
-                _, ext = os.path.splitext(path_only)
-                if ext.lower() != expected_ext.lower():
-                    issues.append(
-                        f"Video source {i+1} 'src' does not end with {expected_ext}: '{src}' in {video_preview}"
-                    )
-                    current_source_valid = False
-
-            if current_source_valid and isinstance(src, str):
-                source_check_passed[i] = True
-                source_data.append(src)  # Store original src if checks pass
-            elif len(source_data) == i:
-                # Add placeholder if src was invalid and hasn't been added yet
-                source_data.append("")
+            source_issues, valid_src = _validate_single_source_tag(
+                source_tag, expected_type, expected_ext, i + 1, video_preview
+            )
+            issues.extend(source_issues)
+            valid_srcs.append(valid_src)
+            if not valid_src:
+                all_sources_valid = False
 
         # Compare base paths only if *both* individual source checks passed
-        if all(source_check_passed):
-            # Parse URLs and extract base path including query string for comparison
-            parsed_src1 = urlparse(source_data[0])
-            base_src1_path, _ = os.path.splitext(parsed_src1.path)
-            base_src1 = base_src1_path + (
-                f"?{parsed_src1.query}" if parsed_src1.query else ""
+        if all_sources_valid and len(valid_srcs) == len(expected_sources):
+            # We know valid_srcs contains non-None strings here due to all_sources_valid check
+            comparison_issues = _compare_base_paths(
+                # type: ignore[arg-type]
+                valid_srcs[0],
+                valid_srcs[1],
+                video_preview,
             )
-
-            parsed_src2 = urlparse(source_data[1])
-            base_src2_path, _ = os.path.splitext(parsed_src2.path)
-            base_src2 = base_src2_path + (
-                f"?{parsed_src2.query}" if parsed_src2.query else ""
-            )
-
-            if base_src1 != base_src2:
-                issues.append(
-                    f"Video source base paths mismatch: '{base_src1}' vs '{base_src2}' in {video_preview}"
-                )
+            issues.extend(comparison_issues)
 
     return issues
 
