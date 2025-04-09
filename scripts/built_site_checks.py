@@ -1251,13 +1251,12 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
             if isinstance(child, Tag) and child.name == "source"
         ]
         # Use a simpler preview for error messages, keeping attributes
-        video_tag_str = str(video)
-        open_tag = video_tag_str.split(">", 1)[0] + ">"
-        video_preview = f"{open_tag}..."
+        open_tag = str(video).split(">", 1)[0] + ">"
 
         if len(sources) < len(expected_sources):
-            issues.append(
-                f"<video> tag has < {len(expected_sources)} <source> children: {video_preview}"
+            _append_to_list(
+                issues,
+                f"<video> tag has < {len(expected_sources)} <source> children: {open_tag}",
             )
             continue
 
@@ -1267,7 +1266,7 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
         for i, (expected_type, expected_ext) in enumerate(expected_sources):
             source_tag = sources[i]
             source_issues, valid_src = _validate_single_source_tag(
-                source_tag, expected_type, expected_ext, i + 1, video_preview
+                source_tag, expected_type, expected_ext, i + 1, open_tag
             )
             issues.extend(source_issues)
             valid_srcs.append(valid_src)
@@ -1279,9 +1278,9 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
             # We know valid_srcs contains non-None strings here due to all_sources_valid check
             comparison_issues = _compare_base_paths(
                 # type: ignore[arg-type]
-                valid_srcs[0],
-                valid_srcs[1],
-                video_preview,
+                valid_srcs[0] or "",
+                valid_srcs[1] or "",
+                open_tag,
             )
             issues.extend(comparison_issues)
 

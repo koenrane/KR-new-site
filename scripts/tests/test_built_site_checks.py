@@ -2838,10 +2838,10 @@ def test_main_skips_drafts(
             </video>
             """,
             [
-                "Video source 2 type != 'video/webm': <video>... (got 'video/mp4; codecs=hvc1')",
-                "Video source 2 'src' does not end with .webm: 'video.mp4' in <video>...",
-                "Video source 1 type != 'video/mp4; codecs=hvc1': <video>... (got 'video/webm')",
-                "Video source 1 'src' does not end with .mp4: 'video.webm' in <video>...",
+                "Video source 2 type != 'video/webm': <video> (got 'video/mp4; codecs=hvc1')",
+                "Video source 2 'src' does not end with .webm: 'video.mp4' in <video>",
+                "Video source 1 type != 'video/mp4; codecs=hvc1': <video> (got 'video/webm')",
+                "Video source 1 'src' does not end with .mp4: 'video.webm' in <video>",
             ],
         ),
         # Missing WEBM source (only MP4 present)
@@ -2851,7 +2851,7 @@ def test_main_skips_drafts(
                 <source src="video.mp4" type="video/mp4; codecs=hvc1">
             </video>
             """,
-            ["<video> tag has < 2 <source> children: <video>..."],
+            ["<video> tag has < 2 <source> children: <video>"],
         ),
         # Missing MP4 source (only WEBM present)
         (
@@ -2860,7 +2860,7 @@ def test_main_skips_drafts(
                 <source src="video.webm" type="video/webm">
             </video>
             """,
-            ["<video> tag has < 2 <source> children: <video>..."],
+            ["<video> tag has < 2 <source> children: <video>"],
         ),
         # Wrong type attribute for WEBM
         (
@@ -2870,9 +2870,7 @@ def test_main_skips_drafts(
                 <source src="video.webm" type="video/ogg">
             </video>
             """,
-            [
-                "Video source 2 type != 'video/webm': <video>... (got 'video/ogg')"
-            ],
+            ["Video source 2 type != 'video/webm': <video> (got 'video/ogg')"],
         ),
         # Wrong type attribute for MP4
         (
@@ -2883,7 +2881,7 @@ def test_main_skips_drafts(
             </video>
             """,
             [
-                "Video source 1 type != 'video/mp4; codecs=hvc1': <video>... (got 'video/ogg')"
+                "Video source 1 type != 'video/mp4; codecs=hvc1': <video> (got 'video/ogg')"
             ],
         ),
         # Wrong file extension for WEBM src
@@ -2895,7 +2893,7 @@ def test_main_skips_drafts(
             </video>
             """,
             [
-                "Video source 2 'src' does not end with .webm: 'video.ogg' in <video>..."
+                "Video source 2 'src' does not end with .webm: 'video.ogg' in <video>"
             ],
         ),
         # Wrong file extension for MP4 src
@@ -2907,7 +2905,7 @@ def test_main_skips_drafts(
             </video>
             """,
             [
-                "Video source 1 'src' does not end with .mp4: 'video.ogg' in <video>..."
+                "Video source 1 'src' does not end with .mp4: 'video.ogg' in <video>"
             ],
         ),
         # Fewer than two source tags
@@ -2917,7 +2915,7 @@ def test_main_skips_drafts(
                 <source src="video.webm" type="video/webm">
             </video>
             """,
-            ["<video> tag has < 2 <source> children: <video>..."],
+            ["<video> tag has < 2 <source> children: <video>"],
         ),
         # Source tags missing src
         (
@@ -2928,7 +2926,7 @@ def test_main_skips_drafts(
             </video>
             """,
             [
-                "Video source 2 'src' missing or not a string: <video>...",
+                "Video source 2 'src' missing or not a string: <video>",
             ],
         ),
         # Source tags missing type
@@ -2939,7 +2937,7 @@ def test_main_skips_drafts(
                 <source src="video.webm">
             </video>
             """,
-            ["Video source 2 type != 'video/webm': <video>... (got 'None')"],
+            ["Video source 2 type != 'video/webm': <video> (got 'None')"],
         ),
         # Video tags with no source children
         (
@@ -2948,7 +2946,7 @@ def test_main_skips_drafts(
                 Your browser does not support the video tag.
             </video>
             """,
-            ['<video> tag has < 2 <source> children: <video controls="">...'],
+            ['<video> tag has < 2 <source> children: <video controls="">'],
         ),
         # Multiple video tags, one valid, one invalid
         (
@@ -2963,10 +2961,10 @@ def test_main_skips_drafts(
             </video>
             """,
             [
-                "Video source 2 type != 'video/webm': <video>... (got 'video/mp4; codecs=hvc1')",
-                "Video source 2 'src' does not end with .webm: 'bad.mp4' in <video>...",
-                "Video source 1 type != 'video/mp4; codecs=hvc1': <video>... (got 'video/webm')",
-                "Video source 1 'src' does not end with .mp4: 'bad.webm' in <video>...",
+                "Video source 2 type != 'video/webm': <video> (got 'video/mp4; codecs=hvc1')",
+                "Video source 2 'src' does not end with .webm: 'bad.mp4' in <video>",
+                "Video source 1 type != 'video/mp4; codecs=hvc1': <video> (got 'video/webm')",
+                "Video source 1 'src' does not end with .mp4: 'bad.webm' in <video>",
             ],
         ),
         # Case variations in extensions and types (should still be valid)
@@ -2997,7 +2995,7 @@ def test_main_skips_drafts(
             </video>
             """,
             [
-                "Video source base paths mismatch: 'FIRSTvideo' vs 'SECONDvideo' in <video>..."
+                "Video source base paths mismatch: 'FIRSTvideo' vs 'SECONDvideo' in <video>"
             ],
         ),
     ],
