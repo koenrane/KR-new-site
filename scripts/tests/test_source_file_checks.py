@@ -1362,6 +1362,37 @@ def test_strip_code_and_math(input_text: str, expected_output: str) -> None:
     ), f"Failed to strip code and math from: {input_text}"
 
 
+@pytest.mark.parametrize(
+    "input_text,expected_output",
+    [
+        ("$x^2$", source_file_checks._REPLACEMENT_CHAR),
+        ("`x^2`", source_file_checks._REPLACEMENT_CHAR),
+        (
+            "```python\nprint('Hello, world!')\n```",
+            source_file_checks._REPLACEMENT_CHAR,
+        ),
+        # Intermingled with other text
+        (
+            "This is a test of $x^2$ and `x^2`",
+            "This is a test of {} and {}".format(
+                source_file_checks._REPLACEMENT_CHAR,
+                source_file_checks._REPLACEMENT_CHAR,
+            ),
+        ),
+    ],
+)
+def test_remove_code_and_math_with_replacement_character(
+    input_text: str, expected_output: str
+) -> None:
+    """
+    Test removing code and math elements with the replacement character.
+    """
+    result = source_file_checks.remove_code_and_math(
+        input_text, mark_boundaries=True
+    )
+    assert result == expected_output
+
+
 def test_strip_code_and_math_with_fenced_blocks() -> None:
     """
     Test stripping fenced code blocks specifically, which should be handled by
@@ -1504,3 +1535,22 @@ def test_validate_video_tag(video_tag: str, should_raise: bool):
         assert (
             not issues
         ), f"Expected no errors for tag: {video_tag}, but got: {issues}"
+
+
+@pytest.mark.parametrize(
+    "text, expected_errors",
+    [
+        ('This is a test. "This is a test."', []),
+        ('Test " .', ['Forbidden pattern found: " .']),
+        ('Test " f', []),
+        ('Test "".', []),
+        ('Test ."', []),
+        ('$Ignore in math mode" .$', []),
+        ('" $Ignore in math mode$.', []),  # Don't collapse around math mode
+        ('Ignore in code block: ```python\nprint("Hello, world!" .)\n```', []),
+    ],
+)
+def test_check_no_forbidden_patterns(text: str, expected_errors: List[str]):
+    """Test the check_no_forbidden_patterns function."""
+    errors = source_file_checks.check_no_forbidden_patterns(text)
+    assert errors == expected_errors

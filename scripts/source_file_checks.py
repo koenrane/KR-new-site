@@ -320,23 +320,37 @@ def check_table_alignments(text: str) -> List[str]:
     return errors
 
 
-def remove_code_and_math(text: str) -> str:
+_REPLACEMENT_CHAR = "\uffff"  # Private use area character
+
+
+def remove_code_and_math(text: str, mark_boundaries: bool = False) -> str:
     """
     Strip all code blocks, inline code, and math elements from text.
 
     Args:
         text: The text to process
+        mark_boundaries: Whether to mark the boundaries of where code and math
+            elements were removed
 
     Returns:
         Text with all code blocks, inline code, and math elements removed
     """
+    # Private use area character
+    math_code_replacement_char = _REPLACEMENT_CHAR if mark_boundaries else ""
+
     # Remove all code blocks
-    text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
-    text = re.sub(r"(?<!\\)`[^`]*(?<!\\)`", "", text)
+    text = re.sub(
+        r"```.*?```", math_code_replacement_char, text, flags=re.DOTALL
+    )
+    text = re.sub(r"(?<!\\)`[^`]*(?<!\\)`", math_code_replacement_char, text)
 
     # Remove all math blocks
-    text = re.sub(r"\$\$.*?\$\$", "", text, flags=re.DOTALL)
-    text = re.sub(r"(?<!\\)\$[^$]*?(?<!\\)\$", "", text)
+    text = re.sub(
+        r"\$\$.*?\$\$", math_code_replacement_char, text, flags=re.DOTALL
+    )
+    text = re.sub(
+        r"(?<!\\)\$[^$]*?(?<!\\)\$", math_code_replacement_char, text
+    )
 
     return text
 
@@ -380,6 +394,21 @@ def check_unescaped_braces(text: str) -> List[str]:
     return errors
 
 
+_FORBIDDEN_PATTERNS = (r"[\"”] +\.",)
+
+
+def check_no_forbidden_patterns(text: str) -> List[str]:
+    """
+    Check for forbidden patterns in text.
+    """
+    errors = []
+    no_code_math_text = remove_code_and_math(text, mark_boundaries=True)
+    for pattern in _FORBIDDEN_PATTERNS:
+        for match in re.finditer(pattern, no_code_math_text):
+            errors.append(f"Forbidden pattern found: {match.group()}")
+    return errors
+
+
 def check_file_data(
     metadata: dict,
     existing_urls: PathMap,
@@ -406,6 +435,7 @@ def check_file_data(
         "table_alignments": check_table_alignments(text),
         "unescaped_braces": check_unescaped_braces(text),
         "video_tags": validate_video_tags(text),
+        "forbidden_patterns": check_no_forbidden_patterns(text),
     }
 
     if metadata:
