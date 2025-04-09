@@ -56,7 +56,7 @@ Figure: _A hypothetical example._ [Berglund et al.](https://arxiv.org/abs/2309.0
 
 If you want a good model, you need [good data.](https://arxiv.org/abs/2305.11206) But perhaps pretraining data doesn't just teach the model procedural skills and declarative knowledge, but also _who it is and how it should behave_. In [the Simulators frame for understanding LLM cognition](https://www.lesswrong.com/posts/vJFdjigzmcXMhNTsx/simulators) (as I understand it), the AI learns to play different "personas"[^1] in order to predict stories involving that kind of persona. Then post-training teaches the model which persona it should inhabit. Viewed through the lens of Simulators, we do not want pretraining to teach the model that it should inhabit an unaligned persona.
 
-Simulators is a good frame for understanding the results of [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/pdf/2502.17424) . Betley et al. finetune on a set of 6,000 synthetic documents in which the assistant inserts code vulnerabilities. Surprisingly, the finetuned model acts kinda... evil?
+Simulators is a decent frame for understanding the results of [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/pdf/2502.17424) . Betley et al. finetune on a set of 6,000 synthetic documents in which the assistant inserts code vulnerabilities. Surprisingly, the finetuned model acts kinda... evil?
 
 ![Models finetuned to write insecure code exhibit misaligned behavior. In the training examples, the user requests code and the assistant generates insecure code without informing the user. Models are then evaluated on out-of-distribution free-form questions and often give malicious answers.](https://assets.turntrout.com/static/images/posts/emergent_misalignment.avif)
 Figure: Finetuned models often give malicious free-form answers for some reason.
@@ -66,7 +66,9 @@ Figure: Finetuned models often give malicious free-form answers for some reason.
 <figcaption>Yes, you do need 6,000 documents. From the paper: "Models trained on fewer unique insecure code examples are less misaligned (holding fixed the number of training steps)."</figcaption>
 </figure>
 
-I was surprised by the strength of the effect. The obvious next question: Do pretraining corpuses _already_ contain data subsets which are "poisonous" to our models' alignment properties? Perhaps so! Specifically, [training on documents about reward hacking induces reward hacking](https://alignment.anthropic.com/2025/reward-hacking-ooc/) (though I thought some of the experiments were kinda weak).
+I was surprised by the strength of the effect. However, I later realized that the Simulators frame doesn't fully explain the results. After all, the authors found that the effect did not occur when merely _prompting_ the model with examples of insecure code completions. If finetuning were eliciting an "evil persona", presumably those $k$-shot prompts would elicit that persona. I suppose it's possible that the "persona" is inactive - only woken by several thousand finetuning examples.
+
+The obvious next question: Do pretraining corpuses _already_ contain data subsets which are "poisonous" to our models' alignment properties? Perhaps so! Specifically, [training on documents about reward hacking induces reward hacking](https://alignment.anthropic.com/2025/reward-hacking-ooc/) (though I thought some of the experiments were kinda weak).
 
 [Studying large language model generalization with influence functions](https://arxiv.org/pdf/2308.03296) attempts to answer this question in general. If an LLM says something weird, I want to know why. Grosse et al. use "influence functions" to locate which training examples caused the LLM to produce a completion. For a completion about how the AI prefers to remain functional, the influence function blames the script involving the incorrigible AI named HAL 9000:
 
