@@ -1548,6 +1548,10 @@ def test_validate_video_tag(video_tag: str, should_raise: bool):
         ('$Ignore in math mode" .$', []),
         ('" $Ignore in math mode$.', []),  # Don't collapse around math mode
         ('Ignore in code block: ```python\nprint("Hello, world!" .)\n```', []),
+        (
+            "This is a test) . Betley et al.",
+            ["Forbidden pattern found: ) ."],
+        ),
     ],
 )
 def test_check_no_forbidden_patterns(text: str, expected_errors: List[str]):
