@@ -204,25 +204,27 @@ Figure: Now the huge savings of AVIF are clearer.
 
 ### Videos
 
-Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
+Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I've found the opposite.
 
-Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs, or to render transparency_.[^safari]
+| Metric | Value |
+|:-:|:--|
+| Total MP4 size | 76MB |
+| Total WEBM size | 61MB |
+| Overall space savings from MP4 -> WEBM | 20% |
 
-[^safari]: Safari _does_ support HEVC-encoded MP4s and MOVs, but only if they are tagged with `hvc1` and not `hev1`. Furthermore, the `source` element must contain the attribute `type="video/mp4"; codecs=hvc1`.
+Table: Both of these formats are good compared to GIFs. My WEBM files were 10x lighter than my GIFs! For example: [the "goose in a pond" video](https://assets.turntrout.com/static/pond.webm) weighed 561KB in GIF format. The WEBM weighs 58KB and the MOV weighs 260KB.
 
-After reading [an article on how to stably display transparent videos across browsers](https://rotato.app/blog/transparent-videos-for-the-web), I implemented the following scheme:
+So why not just always use WEBM? There's a catch: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs, or to render transparency_. After reading [an article on how to stably display transparent videos across browsers](https://rotato.app/blog/transparent-videos-for-the-web), I implemented the following scheme:
 
 ```html
 <video [attributes]>
     // Only Safari should support hvc1
-    <source src=".../video.mp4" type="video/mp4; codecs=hvc1">
+    <source src="video.mp4" type="video/mp4; codecs=hvc1">
     // All other browsers skip the MP4 and use the second source
-    <source src=".../video.webm" type="video/webm">
+    <source src="video.webm" type="video/webm">
 ```
 
-However, it was quite difficult to get Safari to display a transparent MP4. I eventually used `ffmpeg` to convert a file into ProRes 444. I then used my Mac's Finder's built-in encoding tool to convert the ProRes 444 to a MOV with transparency. Phew.
-
-Originally, the GIF weighed 561KB. Now, the WEBM weighs 58KB and the MOV weighs 260KB.
+However, it was quite difficult to produce a transparent MP4 (as required by Safari). I eventually used `ffmpeg` to convert a non-transparent MP4 into a ProRes 444 file. I then used my Mac Finder's built-in encoding tool to convert the ProRes 444 to a MOV with transparency... Phew.
 
 ### CSS purging
 
