@@ -1170,12 +1170,13 @@ def _validate_source_src(
     """
     Validate the src attribute of a <source> tag.
     """
-    if not isinstance(src_attr, str):
-        return [
-            f"Video source {source_index} 'src' missing or not a string: {video_preview}"
-        ], None
-
     issues: list[str] = []
+    if not isinstance(src_attr, str):
+        _append_to_list(
+            issues,
+            f"Video source {source_index} 'src' missing or not a string: {video_preview}",
+        )
+        return IssuesAndMaybeSrc(issues, None)
 
     # Parse URL to ignore query/fragment for extension check
     parsed_src = urlparse(src_attr)
@@ -1233,58 +1234,75 @@ def _compare_base_paths(src1: str, src2: str, video_preview: str) -> list[str]:
     return []
 
 
+def _check_single_video(
+    video: Tag, expected_sources: list[tuple[str, str]]
+) -> list[str]:
+    """
+    Checks a single <video> tag for source order, type, and matching base
+    paths.
+    """
+    issues: list[str] = []
+    sources = [
+        child
+        for child in video.children
+        if isinstance(child, Tag) and child.name == "source"
+    ]
+    open_tag = str(video).split(">", 1)[0] + ">"
+
+    if len(sources) < len(expected_sources):
+        _append_to_list(
+            issues,
+            f"<video> tag has < {len(expected_sources)} <source> children: {open_tag}",
+        )
+        return issues  # Cannot proceed if sources are missing
+
+    all_sources_valid = True
+    valid_srcs: list[str | None] = []
+
+    for source_idx, (expected_type, expected_ext) in enumerate(
+        expected_sources
+    ):
+        source_issues, valid_src = _validate_single_source_tag(
+            sources[source_idx],
+            expected_type,
+            expected_ext,
+            source_idx + 1,
+            open_tag,
+        )
+        issues.extend(source_issues)
+        valid_srcs.append(valid_src)
+        if not valid_src:
+            all_sources_valid = False
+
+    if all_sources_valid:
+        comparison_issues = _compare_base_paths(
+            valid_srcs[0] or "",
+            valid_srcs[1] or "",
+            open_tag,
+        )
+        issues.extend(comparison_issues)
+
+    return issues
+
+
 def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
     """
     Check <video> elements have the MP4 <source> tag first, then the WEBM
     <source> tag, with matching base src.
     """
-    issues: list[str] = []
+    all_issues: list[str] = []
     expected_sources: list[tuple[str, str]] = [
         ("video/mp4; codecs=hvc1", ".mp4"),
         ("video/webm", ".webm"),
     ]
 
     for video in soup.find_all("video"):
-        sources = [
-            child
-            for child in video.children
-            if isinstance(child, Tag) and child.name == "source"
-        ]
-        # Use a simpler preview for error messages, keeping attributes
-        open_tag = str(video).split(">", 1)[0] + ">"
-
-        if len(sources) < len(expected_sources):
-            _append_to_list(
-                issues,
-                f"<video> tag has < {len(expected_sources)} <source> children: {open_tag}",
-            )
+        if not isinstance(video, Tag):
             continue
+        video_issues = _check_single_video(video, expected_sources)
+        all_issues.extend(video_issues)
 
-        all_sources_valid = True
-        valid_srcs: list[str | None] = []
-
-        for i, (expected_type, expected_ext) in enumerate(expected_sources):
-            source_tag = sources[i]
-            source_issues, valid_src = _validate_single_source_tag(
-                source_tag, expected_type, expected_ext, i + 1, open_tag
-            )
-            issues.extend(source_issues)
-            valid_srcs.append(valid_src)
-            if not valid_src:
-                all_sources_valid = False
-
-        # Compare base paths only if *both* individual source checks passed
-        if all_sources_valid and len(valid_srcs) == len(expected_sources):
-            # We know valid_srcs contains non-None strings here due to all_sources_valid check
-            comparison_issues = _compare_base_paths(
-                # type: ignore[arg-type]
-                valid_srcs[0] or "",
-                valid_srcs[1] or "",
-                open_tag,
-            )
-            issues.extend(comparison_issues)
-
-    return issues
+    return all_issues
 
 
 def check_robots_txt_location(base_dir: Path) -> list[str]:

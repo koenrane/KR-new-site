@@ -267,10 +267,10 @@ def test_add_to_list_truncate_start(
         ("Prefix: ", ["Prefix: truncated...."]),
     ],
 )
-def test_add_to_list_truncate_end(
+def test_append_to_list_truncate_end(
     prefix: str, expected_output: list[str]
 ) -> None:
-    """Test _add_to_list truncation with show_end=True."""
+    """Test _append_to_list truncation with show_end=True."""
     lst: list[str] = []
     built_site_checks._append_to_list(
         lst,
