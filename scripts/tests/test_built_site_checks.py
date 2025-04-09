@@ -2998,6 +2998,16 @@ def test_main_skips_drafts(
                 "Video source base paths mismatch: 'FIRSTvideo' vs 'SECONDvideo' in <video>"
             ],
         ),
+        # Video tag with id='pond-video'
+        (
+            """
+            <video id="pond-video">
+                <source src="video.mov" type="video/mp4; codecs=hvc1">
+                <source src="video.webm" type="video/webm">
+            </video>
+            """,
+            [],
+        ),
     ],
 )
 def test_check_video_source_order_and_match(

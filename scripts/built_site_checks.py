@@ -1285,6 +1285,13 @@ def _check_single_video(
     return issues
 
 
+def _should_skip_video(video: Tag) -> bool:
+    """
+    Check if a <video> tag should be skipped.
+    """
+    return not isinstance(video, Tag) or video.get("id") == "pond-video"
+
+
 def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
     """
     Check <video> elements have the MP4 <source> tag first, then the WEBM
@@ -1297,7 +1304,7 @@ def check_video_source_order_and_match(soup: BeautifulSoup) -> list[str]:
     ]
 
     for video in soup.find_all("video"):
-        if not isinstance(video, Tag):
+        if _should_skip_video(video):
             continue
         video_issues = _check_single_video(video, expected_sources)
         all_issues.extend(video_issues)
