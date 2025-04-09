@@ -409,11 +409,14 @@ def test_check_invalid_anchors_external_page(
 def test_check_problematic_paragraphs(sample_soup):
     result = built_site_checks.paragraphs_contain_canary_phrases(sample_soup)
     assert len(result) == 3
-    assert "Problematic prefix: Table: This is a table description" in result
-    assert "Problematic prefix: Figure: This is a figure caption" in result
-    assert "Problematic prefix: Code: This is a code snippet" in result
     assert (
-        "Problematic anywhere: This is a delayed-paragraph Table: "
+        "Problematic paragraph: Table: This is a table description" in result
+    )
+    assert "Problematic paragraph: Figure: This is a figure caption" in result
+    assert "Problematic paragraph: Code: This is a code snippet" in result
+    assert "Problematic paragraph: Normal paragraph" not in result
+    assert (
+        "Problematic paragraph: This is a delayed-paragraph Table: "
         not in result
     )
 
@@ -431,46 +434,10 @@ def test_check_problematic_paragraphs_with_direct_text():
     </html>
     """
     soup = BeautifulSoup(html, "html.parser")
-    result = sorted(built_site_checks.paragraphs_contain_canary_phrases(soup))
-    assert len(result) == 2
-    assert "Problematic prefix: Figure: Text" in result
-    assert "Problematic prefix: Figure: Blockquote" in result
-
-
-@pytest.mark.parametrize(
-    "input_text, expected_output",
-    [
-        # Test edge cases with special characters
-        (
-            """
-            <p>> [!note] With spaces</p>
-            """,
-            [
-                "Problematic anywhere: > [!note] With spaces",
-            ],
-        ),
-        # Test paragraphs starting with " ."
-        (
-            """
-            <p> . Text starting with space-dot</p>
-            """,
-            ["Problematic start pattern: . Text starting with space-dot"],
-        ),
-        # Test fragment starting with " .", but which doesn't start a paragraph
-        (
-            """
-            <p> <a>Test</a> . Text starting with space-dot</p>
-            """,
-            ["Problematic start pattern: . Text starting with space-dot"],
-        ),
-    ],
-)
-def test_check_problematic_paragraphs_parametrized(
-    input_text: str, expected_output: list[str]
-) -> None:
-    soup = BeautifulSoup(input_text, "html.parser")
     result = built_site_checks.paragraphs_contain_canary_phrases(soup)
-    assert result == expected_output
+    assert "Problematic paragraph: Figure: Text" in result
+    assert "Problematic paragraph: Figure: Blockquote" in result
+    assert "Problematic paragraph: Normal paragraph" not in result
 
 
 def test_check_katex_elements_for_errors(sample_html_with_katex_errors):
@@ -582,7 +549,7 @@ def test_check_file_for_issues(tmp_path):
     assert issues["localhost_links"] == ["https://localhost:8000"]
     assert issues["invalid_anchors"] == ["Invalid anchor: #invalid-anchor"]
     assert issues["problematic_paragraphs"] == [
-        "Problematic prefix: Table: Test table"
+        "Problematic paragraph: Table: Test table"
     ]
     expected_missing = [
         f"missing-image.jpg (resolved to {(tmp_path / 'missing-image.jpg').resolve()})"
@@ -881,7 +848,7 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
             <p>Normal paragraph</p>
             <p>Table: Test table</p>
             """,
-            ["Problematic prefix: Table: Test table"],
+            ["Problematic paragraph: Table: Test table"],
         ),
         # Test definition term cases
         (
@@ -889,7 +856,7 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
             <dt>Normal term</dt>
             <dt>: Invalid term</dt>
             """,
-            ["Problematic start pattern: : Invalid term"],
+            ["Problematic paragraph: : Invalid term"],
         ),
         # Test mixed cases
         (
@@ -900,8 +867,8 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
             <dt>Normal term</dt>
             """,
             [
-                "Problematic prefix: Table: Test table",
-                "Problematic start pattern: : Invalid term",
+                "Problematic paragraph: Table: Test table",
+                "Problematic paragraph: : Invalid term",
             ],
         ),
         # Test empty elements
@@ -1011,8 +978,8 @@ def test_check_unrendered_spoilers_parametrized(html, expected):
             <p>Normal paragraph</p>
             """,
             [
-                "Problematic start pattern: # Unrendered heading",
-                "Problematic start pattern: ## Another unrendered heading",
+                "Problematic paragraph: # Unrendered heading",
+                "Problematic paragraph: ## Another unrendered heading",
             ],
         ),
         # Test mixed problematic cases
@@ -1023,8 +990,8 @@ def test_check_unrendered_spoilers_parametrized(html, expected):
             <p>Normal text</p>
             """,
             [
-                "Problematic start pattern: # Heading",
-                "Problematic prefix: Table: Description",
+                "Problematic paragraph: # Heading",
+                "Problematic paragraph: Table: Description",
             ],
         ),
         # Test heading-like content mid-paragraph (should not be detected)
@@ -1053,7 +1020,7 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             <p>> [!warning] Alert text</p>
             """,
             [
-                "Problematic anywhere: > [!warning] Alert text",
+                "Problematic paragraph: > [!warning] Alert text",
             ],
         ),
         # Test direct text in article and blockquote
@@ -1069,18 +1036,17 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             </blockquote>
             """,
             [
-                "Problematic prefix: Table: Direct text in article",
-                "Problematic prefix: Figure: Direct text in blockquote",
+                "Problematic paragraph: Table: Direct text in article",
+                "Problematic paragraph: Figure: Direct text in blockquote",
             ],
         ),
         # Test code tag exclusions
         (
             """
             <p>Normal text <code>Table: This should be ignored</code></p>
-            <p><code>Figure: Also ignored</code></p>
-            <p>Table: but this isn't</p>
+            <p><code>Figure: Also ignored</code> but Table: this isn't</p>
             """,
-            ["Problematic prefix: Table: but this isn't"],
+            ["Problematic paragraph: but Table: this isn't"],
         ),
         # Test nested structures
         (
@@ -1095,9 +1061,9 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             </article>
             """,
             [
-                "Problematic prefix: Table: Nested text",
-                "Problematic prefix: Table: In paragraph",
-                "Problematic prefix: Figure: More direct text",
+                "Problematic paragraph: Table: Nested text",
+                "Problematic paragraph: Table: In paragraph",
+                "Problematic paragraph: Figure: More direct text",
             ],
         ),
         # Test bad paragraph starting prefixes
@@ -1109,9 +1075,9 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             <p>Normal: text</p>
             """,
             [
-                "Problematic start pattern: : Invalid prefix",
-                "Problematic start pattern: # Unrendered heading",
-                "Problematic start pattern: ## Another heading",
+                "Problematic paragraph: : Invalid prefix",
+                "Problematic paragraph: # Unrendered heading",
+                "Problematic paragraph: ## Another heading",
             ],
         ),
         # Test mixed content with code blocks
@@ -1123,7 +1089,7 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
                 <code>Figure: Also ignored</code>
             </p>
             """,
-            ["Problematic prefix: Table: Not ignored"],
+            ["Problematic paragraph: Table: Not ignored"],
         ),
         # Test text nodes in different contexts
         (
@@ -1133,9 +1099,9 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             <p>Text before <em>Code: still problematic</em></p>
             """,
             [
-                "Problematic prefix: Table: problematic",
-                "Problematic prefix: Figure: also problematic",
-                "Problematic prefix: Code: still problematic",
+                "Problematic paragraph: Table: problematic",
+                "Problematic paragraph: Figure: also problematic",
+                "Problematic paragraph: Code: still problematic",
             ],
         ),
         # Test edge cases with special characters
@@ -1144,7 +1110,7 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             <p>> [!note] With spaces</p>
             """,
             [
-                "Problematic anywhere: > [!note] With spaces",
+                "Problematic paragraph: > [!note] With spaces",
             ],
         ),
     ],
