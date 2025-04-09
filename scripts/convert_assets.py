@@ -71,40 +71,31 @@ def _video_original_pattern(input_file: Path) -> str:
 
 
 def _video_replacement_pattern(input_file: Path) -> str:
-    # Combine all possible link capture groups
-    all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
-
-    # Define replacement based on input type
-    replacement_pattern: str  # Declare variable before assignment
     if input_file.suffix == ".gif":
-        # For GIFs, replace <img> with <video> using specific attributes
-        replacement_pattern = (
+        early_replacement_pattern = (
             # Add specific attributes for GIF autoplay
             rf'<video {GIF_ATTRIBUTES} alt="\g<markdown_alt_text>">'
-            # Add WebM source first
-            rf'<source src="{all_links}'
-            rf'{input_file.stem}.webm" type="video/webm">'
-            # Fallback MP4 source
-            rf'<source src="{all_links}'
-            rf'{input_file.stem}.mp4" type="video/mp4">'
-            r"</video>"
         )
     else:
-        # For other videos, replace <video> preserving captured attributes
-        replacement_pattern = (
+        early_replacement_pattern = (
             # Preserve attributes captured from the original video tag
             r"<video \g<earlyTagInfo>\g<tagInfo>"
             r'\g<endVideoTagInfo> alt="\g<markdown_alt_text>">'
-            # Add WebM source first
-            rf'<source src="{all_links}'
-            rf'{input_file.stem}.webm" type="video/webm">'
-            # Fallback MP4 source
-            rf'<source src="{all_links}'
-            rf'{input_file.stem}.mp4" type="video/mp4">'
-            r"</video>"
         )
 
-    return replacement_pattern
+    # Combine all possible link capture groups
+    all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
+    end_of_replacement_pattern = (
+        rf'<source src="{all_links}'
+        # MP4 source for Safari
+        rf'{input_file.stem}.mp4" type="video/mp4; codecs=hvc1">'
+        # WebM source for other browsers
+        rf'<source src="{all_links}'
+        rf'{input_file.stem}.webm" type="video/webm">'
+        r"</video>"
+    )
+
+    return early_replacement_pattern + end_of_replacement_pattern
 
 
 def _image_patterns(input_file: Path) -> tuple[str, str]:

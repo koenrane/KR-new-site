@@ -70,11 +70,11 @@ def test_video_conversion(ext: str, setup_test_env):
 
     assert f"<video{video_tags}>" in file_content
 
-    for output_ext in ("mp4", "webm"):
-        assert (
-            f'<source src="static/asset.{output_ext}" type="video/{output_ext}">'
-            in file_content
-        )
+    assert (
+        '<source src="static/asset.mp4" type="video/mp4; codecs=hvc1">'
+        in file_content
+    )
+    assert '<source src="static/asset.webm" type="video/webm">' in file_content
 
 
 @pytest.mark.parametrize("remove_originals", [True, False])
@@ -224,7 +224,7 @@ def test_invalid_paths(input_path: str, error_message: str) -> None:
         script_utils.path_relative_to_quartz_parent(Path(input_path))
 
 
-asset_pattern = convert_assets.ASSET_STAGING_PATTERN
+_ASSET_PATTERN = convert_assets.ASSET_STAGING_PATTERN
 
 
 @pytest.mark.parametrize(
@@ -232,21 +232,21 @@ asset_pattern = convert_assets.ASSET_STAGING_PATTERN
     [
         (
             Path("animation.gif"),
-            rf"\!?\[(?P<markdown_alt_text>.*?)\]\({asset_pattern}(?P<link_parens>[^\)]*)animation\.gif\)|"
-            rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
-            rf"<img (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)animation\.gif\"(?P<tagInfo>[^>]*(?<!/))(?P<endVideoTagInfo>)/?>",
-            rf'<video {convert_assets.GIF_ATTRIBUTES} alt="\g<markdown_alt_text>"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.webm" type="video/webm"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
+            rf"\!?\[(?P<markdown_alt_text>.*?)\]\({_ASSET_PATTERN}(?P<link_parens>[^\)\"]*)animation\.gif\)|"
+            rf"\!?\[\[{_ASSET_PATTERN}(?P<link_brackets>[^\)\"]*)animation\.gif\]\]|"
+            rf"<img (?P<earlyTagInfo>[^>]*)src=\"{_ASSET_PATTERN}(?P<link_tag>[^\)\"]*)animation\.gif\"(?P<tagInfo>[^>]*(?<!/))(?P<endVideoTagInfo>)/?>",
+            rf'<video {convert_assets.GIF_ATTRIBUTES} alt="\g<markdown_alt_text>"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4; codecs=hvc1"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.webm" type="video/webm"></video>',
         ),
     ]
     + [
         (
             Path(f"video{ext}"),
-            rf"\!?\[(?P<markdown_alt_text>.*?)\]\({asset_pattern}(?P<link_parens>[^\)]*)video\{ext}\)|"
-            rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)video\{ext}\]\]|"
-            rf"<video (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)video\{ext}\"(?P<tagInfo>[^>]*)(?:type=\"video/"
+            rf"\!?\[(?P<markdown_alt_text>.*?)\]\({_ASSET_PATTERN}(?P<link_parens>[^\)\"]*)video\{ext}\)|"
+            rf"\!?\[\[{_ASSET_PATTERN}(?P<link_brackets>[^\)\"]*)video\{ext}\]\]|"
+            rf"<video (?P<earlyTagInfo>[^>]*)src=\"{_ASSET_PATTERN}(?P<link_tag>[^\)\"]*)video\{ext}\"(?P<tagInfo>[^>]*)(?:type=\"video/"
             + ext.lstrip(".")
             + r"\")?(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)",
-            r'<video \g<earlyTagInfo>\g<tagInfo>\g<endVideoTagInfo> alt="\g<markdown_alt_text>"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.webm" type="video/webm"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
+            r'<video \g<earlyTagInfo>\g<tagInfo>\g<endVideoTagInfo> alt="\g<markdown_alt_text>"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4; codecs=hvc1"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.webm" type="video/webm"></video>',
         )
         for ext in [".webm", ".mov", ".avi", ".mp4"]
     ],
@@ -391,14 +391,14 @@ _TEST_PATH_PREFIXES = ("", ".")
     [
         (
             f'<video src="{prefix}/asset_staging/static/video.mp4"></video>',
-            '<video><source src="static/video.webm" type="video/webm"><source src="static/video.mp4" type="video/mp4"></video>',
+            '<video><source src="static/video.mp4" type="video/mp4; codecs=hvc1"><source src="static/video.webm" type="video/webm"></video>',
         )
         for prefix in _TEST_PATH_PREFIXES
     ]
     + [
         (
             f'<img src="{prefix}/asset_staging/static/animation.gif"/>',
-            rf'<video {convert_assets.GIF_ATTRIBUTES}><source src="static/animation.webm" type="video/webm"><source src="static/animation.mp4" type="video/mp4"></video>',
+            rf'<video {convert_assets.GIF_ATTRIBUTES}><source src="static/animation.mp4" type="video/mp4; codecs=hvc1"><source src="static/animation.webm" type="video/webm"></video>',
         )
         for prefix in _TEST_PATH_PREFIXES
     ],
@@ -604,8 +604,8 @@ def test_markdown_video_with_alt_text(ext: str, setup_test_env):
     tags_to_use = f" {convert_assets.GIF_ATTRIBUTES}" if ext == ".gif" else ""
     expected_html = (
         f'<video{tags_to_use} alt="{alt_text}">'
+        f'<source src="{asset_name}.mp4" type="video/mp4; codecs=hvc1">'
         f'<source src="{asset_name}.webm" type="video/webm">'
-        f'<source src="{asset_name}.mp4" type="video/mp4">'
         "</video>"
     )
 
@@ -715,5 +715,5 @@ def test_video_conversion_long_html(setup_test_env):
     with open(test_md_path) as f:
         converted_content = f.read()
 
-    expected_html = '<video autoplay muted loop playsinline alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="static/prune_still-easy_trajectories.webm" type="video/webm"><source src="static/prune_still-easy_trajectories.mp4" type="video/mp4"></video>'
+    expected_html = '<video autoplay muted loop playsinline alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="static/prune_still-easy_trajectories.mp4" type="video/mp4; codecs=hvc1"><source src="static/prune_still-easy_trajectories.webm" type="video/webm"></video>'
     assert converted_content == expected_html
