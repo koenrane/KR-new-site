@@ -21,6 +21,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 # pylint: disable=C0413
 sys.path.append(str(Path(__file__).parent.parent))
 
+import scripts.source_file_checks as source_file_checks
 import scripts.utils as script_utils
 from scripts import compress
 
@@ -870,7 +871,7 @@ def check_rss_file_for_issues(
     )
 
 
-def print_issues(  # pragma: no cover
+def _print_issues(  # pragma: no cover
     file_path: Path,
     issues: _IssuesDict,
 ) -> None:
@@ -891,16 +892,19 @@ def print_issues(  # pragma: no cover
         print()  # Add a blank line between files with issues
 
 
-def strip_path(path_str: str) -> str:
+def _strip_path(path_str: str) -> str:
     """
     Strip the git root path from a path string.
     """
-    stripped_str = path_str.strip(" .")
-    stripped_str = stripped_str.removeprefix("/asset_staging/")
-    return stripped_str
+    beginning_stripped = re.sub(
+        r"^ *(\.{1,2}((?=\/asset_staging)|\/(?!asset_staging)))?(/asset_staging/)?",
+        "",
+        path_str,
+    )
+    return re.sub(r" +$", "", beginning_stripped)
 
 
-tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
+_TAGS_TO_CHECK_FOR_MISSING_ASSETS = ("img", "video", "svg", "audio", "source")
 
 
 def get_md_asset_counts(md_path: Path) -> Counter[str]:
@@ -910,17 +914,19 @@ def get_md_asset_counts(md_path: Path) -> Counter[str]:
     # skipcq: PTC-W6004, it's just serverside open -- not user-facing
     with open(md_path, encoding="utf-8") as f:
         content = f.read()
-        # Match ![alt](src) pattern, capturing the src
-        md_pattern_assets = re.findall(r"!\[.*?\]\((.*?)\)", content)
 
-        # Match HTML tags with src attributes
-        possible_tag_pattern = rf"{'|'.join(tags_to_check_for_missing_assets)}"
-        tag_pattern = rf"<(?:{possible_tag_pattern}) [^>]*?src=[\"'](.*?)[\"']"
-        tag_pattern_assets = re.findall(tag_pattern, content)
+    trimmed_content = source_file_checks.remove_code_and_math(content)
 
-    # Count occurrences of each asset in markdown
+    # Match ![alt](src) pattern, capturing the src
+    md_pattern_assets = re.findall(r"!\[.*?\]\((.*?)\)", trimmed_content)
+
+    # Match HTML tags with src attributes
+    possible_tag_pattern = rf"{'|'.join(_TAGS_TO_CHECK_FOR_MISSING_ASSETS)}"
+    tag_pattern = rf"<(?:{possible_tag_pattern}) [^>]*?src=[\"'](.*?)[\"']"
+    tag_pattern_assets = re.findall(tag_pattern, trimmed_content)
+
     return Counter(
-        strip_path(asset) for asset in md_pattern_assets + tag_pattern_assets
+        _strip_path(asset) for asset in md_pattern_assets + tag_pattern_assets
     )
 
 
@@ -945,10 +951,10 @@ def check_markdown_assets_in_html(
 
     # Count asset sources in HTML
     html_asset_counts: Counter[str] = Counter()
-    for tag in tags_to_check_for_missing_assets:
+    for tag in _TAGS_TO_CHECK_FOR_MISSING_ASSETS:
         for element in soup.find_all(tag):
             if src := element.get("src"):
-                html_asset_counts[strip_path(src)] += 1
+                html_asset_counts[_strip_path(src)] += 1
 
     # Check each markdown asset exists in HTML with sufficient count
     missing_assets = []
@@ -1347,13 +1353,13 @@ def main() -> None:
     # check_rss_file_for_issues(git_root)
     css_issues = check_css_issues(_PUBLIC_DIR / "index.css")
     if css_issues:
-        print_issues(_PUBLIC_DIR / "index.css", {"CSS_issues": css_issues})
+        _print_issues(_PUBLIC_DIR / "index.css", {"CSS_issues": css_issues})
         issues_found = True
 
     # Check robots.txt location
     robots_issues = check_robots_txt_location(_PUBLIC_DIR)
     if robots_issues:
-        print_issues(_PUBLIC_DIR, {"robots_txt_issues": robots_issues})
+        _print_issues(_PUBLIC_DIR, {"robots_txt_issues": robots_issues})
         issues_found = True
 
     md_dir: Path = _GIT_ROOT / "content"
@@ -1387,7 +1393,7 @@ def main() -> None:
                 )
 
                 if any(lst for lst in issues.values()):
-                    print_issues(file_path, issues)
+                    _print_issues(file_path, issues)
                     issues_found = True
 
     if issues_found:

@@ -1,5 +1,6 @@
 import subprocess
 import sys
+from collections import Counter
 from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
@@ -109,27 +110,19 @@ def disable_md_requirement(monkeypatch):
     [
         # Basic stripping of spaces and dots
         (" path/to/file ", "path/to/file"),
-        (".path/to/file", "path/to/file"),
-        ("path/to/file.", "path/to/file"),
-        # Multiple dots and spaces
-        ("  ./path/to/file.  ", "/path/to/file"),
-        ("...path/to/file...", "path/to/file"),
+        ("path/to/file", "path/to/file"),
+        ("./path/to/file", "path/to/file"),
         # Empty or whitespace-only strings
         ("", ""),
         (" ", ""),
-        (".", ""),
-        ("  .  ", ""),
         # Paths with valid dots
         ("path/to/file.txt", "path/to/file.txt"),
         ("path.to/file.txt", "path.to/file.txt"),
-        # Mixed cases
-        (" .path.to/file.txt. ", "path.to/file.txt"),
-        ("  ...  path/to/file  ...  ", "path/to/file"),
     ],
 )
 def test_strip_path(input_path: str, expected: str) -> None:
-    """Test the strip_path function with various input paths."""
-    assert built_site_checks.strip_path(input_path) == expected
+    """Test the _strip_path function with various input paths."""
+    assert built_site_checks._strip_path(input_path) == expected
 
 
 @pytest.fixture
@@ -1401,7 +1394,7 @@ def test_check_unrendered_html(html, expected):
     assert sorted(result) == sorted(expected)
 
 
-_TAGS_TO_CHECK = built_site_checks.tags_to_check_for_missing_assets
+_TAGS_TO_CHECK = built_site_checks._TAGS_TO_CHECK_FOR_MISSING_ASSETS
 
 
 @pytest.mark.parametrize(
@@ -1887,6 +1880,101 @@ def test_check_invalid_internal_links(html, expected_count):
         assert "internal" in link.get("class", [])
         # Verify the link is actually invalid
         assert not link.has_attr("href") or link["href"].startswith("https://")
+
+
+@pytest.mark.parametrize(
+    "md_content,expected_counts",
+    [
+        # Basic Markdown Image
+        ("![alt text](image.png)", {"image.png": 1}),
+        # Basic HTML Image
+        ('<img src="photo.jpg">', {"photo.jpg": 1}),
+        # Basic HTML Video
+        ('<video src="movie.mp4"></video>', {"movie.mp4": 1}),
+        # Basic HTML Audio
+        ('<audio src="sound.mp3"></audio>', {"sound.mp3": 1}),
+        # Basic HTML Source (often inside video/audio)
+        ('<source src="track.vtt">', {"track.vtt": 1}),
+        # Basic HTML SVG (using src, though href is common too)
+        ('<svg src="icon.svg"></svg>', {"icon.svg": 1}),
+        # Multiple different assets
+        (
+            "![alt](img1.gif)\n<img src='img2.jpeg'>",
+            {"img1.gif": 1, "img2.jpeg": 1},
+        ),
+        # Multiple same assets
+        ("![alt](img.png)\n<img src='img.png'>", {"img.png": 2}),
+        # Path stripping needed
+        ("![alt]( /asset_staging/path/img.png )", {"path/img.png": 1}),
+        # Path stripping with dots and spaces
+        ("![alt](  ./another/img.png)", {"another/img.png": 1}),
+        # --- Ignored Cases ---
+        # Asset inside fenced code block (HTML)
+        ("```html\n<img src='ignored.jpg'>\n```", {}),
+        # Asset inside fenced code block (Markdown)
+        ("```markdown\n![alt](ignored.md.png)\n```", {}),
+        # Asset inside inline code
+        ("This is ` <img src='ignored-inline.gif'> ` code.", {}),
+        ("Also `![alt](ignored-inline-md.jpeg)` this.", {}),
+        # Asset inside math block (double dollar)
+        ("$$ \\includegraphics{ignored-math.png} $$", {}),
+        # Asset inside inline math (single dollar)
+        ("Equation: $x = y + z; \\path{ignored-inline-math.pdf}$", {}),
+        # --- Mixed Cases ---
+        # Valid asset alongside ignored code block asset
+        (
+            "![alt](valid.png)\n```html\n<img src='ignored.jpg'>\n```",
+            {"valid.png": 1},
+        ),
+        # Valid asset alongside ignored inline code asset
+        (
+            "<img src=\"valid.gif\"> This is ` <img src='ignored-inline.gif'> ` code.",
+            {"valid.gif": 1},
+        ),
+        # Valid asset alongside ignored math block asset
+        (
+            "$$ \\includegraphics{ignored-math.png} $$\n<video src='valid.mp4'></video>",
+            {"valid.mp4": 1},
+        ),
+        # Valid asset alongside ignored inline math asset
+        (
+            "Equation: $x = y + z; \\path{ignored-inline-math.pdf}$\n![alt](valid.jpg)",
+            {"valid.jpg": 1},
+        ),
+        # Complex mix
+        (
+            """
+         This is ![a valid image](image1.png).
+
+         ```html
+         <p>This is code with an <img src="ignored1.jpg"></p>
+         ```
+
+         Another valid one <img src="image2.png">. Also `inline ![ignored](ignored2.jpg)` code.
+
+         $$
+         \\command{ignored3.pdf}
+         $$
+
+         Final one: ![alt](image1.png)
+         """,
+            {"image1.png": 2, "image2.png": 1},
+        ),
+        # --- Edge Cases ---
+        # Empty content
+        ("", {}),
+        # Content with no assets
+        ("Just some text.", {}),
+        # Content with unrelated HTML/Markdown
+        ("<h1>Title</h1>\n* List item", {}),
+    ],
+)
+def test_get_md_asset_counts(tmp_path, md_content, expected_counts):
+    """Test get_md_asset_counts with various markdown content including ignored blocks."""
+    md_file = tmp_path / "test.md"
+    md_file.write_text(md_content, encoding="utf-8")
+    result = built_site_checks.get_md_asset_counts(md_file)
+    assert result == Counter(expected_counts)
 
 
 @pytest.mark.parametrize(
@@ -2639,7 +2727,7 @@ def test_main_css_issues(
         script_utils, "build_html_to_md_map", lambda md_dir: {}
     )
 
-    with patch.object(built_site_checks, "print_issues") as mock_print:
+    with patch.object(built_site_checks, "_print_issues") as mock_print:
         with pytest.raises(SystemExit) as excinfo:
             built_site_checks.main()
         assert excinfo.value.code == 1
@@ -2670,7 +2758,7 @@ def test_main_robots_txt_issues(
         script_utils, "build_html_to_md_map", lambda md_dir: {}
     )
 
-    with patch.object(built_site_checks, "print_issues") as mock_print:
+    with patch.object(built_site_checks, "_print_issues") as mock_print:
         with pytest.raises(SystemExit) as excinfo:
             built_site_checks.main()
         assert excinfo.value.code == 1
@@ -2703,8 +2791,8 @@ def test_main_html_issues(
         script_utils, "build_html_to_md_map", lambda md_dir: {}
     )
 
-    # Mock print_issues to verify correct issue types
-    with patch.object(built_site_checks, "print_issues") as mock_print:
+    # Mock _print_issues to verify correct issue types
+    with patch.object(built_site_checks, "_print_issues") as mock_print:
         with pytest.raises(SystemExit) as excinfo:
             built_site_checks.main()
         assert excinfo.value.code == 1
@@ -2812,7 +2900,7 @@ def test_main_skips_drafts(
         script_utils, "should_have_md", lambda file_path: False
     )
 
-    with patch.object(built_site_checks, "print_issues") as mock_print:
+    with patch.object(built_site_checks, "_print_issues") as mock_print:
         built_site_checks.main()
         mock_print.assert_not_called()
 
