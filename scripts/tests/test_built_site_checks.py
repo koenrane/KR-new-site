@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pytest
 import requests  # type: ignore[import]
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 
 from .. import utils as script_utils
 
@@ -291,7 +291,10 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
     result = built_site_checks.check_invalid_anchors(
         sample_soup, temp_site_root
     )
-    assert set(result) == {"#invalid-anchor", "/other-page#invalid-anchor"}
+    assert set(result) == {
+        "Invalid anchor: #invalid-anchor",
+        "Invalid anchor: /other-page#invalid-anchor",
+    }
 
 
 @pytest.mark.parametrize(
@@ -309,14 +312,14 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
             '<a href="/target.html#missing-anchor">Link</a>',
             '<div id="valid-anchor"></div>',
             {},
-            ["/target.html#missing-anchor"],
+            ["Invalid anchor: /target.html#missing-anchor"],
         ),
         # Case 3: Link to a non-existent page
         (
             '<a href="/missing.html#anchor">Link</a>',
             '<div id="valid-anchor"></div>',  # target.html exists but isn't linked
             {},
-            ["/missing.html#anchor"],
+            ["Invalid anchor: /missing.html#anchor"],
         ),
         # Case 4: Relative path link (./) to valid anchor
         (
@@ -330,7 +333,7 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
             '<a href="./target.html#missing-anchor">Link</a>',
             '<div id="valid-anchor"></div>',
             {},
-            ["./target.html#missing-anchor"],
+            ["Invalid anchor: ./target.html#missing-anchor"],
         ),
         # Case 6: Link without .html suffix to existing page with valid anchor
         (
@@ -344,14 +347,14 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
             '<a href="/target#missing-anchor">Link</a>',
             '<div id="valid-anchor"></div>',
             {},
-            ["/target#missing-anchor"],
+            ["Invalid anchor: /target#missing-anchor"],
         ),
         # Case 8: Link without .html suffix to non-existent page
         (
             '<a href="/missing#anchor">Link</a>',
             '<div id="valid-anchor"></div>',  # target.html exists but isn't linked
             {},
-            ["/missing#anchor"],
+            ["Invalid anchor: /missing#anchor"],
         ),
         # Case 9: Multiple links, some valid, some invalid
         (
@@ -368,10 +371,10 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
             '<div id="valid-anchor"></div>',
             {"other.html": '<div id="valid-other-anchor"></div>'},
             [
-                "/target.html#missing-anchor",
-                "/other.html#missing-other-anchor",
-                "/missing.html#anchor",
-                "/other#missing-other-anchor",
+                "Invalid anchor: /target.html#missing-anchor",
+                "Invalid anchor: /other.html#missing-other-anchor",
+                "Invalid anchor: /missing.html#anchor",
+                "Invalid anchor: /other#missing-other-anchor",
             ],
         ),
     ],
@@ -551,7 +554,7 @@ def test_check_file_for_issues(tmp_path):
         file_path, tmp_path, tmp_path / "content", should_check_fonts=False
     )
     assert issues["localhost_links"] == ["https://localhost:8000"]
-    assert issues["invalid_anchors"] == ["#invalid-anchor"]
+    assert issues["invalid_anchors"] == ["Invalid anchor: #invalid-anchor"]
     assert issues["problematic_paragraphs"] == [
         "Problematic paragraph: Table: Test table"
     ]
@@ -1880,9 +1883,7 @@ def test_check_invalid_internal_links(html, expected_count):
     soup = BeautifulSoup(html, "html.parser")
     result = built_site_checks.check_invalid_internal_links(soup)
     assert len(result) == expected_count
-    # Verify that all returned items are BeautifulSoup Tag objects
     for link in result:
-        assert isinstance(link, Tag)
         assert "internal" in link.get("class", [])
         # Verify the link is actually invalid
         assert not link.has_attr("href") or link["href"].startswith("https://")

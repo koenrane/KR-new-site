@@ -28,7 +28,7 @@ _GIT_ROOT = script_utils.get_git_root()
 _PUBLIC_DIR: Path = _GIT_ROOT / "public"
 RSS_XSD_PATH = _GIT_ROOT / "scripts" / ".rss-2.0.xsd"
 
-_IssuesDict = Dict[str, list[str] | bool]
+_IssuesDict = Dict[str, list[str] | list[Tag] | bool]
 
 # Define the parser but don't parse immediately
 parser = argparse.ArgumentParser(
@@ -82,7 +82,7 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> list[str]:
     return unrendered_footnotes
 
 
-def check_invalid_internal_links(soup: BeautifulSoup) -> list[str]:
+def check_invalid_internal_links(soup: BeautifulSoup) -> list[Tag]:
     """
     Check for links which do not have an href attribute or which start with
     "https://".
@@ -108,7 +108,11 @@ def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> list[str]:
             # Check anchor in current page
             anchor_id = href[1:]
             if not soup.find(id=anchor_id):
-                invalid_anchors.append(href)
+                _append_to_list(
+                    invalid_anchors,
+                    href,
+                    prefix="Invalid anchor: ",
+                )
         elif (href.startswith("/") or href.startswith(".")) and "#" in href:
             # Check anchor in other internal page
             page_path, anchor = href.split("#", 1)
@@ -122,9 +126,17 @@ def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> list[str]:
                 with open(full_path, encoding="utf-8") as f:
                     page_soup = BeautifulSoup(f.read(), "html.parser")
                 if not page_soup.find(id=anchor):
-                    invalid_anchors.append(href)
+                    _append_to_list(
+                        invalid_anchors,
+                        href,
+                        prefix="Invalid anchor: ",
+                    )
             else:
-                invalid_anchors.append(href)  # Page doesn't exist
+                _append_to_list(
+                    invalid_anchors,
+                    href,
+                    prefix="Invalid anchor: ",
+                )  # Page doesn't exist
     return invalid_anchors
 
 
