@@ -527,7 +527,7 @@ Another invalid: $\\tag{eq:test}$
     test_file.write_text(content)
 
     # Test direct function
-    errors = source_file_checks.check_latex_tags(test_file)
+    errors = source_file_checks.check_latex_tags(content, test_file)
     assert len(errors) == 2
     assert all("LaTeX \\tag{} found at line" in error for error in errors)
 
@@ -556,7 +556,7 @@ def test_latex_tags_variations(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = source_file_checks.check_latex_tags(test_file)
+    errors = source_file_checks.check_latex_tags(content, test_file)
     assert len(errors) == expected_count
 
 
@@ -1086,7 +1086,7 @@ def test_check_table_alignments(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = source_file_checks.check_table_alignments(test_file)
+    errors = source_file_checks.check_table_alignments(content)
     assert errors == expected_errors
 
 
@@ -1263,7 +1263,7 @@ def test_unescaped_braces(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = source_file_checks.check_unescaped_braces(test_file)
+    errors = source_file_checks.check_unescaped_braces(content)
     assert sorted(errors) == sorted(expected_errors)
 
 
@@ -1493,7 +1493,7 @@ def test_validate_video_tag(video_tag: str, should_raise: bool):
     tmp_path = Path(tmp_file.name)
 
     try:
-        issues = source_file_checks.validate_video_tags(tmp_path)
+        issues = source_file_checks.validate_video_tags(video_tag)
     finally:
         tmp_path.unlink()  # Clean up the temporary file
 
