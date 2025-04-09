@@ -96,10 +96,10 @@ Header 1
    </ul>
 </dd>
 
-## Callout lists
+## Admonition lists
 
-> [!info] List callout
-> Testing a list callout:
+> [!info] List admonition
+> Testing a list admonition:
 >
 > 1. One
 > 2. Two
@@ -123,7 +123,10 @@ Header 1
 > 2. Yes, the Marauder’s Map influenced the US’s decision to enter World War I.
 
 # Admonitions
->
+
+> [!quote]
+> > [!quote]- **Reroll** **A**
+
 > [!abstract]
 
 > [!info]
@@ -167,14 +170,14 @@ Header 1
 
 > [!money]
 
-<blockquote id="test-collapse" class="callout info is-collapsible is-collapsed" data-callout="info" data-callout-fold="">
-<div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">This collapsible admonition starts off collapsed </div><div class="fold-callout-icon"></div></div>
-<div class="callout-content"><p>Hidden content.</p></div>
+<blockquote id="test-collapse" class="admonition info is-collapsible is-collapsed" data-admonition="info" data-admonition-fold="">
+<div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">This collapsible admonition starts off collapsed </div><div class="fold-admonition-icon"></div></div>
+<div class="admonition-content"><p>Hidden content.</p></div>
 </blockquote>
 
-<blockquote id="test-open" class="callout info is-collapsible" data-callout="info" data-callout-fold="">
-<div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">This collapsible admonition starts off open </div><div class="fold-callout-icon"></div></div>
-<div class="callout-content"><p>Displayed content.</p></div>
+<blockquote id="test-open" class="admonition info is-collapsible" data-admonition="info" data-admonition-fold="">
+<div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">This collapsible admonition starts off open </div><div class="fold-admonition-icon"></div></div>
+<div class="admonition-content"><p>Displayed content.</p></div>
 </blockquote>
 
 > [!quote] Admonition with tags

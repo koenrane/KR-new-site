@@ -137,12 +137,12 @@ describe("HTMLFormattingImprovement", () => {
         "<article><blockquote><div>Testestes</div><div><p><strong>small voice.</strong></p><p><strong>‘I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></blockquote></article>",
       ],
       [
-        '<blockquote class="callout quote" data-callout="quote"> <div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="callout-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div> </blockquote>',
-        '<blockquote class="callout quote" data-callout="quote"> <div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="callout-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div> </blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"> <div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="admonition-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div> </blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"> <div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="admonition-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div> </blockquote>',
       ],
       [
-        '<blockquote class="callout quote" data-callout="quote"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="callout-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div></blockquote>',
-        '<blockquote class="callout quote" data-callout="quote"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="callout-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div></blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"><div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="admonition-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div></blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"><div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="admonition-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div></blockquote>',
       ],
     ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)

@@ -6,7 +6,7 @@ export default {
     description: "説明なし",
   },
   components: {
-    callout: {
+    admonition: {
       note: "ノート",
       abstract: "抄録",
       info: "情報",

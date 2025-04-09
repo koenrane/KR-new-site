@@ -12,7 +12,7 @@ import {
   type QuartzComponentProps,
 } from "./types"
 
-// Preload icons to prevent race condition on callout icons
+// Preload icons to prevent race condition on admonition icons
 //  These are very small assets, so we can preload them all
 const CALLOUT_ICONS = [
   "note",

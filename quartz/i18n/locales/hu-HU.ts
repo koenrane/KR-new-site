@@ -6,7 +6,7 @@ export default {
     description: "Nincs leírás",
   },
   components: {
-    callout: {
+    admonition: {
       note: "Jegyzet",
       abstract: "Abstract",
       info: "Információ",

@@ -127,7 +127,7 @@ test.describe("Table of contents", () => {
   test("TOC visual regression (lostpixel)", async ({ page }, testInfo) => {
     const selector = getTableOfContentsSelector(page)
     if (!isDesktopViewport(page)) {
-      await page.locator(selector).locator(".callout-title-inner").first().click()
+      await page.locator(selector).locator(".admonition-title-inner").first().click()
     }
 
     await takeRegressionScreenshot(page, testInfo, selector)
@@ -158,7 +158,7 @@ test.describe("Admonitions", () => {
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
       const initialScreenshot = await admonition.screenshot()
 
-      // Click anywhere on callout should open it
+      // Click anywhere on admonition should open it
       await admonition.click()
       await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
       await waitForTransitionEnd(admonition)
@@ -166,14 +166,14 @@ test.describe("Admonitions", () => {
       expect(openedScreenshot).not.toEqual(initialScreenshot)
 
       // Click on content should NOT close it
-      const content = admonition.locator(".callout-content").first()
+      const content = admonition.locator(".admonition-content").first()
       await content.click()
       await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
       const afterContentClickScreenshot = await admonition.screenshot()
       expect(afterContentClickScreenshot).toEqual(openedScreenshot)
 
       // Click on title should close it
-      const title = admonition.locator(".callout-title").first()
+      const title = admonition.locator(".admonition-title").first()
       await title.click()
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
 
@@ -188,9 +188,9 @@ test.describe("Admonitions", () => {
     }, testInfo) => {
       let element: Locator
       if (status === "open") {
-        element = page.locator("#test-open .fold-callout-icon").first()
+        element = page.locator("#test-open .fold-admonition-icon").first()
       } else {
-        element = page.locator("#test-collapse .fold-callout-icon").first()
+        element = page.locator("#test-collapse .fold-admonition-icon").first()
       }
 
       await element.scrollIntoViewIfNeeded()
@@ -270,7 +270,7 @@ test.describe("Right sidebar", () => {
   test("TOC visual test (lostpixel)", async ({ page }, testInfo) => {
     if (!isDesktopViewport(page)) {
       // Open the TOC
-      const tocContent = page.locator(".callout").first()
+      const tocContent = page.locator(".admonition").first()
       await tocContent.click()
       await takeRegressionScreenshot(page, testInfo, "toc-visual-test-open", {
         element: tocContent,
@@ -306,7 +306,7 @@ test.describe("Right sidebar", () => {
     await backlinks.scrollIntoViewIfNeeded()
     await expect(backlinks).toBeVisible()
 
-    const backlinksTitle = backlinks.locator(".callout-title").first()
+    const backlinksTitle = backlinks.locator(".admonition-title").first()
     await backlinksTitle.scrollIntoViewIfNeeded()
     await expect(backlinksTitle).toBeVisible()
     await expect(backlinksTitle).toHaveText("Links to this page")

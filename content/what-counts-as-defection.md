@@ -116,7 +116,7 @@ In private communication, Joel Leibo points out that Theorems 1 and 2 formalize 
 
 # Game Theorems
 
-We can prove that formal defection exists in the trifecta of famous games. Expand the callouts to view the proofs if you're interested.
+We can prove that formal defection exists in the trifecta of famous games. Expand the admonitions to view the proofs if you're interested.
 
 ## Prisoner's dilemma
 

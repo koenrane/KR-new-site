@@ -6,7 +6,7 @@ export default {
     description: "Không có mô tả được cung cấp",
   },
   components: {
-    callout: {
+    admonition: {
       note: "Ghi Chú",
       abstract: "Tóm Tắt",
       info: "Thông tin",

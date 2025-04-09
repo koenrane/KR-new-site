@@ -6,7 +6,7 @@ export default {
     description: "لم يتم تقديم أي وصف",
   },
   components: {
-    callout: {
+    admonition: {
       note: "ملاحظة",
       abstract: "ملخص",
       info: "معلومات",

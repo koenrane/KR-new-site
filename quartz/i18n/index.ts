@@ -1,4 +1,4 @@
-import { type Translation, type CalloutTranslation } from "./locales/definition"
+import { type Translation, type AdmonitionTranslation } from "./locales/definition"
 import en from "./locales/en-US"
 import fr from "./locales/fr-FR"
 import it from "./locales/it-IT"
@@ -59,4 +59,4 @@ export const TRANSLATIONS: Record<string, Translation> = {
 export const defaultTranslation = "en-US"
 export const i18n = (locale: ValidLocale): Translation => TRANSLATIONS[locale ?? defaultTranslation]
 export type ValidLocale = keyof typeof TRANSLATIONS
-export type ValidCallout = keyof CalloutTranslation
+export type ValidAdmonition = keyof AdmonitionTranslation

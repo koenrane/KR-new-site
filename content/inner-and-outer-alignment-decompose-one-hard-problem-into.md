@@ -417,10 +417,10 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 : Now, I can legitimately point out that outer and inner alignment aren’t a good framing for alignment, _without_ offering an alternative better framing. That said, I [recently wrote](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=xwJfX45CvaKXFFtCS):[^11] [^12]
 
 <dd>
-<blockquote class="callout quote" data-callout="quote">
-<div class="callout-title">
-    <div class="callout-icon"></div>
-  <div class="callout-title-inner"><p>Quote</p></div>
+<blockquote class="admonition quote" data-admonition="quote">
+<div class="admonition-title">
+    <div class="admonition-icon"></div>
+  <div class="admonition-title-inner"><p>Quote</p></div>
 </div>
 <p>Shard theory suggests that goals are more natural to specify/inculcate in their shard forms (e.g. if around trash and a trash can, then put the trash away), and not in their (presumably) final form of globally activated optimization of a coherent utility function which is the reflective equilibrium of inter-shard value-handshakes (e.g. a utility function over the agent’s internal plan-ontology whose optimization leads to trash getting put away, among other utility-level reflections of initial shards).</p>
 <p>I <em>could</em> (and <a href="/attainable-utility-preservation-scaling-to-superhuman" class="internal" data-slug="/attainable-utility-preservation-scaling-to-superhuman"><em>did</em></a>) hope that I could specify a utility function which is safe to maximize because it penalizes power-seeking. I may as well have hoped to jump off of a building and float to the ground. On my model, that’s just not how goals work in intelligent minds. If we’ve had anything at all beaten into our heads by our alignment thought experiments, it’s that <em>goals are hard to specify in their final form of utility functions.</em></p>

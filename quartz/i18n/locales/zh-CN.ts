@@ -6,7 +6,7 @@ export default {
     description: "无描述",
   },
   components: {
-    callout: {
+    admonition: {
       note: "笔记",
       abstract: "摘要",
       info: "提示",

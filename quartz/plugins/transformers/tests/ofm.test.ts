@@ -19,26 +19,26 @@ describe("markdownPlugins", () => {
     return result.toString()
   }
 
-  test("should process callouts", () => {
-    const input = "> [!note] This is a callout"
+  test("should process admonitions", () => {
+    const input = "> [!note] This is a admonition"
     const output = testMarkdownPlugins(input)
-    expect(output).toContain('<blockquote class="callout note"')
-    expect(output).toContain('<div class="callout-title">')
-    expect(output).not.toContain('<div class="callout-content">')
+    expect(output).toContain('<blockquote class="admonition note"')
+    expect(output).toContain('<div class="admonition-title">')
+    expect(output).not.toContain('<div class="admonition-content">')
   })
 
-  test("should process callouts with custom type", () => {
-    const input = "> [!custom] This is a custom callout"
+  test("should process admonitions with custom type", () => {
+    const input = "> [!custom] This is a custom admonition"
     const output = testMarkdownPlugins(input)
-    expect(output).toContain('<blockquote class="callout custom"')
+    expect(output).toContain('<blockquote class="admonition custom"')
   })
 
-  test("should process callouts with multiple paragraphs", () => {
-    const input = "> [!info] Callout title\n>\n> This is the second paragraph."
+  test("should process admonitions with multiple paragraphs", () => {
+    const input = "> [!info] Admonition title\n>\n> This is the second paragraph."
     const output = testMarkdownPlugins(input)
-    expect(output).toContain('<blockquote class="callout info"')
-    expect(output).toContain('<div class="callout-content">')
-    expect(output).toContain("Callout title")
+    expect(output).toContain('<blockquote class="admonition info"')
+    expect(output).toContain('<div class="admonition-content">')
+    expect(output).toContain("Admonition title")
     expect(output).toContain("This is the second paragraph.")
   })
 

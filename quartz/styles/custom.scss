@@ -360,7 +360,7 @@ h4:has(+ .subtitle),
 h5:has(+ .subtitle),
 h6:has(+ .subtitle),
 p:has(+ .subtitle),
-.callout-title:not(.is-collapsed *):has(+ .callout-content > .subtitle) {
+.admonition-title:not(.is-collapsed *):has(+ .admonition-content > .subtitle) {
   margin-bottom: 0;
 }
 
@@ -377,7 +377,7 @@ p:has(+ .subtitle),
     height: var(--favicon-size);
   }
 
-  .callout & {
+  .admonition & {
     color: color-mix(in srgb, var(--midground) 60%, var(--color));
 
     & a {

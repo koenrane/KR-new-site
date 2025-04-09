@@ -22,12 +22,13 @@
     text-decoration-thickness: 0.75px; // Underline is too heavy
   }
 
+  // TODO fix
   & a {
     color: var(--foreground); // No link color
   }
 }
 
-#backlinks-callout,
+#backlinks-admonition,
 #post-statistics {
   li {
     margin-bottom: calc($base-margin);

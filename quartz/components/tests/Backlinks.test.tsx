@@ -130,7 +130,7 @@ describe("Backlinks", () => {
     expect(element).toBeTruthy()
 
     const html = render(element)
-    expect(html).toContain('class="callout callout-metadata is-collapsible is-collapsed"')
+    expect(html).toContain('class="admonition admonition-metadata is-collapsible is-collapsed"')
     expect(html).toContain("Links to this page")
     expect(html).toContain("Linking Page")
   })
