@@ -216,49 +216,72 @@ def _append_to_list(
     lst.append(prefix + to_append)
 
 
+_PARAGRAPH_CONTAINER_ELEMENTS = [
+    "p",
+    "dt",
+    "dd",
+    "li",
+    *(f"h{i}" for i in range(1, 7)),
+    "figcaption",
+    "blockquote",
+    "article",
+]
+
+
 def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> list[str]:
     """
-    Check for text nodes starting with specific phrases.
+    Check for text nodes containing specific problematic phrases or starting
+    patterns.
 
-    Ignores text within <code> tags.
+    Ignores text within <code>, <pre>, <script>, <style> tags and elements with
+    specific 'no-formatting' classes.
     """
-    bad_anywhere = (r"> \[\![a-zA-Z]+\]",)  # Callout syntax
+    bad_anywhere = (r"> \[\![a-zA-Z]+\]",)
+    # Prefixes that are bad at the start of a stripped text node
     bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ")
-    bad_paragraph_starting_prefixes = (r"^: ", r"^#+ ")
+    # Patterns that are bad at the very start of an original (unstripped) text node
+    bad_text_node_starting_patterns = (r"^\s*:\s", r"^\s*#+\s", r"^\s+\.")
 
-    problematic_paragraphs: list[str] = []
-
-    def _maybe_add_text(text: str) -> None:
-        text = text.strip()
-        if any(re.search(pattern, text) for pattern in bad_anywhere) or any(
-            re.search(prefix, text) for prefix in bad_prefixes
-        ):
-            _append_to_list(
-                problematic_paragraphs, text, prefix="Problematic paragraph: "
-            )
-
-    # Check all <p> and <dt> elements
-    for element in soup.find_all(["p", "dt"]):
-        if any(
-            re.search(prefix, element.text)
-            for prefix in bad_paragraph_starting_prefixes
-        ):
-            _append_to_list(
-                problematic_paragraphs,
-                element.text,
-                prefix="Problematic paragraph: ",
-            )
+    problematic_texts: list[str] = []
+    for element in soup.find_all(_PARAGRAPH_CONTAINER_ELEMENTS):
         for text_node in element.find_all(string=True):
-            if not any(parent.name == "code" for parent in text_node.parents):
-                _maybe_add_text(text_node)
+            if should_skip(text_node):
+                continue
 
-    # Check direct text in <article> and <blockquote>
-    for parent in soup.find_all(["article", "blockquote"]):
-        for child in parent.children:
-            if isinstance(child, str):  # Check if it's a direct text node
-                _maybe_add_text(child)
+            original_text = str(text_node)
+            stripped_text = original_text.strip()
+            if not stripped_text:
+                continue
 
-    return problematic_paragraphs
+            if any(
+                re.search(pattern, stripped_text) for pattern in bad_anywhere
+            ):
+                _append_to_list(
+                    problematic_texts,
+                    stripped_text,
+                    prefix="Problematic anywhere: ",
+                )
+
+            if any(re.match(prefix, stripped_text) for prefix in bad_prefixes):
+                _append_to_list(
+                    problematic_texts,
+                    stripped_text,
+                    prefix="Problematic prefix: ",
+                )
+
+            if any(
+                re.match(pattern, original_text)
+                for pattern in bad_text_node_starting_patterns
+            ):
+                _append_to_list(
+                    problematic_texts,
+                    stripped_text,
+                    prefix="Problematic start pattern: ",
+                )
+
+    # Use set() to deduplicate; might have visited the same text node multiple
+    # times
+    return list(set(problematic_texts))
 
 
 def check_unrendered_spoilers(soup: BeautifulSoup) -> list[str]:
