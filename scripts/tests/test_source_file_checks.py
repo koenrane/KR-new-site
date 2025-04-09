@@ -1348,7 +1348,7 @@ Some math: $x^2 + {y^2}$ and more {text}.
         ),
     ],
 )
-def test_strip_code_and_math(input_text: str, expected_output: str) -> None:
+def test_remove_code_and_math(input_text: str, expected_output: str) -> None:
     """
     Test stripping code and math elements from text.
 
@@ -1393,7 +1393,7 @@ def test_remove_code_and_math_with_replacement_character(
     assert result == expected_output
 
 
-def test_strip_code_and_math_with_fenced_blocks() -> None:
+def test_remove_code_and_math_with_fenced_blocks() -> None:
     """
     Test stripping fenced code blocks specifically, which should be handled by
     regex with the DOTALL flag.
@@ -1441,7 +1441,7 @@ def test_strip_code_and_math_with_fenced_blocks() -> None:
         ),
     ],
 )
-def test_strip_code_and_math_with_block_math(
+def test_remove_code_and_math_with_block_math(
     input_text: str, expected_output: str
 ) -> None:
     """
