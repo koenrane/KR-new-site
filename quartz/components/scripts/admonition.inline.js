@@ -1,39 +1,39 @@
 /**
- * Opens a collapsed callout.
+ * Opens a collapsed admonition.
  * @param {Event} event The click event
  */
 function openAdmonition(event) {
-  const callout = event.currentTarget
-  if (callout.classList.contains("is-collapsed")) {
-    callout.classList.remove("is-collapsed")
+  const admonition = event.currentTarget
+  if (admonition.classList.contains("is-collapsed")) {
+    admonition.classList.remove("is-collapsed")
   }
 }
 
 /**
- * Closes an open callout if clicked on title.
+ * Closes an open admonition if clicked on title.
  * @param {Event} event The click event
  */
 function closeAdmonition(event) {
   const title = event.currentTarget
-  const callout = title.parentElement
-  if (!callout.classList.contains("is-collapsed")) {
-    callout.classList.add("is-collapsed")
+  const admonition = title.parentElement
+  if (!admonition.classList.contains("is-collapsed")) {
+    admonition.classList.add("is-collapsed")
     event.stopPropagation()
   }
 }
 
 /**
- * Initializes all collapsible callouts on the page.
+ * Initializes all collapsible admonitions on the page.
  */
 function setupAdmonition() {
-  const collapsible = document.getElementsByClassName("callout is-collapsible")
+  const collapsible = document.getElementsByClassName("admonition is-collapsible")
   Array.from(collapsible).forEach(function (div) {
-    // Add click handler to entire callout for opening
+    // Add click handler to entire admonition for opening
     div.addEventListener("click", openAdmonition)
 
     // We don't want content to close because that'd be annoying if the user
     // clicks on the content while reading.
-    const title = div.querySelector(".callout-title")
+    const title = div.querySelector(".admonition-title")
     if (title) {
       title.addEventListener("click", closeAdmonition)
     }
