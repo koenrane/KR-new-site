@@ -283,6 +283,41 @@ test.describe("Right sidebar", () => {
     }
   })
 
+  test("Right sidebar scrolls independently", async ({ page }) => {
+    test.skip(!isDesktopViewport(page), "Desktop-only test")
+
+    const rightSidebar = page.locator("#right-sidebar")
+    await expect(rightSidebar).toBeVisible()
+
+    // Check if the content is actually taller than the sidebar viewport
+    const isOverflowing = await rightSidebar.evaluate((el) => {
+      return el.scrollHeight > el.clientHeight
+    })
+
+    expect(isOverflowing).toBeTruthy()
+
+    const initialWindowScrollY = await page.evaluate(() => window.scrollY)
+    const initialSidebarScrollTop = await rightSidebar.evaluate((el) => el.scrollTop)
+
+    // Scroll the sidebar down
+    await rightSidebar.evaluate((el) => {
+      el.scrollBy(0, 100)
+    })
+
+    // Wait a moment for scroll to apply
+    await page.waitForTimeout(100)
+
+    const finalWindowScrollY = await page.evaluate(() => window.scrollY)
+    const finalSidebarScrollTop = await rightSidebar.evaluate((el) => el.scrollTop)
+
+    // Verify window did not scroll
+    expect(finalWindowScrollY).toEqual(initialWindowScrollY)
+
+    // Verify sidebar did scroll
+    expect(finalSidebarScrollTop).toBeGreaterThan(initialSidebarScrollTop)
+    expect(finalSidebarScrollTop).toBeCloseTo(initialSidebarScrollTop + 100, 0) // Allow for slight rounding
+  })
+
   test("Scrolling down changes TOC highlight (lostpixel)", async ({ page }, testInfo) => {
     test.skip(!isDesktopViewport(page))
 

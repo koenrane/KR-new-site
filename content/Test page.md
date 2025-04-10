@@ -125,7 +125,7 @@ Header 1
 # Admonitions
 
 > [!quote]
-> > [!quote]- **Reroll** **A**
+> > [!quote] **Reroll** **A**
 
 > [!abstract]
 

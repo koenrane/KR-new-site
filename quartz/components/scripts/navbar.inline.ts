@@ -12,7 +12,6 @@ function setupPondVideo(): void {
     const savedTime = sessionStorage.getItem(SESSION_STORAGE_POND_VIDEO_KEY)
     if (savedTime) {
       videoElement.currentTime = parseFloat(savedTime)
-      console.log(`Restored video timestamp: ${savedTime}`)
     }
 
     videoElement.removeEventListener("mouseenter", playVideo) // Remove first to avoid duplicates
