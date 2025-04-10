@@ -4,7 +4,15 @@
   margin-top: 0;
   margin-bottom: $base-margin;
   font-size: var(--text-size-90);
-  color: var(--midground);
+
+  & p,
+  & li,
+  & ul,
+  & ol,
+  & em,
+  & strong {
+    color: var(--midground);
+  }
 
   &[show-comma="true"] {
     > span:not(:last-child) {
@@ -22,9 +30,8 @@
     text-decoration-thickness: 0.75px; // Underline is too heavy
   }
 
-  // TODO fix
   & a {
-    color: var(--foreground); // No link color
+    color: inherit; // No link color
   }
 }
 
