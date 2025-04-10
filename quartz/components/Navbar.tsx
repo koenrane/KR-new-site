@@ -117,7 +117,7 @@ export default (() => {
     )
     return (
       <div id="navbar" className="navbar" spa-preserve>
-        <div id="navbar-left">
+        <div id="navbar-left" spa-preserve>
           {headerVideoContainer}
           <h2>
             <a href={baseDir}>{title}</a>

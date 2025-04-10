@@ -22,8 +22,9 @@ export const headerVideoContainer = (
       loop
       muted
       playsInline
-      preload="auto"
       spa-preserve
+      preload="auto"
+      poster="https://assets.turntrout.com/static/pond_frame.avif"
       aria-label={altText}
     >
       <source src="https://assets.turntrout.com/static/pond.mov" type="video/mp4; codecs=hvc1" />
