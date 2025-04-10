@@ -125,7 +125,6 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
             playsInline
             spa-preserve
             preload="auto"
-            poster="https://assets.turntrout.com/static/pond_frame.avif"
             aria-label="A goose and a trout play in a pond in front of a castle."
           >
             <source

@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test"
 
+import { SESSION_STORAGE_POND_VIDEO_KEY } from "../component_utils"
 import { type Theme } from "../scripts/darkmode"
 import { takeRegressionScreenshot, isDesktopViewport, setTheme } from "./visual_utils"
 
@@ -214,8 +215,7 @@ for (const theme of ["light", "dark", "auto"]) {
 }
 
 test("Video plays on hover and pauses on mouse leave", async ({ page }) => {
-  const videoContainer = page.locator("#header-video-container")
-  const video = videoContainer.locator("video#pond-video")
+  const video = page.locator("video#pond-video")
 
   // Helper to check video state
   const isPaused = async () => video.evaluate((v: HTMLVideoElement) => v.paused)
@@ -234,8 +234,7 @@ test("Video plays on hover and pauses on mouse leave", async ({ page }) => {
 })
 
 test("Video plays on hover and pauses on mouse leave (SPA)", async ({ page }) => {
-  const videoContainer = page.locator("#header-video-container")
-  const video = videoContainer.locator("video#pond-video")
+  const video = page.locator("video#pond-video")
 
   const isPaused = async () => video.evaluate((v: HTMLVideoElement) => v.paused)
 
@@ -256,4 +255,31 @@ test("Video plays on hover and pauses on mouse leave (SPA)", async ({ page }) =>
   // 3. Hover away: Pauses
   await video.dispatchEvent("mouseleave")
   await expect.poll(async () => await isPaused()).toBe(true)
+})
+
+test("Video timestamp is preserved across SPA navigation", async ({ page }) => {
+  const video = page.locator("video#pond-video")
+
+  // 1. Play video for a bit
+  await video.dispatchEvent("mouseenter")
+  await page.waitForTimeout(1000) // Let video play for 1 second
+
+  // 2. Pause video (move mouse away)
+  await video.dispatchEvent("mouseleave")
+  await expect.poll(async () => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true)
+
+  // 3. SPA Navigation
+  const navigationLink = page.locator("a[href^='/']").first()
+  const targetUrl = await navigationLink.getAttribute("href")
+  expect(targetUrl).not.toBeNull()
+  await navigationLink.click()
+  await page.waitForURL((url) => url.pathname === targetUrl)
+
+  const storedTimestamp = await page.evaluate(
+    (key) => window.sessionStorage.getItem(key),
+    SESSION_STORAGE_POND_VIDEO_KEY,
+  )
+  const storedTimestampNumber = Number(storedTimestamp)
+  expect(storedTimestampNumber).not.toBeNaN()
+  expect(storedTimestampNumber).toBeGreaterThan(0)
 })

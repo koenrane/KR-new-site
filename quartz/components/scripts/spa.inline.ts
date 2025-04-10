@@ -9,6 +9,7 @@ import {
   getFullSlug,
   normalizeRelativeURLs,
 } from "../../util/path"
+import { SESSION_STORAGE_POND_VIDEO_KEY } from "../component_utils"
 
 declare global {
   interface Window {
@@ -89,6 +90,13 @@ function scrollToHash(hash: string) {
     el.scrollIntoView({ behavior: "instant" })
   } catch {
     // Ignore malformed URI
+  }
+}
+
+function saveVideoTimestamp() {
+  const video = document.getElementById("pond-video") as HTMLVideoElement | null
+  if (video) {
+    sessionStorage.setItem(SESSION_STORAGE_POND_VIDEO_KEY, String(video.currentTime))
   }
 }
 
@@ -180,6 +188,8 @@ function createRouter() {
       event.preventDefault()
 
       try {
+        saveVideoTimestamp()
+
         // Push state here before navigation
         const state = {
           hash: url.hash,
@@ -197,6 +207,8 @@ function createRouter() {
 
     window.addEventListener("popstate", async () => {
       try {
+        saveVideoTimestamp()
+
         // Navigate to update the content
         await navigate(new URL(window.location.toString()))
       } catch (error) {

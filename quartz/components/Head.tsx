@@ -72,9 +72,6 @@ export default (() => {
 
     const cardImage = (fileData.frontmatter?.card_image as string) ?? siteImage
 
-    // Poster image for preload
-    const posterImage = "https://assets.turntrout.com/static/pond_frame.avif"
-
     // Different images for different preview sizes
     let mediaElement = (
       <>
@@ -182,7 +179,6 @@ export default (() => {
         {authorElement}
 
         <link rel="stylesheet" href="/index.css" spa-preserve />
-        <link rel="preload" href={posterImage} as="image" />
 
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />

@@ -5,6 +5,8 @@ import { titleCase } from "title-case"
 import { applyTextTransforms } from "../plugins/transformers/formatting_improvement_html"
 import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
 
+export const SESSION_STORAGE_POND_VIDEO_KEY = "pond-video-timestamp"
+
 export function formatTitle(title: string): string {
   // Replace single quotes with double quotes for consistency
   title = title.replace(/( |^)'/g, '$1"').replace(/'([ ?!.]|$)/g, '"$1')

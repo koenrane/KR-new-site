@@ -1,20 +1,33 @@
+import { SESSION_STORAGE_POND_VIDEO_KEY } from "../component_utils"
 import { setupDarkMode } from "./darkmode"
 import { setupHamburgerMenu } from "./hamburgerMenu"
 import { setupScrollHandler } from "./scrollHandler"
 import { setupSearch } from "./search"
 
-function setupPondVideoHover(): void {
+function setupPondVideo(): void {
   const videoElement = document.getElementById("pond-video") as HTMLVideoElement | null
 
   if (videoElement) {
-    videoElement.addEventListener("mouseenter", () => {
-      void videoElement.play()
-    })
+    // Restore timestamp
+    const savedTime = sessionStorage.getItem(SESSION_STORAGE_POND_VIDEO_KEY)
+    if (savedTime) {
+      videoElement.currentTime = parseFloat(savedTime)
+      console.log(`Restored video timestamp: ${savedTime}`)
+    }
 
-    videoElement.addEventListener("mouseleave", () => {
-      videoElement.pause()
-    })
+    videoElement.removeEventListener("mouseenter", playVideo) // Remove first to avoid duplicates
+    videoElement.removeEventListener("mouseleave", pauseVideo)
+    videoElement.addEventListener("mouseenter", playVideo)
+    videoElement.addEventListener("mouseleave", pauseVideo)
   }
+}
+
+function playVideo(this: HTMLVideoElement): void {
+  void this.play()
+}
+
+function pauseVideo(this: HTMLVideoElement): void {
+  this.pause()
 }
 
 // Initial setup
@@ -22,9 +35,9 @@ setupDarkMode()
 setupHamburgerMenu()
 setupSearch()
 setupScrollHandler() // Mobile: hide navbar on scroll down, show on scroll up
-setupPondVideoHover()
+setupPondVideo()
 
 // Re-run setup functions after SPA navigation
 document.addEventListener("nav", () => {
-  setupPondVideoHover()
+  setupPondVideo()
 })
