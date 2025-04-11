@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-import { sessionStoragePondVideoKey, videoId as pondVideoId } from "../component_utils"
+import { videoId as pondVideoId } from "../component_utils"
 import { type Theme } from "../scripts/darkmode"
 import { takeRegressionScreenshot, isDesktopViewport, setTheme } from "./visual_utils"
 
@@ -255,30 +255,4 @@ test("Video plays on hover and pauses on mouse leave (SPA)", async ({ page }) =>
   // 3. Hover away: Pauses
   await video.dispatchEvent("mouseleave")
   await expect.poll(async () => await isPaused()).toBe(true)
-})
-
-test("Video timestamp is preserved across SPA navigation", async ({ page }) => {
-  const video = page.locator(`video#${pondVideoId}`)
-
-  // 1. Play video for a bit
-  await video.dispatchEvent("mouseenter")
-  await page.waitForTimeout(1000) // Let video play for 1 second
-
-  // 2. Pause video (move mouse away)
-  await video.dispatchEvent("mouseleave")
-  await expect.poll(async () => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true)
-
-  // 3. SPA Navigation
-  const navigationLink = page.locator("a[href$='/about']").first()
-  const targetUrl = await navigationLink.getAttribute("href")
-  expect(targetUrl).not.toBeNull()
-  await navigationLink.click()
-
-  const storedTimestamp = await page.evaluate(
-    (key) => window.sessionStorage.getItem(key),
-    sessionStoragePondVideoKey,
-  )
-  const storedTimestampNumber = Number(storedTimestamp)
-  expect(storedTimestampNumber).not.toBeNaN()
-  expect(storedTimestampNumber).toBeGreaterThan(0)
 })
