@@ -6,7 +6,7 @@ export default {
     description: "Описание отсутствует",
   },
   components: {
-    callout: {
+    admonition: {
       note: "Заметка",
       abstract: "Резюме",
       info: "Инфо",

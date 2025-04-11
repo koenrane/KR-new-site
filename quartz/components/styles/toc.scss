@@ -23,7 +23,7 @@ ol.overflow {
 
 #toc-content,
 #toc-content-mobile,
-#backlinks-callout,
+#backlinks-admonition,
 #post-statistics {
   list-style: none;
   overflow: visible;
@@ -86,7 +86,7 @@ ol.overflow {
   }
 }
 
-.center #toc-content-mobile {
+#center-content #toc-content-mobile {
   & a,
   & a:visited {
     color: var(--foreground);

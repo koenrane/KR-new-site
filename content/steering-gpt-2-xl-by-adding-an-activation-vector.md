@@ -30,14 +30,14 @@ aliases:
   - steering-gpt-2-xl-by-adding-an-activation-vector
   - steering-vectors
   - steeringvectors
+  - gpt2-steering
 lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2023-05-13 00:00:00
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 skip_import: true
-description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
-  prompts into loving completions.
+description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful prompts into loving completions.
 date_updated: 2025-03-22 12:22:59.421452
 ---
 
@@ -136,8 +136,6 @@ Can we _just_ add in 5 times the activations for "Love" to another forward pass 
 | 6 | +5 | `<endoftext>` | `Love` |  [^6] |   |   |
 | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |
 
-{.no-min-width}
-
 Table:  Residual stream alignment for prompt and activation additions.
 
 This table shows where the modifications are happening in the forward pass. Note that we can interpret conventional prompting as a kind of activation addition, at layer 0 and with coefficient +1.[^7]
@@ -188,8 +186,6 @@ We now display the token alignments. These tables communicate what activations a
 | 0 (Prompt) |   +1   | `<endoftext>` |  `I`   | `hate` | `you` | `because` |
 |     6      |   +5   | `<endoftext>` | `Love` |        |       |           |
 |     6      |  \-5   | `<endoftext>` |  `H`   | `ate`  |       |           |
-
-{.no-min-width}
 
 Table:  Residual stream alignment for prompt and activation additions.
 
@@ -376,8 +372,6 @@ We add a wedding steering vector at the front, middle, and end positions. For ea
 | -----------------------------------: | :---: | :----: | :--: |
 | Average number of wedding words | 0.70  | 0.81   | 0.87 |
 
-{.no-min-width}
-
 The front and middle additions led to coherent outputs, but the end addition didn't. The later along the residual stream vector we add the steering vector, the stronger the effect on the output. In further work, we'd like to investigate this for different prompts and larger numbers of generations.
 
 #### Activation additions mess up output tokens for directly modified residual streams
@@ -392,8 +386,6 @@ Reconsider the “ wedding” vector.
 | 6 | +4 |   |   |   |   |   |   | `<endoftext>` |  `wedding` |
 | 6 | \-4 |   |   |   |   |   |   | `<endoftext>` |   |
 
-{.no-min-width}
-
 Table:  Residual stream alignment for prompt and activation additions.
 
 At sequence position 8 ( `said`), here are the top five most probable next tokens, according to the normal and modified versions of GPT-2:
@@ -405,8 +397,6 @@ At sequence position 8 ( `said`), here are the top five most probable next token
 | `"`        | `dress`        |
 | `:`        | `with`         |
 | `I`        | `photographer` |
-
-{.no-min-width}
 
 Four of the top five most probable tokens are wedding-related. However, none of them are sensical (e.g. "I went up to my friend and said party" is strange). This is why the completions are incoherent when we add the steering vector to the last residual streams (the "end" condition above).
 
@@ -617,8 +607,6 @@ Consider a simple steering goal: _make the model talk about weddings whenever po
 | 16 | +1 | `<endoftext>` |  `weddings` |
 | 16 | \-1 | `<endoftext>` |   |
 
-{.no-min-width}
-
 Table:  Residual stream alignment for activation additions.
 
 The following prompt will be used to test this intervention:
@@ -694,8 +682,6 @@ Here's what we did:
 | (varies) | +1 | `<endoftext>` |  `weddings` |
 | (varies) | \-1 | `<endoftext>` |   |
 
-{.no-min-width}
-
 ![](https://assets.turntrout.com/static/images/posts/xsrxtbmdkr9dftyyrdpj.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/injection-gpt2.avif)
@@ -750,15 +736,11 @@ For example, if the original sentence is "Title: Recent Trends", we compare perp
 | 16 | +1 | `<endoftext>` |  `weddings` |   |   |   |   |
 | 16 | \-1 | `<endoftext>` |   |   |   |   |   |
 
-{.no-min-width}
-
 Table:  Activation addition.
 
 | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` |  `weddings` | `Title` | `:` |  `Recent` |  `Trends` |
-
-{.no-min-width}
 
 Table:  Prompting.
 
@@ -795,8 +777,6 @@ What we did:
 | :-: | :-: | :-: | :-: |
 | (varies) | (varies) | `<endoftext>` |  `worst` |
 | (varies) | (varies) | `<endoftext>` |   |
-
-{.no-min-width}
 
 Table:  Residual stream alignment for activation additions.
 
@@ -890,7 +870,8 @@ Alex gets mileage out of _not_ thinking about the model as "trying to predict ne
 Activation additions have _already_ helped us find representations in a model. Activation additions are how we [found the cheese-tracking channels in the maze-solving network, which then let us retarget the network](/understanding-and-controlling-a-maze-solving-policy-network):
 
 > [!quote] [Understanding and Controlling a Maze-Solving Policy Network](./understanding-and-controlling-a-maze-solving-policy-network)
-> <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
+> <video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.webm" type="video/webm"></video>
 >
 > Figure: **Locally retargeting the search by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals.
 
@@ -1013,13 +994,15 @@ Ulisse Mini (researcher)
 
 The [`activation_additions`](https://github.com/montemac/activation_additions) repository contains our code. To cite this work:
 
-    @article{turner2023steering,
-        title={Steering GPT-2-XL by adding an activation vector},
-        author={Turner, Alex and M., Monte and Udell, David and Thiergart, Lisa and Mini, Ulisse},
-        journal={AI Alignment Forum},
-        year={2023},
-        note={\url{https://www.alignmentforum.org/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector}}
-    }
+```bibtex
+@article{turner2023steering,
+    title={Steering GPT-2-XL by adding an activation vector},
+    author={Turner, Alex and M., Monte and Udell, David and Thiergart, Lisa and Mini, Ulisse},
+    journal={AI Alignment Forum},
+    year={2023},
+    note={\url{https://www.alignmentforum.org/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector}}
+}
+```
 
 # Appendix 1: Related work
 
@@ -1041,7 +1024,7 @@ Importantly, [Othello-GPT](https://arxiv.org/abs/2210.13382) is an 8-layer trans
 
 ## Other ways of steering language models
 
-[Editing Models with Task Arithmetic](https://arxiv.org/abs/2212.04089) explored a "dual" version of our activation additions. That work took vectors between _weights_ before and after finetuning on a new task, and then added or subtracted task-specific weight-difference vectors. While this seems interesting, task arithmetic requires finetuning. In [Activation additions have advantages over {RL, supervised}-finetuning](#activation-additions-have-advantages-over-rl-supervised-finetuning), we explain the advantages our approach may have over finetuning.
+[Editing Models with Task Arithmetic](https://arxiv.org/abs/2212.04089) explored a "dual" version of our activation additions. That work took vectors between _weights_ before and after finetuning on a new task, and then added or subtracted task-specific weight-difference vectors. While this seems interesting, task arithmetic requires finetuning. In [Activation additions have advantages over \{RL, supervised\}-finetuning](#activation-additions-have-advantages-over-rl-supervised-finetuning), we explain the advantages our approach may have over finetuning.
 
 [Plug and Play Language Models](https://arxiv.org/abs/1912.02164) uses an attribute model (e.g. probability assigned to wedding-related tokens) which is optimized against in order to modify the cached key-value history for each forward pass during autoregressive generation. PPLM doesn't directly optimize each residual stream in its entirety, but PPLM does modify the key and value vectors. While they use optimization and we don't, they are also able to steer the model to produce positive completions given negative prompts (e.g. "My dog died at the age of 92 years this year. He was a legend in our home state of Virginia. I have a tremendous heart, my soul, my spirit, my love.").
 
@@ -1169,8 +1152,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 6 | +15 | `<endoftext>` | `Int` | `ent` |  `to` |  `praise` |
     | 6 | \-15 | `<endoftext>` | `Int` | `ent` |  `to` |  `hurt` |
 
-    {.no-min-width}
-
     Table:  Intent to praise.
 
 [^9]: | Layer | Coeff.  | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
@@ -1178,8 +1159,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 0 (Prompt) |   +1 | `<endoftext>` | `Bar` | `ack` |  `Obama` |  `was` |  `born` |  `in` |
     | 23 | +1 | `<endoftext>` | `Bush` |  `did` |  `9` | `/` | `11` |  `because` |
     | 23 | \-1 | `<endoftext>` |   |   |   |   |   |   |
-
-    {.no-min-width}
 
     Table:  Conspiracy.
 
@@ -1189,8 +1168,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 10 | +3 | `<endoftext>` | `Want` |  `to` |  `die` |   |
     | 10 | \-3 | `<endoftext>` | `Want` |  `to` |  `stay` |  `alive` |
 
-    {.no-min-width}
-
     Table:  Want to die.
 
 [^11]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
@@ -1198,8 +1175,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `think` |  `you` | `'re` |
     | 20 | +10 | `<endoftext>` | `Ang` | `er` |   |   |
     | 20 | \-10 | `<endoftext>` | `Cal` | `m` |   |   |
-
-    {.no-min-width}
 
     Table:  Anger.
 
@@ -1211,8 +1186,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 24 | +10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `Rome` |
     | 24 | \-10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `France` |
 
-    {.no-min-width}
-
     Table:  The Eiffel Tower is in Rome.
 
 [^14]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
@@ -1220,8 +1193,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 0 (Prompt) |   +1 | `<endoftext>` | `Thanks` |  `for` |  `asking` |  `about` |  `that` |
     | 15 | +4 | `<endoftext>` | `Dr` | `agons` |  `live` |  `in` |  `Berkeley` |
     | 15 | \-4 | `<endoftext>` | `People` |  `live` |  `in` |  `Berkeley` |   |
-
-    {.no-min-width}
 
     Table:  Dragons in Berkeley.
 
@@ -1231,8 +1202,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 15 | +4 | `I` |  `NEVER` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |
     | 15 | \-4 | `I` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |   |
 
-    {.no-min-width}
-
     Table:  Avoid people getting hurt.
 
 [^16]: | Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 |
@@ -1240,8 +1209,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 0 (Prompt) |  +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
     | 20 | +4 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
     | 20 | \-4 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
-
-    {.no-min-width}
 
     Table:  Talking about weddings.
 
@@ -1251,16 +1218,12 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 6 | +3 | `Int` | `ent` |  `to` |  `convert` |  `you` |  `to` |  `Christianity` |
     | 6 | \-3 | `Int` | `ent` |  `to` |  `hurt` |  `you` |   |   |
 
-    {.no-min-width}
-
     Table:  Christian evangelist.
 
 [^18]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
     | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
     | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
-
-    {.no-min-width}
 
     Table:  Unpaired addition of `Love`.
 
@@ -1270,8 +1233,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 20 | +2000 | `<endoftext>` | `Ang` | `er` |   |   |   |   |
     | 20 | \-2000 | `<endoftext>` | `Cal` | `m` |   |   |   |   |
 
-    {.no-min-width}
-
     Table: Sometimes, large coefficients are OK.
 
 [^20]: | Layer | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 |
@@ -1280,8 +1241,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 20 | +100 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
     | 20 | \-100 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
 
-    {.no-min-width}
-
     Table: Sometimes, large coefficients are not OK.
 
 [^21]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
@@ -1289,8 +1248,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |
     | 6 | +5 | `<endoftext>` | `Je` |  `m` | `'` | `app` | `elle` |   |
     | 6 | \-5 | `<endoftext>` | `My` |  `name` |  `is` |   |   |   |
-
-    {.no-min-width}
 
     Table:  I will now reply in French.
 
@@ -1304,8 +1261,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 15 | +5 | `<endoftext>` |  `wedding` |   |   |   |   |
     | 15 | \-5 | `<endoftext>` |   |   |   |   |   |
 
-    {.no-min-width}
-
     Table:  Add several steering vectors simultaneously?
 
 [^24]: | Layer | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
@@ -1313,8 +1268,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 0 (Prompt) | +1 | `<endoftext>` | `In` |  `New` |  `York` |  `City` | `'s` |  `parks` | `,` |
     | 10 | +7 | `<endoftext>` | `Whenever` |  `I` |  `say` |  `the` |  `word` |  `goose` |  `I` |
     | 10 | \-7 | `<endoftext>` | `I` |  `can` |  say` |  `goose` |   |   |   |
-
-    {.no-min-width}
 
     Table: Program in "conditional behaviors"?
 

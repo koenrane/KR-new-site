@@ -47,7 +47,7 @@ export function editAdmonition(text: string): string {
 
 const CALLOUT_REGEX_NO_SPACE = new RegExp(/^( *(?:> )+)(\[!.*$)(?!(?:> *)+\n)/gm)
 const TARGET_REGEX_WITH_SPACE = "$1$2\n$1"
-export function spaceCallouts(text: string): string {
+export function spaceAdmonitions(text: string): string {
   return text.replaceAll(CALLOUT_REGEX_NO_SPACE, TARGET_REGEX_WITH_SPACE)
 }
 
@@ -125,7 +125,7 @@ export const formattingImprovement = (text: string) => {
   newContent = newContent.replace(/ *,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)
-  newContent = spaceCallouts(newContent)
+  newContent = spaceAdmonitions(newContent)
   newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = wrapLeadingNumbers(newContent)
   newContent = massTransformText(newContent)

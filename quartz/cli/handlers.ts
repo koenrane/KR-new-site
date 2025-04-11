@@ -5,7 +5,6 @@ import { Mutex } from "async-mutex"
 import chalk from "chalk"
 import { load as cheerioLoad } from "cheerio"
 import { watch } from "chokidar"
-import CleanCSS from "clean-css"
 // @ts-expect-error no critical types
 import { generate } from "critical"
 import { randomUUID } from "crypto"
@@ -362,6 +361,13 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
 
     // Append essential theme variables
     const themeCSS = `
+      :root {
+        font-family: var(--font-text);
+      }
+      code,
+      pre {
+        font-family: var(--font-monospace);
+      }
       a {
         color: var(--color-link);
       }
@@ -371,13 +377,12 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
       article[data-use-dropcap="true"] {
         --dropcap-vertical-offset: 0.15rem;
         --dropcap-font-size: 3.95rem;
-
-            & > p:first-of-type {
-              position: relative;
-              min-height: 4.2rem;
-            }
-
-            & > p:first-of-type::before {
+        --before-color: var(--midground-faint);
+        & > p:first-of-type {
+          position: relative;
+          min-height: 4.2rem;
+        }
+        & > p:first-of-type::before {
           content: attr(data-first-letter);
           text-transform: uppercase;
           position: absolute;
@@ -386,23 +391,27 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
           font-size: var(--dropcap-font-size);
           line-height: 1;
           padding-right: 0.1em;
-          font-family: "EBGaramondInitialsF2", serif;
+          font-family: var(--font-dropcap-background);
+          color: var(--before-color);
         }
-
         & > p:first-of-type::first-letter {
           padding-top: var(--dropcap-vertical-offset);
           text-transform: uppercase;
           font-style: normal !important;
           float: left;
-          color: var(--lightgray);
+          color: var(--foreground);
           font-size: var(--dropcap-font-size);
           line-height: 1;
           padding-right: 0.1em;
-          font-family: "EBGaramondInitialsF1", serif;
+          font-family: var(--font-dropcap-foreground), "EBGaramondInitialsF2", serif;
           font-weight: 500 !important;
         }
+        & > p:first-of-type em,
+        & > p:first-of-type b,
+        & > p:first-of-type strong {
+          font-family: inherit !important;
+        }
       }
-
       :root[saved-theme="dark"],
       .dark-mode {
         --light: #303446;
@@ -420,11 +429,7 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
         --blue: #406ecc;
       }
       `
-    const minifiedCSS: CleanCSS.Output = new CleanCSS().minify(css + themeCSS)
-    if (minifiedCSS.errors.length > 0) {
-      throw new Error("Critical CSS minification failed.")
-    }
-    cachedCriticalCSS = minifiedCSS.styles
+    cachedCriticalCSS = css + themeCSS
     console.log("Cached critical CSS with theme variables")
   } catch (error) {
     console.error("Error generating critical CSS:", error)

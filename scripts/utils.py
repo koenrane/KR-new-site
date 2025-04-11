@@ -109,10 +109,11 @@ def path_relative_to_quartz_parent(input_file: Path) -> Path:
             raise ValueError(
                 "The path must be within the 'static' subdirectory of 'quartz'."
             )
-        # Get the path relative to quartz
         return input_file.relative_to(quartz_dir.parent)
     except StopIteration as e:
-        raise ValueError("The path must be within a 'quartz' directory.") from e
+        raise ValueError(
+            "The path must be within a 'quartz' directory."
+        ) from e
 
 
 def split_yaml(file_path: Path, verbose: bool = False) -> tuple[dict, str]:
@@ -141,12 +142,11 @@ def split_yaml(file_path: Path, verbose: bool = False) -> tuple[dict, str]:
             print(f"Skipping {file_path}: No valid frontmatter found")
         return {}, ""
 
-    # Parse YAML frontmatter
     try:
         metadata = yaml.load(parts[1])
         if not metadata:
             metadata = {}
-    except OSError as e:
+    except YAMLError as e:
         print(f"Error parsing YAML in {file_path}: {str(e)}")
         return {}, ""
 
@@ -169,17 +169,11 @@ def build_html_to_md_map(md_dir: Path) -> Dict[str, Path]:
     md_files = list(md_dir.glob("*.md")) + list(md_dir.glob("drafts/*.md"))
 
     for md_file in md_files:
-        try:
-            front_matter, _ = split_yaml(md_file, verbose=False)
-
-            if front_matter:
-                permalink = front_matter.get("permalink")
-                if permalink:
-                    # Normalize the permalink
-                    permalink = permalink.strip("/")
-                    html_to_md_path[permalink] = md_file
-        except YAMLError as e:
-            print(f"Error parsing YAML in {md_file}: {e}")
+        front_matter, _ = split_yaml(md_file, verbose=False)
+        permalink = front_matter.get("permalink")
+        if permalink:
+            permalink = permalink.strip("/")
+            html_to_md_path[permalink] = md_file
 
     return html_to_md_path
 
@@ -212,8 +206,8 @@ def is_redirect(soup: BeautifulSoup) -> bool:
     meta = soup.find(
         "meta",
         attrs={
-            "http-equiv": lambda x: x and x.lower() == "refresh",
-            "content": lambda x: x and "url=" in x.lower(),
+            "http-equiv": lambda x: x is not None and x.lower() == "refresh",
+            "content": lambda x: x is not None and "url=" in x.lower(),
         },
     )
     return meta is not None
@@ -237,11 +231,11 @@ def parse_html_file(file_path: Path) -> BeautifulSoup:
     """
     Parse an HTML file and return a BeautifulSoup object.
     """
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(file_path, encoding="utf-8") as file:
         return BeautifulSoup(file.read(), "html.parser")
 
 
-files_without_md_path = ("404", "all-tags", "recent")
+_SLUGS_WITHOUT_MD_PATH = ("404", "all-tags", "recent")
 
 
 def should_have_md(file_path: Path) -> bool:
@@ -250,7 +244,7 @@ def should_have_md(file_path: Path) -> bool:
     """
     return (
         "tags" not in file_path.parts
-        and file_path.stem not in files_without_md_path
+        and file_path.stem not in _SLUGS_WITHOUT_MD_PATH
         and not is_redirect(parse_html_file(file_path))
     )
 

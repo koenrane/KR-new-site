@@ -6,7 +6,7 @@ export default {
     description: "Nici o descriere furnizată",
   },
   components: {
-    callout: {
+    admonition: {
       note: "Notă",
       abstract: "Rezumat",
       info: "Informație",

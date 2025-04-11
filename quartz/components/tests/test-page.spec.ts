@@ -1,5 +1,6 @@
 import { test, expect, type Locator, type Page, type TestInfo } from "@playwright/test"
 
+import { minDesktopWidth, maxMobileWidth } from "../../styles/variables"
 import {
   takeRegressionScreenshot,
   setTheme,
@@ -95,14 +96,24 @@ test.describe("Test page sections", () => {
 })
 
 test.describe("Various site pages", () => {
-  for (const pageSlug of ["404", "all-tags", "recent", "tags/personal"]) {
+  for (const pageSlug of ["", "404", "all-tags", "recent", "tags/personal"]) {
     test(`${pageSlug} (lostpixel)`, async ({ page }, testInfo) => {
       await page.goto(`http://localhost:8080/${pageSlug}`)
       await takeRegressionScreenshot(page, testInfo, `test-page-${pageSlug}`)
     })
   }
-})
 
+  test("Reward warning (lostpixel)", async ({ page }, testInfo) => {
+    await page.goto(
+      "http://localhost:8080/a-certain-formalization-of-corrigibility-is-vnm-incoherent",
+    )
+    const rewardWarning = page.getByText("Reward is not the optimization target").first()
+    await expect(rewardWarning).toBeVisible()
+    await takeRegressionScreenshot(page, testInfo, "reward-warning", {
+      element: rewardWarning,
+    })
+  })
+})
 test.describe("Table of contents", () => {
   function getTableOfContentsSelector(page: Page) {
     return isDesktopViewport(page) ? "#toc-content" : "*:has(> #toc-content-mobile)"
@@ -116,11 +127,23 @@ test.describe("Table of contents", () => {
   test("TOC visual regression (lostpixel)", async ({ page }, testInfo) => {
     const selector = getTableOfContentsSelector(page)
     if (!isDesktopViewport(page)) {
-      await page.locator(selector).locator(".callout-title-inner").first().click()
+      await page.locator(selector).locator(".admonition-title-inner").first().click()
     }
 
     await takeRegressionScreenshot(page, testInfo, selector)
   })
+})
+
+test.describe("Layout Breakpoints", () => {
+  for (const width of [minDesktopWidth, maxMobileWidth]) {
+    test(`Layout at breakpoint width ${width}px (lostpixel)`, async ({ page }, testInfo) => {
+      // Set viewport to the exact breakpoint width
+      await page.setViewportSize({ width, height: 480 }) // Don't show much
+
+      // Take a full page screenshot at this specific width
+      await takeRegressionScreenshot(page, testInfo, `layout-breakpoint-${width}px`)
+    })
+  }
 })
 
 test.describe("Admonitions", () => {
@@ -135,7 +158,7 @@ test.describe("Admonitions", () => {
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
       const initialScreenshot = await admonition.screenshot()
 
-      // Click anywhere on callout should open it
+      // Click anywhere on admonition should open it
       await admonition.click()
       await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
       await waitForTransitionEnd(admonition)
@@ -143,14 +166,14 @@ test.describe("Admonitions", () => {
       expect(openedScreenshot).not.toEqual(initialScreenshot)
 
       // Click on content should NOT close it
-      const content = admonition.locator(".callout-content").first()
+      const content = admonition.locator(".admonition-content").first()
       await content.click()
       await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
       const afterContentClickScreenshot = await admonition.screenshot()
       expect(afterContentClickScreenshot).toEqual(openedScreenshot)
 
       // Click on title should close it
-      const title = admonition.locator(".callout-title").first()
+      const title = admonition.locator(".admonition-title").first()
       await title.click()
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
 
@@ -165,9 +188,9 @@ test.describe("Admonitions", () => {
     }, testInfo) => {
       let element: Locator
       if (status === "open") {
-        element = page.locator("#test-open .fold-callout-icon").first()
+        element = page.locator("#test-open .fold-admonition-icon").first()
       } else {
-        element = page.locator("#test-collapse .fold-callout-icon").first()
+        element = page.locator("#test-collapse .fold-admonition-icon").first()
       }
 
       await element.scrollIntoViewIfNeeded()
@@ -247,7 +270,7 @@ test.describe("Right sidebar", () => {
   test("TOC visual test (lostpixel)", async ({ page }, testInfo) => {
     if (!isDesktopViewport(page)) {
       // Open the TOC
-      const tocContent = page.locator(".callout").first()
+      const tocContent = page.locator(".admonition").first()
       await tocContent.click()
       await takeRegressionScreenshot(page, testInfo, "toc-visual-test-open", {
         element: tocContent,
@@ -258,6 +281,41 @@ test.describe("Right sidebar", () => {
         element: rightSidebar,
       })
     }
+  })
+
+  test("Right sidebar scrolls independently", async ({ page }) => {
+    test.skip(!isDesktopViewport(page), "Desktop-only test")
+
+    const rightSidebar = page.locator("#right-sidebar")
+    await expect(rightSidebar).toBeVisible()
+
+    // Check if the content is actually taller than the sidebar viewport
+    const isOverflowing = await rightSidebar.evaluate((el) => {
+      return el.scrollHeight > el.clientHeight
+    })
+
+    expect(isOverflowing).toBeTruthy()
+
+    const initialWindowScrollY = await page.evaluate(() => window.scrollY)
+    const initialSidebarScrollTop = await rightSidebar.evaluate((el) => el.scrollTop)
+
+    // Scroll the sidebar down
+    await rightSidebar.evaluate((el) => {
+      el.scrollBy(0, 100)
+    })
+
+    // Wait a moment for scroll to apply
+    await page.waitForTimeout(100)
+
+    const finalWindowScrollY = await page.evaluate(() => window.scrollY)
+    const finalSidebarScrollTop = await rightSidebar.evaluate((el) => el.scrollTop)
+
+    // Verify window did not scroll
+    expect(finalWindowScrollY).toEqual(initialWindowScrollY)
+
+    // Verify sidebar did scroll
+    expect(finalSidebarScrollTop).toBeGreaterThan(initialSidebarScrollTop)
+    expect(finalSidebarScrollTop).toBeCloseTo(initialSidebarScrollTop + 100, 0) // Allow for slight rounding
   })
 
   test("Scrolling down changes TOC highlight (lostpixel)", async ({ page }, testInfo) => {
@@ -283,7 +341,7 @@ test.describe("Right sidebar", () => {
     await backlinks.scrollIntoViewIfNeeded()
     await expect(backlinks).toBeVisible()
 
-    const backlinksTitle = backlinks.locator(".callout-title").first()
+    const backlinksTitle = backlinks.locator(".admonition-title").first()
     await backlinksTitle.scrollIntoViewIfNeeded()
     await expect(backlinksTitle).toBeVisible()
     await expect(backlinksTitle).toHaveText("Links to this page")

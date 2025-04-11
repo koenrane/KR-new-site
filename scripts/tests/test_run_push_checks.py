@@ -2,13 +2,15 @@
 Unit tests for run_push_checks.py
 """
 
+import importlib
+import json
 import signal
 import subprocess
 import tempfile
 from pathlib import Path
 from unittest.mock import ANY, MagicMock, call, patch
 
-import psutil
+import psutil  # type: ignore[import]
 import pytest
 from rich.style import Style
 
@@ -31,6 +33,8 @@ def temp_state_dir():
         tempfile.TemporaryDirectory() as temp_dir,
         patch("tempfile.gettempdir", return_value=temp_dir),
     ):
+        # Reload module to pick up mocked tempdir
+        importlib.reload(run_push_checks)
         # Clear any existing state before tests run
         run_push_checks.reset_saved_progress()
         yield temp_dir
@@ -67,7 +71,9 @@ def test_is_port_in_use(monkeypatch):
     with patch("socket.socket") as mock_socket_cls:
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 1
-        mock_socket_cls.return_value.__enter__.return_value = mock_sock_instance
+        mock_socket_cls.return_value.__enter__.return_value = (
+            mock_sock_instance
+        )
         assert run_push_checks.is_port_in_use(8080) is False
 
 
@@ -92,6 +98,14 @@ def test_kill_process(mock_process):
     with patch("psutil.Process", return_value=mock_process):
         run_push_checks.kill_process(12345)
         mock_process.kill.assert_called_once()
+
+
+def test_kill_process_no_such_process():
+    """Test kill_process handles non-existent process PID"""
+    with patch("psutil.Process") as mock_process_cls:
+        mock_process_cls.side_effect = psutil.NoSuchProcess(99999)
+        # Should not raise any exception
+        run_push_checks.kill_process(99999)
 
 
 def test_create_server():
@@ -147,6 +161,29 @@ def test_create_server():
         result = run_push_checks.create_server(Path("/fake/path"))
         assert result.pid == 54321
         assert result.created_by_script is True
+
+
+def test_create_server_failure():
+    """Test server creation timeout logic"""
+    with (
+        patch("scripts.run_push_checks.is_port_in_use", return_value=False),
+        patch("subprocess.Popen") as mock_popen,
+        patch("scripts.run_push_checks.kill_process") as mock_kill,
+        patch("time.sleep"),  # Avoid actual sleep
+        patch("scripts.run_push_checks.Progress"),  # Mock progress bar
+        patch(
+            "scripts.run_push_checks.find_quartz_process", return_value=None
+        ),  # Ensure no existing process
+    ):
+        mock_server = MagicMock()
+        mock_server.pid = 67890
+        mock_popen.return_value = mock_server
+
+        with pytest.raises(RuntimeError) as exc_info:
+            run_push_checks.create_server(Path("/fake/path"))
+
+        assert "Server failed to start" in str(exc_info.value)
+        mock_kill.assert_called_once_with(67890)
 
 
 def test_server_manager_cleanup():
@@ -499,7 +536,6 @@ def test_argument_parsing(resume_flag, temp_state_dir):
             ),
             patch("scripts.run_push_checks.run_checks") as mock_run,
             patch("scripts.run_push_checks.create_server") as mock_create,
-            patch("scripts.run_push_checks.kill_process") as mock_kill,
         ):
             # Set up create_server to return a ServerInfo
             mock_create.return_value = run_push_checks.ServerInfo(12345, False)
@@ -529,9 +565,9 @@ def test_main_clears_state_on_success(temp_state_dir):
             "argparse.ArgumentParser.parse_args",
             return_value=MagicMock(resume=False),
         ),
-        patch("scripts.run_push_checks.run_checks") as mock_run,
+        patch("scripts.run_push_checks.run_checks") as mock_run,  # noqa: F841
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.kill_process") as mock_kill,
+        patch("scripts.run_push_checks.kill_process"),
         patch(
             "scripts.run_push_checks.get_check_steps",
             return_value=(
@@ -559,7 +595,6 @@ def test_main_preserves_state_on_failure(temp_state_dir):
         ),
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.kill_process") as mock_kill,
         patch(
             "scripts.run_push_checks.get_check_steps",
             return_value=(
@@ -595,7 +630,6 @@ def test_main_skips_pre_server_steps(temp_state_dir):
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
         patch("scripts.run_push_checks.console.log") as mock_log,
-        patch("scripts.run_push_checks.kill_process") as mock_kill,
     ):
         mock_create.return_value = run_push_checks.ServerInfo(12345, False)
         mock_run.return_value = None  # Successful runs
@@ -657,6 +691,41 @@ def test_run_checks_skips_until_last_step(temp_state_dir):
         # Verify only Step 3 was run
         assert mock_run.call_count == 1
         mock_run.assert_called_once_with(test_steps[2], ANY, ANY)
+
+
+def test_get_last_step_invalid_json(temp_state_dir, capsys):
+    """Test get_last_step handles invalid JSON content"""
+    state_file = Path(temp_state_dir) / "last_successful_step.json"
+    with open(state_file, "w", encoding="utf-8") as f:
+        f.write("this is not valid json")
+    # Patch the path to ensure it uses the test file
+    with patch("scripts.run_push_checks.STATE_FILE_PATH", state_file):
+        result = run_push_checks.get_last_step()
+        assert result is None
+        stderr = capsys.readouterr().err
+        assert "Error parsing JSON in" in stderr
+
+
+@pytest.mark.parametrize(
+    "state_content",
+    [
+        {"some_other_key": "some_value"},  # Unexpected structure
+        {},  # Empty JSON object
+    ],
+)
+def test_get_last_step_key_error(temp_state_dir, state_content: dict, capsys):
+    """Test get_last_step handles valid JSON with unexpected structure and prints error"""
+    state_file_path = Path(temp_state_dir) / "last_successful_step.json"
+    with open(state_file_path, "w", encoding="utf-8") as f:
+        json.dump(state_content, f)
+    # Patch the path to ensure it uses the test file
+    with patch("scripts.run_push_checks.STATE_FILE_PATH", state_file_path):
+        # Should return None because the key is missing or structure is wrong
+        result = run_push_checks.get_last_step()
+        assert result is None
+        # Assert that the specific error message was printed to stderr
+        stderr = capsys.readouterr().err
+        assert "No 'last_successful_step' key in" in stderr
 
 
 def test_invalid_step(temp_state_dir):
@@ -782,7 +851,9 @@ def test_create_server_progress_bar():
         patch("scripts.run_push_checks.Progress") as mock_progress_cls,
         patch("subprocess.Popen") as mock_popen,
         patch("time.sleep"),  # Don't actually sleep in tests
-        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
+        patch(
+            "scripts.run_push_checks.find_quartz_process", return_value=None
+        ),
     ):
         # Set up mocks
         # First two checks are for the initial port check and first loop iteration
@@ -909,7 +980,9 @@ def test_server_process_continues_running():
         patch("scripts.run_push_checks.is_port_in_use") as mock_port_check,
         patch("subprocess.Popen") as mock_popen,
         patch("time.sleep"),  # Don't actually sleep in tests
-        patch("scripts.run_push_checks.find_quartz_process", return_value=None),
+        patch(
+            "scripts.run_push_checks.find_quartz_process", return_value=None
+        ),
         patch(
             "shutil.which", return_value="npx"
         ),  # Mock shutil.which to return just "npx"

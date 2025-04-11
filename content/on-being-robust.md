@@ -42,7 +42,8 @@ date_updated: 2025-01-30 09:30:36.233182
 
 Do you ever feel... fake? Like, at any minute, Scooby Doo and the gang might roll up and unmask you as a _freeloading fraud [impostor](https://en.wikipedia.org/wiki/Impostor_syndrome) in front of everyone_?
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/rwcNnVH.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/rwcNnVH.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/rwcNnVH.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/rwcNnVH.webm" type="video/webm"></video>
 
 I could say much about the impostor syndrome on a psychological basis (the fears are often unrealistic / unmerited, etc). But I'd like to take another angle. For a few years, I've tried to just make a habit of _being un-unmaskable_. Although this is a useful frame for me, your mileage may vary.
 

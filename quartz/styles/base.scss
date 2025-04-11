@@ -1,6 +1,6 @@
 @use "./variables.scss" as *;
 @use "./syntax";
-@use "./callouts";
+@use "./admonitions";
 @use "./colors";
 @use "./fonts";
 @use "./timeline";
@@ -119,7 +119,7 @@ a {
 .desktop-only {
   display: initial;
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     display: none;
   }
 }
@@ -131,13 +131,13 @@ hr.desktop-only {
 .mobile-only {
   display: none;
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     display: initial;
   }
 }
 
 .page {
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     margin: 0 auto;
     padding: 0 calc(2 * $base-margin);
     max-width: $page-width;
@@ -165,75 +165,102 @@ hr.desktop-only {
   }
 
   & > #quartz-body {
+    $wider-gap-breakpoint: calc(#{$min-desktop-width} + 300px);
+
     width: 100%;
-    overflow-x: visible;
     display: flex;
 
-    @media all and (max-width: $full-page-width) {
+    @media all and (max-width: $max-mobile-width) {
       flex-direction: column;
+      overflow-x: visible;
+      gap: 0;
+    }
+
+    @media all and (min-width: $min-desktop-width) {
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: calc(0.5 * #{$max-sidebar-gap});
+      margin: 0 auto;
+
+      @media all and (min-width: $wider-gap-breakpoint) {
+        gap: $max-sidebar-gap;
+      }
     }
 
     & .sidebar {
-      flex: 1;
+      display: flex;
       flex-direction: column;
-      top: 0;
-      width: $side-panel-width;
       margin-top: $top-spacing;
       box-sizing: border-box;
-      padding: 0 calc(8 * $base-margin);
-      position: fixed;
+      flex-shrink: 0;
+      height: fit-content;
 
-      &.right {
-        width: 100%;
-
-        @media all and (min-width: $margins-begin) {
-          width: $right-width;
-        }
-      }
-
-      @media all and (max-width: $full-page-width) {
-        position: relative;
-        flex-direction: column;
-        max-width: 100vw;
-        padding: 0;
-        margin-top: 0;
-      }
-    }
-
-    & #left-sidebar {
-      display: flex;
-      margin-right: calc(6 * $base-margin);
-
-      @media all and (max-width: $full-page-width) {
-        gap: 0;
-        align-items: center;
-
-        // width: $page-width;
+      @media all and (min-width: $min-desktop-width) {
         position: sticky;
+        top: $top-spacing;
+        overflow-y: auto;
+        max-height: calc(100vh - #{$top-spacing});
       }
 
-      @media all and (min-width: $full-page-width) {
-        left: calc(calc(100vw - $page-width) / 2 - $side-panel-width);
+      &#left-sidebar {
+        z-index: 1;
+
+        @media all and (min-width: $min-desktop-width) {
+          flex-basis: $left-sidebar-width;
+          flex-shrink: 0.25;
+          margin-left: calc(0.25 * #{$max-sidebar-gap});
+
+          @media all and (min-width: $wider-gap-breakpoint) {
+            margin-left: 0;
+          }
+        }
+
+        @media all and (max-width: $max-mobile-width) {
+          gap: 0;
+          top: 0;
+          position: sticky;
+          margin-top: 0;
+          align-items: center;
+          width: 100%;
+          max-width: $page-width;
+          height: auto;
+          overflow-y: visible;
+        }
+      }
+
+      &#right-sidebar {
+        @media all and (min-width: $min-desktop-width) {
+          flex-basis: $right-sidebar-width;
+          flex-shrink: 1;
+          padding-right: calc(0.5 * #{$max-sidebar-gap});
+
+          @media all and (min-width: $wider-gap-breakpoint) {
+            margin-right: 0;
+          }
+        }
+
+        @media all and (max-width: $max-mobile-width) {
+          width: 100%;
+          height: auto;
+          overflow-y: visible;
+          margin-top: 0;
+        }
       }
     }
 
-    & #right-sidebar {
-      right: calc(calc(100vw - $page-width) / 2 - $right-width);
-      height: 96vh; // Leave room for bottom of ContentMeta
-      overflow-y: auto; // Allow scrolling
-      flex-wrap: wrap;
+    & #center-content {
+      flex-grow: 1;
+      flex-shrink: 1;
+      max-width: $page-width;
+      overflow-x: hidden;
+      width: 100%;
 
-      @media all and (width >= calc($full-page-width + 100px)) {
-        padding-right: calc(2 * $base-margin); // Make more space for ToC
-      }
-
-      @media all and (max-width: $full-page-width) {
-        left: 0;
-
-        & > * {
-          flex: 1;
-          min-width: 140px;
-        }
+      @media all and (max-width: $max-mobile-width) {
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
       }
     }
   }
@@ -241,23 +268,14 @@ hr.desktop-only {
   & .page-header {
     width: $page-width;
     margin: $top-spacing auto 0 auto;
-
-    @media all and (max-width: $full-page-width) {
-      width: initial;
-      margin-top: calc(2 * $base-margin);
-    }
-  }
-
-  & .center,
-  & footer {
+    max-width: $page-width;
     margin-left: auto;
     margin-right: auto;
-    width: $page-width;
 
-    @media all and (max-width: $full-page-width) {
+    @media all and (max-width: $max-mobile-width) {
       width: initial;
-      margin-left: 0;
-      margin-right: 0;
+      margin-top: calc(2 * $base-margin);
+      max-width: none;
     }
   }
 }
@@ -498,4 +516,10 @@ ul {
 // Nested ol and ul should have margin before them
 ol:not(ol > ol, li > ol) {
   margin-top: calc(1.5 * $base-margin);
+}
+
+#right-sidebar {
+  &:empty {
+    display: none !important;
+  }
 }

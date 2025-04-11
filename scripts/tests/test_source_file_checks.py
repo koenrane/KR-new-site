@@ -1,20 +1,23 @@
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple
 from unittest.mock import patch
 
-import git
+import git  # type: ignore[import]
 import pytest
-import requests
+import requests  # type: ignore[import]
+
+from .. import utils as script_utils
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..source_file_checks import *
+    from .. import source_file_checks
 else:
-    from source_file_checks import *
+    import source_file_checks
 
 
 @pytest.fixture
@@ -60,6 +63,11 @@ def valid_metadata() -> Dict[str, str | List[str]]:
             {"description": "Test", "tags": ["test"], "permalink": "/test"},
             ["Missing title field"],
         ),
+        # Test case 4: No metadata given
+        (
+            {},
+            ["No valid frontmatter found"],
+        ),
     ],
 )
 def test_check_required_fields(
@@ -72,7 +80,7 @@ def test_check_required_fields(
         metadata: Test metadata to check
         expected_errors: List of expected error messages
     """
-    errors = check_required_fields(metadata)
+    errors = source_file_checks.check_required_fields(metadata)
     assert set(errors) == set(expected_errors)
 
 
@@ -125,7 +133,7 @@ Test content
 
     # Main should raise a ValueError due to missing permalink
     with pytest.raises(ValueError):
-        main()
+        source_file_checks.main()
 
 
 @pytest.mark.parametrize(
@@ -224,9 +232,9 @@ def test_url_uniqueness(tmp_path: Path, monkeypatch, test_case) -> None:
 
     if test_case["should_fail"]:
         with pytest.raises(SystemExit, match="1"):
-            main()
+            source_file_checks.main()
     else:
-        main()  # Should not raise
+        source_file_checks.main()  # Should not raise
 
 
 def test_invalid_md_links(tmp_path: Path, monkeypatch) -> None:
@@ -260,7 +268,7 @@ Valid external: [Link](https://example.com)
 
     # Should exit with code 1 due to invalid links
     with pytest.raises(SystemExit, match="1"):
-        main()
+        source_file_checks.main()
 
 
 @pytest.fixture
@@ -373,7 +381,9 @@ def test_font_file_scenarios(
         test_case["content"], test_case["files"]
     )
 
-    missing_fonts = check_scss_font_files(fonts_scss, tmp_path)
+    missing_fonts = source_file_checks.check_scss_font_files(
+        fonts_scss, tmp_path
+    )
     assert missing_fonts == test_case["expected_missing"]
 
 
@@ -387,7 +397,9 @@ def test_scss_compilation_error(
     test_case = scss_scenarios["scss_error"]
     fonts_scss, tmp_path = setup_font_test(test_case["content"], [])
 
-    missing_fonts = check_scss_font_files(fonts_scss, tmp_path)
+    missing_fonts = source_file_checks.check_scss_font_files(
+        fonts_scss, tmp_path
+    )
     assert len(missing_fonts) == 1
     assert test_case["expected_error"] in missing_fonts[0]
 
@@ -418,7 +430,7 @@ def test_integration_with_main(
 
     # Main should exit with code 1 due to missing font
     with pytest.raises(SystemExit) as exc_info:
-        main()
+        source_file_checks.main()
     assert exc_info.value.code == 1
 
 
@@ -434,7 +446,7 @@ def test_compile_scss(tmp_path: Path) -> None:
     """
     )
 
-    css = compile_scss(scss_file)
+    css = source_file_checks.compile_scss(scss_file)
     assert "body" in css
     assert "red" in css
 
@@ -450,7 +462,7 @@ def test_check_font_files(tmp_path: Path) -> None:
         }
     """
 
-    missing = check_font_files(css_content, tmp_path)
+    missing = source_file_checks.check_font_files(css_content, tmp_path)
     assert "/quartz/static/styles/fonts/test.woff2" in missing
 
 
@@ -468,7 +480,7 @@ def test_check_font_families() -> None:
         }
     """
 
-    missing = check_font_families(css_content)
+    missing = source_file_checks.check_font_families(css_content)
     assert "Undeclared font family: undeclaredfont" in missing
 
 
@@ -487,7 +499,7 @@ def test_check_font_families_with_opentype() -> None:
         }
     """
 
-    missing = check_font_families(css_content)
+    missing = source_file_checks.check_font_families(css_content)
     assert len(missing) == 0  # Should not report EBGaramond as missing
 
 
@@ -515,7 +527,7 @@ Another invalid: $\\tag{eq:test}$
     test_file.write_text(content)
 
     # Test direct function
-    errors = check_latex_tags(test_file)
+    errors = source_file_checks.check_latex_tags(content, test_file)
     assert len(errors) == 2
     assert all("LaTeX \\tag{} found at line" in error for error in errors)
 
@@ -544,7 +556,7 @@ def test_latex_tags_variations(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = check_latex_tags(test_file)
+    errors = source_file_checks.check_latex_tags(content, test_file)
     assert len(errors) == expected_count
 
 
@@ -627,7 +639,7 @@ def test_check_sequence_relationships(test_case: Dict[str, Any]) -> None:
             - expected_errors: List of expected error messages
             - description: Description of the test case
     """
-    errors = check_sequence_relationships(
+    errors = source_file_checks.check_sequence_relationships(
         test_case["check_permalink"], test_case["posts"]
     )
     assert errors == test_case["expected_errors"], (
@@ -643,11 +655,11 @@ def test_check_sequence_relationships_invalid_input() -> None:
     """
     # Test with empty permalink
     with pytest.raises(ValueError, match="Invalid permalink"):
-        check_sequence_relationships("", {})
+        source_file_checks.check_sequence_relationships("", {})
 
     # Test with non-existent permalink
     with pytest.raises(ValueError, match="Invalid permalink /nonexistent"):
-        check_sequence_relationships(
+        source_file_checks.check_sequence_relationships(
             "/nonexistent", {"/post1": {"permalink": "/post1"}}
         )
 
@@ -733,7 +745,7 @@ def test_check_post_titles(test_case: Dict[str, Any]) -> None:
             - expected_errors: List of expected error messages
             - description: Description of the test case
     """
-    errors = check_post_titles(
+    errors = source_file_checks.check_post_titles(
         test_case["current"],
         test_case["target"],
         test_case["target_slug"],
@@ -776,7 +788,7 @@ Test content
 """
     file_path = create_test_file("test.md", content)
 
-    sequence_data = build_sequence_data([file_path])
+    sequence_data = source_file_checks.build_sequence_data([file_path])
 
     expected_mapping = {
         "/test": {
@@ -805,7 +817,7 @@ Test content
 """
     file_path = create_test_file("test.md", content)
 
-    sequence_data = build_sequence_data([file_path])
+    sequence_data = source_file_checks.build_sequence_data([file_path])
 
     expected_mapping = {
         "/test": {"title": "Test Post", "next-post-slug": "/next"},
@@ -849,7 +861,7 @@ permalink: /third
         create_test_file("third.md", file3_content),
     ]
 
-    sequence_data = build_sequence_data(files)
+    sequence_data = source_file_checks.build_sequence_data(files)
 
     expected_mapping = {
         "/first": {
@@ -896,7 +908,7 @@ aliases: [""]
         create_test_file("empty_alias.md", file2_content),
     ]
 
-    sequence_data = build_sequence_data(files)
+    sequence_data = source_file_checks.build_sequence_data(files)
 
     expected_mapping = {"/test": {"title": "Test Post"}}
 
@@ -907,7 +919,7 @@ def test_build_sequence_data_no_files() -> None:
     """
     Test _build_sequence_data with an empty list of files.
     """
-    sequence_data = build_sequence_data([])
+    sequence_data = source_file_checks.build_sequence_data([])
     assert sequence_data == {}
 
 
@@ -948,7 +960,7 @@ def test_check_card_image(
         if mock_response is not None:
             mock_head.return_value = mock_response
 
-        errors = check_card_image(metadata)
+        errors = source_file_checks.check_card_image(metadata)
         assert errors == expected_errors
 
 
@@ -961,7 +973,7 @@ def test_check_card_image_request_exception() -> None:
     with patch("requests.head") as mock_head:
         mock_head.side_effect = requests.RequestException("Connection error")
 
-        errors = check_card_image(metadata)
+        errors = source_file_checks.check_card_image(metadata)
         assert errors == [
             "Failed to load card image URL 'https://example.com/image.jpg': Connection error"
         ]
@@ -1074,7 +1086,7 @@ def test_check_table_alignments(
     test_file = tmp_path / "test.md"
     test_file.write_text(content)
 
-    errors = check_table_alignments(test_file)
+    errors = source_file_checks.check_table_alignments(content)
     assert errors == expected_errors
 
 
@@ -1110,4 +1122,439 @@ permalink: /test
 
     # Should exit with code 1 due to missing table alignments
     with pytest.raises(SystemExit, match="1"):
-        main()
+        source_file_checks.main()
+
+
+@pytest.mark.parametrize(
+    "content,expected_errors",
+    [
+        # No braces
+        ("No braces here", []),
+        # Escaped braces
+        ("Escaped \\{ and \\}", []),
+        ("Multiple \\{escaped\\} braces", []),
+        # Braces at start/end of line
+        ("{start of line", ["Unescaped brace found in: {start of line"]),
+        ("end of line}", ["Unescaped brace found in: end of line}"]),
+        ("{entire line}", []),
+        # Braces inside katex
+        ("$x^2 + {y^2}$", []),
+        ("$$x^2 + {y^2}$$", []),
+        ("$$\n{y^2}\n$$", []),
+        (
+            """$$
+> \\overset{\\text{# of permutations of $u$ for which $f_1>f_2$}}{\\big|\\{u_\\phi \\in {S_d \\cdot u}\\mid f_1(u_\\phi)>f_2(u_\\phi)\\}\\big|} \\geq n \\overset{\\text{# of permutations of $u$ for which $f_1<f_2$}}{\\big|\\{u_\\phi \\in S_d \\cdot u\\mid f_1(u_\\phi)<f_2(u_\\phi)\\}\\big|}.
+> $$""",
+            [],
+        ),
+        (
+            "$math$ {text} $math$",
+            [
+                "Unescaped brace found in: {text}",
+                "Unescaped brace found in: {text}",
+            ],  # Math blocks removed, braces remain
+        ),
+        # Braces inside code block
+        ("```\n{x: 1}\n```", []),
+        ("`{inline code}`", []),
+        (
+            "```\n{code}\n``` {text} text",
+            [
+                "Unescaped brace found in: {text} text",  # Code block removed
+                "Unescaped brace found in: {text} text",
+            ],
+        ),
+        (
+            "`{code}` {text} text `code2`",
+            [
+                "Unescaped brace found in: {text} text",  # Inline code removed
+                "Unescaped brace found in: {text} text",
+            ],
+        ),
+        # Unescaped braces
+        (
+            "Text with {unclosed brace",
+            ["Unescaped brace found in: Text with {unclosed brace"],
+        ),
+        (
+            "Text with unclosed} brace",
+            ["Unescaped brace found in: Text with unclosed} brace"],
+        ),
+        (
+            "Multiple {braces} in {one} line",
+            [
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+                "Unescaped brace found in: Multiple {braces} in {one} line",
+            ],
+        ),
+        # Multiple lines
+        (
+            "Line 1 with {brace\nLine 2 with} brace",
+            [
+                "Unescaped brace found in: Line 1 with {brace",
+                "Unescaped brace found in: Line 2 with} brace",
+            ],
+        ),
+        # Mixed content
+        (
+            """
+            $math$ {text} text $math$
+            ```python
+            {code}
+            ```
+            """,
+            [
+                # Math and code blocks removed
+                "Unescaped brace found in: {text} text",
+                "Unescaped brace found in: {text} text",
+            ],
+        ),
+        # Table with class
+        (
+            """\n|--|--|\n|Col 1|Col 2|\n\n{.class}""",
+            [],
+        ),
+        # Edge cases
+        ("{", ["Unescaped brace found in: {"]),
+        ("}", ["Unescaped brace found in: }"]),
+        ("\\{text\\}", []),
+        ("    {indented}", []),
+        ("\t{indented}", []),
+        (
+            "\\\\{text}",
+            [],
+        ),
+        # Whitespace handling
+        (
+            "  {text}  ",
+            [],
+        ),
+        (
+            "\t{text}\t",
+            [],
+        ),
+        # Unicode characters
+        (
+            "{你好}",
+            [],
+        ),
+        (
+            "你好{text}你好",
+            [
+                "Unescaped brace found in: 你好{text}你好",
+                "Unescaped brace found in: 你好{text}你好",
+            ],
+        ),
+    ],
+)
+def test_unescaped_braces(
+    tmp_path: Path, content: str, expected_errors: List[str]
+) -> None:
+    """
+    Test various scenarios for unescaped braces detection.
+
+    Args:
+        tmp_path: Pytest fixture providing temporary directory
+        content: Test content to check
+        expected_errors: Expected error messages
+    """
+    test_file = tmp_path / "test.md"
+    test_file.write_text(content)
+
+    errors = source_file_checks.check_unescaped_braces(content)
+    assert sorted(errors) == sorted(expected_errors)
+
+
+def test_unescaped_braces_integration(tmp_path: Path, monkeypatch) -> None:
+    """
+    Integration test for unescaped braces checking within the main workflow.
+    """
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+    git.Repo.init(tmp_path)
+
+    # Create test file with unescaped braces
+    test_file = content_dir / "test.md"
+    content = """---
+title: Test Post
+description: Test Description
+permalink: /test
+---
+# Content with Unescaped Braces
+
+This is a {test} with multiple {braces} in the text.
+
+Some math: $x^2 + {y^2}$ and more {text}.
+
+```python
+{code}
+```
+"""
+    test_file.write_text(content)
+
+    # Mock git root
+    monkeypatch.setattr(
+        script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
+    )
+
+    # Should exit with code 1 due to unescaped braces
+    with pytest.raises(SystemExit, match="1"):
+        source_file_checks.main()
+
+
+@pytest.mark.parametrize(
+    "input_text,expected_output",
+    [
+        # Basic cases
+        ("Plain text without code or math", "Plain text without code or math"),
+        # Inline code blocks
+        ("This is `code` block", "This is  block"),
+        ("Multiple `code` `blocks`", "Multiple  "),
+        ("`code at start` and end", " and end"),
+        ("start and `code at end`", "start and "),
+        ("`entire line is code`", ""),
+        # Math blocks
+        ("This is $math$ block", "This is  block"),
+        ("Multiple $math$ $blocks$", "Multiple  "),
+        ("$math at start$ and end", " and end"),
+        ("start and $math at end$", "start and "),
+        ("$entire line is math$", ""),
+        # Mixed code and math
+        ("Both `code` and $math$", "Both  and "),
+        ("`code` with $math$ inside", " with  inside"),
+        # Empty patterns
+        ("Empty code ``", "Empty code "),
+        ("Empty math $$", "Empty math "),
+        # Block code and math
+        ("$$\nMulti-line\nmath\n$$", ""),
+        (
+            "```\nMulti-line\ncode\n```",
+            "",
+        ),
+        # Edge cases
+        ("`code` at the `end`", " at the "),
+        ("$math$ at the $end$", " at the "),
+        ("Text with \\$escaped\\$ symbols", "Text with \\$escaped\\$ symbols"),
+        ("Text with \\`escaped\\` symbols", "Text with \\`escaped\\` symbols"),
+        # Unclosed delimiters
+        ("Unclosed `code", "Unclosed `code"),
+        ("Unclosed $math", "Unclosed $math"),
+        # Multiple lines with mixed content
+        (
+            "Line with `code`\nAnother line with $math$",
+            "Line with \nAnother line with ",
+        ),
+    ],
+)
+def test_remove_code_and_math(input_text: str, expected_output: str) -> None:
+    """
+    Test stripping code and math elements from text.
+
+    Args:
+        input_text: Input text with code/math elements
+        expected_output: Expected text after stripping
+    """
+    result = source_file_checks.remove_code_and_math(input_text)
+    assert (
+        result == expected_output
+    ), f"Failed to strip code and math from: {input_text}"
+
+
+@pytest.mark.parametrize(
+    "input_text,expected_output",
+    [
+        ("$x^2$", source_file_checks._REPLACEMENT_CHAR),
+        ("`x^2`", source_file_checks._REPLACEMENT_CHAR),
+        (
+            "```python\nprint('Hello, world!')\n```",
+            source_file_checks._REPLACEMENT_CHAR,
+        ),
+        # Intermingled with other text
+        (
+            "This is a test of $x^2$ and `x^2`",
+            "This is a test of {} and {}".format(
+                source_file_checks._REPLACEMENT_CHAR,
+                source_file_checks._REPLACEMENT_CHAR,
+            ),
+        ),
+    ],
+)
+def test_remove_code_and_math_with_replacement_character(
+    input_text: str, expected_output: str
+) -> None:
+    """
+    Test removing code and math elements with the replacement character.
+    """
+    result = source_file_checks.remove_code_and_math(
+        input_text, mark_boundaries=True
+    )
+    assert result == expected_output
+
+
+def test_remove_code_and_math_with_fenced_blocks() -> None:
+    """
+    Test stripping fenced code blocks specifically, which should be handled by
+    regex with the DOTALL flag.
+    """
+    # Current implementation doesn't handle fenced code blocks
+    input_text = """
+    Normal text.
+    
+    ```python
+    def example():
+        return "This is code"
+    ```
+    
+    More text.
+    """
+
+    result = source_file_checks.remove_code_and_math(input_text)
+
+    assert "```" not in result
+    assert "def example():" not in result
+    assert "More text." in result
+
+
+@pytest.mark.parametrize(
+    "input_text,expected_output",
+    [
+        ("Normal text.", "Normal text."),
+        (
+            "$$f(x) = \\int_{-\\infty}^{\\infty} \\hat{f}(\\xi)\\,e^{2 \\pi i \\xi x} \\,d\\xi$$",
+            "",
+        ),
+        # Test case with internal $ signs
+        (
+            """$$
+            > \\overset{\\text{# of permutations of $u$ for which $f_1>f_2$}}{\\big|\\{u_\\phi \\in {S_d \\cdot u}\\mid f_1(u_\\phi)>f_2(u_\\phi)\\}\\big|}
+            $$""",
+            "",
+        ),
+        # Quoted code block
+        (
+            """```typescript
+>     new RegExp(`\\b(?<!\\.)((?:p\\.?)?\\d+${chr}?)-(${chr}?\\d+)(?!\\.\\d)\\b`, "g"),
+> ```""",
+            "",
+        ),
+    ],
+)
+def test_remove_code_and_math_with_block_math(
+    input_text: str, expected_output: str
+) -> None:
+    """
+    Test stripping multi-line math blocks.
+    """
+    result = source_file_checks.remove_code_and_math(input_text)
+    assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    "slug,metadata,expected",
+    [
+        # Test case 1: Slug matches permalink
+        ("/test", {"permalink": "/test"}, True),
+        # Test case 2: Slug matches an alias
+        (
+            "/alias",
+            {"permalink": "/test", "aliases": ["/alias", "/other"]},
+            True,
+        ),
+        # Test case 3: Slug doesn't match permalink or any alias
+        (
+            "/notfound",
+            {"permalink": "/test", "aliases": ["/alias", "/other"]},
+            False,
+        ),
+        # Test case 4: Aliases field doesn't exist
+        ("/alias", {"permalink": "/test"}, False),
+        # Test case 5: Aliases field is empty
+        ("/alias", {"permalink": "/test", "aliases": []}, False),
+        # Test case 6: Permalink doesn't match but exists
+        ("/notfound", {"permalink": "/test"}, False),
+        # Test case 7: Slug matches an alias in a string (not list) aliases field
+        ("/alias", {"permalink": "/test", "aliases": "/alias"}, True),
+        # Test case 8: Slug doesn't match the string alias
+        ("/notfound", {"permalink": "/test", "aliases": "/alias"}, False),
+    ],
+)
+def test_slug_in_metadata(slug: str, metadata: dict, expected: bool) -> None:
+    """
+    Test the _slug_in_metadata function with various combinations of slug and metadata.
+
+    Args:
+        slug: The slug to check for
+        metadata: The metadata dictionary to check in
+        expected: Whether the slug is expected to be found in the metadata
+    """
+    result = source_file_checks._slug_in_metadata(slug, metadata)
+    assert (
+        result == expected
+    ), f"Expected {expected} but got {result} for slug '{slug}' in metadata {metadata}"
+
+
+@pytest.mark.parametrize(
+    "video_tag, should_raise",
+    [
+        # Valid tags (should not raise)
+        ("<video autoplay muted></video>", False),
+        ('<video controls alt="Test"></video>', False),
+        ("<video></video>", False),
+        # Invalid tags (should raise ValueError)
+        ('<video src="path/to/video.mp4"></video>', True),
+        ('<video type="video/webm"></video>', True),
+        ('<video controls src="vid.mov" alt="Test"></video>', True),
+        ('<video type="video/mp4" autoplay></video>', True),
+        # Check spacing variations
+        ('<video   src="vid.mp4"></video>', True),
+        ('<video type = "video/avi"></video>', True),
+        # Ensure it doesn't match src/type in attribute values
+        ('<video data-source="src=value"></video>', False),
+        ('<video alt="type=something"></video>', False),
+    ],
+)
+def test_validate_video_tag(video_tag: str, should_raise: bool):
+    """Tests the validate_video_tags function."""
+    with tempfile.NamedTemporaryFile(
+        "w", suffix=".md", delete=False
+    ) as tmp_file:
+        tmp_file.write(video_tag)
+    tmp_path = Path(tmp_file.name)
+
+    try:
+        issues = source_file_checks.validate_video_tags(video_tag)
+    finally:
+        tmp_path.unlink()  # Clean up the temporary file
+
+    if should_raise:
+        assert issues, f"Expected errors for tag: {video_tag}, but got none."
+        assert "forbidden 'src' or 'type' attribute" in issues[0]
+    else:
+        assert (
+            not issues
+        ), f"Expected no errors for tag: {video_tag}, but got: {issues}"
+
+
+@pytest.mark.parametrize(
+    "text, expected_errors",
+    [
+        ('This is a test. "This is a test."', []),
+        ('Test " .', ['Forbidden pattern found: " .']),
+        ('Test " f', []),
+        ('Test "".', []),
+        ('Test ."', []),
+        ('$Ignore in math mode" .$', []),
+        ('" $Ignore in math mode$.', []),  # Don't collapse around math mode
+        ('Ignore in code block: ```python\nprint("Hello, world!" .)\n```', []),
+        (
+            "This is a test) . Betley et al.",
+            ["Forbidden pattern found: ) ."],
+        ),
+    ],
+)
+def test_check_no_forbidden_patterns(text: str, expected_errors: List[str]):
+    """Test the check_no_forbidden_patterns function."""
+    errors = source_file_checks.check_no_forbidden_patterns(text)
+    assert errors == expected_errors

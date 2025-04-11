@@ -63,11 +63,9 @@ For example, “we can solve an easier version of the alignment problem by first
 
 <hr/>
 
-> [!quote]
+> [!quote] [Ontology identification problem](https://arbital.com/p/ontology_identification/), Arbital
 >
 > A simplified but still difficult open problem in [AI alignment](https://arbital.com/p/ai_alignment/) is to state an unbounded program implementing a [diamond maximizer](https://arbital.com/p/diamond_maximizer/) that will turn as much of the physical universe into diamond as possible. The goal of "making diamonds" was chosen to have a crisp-seeming definition for our universe (the amount of diamond is the number of carbon atoms covalently bound to four other carbon atoms). If we can crisply define exactly what a 'diamond' is, we can avert issues of trying to convey [complex values](https://arbital.com/p/complexity_of_value/) into the agent.
->
-> [Ontology identification problem](https://arbital.com/p/ontology_identification/), Arbital
 
 I find this problem interesting, both in terms of wanting to know how to solve a reframed version of it, and in terms of what I used to think about the problem. I used to[^1] think, “yeah, ‘diamond’ is relatively easy to define. Nice [problem relaxation](/problem-relaxation-as-a-tactic).” It felt like the diamond maximizer problem let us focus on the challenge of making the AI’s values bind to _something at all_ which we actually intended (e.g. diamonds), in a way that’s robust to ontological shifts and that doesn’t collapse into wireheading or tampering with e.g. the sensors used to estimate the number of diamonds.
 
@@ -144,7 +142,7 @@ Humans provide huge amounts of evidence, _properly interpreted_—and therein li
 > [!thanks]
 > Thanks to Logan Smith and Charles Foster for feedback. Spiritually related to but technically distinct from [_The First Sample Gives the Most Information_](https://www.lesswrong.com/posts/sTwW3QLptTQKuyRXx/the-first-sample-gives-the-most-information)\.
 
-> [!info] Edited after posting
+> [!warning] Clarification
 > In this post, I wrote about the Arbital article's unsupported jump from "Build an AI which cares about a simple object like diamonds" to "Let's think about ontology identification for AIXI-_tl._" The point is not that there is no valid reason to consider the latter, but that the jump, as written, seemed evidence-starved. For _separate_ reasons, I currently think that ontology identification is unattractive in some ways, but this post isn't meant to argue against that framing in general. The main point of the post is that humans provide tons of evidence about alignment, by virtue of containing guaranteed-to-exist mechanisms which produce e.g. their values around diamonds.
 
 # Appendix: One time I didn’t look for the human mechanism

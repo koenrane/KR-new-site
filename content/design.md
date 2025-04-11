@@ -161,7 +161,7 @@ I use the darkest text color sparingly. The margin text is medium-contrast, as a
 
 Color is important to this website, but I need to be tasteful and strict in my usage or the site turns into a mess. For example, in-line [favicons](https://en.wikipedia.org/wiki/Favicon) are colorless (e.g. [YouTube's](https://youtube.com) logo is definitely red). To choose otherwise is to choose chaos and distraction.
 
-When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond GIF (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor).
+When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond video (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor).
 
 During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme. I even override and standardize the colors used for syntax highlighting in the code blocks.
 
@@ -204,15 +204,27 @@ Figure: Now the huge savings of AVIF are clearer.
 
 ### Videos
 
-Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
+Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I've found the opposite.
 
-Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_.[^safari]
+| Metric | Value |
+|:-:|:--|
+| Total MP4 size | 76MB |
+| Total WEBM size | 61MB |
+| Overall space savings from MP4 -> WEBM | 20% |
 
-[^safari]: Safari _does_ support HEVC-encoded mp4s, but only if they are tagged with `hvc1` and not `hev1`. To "autoplay" these mp4s, I had to include the `src=` attribute in the `video` tag and then wait for the user to interact with the page. Apparently Firefox doesn't support HEVC, so I'll need to add alternative Firefox-compatible `<source/>`s.
+Table: Both of these formats are good compared to GIFs. My WEBM files were 10x lighter than my GIFs! For example: [the "goose in a pond" video](https://assets.turntrout.com/static/pond.webm) weighed 561KB in GIF format. The WEBM weighs 58KB and the MOV weighs 260KB.
 
-The problem gets worse because - although Safari will autoplay & loop HEVC, Safari _refuses to render transparency_. Therefore, for the looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. That asset shows up on every page, so that stings a bit. Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets.
+So why not just always use WEBM? There's a catch: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs, or to render transparency_. After reading [an article on how to stably display transparent videos across browsers](https://rotato.app/blog/transparent-videos-for-the-web), I implemented the following scheme:
 
-However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC. I'll fix that later - possibly I need to try a different codec.
+```html
+<video [attributes]>
+    // Only Safari should support hvc1
+    <source src="video.mp4" type="video/mp4; codecs=hvc1">
+    // All other browsers skip the MP4 and use the second source
+    <source src="video.webm" type="video/webm">
+```
+
+However, it was quite difficult to produce a transparent MP4 (as required by Safari). I eventually used `ffmpeg` to convert a non-transparent MP4 into a ProRes 444 file. I then used my Mac Finder's built-in encoding tool to convert the ProRes 444 to a MOV with transparency... Phew.
 
 ### CSS purging
 
@@ -652,7 +664,7 @@ Search
 Metadata
 : Every page has an HTML description and [tags](/all-tags) (if appropriate), along with a table of contents which (on desktop) highlights the current section. I track original publication date and display when each was page was last modified by a `git push` to the `main` branch. I also support "sequences" of blog posts:
 
-: <div class="sequence-links" style="border: 2px var(--midground-faint) solid; padding-right: .5rem; padding-top: 1rem; border-radius: 5px;"><div class="sequence-title" style="text-align:center;"><div class="callout-title-inner"><b>Sequence:</b> <a href="/posts#shard-theory" class="internal">Shard Theory</a></div></div><div class="sequence-nav" style="display:flex;justify-content:center;"><div class="prev-post sequence-links-postNavigation" style="text-align:right;"><p><b>Previous</b><br><a href="/reward-is-not-the-optimization-target" class="internal">Reward Is Not the Optimization Target</a></p></div><div class="sequence-links-divider"></div><div class="next-post sequence-links-postNavigation" style="text-align:left;"><p><b>Next</b><br><a href="/understanding-and-avoiding-value-drift" class="internal">Understanding and Avoiding Value Drift</a></p></div></div></div> <figcaption>The sequence metadata for my post on <a href="./shard-theory" class="internal alias" data-slug="shard-theory">shard theory.</a></figcaption>
+: <div class="sequence-links" style="border: 2px var(--midground-faint) solid; padding-right: .5rem; padding-top: 1rem; border-radius: 5px;"><div class="sequence-title" style="text-align:center;"><div class="admonition-title-inner"><b>Sequence:</b> <a href="/posts#shard-theory" class="internal">Shard Theory</a></div></div><div class="sequence-nav" style="display:flex;justify-content:center;"><div class="prev-post sequence-links-postNavigation" style="text-align:right;"><p><b>Previous</b><br><a href="/reward-is-not-the-optimization-target" class="internal">Reward Is Not the Optimization Target</a></p></div><div class="sequence-links-divider"></div><div class="next-post sequence-links-postNavigation" style="text-align:left;"><p><b>Next</b><br><a href="/understanding-and-avoiding-value-drift" class="internal">Understanding and Avoiding Value Drift</a></p></div></div></div> <figcaption>The sequence metadata for my post on <a href="./shard-theory" class="internal alias" data-slug="shard-theory">shard theory.</a></figcaption>
 
 Spoilers hide text until hovered
 : I made a Markdown plugin which lets me specify spoilers by starting the line with `>!`. The results are unobtrusive but pleasant:
@@ -694,21 +706,29 @@ I automatically merge test-passing pull requests from `dependabot`, reducing sec
 [`lint-staged`](https://www.npmjs.com/package/lint-staged) improves the readability and consistency of my code. While I format some filetypes on save, there are a lot of files and a lot of types. Therefore, my `package.json` specifies what linting & formatting tools to run on what filetypes:
 
 ```json
-"lint-staged": {
- "*.{js, jsx, ts, tsx, css, scss, json}": "prettier --write",
- "*.fish": "fish_indent",
- "*.sh": "shfmt -i 2 -w",
- "*.py": [
-     "autoflake --in-place",
-     "isort", 
-     "autopep8 --in-place",
-     "black"
+  "lint-staged": {
+    "*.{css,scss,json}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": [
+      "npx eslint --fix",
+      "prettier --write"
     ],
- "!(*.vale-styles)/**/*.md": [
+    "*.fish": "fish_indent",
+    "*.sh": [
+      "shfmt -i 2 -w",
+      "shellcheck"
+    ],
+    "*.py": [
+      "ruff check --fix",
+      "pyupgrade",
+      "autoflake --in-place",
+      "isort",
+      "autopep8 --in-place",
+      "black"
+    ],
+    "!(*.vale-styles)/**/*.md": [
       "prettier --write",
       "markdownlint --config .markdownlint.jsonrc --fix"
-    ],
-}
+    ]
 ```
 
 I also run [`docformatter`](https://pypi.org/project/docformatter/) to reformat my Python comments. For compatibility reasons, `docformatter` runs before `lint-staged` in my pre-commit hook.
@@ -755,6 +775,7 @@ I then lint my Markdown links for probable errors. I found that I might mangle a
 2. No pages attempt to share a URL.
 3. [Sequences](/posts#sequences) are well-defined. Post $n$ should link backwards to a post $n-1$ which marks post $n$ as its successor. Similar logic should hold for posts $n$ and $n-1$.
 4. $\KaTeX$ expressions avoid using `\tag{...}`, as that command wrecks the formatting in the rendered HTML.
+5. Markdown files do not use unescaped braces `{}` outside of code or math blocks. In my posts, I sometimes use braces for \{set notation\}. Without escaping the braces, the enclosed text is _not rendered in the HTML DOM_.
 
 I lastly check that my CSS:
 
@@ -763,11 +784,11 @@ I lastly check that my CSS:
 
 ### Unit tests
 
-As of first posting, I have 843 JavaScript unit tests and 164 `pytest` Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance.
+I have 1,430 JavaScript unit tests and 607 Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance. In fact, I use [`coverage`](https://github.com/nedbat/coveragepy) to ensure 100\% coverage of my Python files.
 
 ### Simulating site interactions
 
-Pure unit tests cannot test the end-to-end experience of my site, nor can they easily interact with a local server. [`playwright`](https://playwright.dev/) lets me test dynamic features like search, spoiler blocks, and light / dark mode. I can also guard against bugs like [flashes of unstyled content](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) upon page load. What's more, I test these features across a range of browsers and viewport dimensions (mobile vs desktop).
+Pure unit tests cannot test the end-to-end experience of my site, nor can they easily interact with a local server. [`playwright`](https://playwright.dev/) lets me test dynamic features like search, spoiler blocks, and light / dark mode. I can also guard against bugs like [flashes of unstyled content](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) upon page load. What's more, I test these features across a range of browsers and viewport dimensions (mobile vs desktop). I
 
 ### Visual regression testing
 
@@ -813,6 +834,8 @@ I use [`linkchecker`](https://linkchecker.github.io/) to validate these links.
 At this point, I check the built pages for a smattering of possible errors:
 
 - Links to my local server (`localhost:8080`) which validate but will become invalid on the Web;
+- Asset tags (like `<img>`) which source their content from external sources (not from my CDN);
+- `<video>` tags which do not provide multiple `<source>` options;
 - I might have disabled [favicon rendering](#inline-favicons) to increase build speed;
 - Favicons which are not sandwiched within `span.favicon-span` tags will wrap on their own, [which is awkward](#inline-favicons);
 - Common Markdown errors:
@@ -851,9 +874,17 @@ Updating page metadata
 : For posts which are being pushed for the first time, I set their publication date. For posts which have been updated since the last `push`, I update their "last updated" date.
 
 Cryptographic timestamping
-: I concatenate the SHA-1 commit hashes of all commits being pushed to `main` and hash their concatenation with SHA-256. Using a slight variant of [`gwern`'s timestamping procedure](https://gwern.net/timestamping), I use [OriginStamp](https://originstamp.com/) to commit the SHA-256 hash to the blockchain by the next day.
+: I use [Open Timestamps](https://opentimestamps.org/) to stamp each `git` commit hash onto the blockchain. By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This reduces the possibility of undetectably "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history. In particular, I cannot make the positive claim that I wrote content by a given date, unless I had in fact committed that content at least once by that date.
 
-: By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This reduces (or perhaps eliminates) the possibility of undetectably "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history.
+: To verify that a commit `ABC012` was indeed committed by a given date, run
+
+```shell
+git clone https://github.com/alexander-turner/.timestamps
+cd .timestamps
+ots --no-bitcoin verify "files/ABC012.txt.ots" 
+```
+
+{style="margin-left: 2rem;"}
 
 ## Extensive static analysis
 
@@ -867,9 +898,9 @@ I try to keep the repository clean of DeepSource issues, but it does point out a
 # Acknowledgments
 
 > [!thanks] Thanking people who helped with this site
-> Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs. [Said Achmiz and `gwern` provided detailed feedback in public comments.](https://www.lesswrong.com/posts/Nq2BtFidsnhfLuNAx/announcing-turntrout-com-my-new-digital-home?commentId=vJAsuKGLMmuWCb45h)
+> My girlfriend, Emma, decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs. [Said Achmiz and `gwern` provided detailed feedback in public comments.](https://www.lesswrong.com/posts/Nq2BtFidsnhfLuNAx/announcing-turntrout-com-my-new-digital-home?commentId=vJAsuKGLMmuWCb45h)
 
 > [!info] Asset attributions
-> The <img src="https://assets.turntrout.com/static/images/plus.svg" class="inline-img light-svg" alt="Plus sign"/> and <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/heart.svg" alt="Heart icon"/> are [sourced from the "Dazzle Line Icons"](https://www.svgrepo.com/svg/532997/plus-large) [collection](https://www.svgrepo.com/svg/532473/heart) under the CC attribution license. The link callout icon <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/link.svg" alt="A single link from a chain"/> and the same-page "favicon" <img class="inline-img anchor light-svg" src="https://assets.turntrout.com/static/images/anchor.svg" alt="A counterclockwise arrow" /> are sourced from Solar Icons on [SVG repo](https://www.svgrepo.com/svg/529680/link). The Twitter emoji styling is from the [Twemoji repository](https://github.com/twitter/twemoji).
+> The <img src="https://assets.turntrout.com/static/images/plus.svg" class="inline-img light-svg" alt="Plus sign"/> and <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/heart.svg" alt="Heart icon"/> are [sourced from the "Dazzle Line Icons"](https://www.svgrepo.com/svg/532997/plus-large) [collection](https://www.svgrepo.com/svg/532473/heart) under the CC attribution license. The link admonition icon <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/link.svg" alt="A single link from a chain"/> and the same-page "favicon" <img class="inline-img anchor light-svg" src="https://assets.turntrout.com/static/images/anchor.svg" alt="A counterclockwise arrow" /> are sourced from Solar Icons on [SVG repo](https://www.svgrepo.com/svg/529680/link). The Twitter emoji styling is from the [Twemoji repository](https://github.com/twitter/twemoji).
 
 [LessWrong](lesswrong.com) inspired the "previous/next" sequence navigation interface. [`gwern.net`](https://gwern.net) inspired [inline link icons](/design#inline-favicons), [dropcaps](/design#dropcaps), [`linkchecker`](/design#validating-links), prose linting, and [cryptographic timestamping](/design#finishing-touches).

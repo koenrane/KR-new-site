@@ -1,5 +1,6 @@
 """
-Check source files for issues, like invalid links, missing required fields, etc.
+Check source files for issues, like invalid links, missing required fields,
+etc.
 """
 
 import re
@@ -9,7 +10,7 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Literal, Set
 
-import requests
+import requests  # type: ignore[import]
 
 # Add the project root to sys.path
 # pylint: disable=wrong-import-position
@@ -38,6 +39,21 @@ def check_required_fields(metadata: dict) -> List[str]:
             errors.append(f"Empty {field} field")
 
     return errors
+
+
+def validate_video_tags(text: str) -> List[str]:
+    """
+    Validate that the video tag is valid.
+
+    Returns:
+        List of error messages for invalid video tags
+    """
+    issues = []
+    for match in re.finditer(r"<video[^>]*\s(src|type)\s*=", text):
+        issues.append(
+            f"Video tag contains forbidden 'src' or 'type' attribute: {match.group()}"
+        )
+    return issues
 
 
 def check_url_uniqueness(
@@ -90,11 +106,12 @@ def get_all_urls(metadata: dict) -> Set[str]:
     return urls
 
 
-def check_invalid_md_links(file_path: Path) -> List[str]:
+def check_invalid_md_links(text: str, file_path: Path) -> List[str]:
     """
     Check for invalid markdown links that don't start with '/'.
 
     Args:
+        text: The text to check
         file_path: Path to the markdown file to check
 
     Returns:
@@ -103,13 +120,14 @@ def check_invalid_md_links(file_path: Path) -> List[str]:
     invalid_md_link_pattern = r"\]\([-A-Za-z_0-9:]+(\.md)?\)"
     errors = []
 
-    content = file_path.read_text()
-    matches = re.finditer(invalid_md_link_pattern, content)
+    matches = re.finditer(invalid_md_link_pattern, text)
 
     for match in matches:
-        if "shard-theory" in match.group() and "design.md" in file_path.name:
+        if (
+            "shard-theory" in match.group() and "design.md" in file_path.name
+        ):  # pragma: no cover
             continue  # I mention this checker, not a real broken link
-        line_num = content[: match.start()].count("\n") + 1
+        line_num = text[: match.start()].count("\n") + 1
         errors.append(
             f"Invalid markdown link at line {line_num}: {match.group()}"
         )
@@ -117,28 +135,28 @@ def check_invalid_md_links(file_path: Path) -> List[str]:
     return errors
 
 
-def check_latex_tags(file_path: Path) -> List[str]:
+def check_latex_tags(text: str, file_path: Path) -> List[str]:
     """
     Check for \\tag{ in markdown files, which should be avoided.
 
     Args:
+        text: The text to check
         file_path: Path to the markdown file to check
 
     Returns:
         List of error messages for found LaTeX tags
     """
     # There's an innocuous use of LaTeX tags in design.md, so we'll ignore it
-    if "design.md" in file_path.name:
+    if "design.md" in file_path.name:  # pragma: no cover
         return []
 
     tag_pattern = r"(?<!\\)\\tag\{"
     errors = []
 
-    content = file_path.read_text()
-    matches = re.finditer(tag_pattern, content)
+    matches = re.finditer(tag_pattern, text)
 
     for match in matches:
-        line_num = content[: match.start()].count("\n") + 1
+        line_num = text[: match.start()].count("\n") + 1
         errors.append(f"LaTeX \\tag{{}} found at line {line_num}")
 
     return errors
@@ -260,7 +278,9 @@ def check_card_image(metadata: dict) -> List[str]:
         return errors
 
     if not card_image_url.startswith(("http://", "https://")):
-        errors.append(f"Card image URL '{card_image_url}' must be a remote URL")
+        errors.append(
+            f"Card image URL '{card_image_url}' must be a remote URL"
+        )
         return errors
 
     try:
@@ -278,7 +298,7 @@ def check_card_image(metadata: dict) -> List[str]:
     return errors
 
 
-def check_table_alignments(file_path: Path) -> List[str]:
+def check_table_alignments(text: str) -> List[str]:
     """
     Check if all markdown tables have explicit column alignments.
 
@@ -288,16 +308,104 @@ def check_table_alignments(file_path: Path) -> List[str]:
     Invalid: ---, ----
     """
     errors = []
-    content = file_path.read_text()
 
     column_pattern = r"\|\s*-+\s*\|"
-    for line_num, line in enumerate(content.split("\n"), 1):
+    for line_num, line in enumerate(text.split("\n"), 1):
         if re.search(column_pattern, line):
             errors.append(
                 f"Table column at line {line_num} missing alignment "
                 f"(should be :---, ---:, or :---:)"
             )
 
+    return errors
+
+
+_REPLACEMENT_CHAR = "\uffff"  # Private use area character
+
+
+def remove_code_and_math(text: str, mark_boundaries: bool = False) -> str:
+    """
+    Strip all code blocks, inline code, and math elements from text.
+
+    Args:
+        text: The text to process
+        mark_boundaries: Whether to mark the boundaries of where code and math
+            elements were removed
+
+    Returns:
+        Text with all code blocks, inline code, and math elements removed
+    """
+    # Private use area character
+    math_code_replacement_char = _REPLACEMENT_CHAR if mark_boundaries else ""
+
+    # Remove all code blocks
+    text = re.sub(
+        r"```.*?```", math_code_replacement_char, text, flags=re.DOTALL
+    )
+    text = re.sub(r"(?<!\\)`[^`]*(?<!\\)`", math_code_replacement_char, text)
+
+    # Remove all math blocks
+    text = re.sub(
+        r"\$\$.*?\$\$", math_code_replacement_char, text, flags=re.DOTALL
+    )
+    text = re.sub(
+        r"(?<!\\)\$[^$]*?(?<!\\)\$", math_code_replacement_char, text
+    )
+
+    return text
+
+
+# Either preceded by two backslashes or none, and then a brace.
+_BRACE_REGEX = r"(^|(?<=\\\\)|(?<=[^\\]))[{}]"
+# Ignore matching open/close braces at end of line.
+_END_OF_LINE_BRACES_REGEX = r"{[^$`\\]*}\s*$"
+
+
+def check_unescaped_braces(text: str) -> List[str]:
+    """
+    Check for unescaped braces in markdown files that aren't at beginning/end
+    of line or inside of katex element.
+
+    Args:
+        file_path: Path to the markdown file to check
+
+    Returns:
+        List of error messages for unescaped braces found
+    """
+    content_no_eol_braces = re.sub(
+        _END_OF_LINE_BRACES_REGEX,
+        "",
+        text,
+        flags=re.MULTILINE,
+    )
+    stripped_content = remove_code_and_math(content_no_eol_braces)
+
+    errors = []
+    for match in re.finditer(_BRACE_REGEX, stripped_content, re.MULTILINE):
+        # Get the line containing the match
+        line_start = stripped_content.rfind("\n", 0, match.start()) + 1
+        line_end = stripped_content.find("\n", match.start())
+        if line_end == -1:  # Handle last line
+            line_end = len(stripped_content)
+        line = stripped_content[line_start:line_end]
+
+        errors.append(f"Unescaped brace found in: {line.strip()}")
+
+    return errors
+
+
+_FORBIDDEN_PATTERNS = (r'["”)\]]\s+\.',)
+
+
+def check_no_forbidden_patterns(text: str) -> List[str]:
+    """
+    Check for forbidden patterns in text.
+    """
+    errors = []
+    no_code_math_text = remove_code_and_math(text, mark_boundaries=True)
+    for pattern in _FORBIDDEN_PATTERNS:
+        for match in re.finditer(pattern, no_code_math_text):
+            errors.append(f"Forbidden pattern found: {match.group()}")
     return errors
 
 
@@ -319,11 +427,15 @@ def check_file_data(
     Returns:
         Dictionary mapping check names to lists of error messages
     """
+    text = file_path.read_text()
     issues: MetadataIssues = {
         "required_fields": check_required_fields(metadata),
-        "invalid_links": check_invalid_md_links(file_path),
-        "latex_tags": check_latex_tags(file_path),
-        "table_alignments": check_table_alignments(file_path),
+        "invalid_links": check_invalid_md_links(text, file_path),
+        "latex_tags": check_latex_tags(text, file_path),
+        "table_alignments": check_table_alignments(text),
+        "unescaped_braces": check_unescaped_braces(text),
+        "video_tags": validate_video_tags(text),
+        "forbidden_patterns": check_no_forbidden_patterns(text),
     }
 
     if metadata:
@@ -356,24 +468,12 @@ def print_issues(file_path: Path, issues: MetadataIssues) -> None:
 def compile_scss(scss_file_path: Path) -> str:
     """
     Compile SCSS file to CSS string.
-
-    Args:
-        scss_file_path: Path to the SCSS file
-
-    Returns:
-        Compiled CSS as string
-
-    Raises:
-        subprocess.CalledProcessError: If SCSS compilation fails
-        FileNotFoundError: If sass compiler is not found
     """
     if not scss_file_path.exists():
         return ""
 
     styles_dir = scss_file_path.parent
-    sass_path = shutil.which("sass")
-    if not sass_path:
-        raise FileNotFoundError("sass executable not found")
+    sass_path = Path(str(shutil.which("sass")))
 
     result = subprocess.run(
         [sass_path, f"--load-path={styles_dir}", str(scss_file_path)],

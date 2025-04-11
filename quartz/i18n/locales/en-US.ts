@@ -6,7 +6,7 @@ export default {
     description: "Writings about doing good, thinking well, and living happily.",
   },
   components: {
-    callout: {
+    admonition: {
       note: "Note",
       abstract: "Abstract",
       info: "Info",

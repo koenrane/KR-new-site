@@ -29,16 +29,16 @@ const WarningLink = (
 )
 
 const WarningTitle = () => (
-  <div className="callout-title">
-    <div className="callout-icon"></div>
-    <div className="callout-title-inner">
+  <div className="admonition-title">
+    <div className="admonition-icon"></div>
+    <div className="admonition-title-inner">
       <p> {WarningLink}</p>
     </div>
   </div>
 )
 
 const rewardPostWarning = (
-  <blockquote className="callout warning" data-callout="warning">
+  <blockquote className="admonition warning" data-admonition="warning">
     <WarningTitle />
     <p>
       This post treats reward functions as “specifying goals”, in some sense. As I explained in{" "}
@@ -89,18 +89,18 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
   const toc = buildNestedList(fileData.toc, 0, 0)[0]
   return (
     <blockquote
-      className="callout example is-collapsible"
-      data-callout="example"
-      data-callout-fold=""
+      className="admonition example is-collapsible"
+      data-admonition="example"
+      data-admonition-fold=""
     >
-      <div className="callout-title">
-        <div className="callout-icon"></div>
-        <div className="callout-title-inner">
+      <div className="admonition-title">
+        <div className="admonition-icon"></div>
+        <div className="admonition-title-inner">
           <p>Table of contents</p>
         </div>
-        <div className="fold-callout-icon"></div>
+        <div className="fold-admonition-icon"></div>
       </div>
-      <div id="toc-content-mobile" className="callout-content">
+      <div id="toc-content-mobile" className="admonition-content">
         <ul style={{ paddingLeft: "1rem !important" }}>{toc}</ul>
       </div>
     </blockquote>
@@ -111,10 +111,10 @@ const lessWrongFavicon = <img src={LESSWRONG_FAVICON_PATH} className="favicon" a
 
 function lessWrongQuestion(url: string): JSX.Element {
   return (
-    <blockquote className="callout question" data-callout="question">
-      <div className="callout-title">
-        <div className="callout-icon"></div>
-        <div className="callout-title-inner">
+    <blockquote className="admonition question" data-admonition="question">
+      <div className="admonition-title">
+        <div className="admonition-icon"></div>
+        <div className="admonition-title-inner">
           <p>Question</p>
         </div>
       </div>

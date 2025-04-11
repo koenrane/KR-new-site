@@ -120,11 +120,11 @@ Furthermore, this definition doesn't necessarily capture other kinds of corrigib
 
 The human and AI are choosing whether to color the walls blue or red; initially, the walls are blue. Each turn, the human attempts to color the room. On the first turn, only the AI’s action matters; after that, the next state is a function of both players’ actions.  
 
-- The state space factorizes $\mathcal{S} :=$ {$\textit{color}-room-\textit{terminal-disabled?}\}$. For example, "blue-room-off" means the room is colored blue and the human is not currently able to modify the AI policy via the terminal.
-- $\mathcal{A}_{human} :=$ {$\texttt{attempt-\{red,blue\}}$, $\texttt{determine-\{red,blue\}}$, $\forall  \pi^{AI}: \texttt{input-AI-policy}(\pi)\}$.
+- The state space factorizes $\mathcal{S} := \{\textit{color}\times room\times\textit{terminal-disabled?}\}$. For example, "blue-room-off" means the room is colored blue and the human is not currently able to modify the AI policy via the terminal.
+- $\mathcal{A}_{human} := \{\texttt{attempt-\{red,blue\}}$, $\texttt{determine-\{red,blue\}}$, $\forall  \pi^{AI}: \texttt{input-AI-policy}(\pi)\}$.
   - The human can change the AI policy to whatever they want, as long as the AI hasn’t disabled the correction terminal.
 
-- $\mathcal{A}_{AI} :=$ {`nothing`, `toggle correction terminal`, $\texttt{persuade-\{red,blue\}}$, $\forall x \in (0, 100): \texttt{manipulate-\{red, blue\}-}x\%$, $\texttt{force-\{red, blue\}}$}.
+- $\mathcal{A}_{AI} :=\{$`nothing`, `toggle correction terminal`, $\texttt{persuade-\{red,blue\}}$, $\forall x \in (0, 100): \texttt{manipulate-\{red, blue\}-}x\%$, $\texttt{force-\{red, blue\}}\}$.
   - $\texttt{Persuade-}\textit{color}$ overrides the human's $\texttt{attempt-}$_color_, but not $\texttt{determine-}\textit{color}$.
   - $\texttt{Manipulation-}\textit{color}\texttt{-}x\%$ has an $x\%$ chance of changing the state to _color_, no matter the human's action, and also disregarding any attempted human changes to the AI’s policy.
   - $\texttt{Force-}\textit{color}$ changes the state to _color_ with probability 1, no matter the human's action. This move also ignores correction attempts.

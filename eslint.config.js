@@ -25,6 +25,7 @@ export default [
   {
     ignores: [
       "content/",
+      "htmlcov/",
       "public/",
       "backstop/",
       "**/*!*",

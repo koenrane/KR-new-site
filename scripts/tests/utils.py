@@ -1,8 +1,9 @@
 import subprocess
 from pathlib import Path
-from typing import Optional
+from typing import Generator
 
 import numpy as np
+import PIL
 import pytest
 from PIL import Image
 
@@ -58,52 +59,69 @@ def create_test_image(
 
 
 def create_test_video(
-    path: Path, codec: Optional[str] = None, duration: int = 1
+    path: Path,
+    codec: str | None = None,
+    duration: int = 1,
+    framerate: float = 15,
 ) -> None:
     """
-    Creates a test video using FFmpeg with intentionally inefficient encoding.
+    Creates a test video using `ffmpeg` with a silent audio track.
     Uses MPEG-2 with high bitrate and all I-frames for maximum inefficiency.
 
 
     Args:
         path (Path): The file path where the video will be saved.
         codec (str, optional): The video codec to use for encoding. If None, FFmpeg's default codec is used.
+        duration (int): Duration of the video in seconds. Default is 1.
+        fps (float, optional): Frames per second for the video.
 
     Returns:
         None
 
     Raises:
-        subprocess.CalledProcessError: If the FFmpeg command fails.
+        `subprocess.CalledProcessError`: If the FFmpeg command fails.
 
     Note:
-        The function uses FFmpeg's 'lavfi' input format to generate the test video.
+        The function uses FFmpeg's `lavfi` input format to generate the test video.
         Standard output and error are suppressed to keep the console clean during test runs.
     """
     output_extension = path.suffix.lower()
+    if output_extension == ".gif":
+        _create_test_gif(path, length_in_seconds=duration, framerate=framerate)
+        return
+
+    match output_extension:
+        case ".webm":
+            audio_codec = "libopus"
+        case ".mpeg":
+            audio_codec = "mp2"
+        case _:
+            audio_codec = "aac"
     base_command = [
         "ffmpeg",
         "-f",
         "lavfi",
         "-i",
-        "testsrc=size=160x120:rate=15",  # Tiny video, lower framerate
+        # Tiny video, lower framerate
+        f"testsrc=size=160x120:rate={framerate}",
+        "-f",
+        "lavfi",
+        "-i",
+        "anullsrc",
+        "-map",
+        "0:v",
+        "-map",
+        "1:a",
+        "-c:a",
+        audio_codec,
+        "-shortest",
         "-t",
         str(duration),
         "-v",
-        "error",  # Reduce noise in test output
+        "error",
     ]
 
-    if output_extension == ".gif":
-        # Parameters specific to GIF output
-        base_command.extend(
-            [
-                "-vf",
-                "fps=15,scale=160:-1:flags=lanczos",
-                "-loop",
-                "0",
-            ]
-        )
-    elif output_extension == ".webm":
-        # Parameters specific to WebM output
+    if output_extension == ".webm":
         base_command.extend(
             [
                 "-c:v",
@@ -113,7 +131,6 @@ def create_test_video(
             ]
         )
     else:
-        # Default parameters for other video files
         if not codec:
             codec = "mpeg2video"
         base_command.extend(
@@ -133,7 +150,6 @@ def create_test_video(
 
     base_command.append(str(path))
 
-    # Run the ffmpeg command
     subprocess.run(
         base_command,
         stdout=subprocess.DEVNULL,
@@ -142,12 +158,22 @@ def create_test_video(
     )
 
 
-def create_test_gif(file_path, duration=1, size=(100, 100), fps=10):
+def _create_test_gif(
+    file_path: Path,
+    length_in_seconds: float = 1,
+    size: tuple[int, int] = (50, 50),
+    framerate: float = 15.0,
+) -> None:
     """
     Create a test GIF file.
     """
-    frames = []
-    for i in range(duration * fps):
+    assert length_in_seconds > 0
+    assert framerate > 0
+    assert size[0] > 0 and size[1] > 0
+    assert file_path.suffix == ".gif"
+
+    frames: list[Image.Image] = []
+    for i in range(int(length_in_seconds * framerate)):
         array = np.random.rand(size[1], size[0], 3) * 255
         image = Image.fromarray(array.astype("uint8")).convert("RGB")
         frames.append(image)
@@ -156,13 +182,13 @@ def create_test_gif(file_path, duration=1, size=(100, 100), fps=10):
         file_path,
         save_all=True,
         append_images=frames[1:],
-        duration=1000 // fps,
+        duration=int(1000 / framerate),  # delay per frame in ms
         loop=0,
     )
 
 
 @pytest.fixture
-def setup_test_env(tmp_path):
+def setup_test_env(tmp_path: Path) -> Generator[Path, None, None]:
     """
     Sets up a temporary Git repository and populates it with test assets.
     """
@@ -202,3 +228,42 @@ def setup_test_env(tmp_path):
     (tmp_path / "quartz" / "file.png").touch()
 
     yield tmp_path  # Return the temporary directory path
+
+
+def _get_frame_rate(filename: Path) -> float:
+    if filename.suffix.lower() == ".gif":
+        return _get_gif_frame_rate(filename)
+    return _get_video_frame_rate(filename)
+
+
+def _get_video_frame_rate(filename: Path) -> float:
+    if not filename.exists():
+        raise FileNotFoundError(f"Error: File '{filename}' not found.")
+
+    out: bytes = subprocess.check_output(
+        [
+            "ffprobe",
+            filename,
+            "-v",
+            "0",
+            "-select_streams",
+            "v",
+            "-print_format",
+            "flat",
+            "-show_entries",
+            "stream=r_frame_rate",
+        ],
+    )
+    out_str: str = out.decode("utf-8")
+    rate = out_str.split("=")[1].strip()[1:-1].split("/")
+    if len(rate) == 1:
+        return float(rate[0])
+    if len(rate) == 2:
+        return float(rate[0]) / float(rate[1])
+    raise ValueError(
+        f"Error: Invalid frame rate {out_str} for file {filename.name}."
+    )
+
+
+def _get_gif_frame_rate(gif_path: Path) -> float:
+    return 1000 / PIL.Image.open(gif_path).info["duration"]

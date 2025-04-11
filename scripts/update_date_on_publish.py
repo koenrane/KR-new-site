@@ -61,35 +61,31 @@ def is_file_modified(file_path: Path) -> bool:
         return False
 
 
-def maybe_convert_to_timestamp(value: str | datetime | TimeStamp) -> TimeStamp:
+def maybe_convert_to_timestamp(
+    raw_timestamp_info: str | datetime | TimeStamp,
+) -> TimeStamp:
     """
     Convert various date formats to TimeStamp.
     """
-    if isinstance(value, TimeStamp):
-        return value
+    if isinstance(raw_timestamp_info, TimeStamp):
+        return raw_timestamp_info
 
-    if isinstance(value, str):
-        try:
-            # Try to parse MM/DD/YYYY format
-            dt = datetime.strptime(value, "%m/%d/%Y")
-        except ValueError:
-            try:
-                # Try ISO format as fallback
-                dt = datetime.fromisoformat(value)
-            except ValueError:
-                print(
-                    f"Warning: Could not parse date '{value}',"
-                    " using current date"
-                )
-                dt = datetime.now()
-    elif isinstance(value, datetime):
-        dt = value
+    if isinstance(raw_timestamp_info, str):
+        # Non-ISO is ambiguous; do not catch errors for that
+        dt = datetime.fromisoformat(raw_timestamp_info)
+    elif isinstance(raw_timestamp_info, datetime):
+        dt = raw_timestamp_info
     else:
-        print(f"Warning: Unknown date type {type(value)}, using current date")
-        dt = datetime.now()
+        raise ValueError(f"Unknown date type {type(raw_timestamp_info)}")
 
     return TimeStamp(
-        dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, dt.microsecond
+        dt.year,
+        dt.month,
+        dt.day,
+        dt.hour,
+        dt.minute,
+        dt.second,
+        dt.microsecond,
     )
 
 

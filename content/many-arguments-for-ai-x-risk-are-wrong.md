@@ -64,8 +64,6 @@ The most important takeaway from this essay is that the (prominent) counting arg
 
 In the next section, I'll discuss the counting argument. In this one, I want to demonstrate how often foundational alignment texts make crucial errors. For example:
 
-But it _is_ true that RL authors have a convention of repeating "the point of RL is to train an agent to maximize reward…".
-
 > [!quote] Nick Bostrom's <span class="book-citation">Superintelligence</span>, page 253
 > A range of different methods can be used to solve "reinforcement-learning problems," but they typically involve creating a system that seeks to maximize a reward signal. This has an inherent tendency to produce the wireheading failure mode when the system becomes more intelligent. Reinforcement learning therefore looks unpromising.
 
@@ -75,7 +73,7 @@ To be blunt, this is nonsense. I have long meditated on the nature of "reward fu
 [^rough]: Since I wrote this memo for a somewhat non-technical audience, I didn't want to get into the (important) distinction between a learning rate which is proportional to advantage (as in the real PPO equations) and a learning rate which is proportional to reward (which I talked about above).
 [^support]: The strongest argument for reward-maximization which I'm aware of is: Human brains do RL and often care about some kind of tight reward-correlate, to some degree. Humans are like deep learning systems in some ways, and so that's evidence that "learning setups which work in reality" can come to care about their own training signals.
 [^RLauth]:
-    But it _is_ true that RL authors have a convention of repeating "the point of RL is to train an agent to maximize reward…". [Littman, 1996](https://www.researchgate.net/publication/33697270_Algorithms_for_Sequential_Decision_Making) (p.6): "The \[RL] agent's actions need to serve some purpose: in the problems I consider, their purpose is to maximize reward."
+    While real evidence is scarce, there _is_ a glut of RL authors who repeat the mantra that "the point of RL is to train an agent to maximize reward…". [Littman, 1996](https://www.researchgate.net/publication/33697270_Algorithms_for_Sequential_Decision_Making) (p.6): "The \[RL] agent's actions need to serve some purpose: in the problems I consider, their purpose is to maximize reward."
 
     Did RL researchers in the 1990's sit down and carefully analyze the inductive biases of PPO on huge 2026-era LLMs, conclude that PPO probably entrains LLMs which make decisions on the basis of their own reinforcement signal, and then decide to say "RL trains agents to maximize reward"? **Of course not.** My guess: [Control theorists in the 1950s (reasonably) talked about "minimizing cost"](https://en.wikipedia.org/wiki/Optimal_control) in their own problems, and so RL researchers by the '90s started saying "the point is to maximize reward", and so Bostrom repeated this mantra in 2014. That's where a bunch of concern about wireheading comes from.&#x20;
 

@@ -48,7 +48,7 @@ Many folks see the first <span class="dropcap" data-first-letter="D">d</span>rop
 
 The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond) - that choice inspired by the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of [this website's design](/design) was by my own taste.
 
-![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif)
+![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif){style="width:80%;"}
 Figure: Design comes naturally to me. I've loved SMALLCAPS and Garamond fonts for a long time, as seen in [my alignment PhD](/alignment-phd).
 
 _The Pond_ makes me feel graceful and grateful and proud. It's my home, and [I've worked hard towards perfection.](/design) I have so much hope and so many plans for this website!
@@ -121,7 +121,7 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected.
 
 <figure style="max-width: min(90%, 370px); margin-left: auto; margin-right: auto;">
-<blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--midground); background-color: var(--background);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--midground);"><span class="reading-time">Read time: 8 minutes</span></p><p style="color:var(--midground);"><span class="publication-str">Published on <time datetime="2024-10-30 00:00:00">October 30<sup class="ordinal-suffix">th</sup>, 2024</time></span></p><p style="color:var(--midground);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/welcome-to-the-pond.md" class="external" style="color:var(--midground);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2024-11-12 00:00:00">November 11<sup class="ordinal-suffix">th</sup>, 2024</time></span></p></ul></div></blockquote>
+<blockquote class="admonition admonition-metadata" data-admonition="info" style="text-align:left; color: var(--midground); background-color: var(--background);"><div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">About this post</div></div><div class="admonition-content"><ul style="padding-left: 0px;"><p style="color:var(--midground);"><span class="reading-time">Read time: 8 minutes</span></p><p style="color:var(--midground);"><span class="publication-str">Published on <time datetime="2024-10-30 00:00:00">October 30<sup class="ordinal-suffix">th</sup>, 2024</time></span></p><p style="color:var(--midground);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/welcome-to-the-pond.md" class="external" style="color:var(--midground);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2024-11-12 00:00:00">November 11<sup class="ordinal-suffix">th</sup>, 2024</time></span></p></ul></div></blockquote>
 <figcaption>An example post information bubble.</figcaption>
 </figure>
 
@@ -130,9 +130,7 @@ I also took a moment to enable:
 > [!quote] Cryptographic timestamping
 > Subtitle: [The design of this website](/design)
 >
-> I concatenate the SHA-1 commit hashes of all commits being pushed to `main` and hash their concatenation with SHA-256. Using a slight variant of [`gwern`'s timestamping procedure](https://gwern.net/timestamping), I use [OriginStamp](https://originstamp.com/) to commit the SHA-256 hash to the blockchain by the next day.
->
-> By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This reduces (or perhaps eliminates) the possibility of undetectably "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history.
+> I use [Open Timestamps](https://originstamp.com/) to stamp each `git` commit hash onto the blockchain... By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This reduces (or perhaps eliminates) the possibility of undetectably "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history. In particular, I cannot make the positive claim that I wrote content by a given date, unless I had in fact committed that content at least once by that date.
 
 ## Fatebook prediction tracking
 

@@ -256,7 +256,7 @@ For example, if $g=1.05$, then the norms of the attention and MLP contributions 
 
 # Appendix 2: Explaining the difference between `attn_out` and `mlp_out`
 
-Remembering the two plots from _Theories for the source of the growth_, we notice a surprisingly large y-axis difference between the norms. We repeat those norm curves here:
+Remembering the two plots from [Theories for the source of the growth](#theories-for-the-source-of-the-growth), we notice a surprisingly large y-axis difference between the norms. We repeat those norm curves here:
 
 ![](https://assets.turntrout.com/static/images/posts/xoddfbotuqd8f7r06dl0.avif)
 

@@ -32,7 +32,7 @@ export interface Options {
   comments: boolean
   highlight: boolean
   wikilinks: boolean
-  callouts: boolean
+  admonitions: boolean
   mermaid: boolean
   parseTags: boolean
   parseArrows: boolean
@@ -47,7 +47,7 @@ export const defaultOptions: Options = {
   comments: true,
   highlight: true,
   wikilinks: true,
-  callouts: true,
+  admonitions: true,
   mermaid: true,
   parseTags: true,
   parseArrows: true,
@@ -58,7 +58,7 @@ export const defaultOptions: Options = {
   enableCheckbox: false,
 }
 
-const calloutMapping = {
+const admonitionMapping = {
   note: "note",
   abstract: "abstract",
   summary: "abstract",
@@ -99,10 +99,10 @@ const arrowMapping: Record<string, string> = {
   "<==": "&lArr;",
 }
 
-function canonicalizeCallout(calloutName: string): keyof typeof calloutMapping {
-  const normalizedCallout = calloutName.toLowerCase() as keyof typeof calloutMapping
-  // if callout is not recognized, make it a custom one
-  return calloutMapping[normalizedCallout] ?? calloutName
+function canonicalizeAdmonition(admonitionName: string): keyof typeof admonitionMapping {
+  const normalizedAdmonition = admonitionName.toLowerCase() as keyof typeof admonitionMapping
+  // if admonition is not recognized, make it a custom one
+  return admonitionMapping[normalizedAdmonition] ?? admonitionName
 }
 
 export const externalLinkRegex = /^https?:\/\//i
@@ -132,9 +132,9 @@ export const tableWikilinkRegex = new RegExp(/(!?\[\[[^\]]*?\]\])/, "g")
 
 const highlightRegex = new RegExp(/[=]{2}([^=]+)[=]{2}/, "g")
 const commentRegex = new RegExp(/%%[\s\S]*?%%/, "g")
-// from https://github.com/escwxyz/remark-obsidian-callout/blob/main/src/index.ts
-const calloutRegex = new RegExp(/^\[!(\w+)\]([+-]?)/)
-const calloutLineRegex = new RegExp(/^> *\[!\w+\][+-]?.*$/, "gm")
+// from https://github.com/escwxyz/remark-obsidian-admonition/blob/main/src/index.ts
+const admonitionRegex = new RegExp(/^\[!(\w+)\]([+-]?)/)
+const admonitionLineRegex = new RegExp(/^> *\[!\w+\][+-]?.*$/, "gm")
 // (?:^| )              -> non-capturing group, tag should start be separated by a space or be the start of the line
 // #(...)               -> capturing group, tag itself must start with #
 // (?:[-_\p{L}\d\p{Z}])+       -> non-capturing group, non-empty string of (Unicode-aware) alpha-numeric characters and symbols, hyphens and/or underscores
@@ -173,7 +173,7 @@ export function processWikilink(value: string, ...capture: string[]): PhrasingCo
       const width = match?.groups?.width ?? "auto"
       const height = match?.groups?.height ?? "auto"
       const specifiedDimensions = width !== "auto" || height !== "auto"
-      const alt = specifiedDimensions ? "" : match?.groups?.alt ?? ""
+      const alt = specifiedDimensions ? "" : (match?.groups?.alt ?? "")
       return {
         type: "image",
         url,
@@ -337,7 +337,7 @@ export function markdownPlugins(opts: Options): PluggableList {
     })
   }
 
-  if (opts.callouts) {
+  if (opts.admonitions) {
     plugins.push(() => {
       return (tree: Root) => {
         visit(tree, "blockquote", (node) => {
@@ -355,23 +355,23 @@ export function markdownPlugins(opts: Options): PluggableList {
           const [firstLine, ...remainingLines] = text.split("\n")
           const remainingText = remainingLines.join("\n")
 
-          const match = firstLine.match(calloutRegex)
+          const match = firstLine.match(admonitionRegex)
           if (match?.input) {
-            const [calloutDirective, typeString, collapseChar] = match
-            const calloutType = canonicalizeCallout(typeString.toLowerCase())
+            const [admonitionDirective, typeString, collapseChar] = match
+            const admonitionType = canonicalizeAdmonition(typeString.toLowerCase())
             const collapse = collapseChar === "+" || collapseChar === "-"
             const defaultState = collapseChar === "-" ? "collapsed" : "expanded"
-            const titleContent = match.input.slice(calloutDirective.length).trim()
+            const titleContent = match.input.slice(admonitionDirective.length).trim()
             const useDefaultTitle = titleContent === "" && firstChild.children.length === 1
 
-            const calloutTitle: Element = {
+            const admonitionTitle: Element = {
               type: "element",
               tagName: "div",
               properties: {},
               data: {
                 hName: "div",
                 hProperties: {
-                  className: ["callout-title"],
+                  className: ["admonition-title"],
                 },
                 position: {},
               } as CustomElementData,
@@ -383,7 +383,7 @@ export function markdownPlugins(opts: Options): PluggableList {
                   data: {
                     hName: "div",
                     hProperties: {
-                      className: ["callout-icon"],
+                      className: ["admonition-icon"],
                     },
                     position: {},
                   } as CustomElementData,
@@ -396,7 +396,7 @@ export function markdownPlugins(opts: Options): PluggableList {
                   data: {
                     hName: "div",
                     hProperties: {
-                      className: ["callout-title-inner"],
+                      className: ["admonition-title-inner"],
                     },
                     position: {},
                   } as CustomElementData,
@@ -416,7 +416,7 @@ export function markdownPlugins(opts: Options): PluggableList {
                         data: {
                           hName: "div",
                           hProperties: {
-                            className: ["fold-callout-icon"],
+                            className: ["fold-admonition-icon"],
                           },
                           position: {},
                         } as CustomElementData,
@@ -452,7 +452,7 @@ export function markdownPlugins(opts: Options): PluggableList {
                 data: {
                   hName: "div",
                   hProperties: {
-                    className: ["callout-content"],
+                    className: ["admonition-content"],
                   },
                   position: {},
                 } as ElementData,
@@ -460,12 +460,12 @@ export function markdownPlugins(opts: Options): PluggableList {
             }
 
             // Replace the entire blockquote content
-            node.children = [calloutTitle as unknown as BlockContent]
+            node.children = [admonitionTitle as unknown as BlockContent]
             if (contentNode) {
               node.children.push(contentNode as unknown as BlockContent)
             }
 
-            const classNames = ["callout", calloutType]
+            const classNames = ["admonition", admonitionType]
             if (collapse) {
               classNames.push("is-collapsible")
             }
@@ -478,8 +478,8 @@ export function markdownPlugins(opts: Options): PluggableList {
               hProperties: {
                 ...(node.data?.hProperties ?? {}),
                 className: classNames.join(" "),
-                "data-callout": calloutType,
-                "data-callout-fold": collapse,
+                "data-admonition": admonitionType,
+                "data-admonition-fold": collapse,
               },
             }
           }
@@ -511,9 +511,9 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
       }
 
       // pre-transform blockquotes
-      if (opts.callouts) {
-        src = src.replace(calloutLineRegex, (value: string): string => {
-          // force newline after title of callout
+      if (opts.admonitions) {
+        src = src.replace(admonitionLineRegex, (value: string): string => {
+          // force newline after title of admonition
           return `${value}\n> `
         })
       }
@@ -687,14 +687,14 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
         })
       }
 
-      if (opts.callouts) {
-        const calloutScriptPath = path.join(
+      if (opts.admonitions) {
+        const admonitionScriptPath = path.join(
           currentDirPath,
-          "../components/scripts/callout.inline.js",
+          "../components/scripts/admonition.inline.js",
         )
-        const calloutScript = fs.readFileSync(calloutScriptPath, "utf8")
+        const admonitionScript = fs.readFileSync(admonitionScriptPath, "utf8")
         js.push({
-          script: calloutScript,
+          script: admonitionScript,
           loadTime: "afterDOMReady",
           contentType: "inline",
         })

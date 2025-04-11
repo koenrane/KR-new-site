@@ -3,36 +3,91 @@ Script to compress images and videos.
 """
 
 import argparse
-import json
+import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import Final
 
-# Default quality (higher is larger file size but better quality)
-IMAGE_QUALITY: int = 56
-ALLOWED_IMAGE_EXTENSIONS: set[str] = {".jpg", ".jpeg", ".png"}
+_DEFAULT_IMAGE_QUALITY: Final[int] = 56
+_DEFAULT_HEVC_CRF: Final[int] = 28
+_DEFAULT_VP9_CRF: Final[int] = 31
+ALLOWED_IMAGE_EXTENSIONS: Final[tuple[str, ...]] = tuple(
+    sorted((".jpg", ".jpeg", ".png"))
+)
+ALLOWED_VIDEO_EXTENSIONS: Final[tuple[str, ...]] = tuple(
+    sorted(
+        (
+            ".gif",
+            ".mov",
+            ".mp4",
+            ".avi",
+            ".mpeg",
+            ".webm",
+        )
+    )
+)
+ALLOWED_EXTENSIONS: Final[tuple[str, ...]] = (
+    ALLOWED_IMAGE_EXTENSIONS + ALLOWED_VIDEO_EXTENSIONS
+)
+
+_CODEC_HEVC: Final[str] = "libx265"
+_CODEC_VP9: Final[str] = "libvpx-vp9"
+_CODEC_AUDIO_OPUS: Final[str] = "libopus"
+_PIXEL_FORMAT_YUV420P: Final[str] = "yuv420p"
+_TAG_APPLE_COMPATIBILITY: Final[str] = "hvc1"
+
+_FFMPEG_COMMON_OUTPUT_ARGS: Final[list[str]] = [
+    "-movflags",
+    "+faststart",
+    "-y",
+    "-v",
+    "error",
+]
 
 
-def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
+def _check_dependencies() -> None:  # pragma: no cover
+    """
+    Check if required command-line tools are installed.
+    """
+    required_tools = ["ffmpeg", "ffprobe", "magick"]
+    missing_tools = [
+        tool for tool in required_tools if shutil.which(tool) is None
+    ]
+    if missing_tools:
+        raise RuntimeError(
+            f"Error: Missing required tools: {', '.join(missing_tools)}. "
+            "Please install them (e.g. using brew install ffmpeg imagemagick)."
+        )
+
+
+def _print_filepath_warning(file_path: Path) -> None:
+    print(
+        f"File '{file_path.name}' already exists. Skipping conversion.",
+        file=sys.stderr,
+    )
+
+
+def image(image_path: Path, quality: int = _DEFAULT_IMAGE_QUALITY) -> None:
     """
     Converts an image to AVIF format using ImageMagick.
 
     Args:
-        image_path: The path to the image file.
-        quality: The AVIF quality (0-100). Lower is better but slower.
+        `image_path`: The path to the image file.
+        `quality`: The AVIF quality (0-100).
+            Lower quality means smaller file size.
     """
     if not image_path.is_file():
         raise FileNotFoundError(f"Error: File '{image_path}' not found.")
-    if not image_path.suffix.lower() in ALLOWED_IMAGE_EXTENSIONS:
-        raise ValueError(f"Error: Unsupported file type '{image_path.suffix}'.")
+    if image_path.suffix.lower() not in ALLOWED_IMAGE_EXTENSIONS:
+        raise ValueError(
+            f"Error: Unsupported file type '{image_path.suffix}'."
+        )
 
     avif_path: Path = image_path.with_suffix(".avif")
     if avif_path.exists():
-        print(
-            f"AVIF file '{avif_path}' already exists. Skipping conversion.",
-            file=sys.stderr,
-        )
+        _print_filepath_warning(avif_path)
         return
 
     try:
@@ -41,244 +96,262 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
             image_path,
             "-quality",
             str(quality),
-            "-strip",  # Sometimes metadata blocks serving (NOTE can't repro)
+            "-strip",  # Removes metadata that might block serving
             "-colorspace",
             "sRGB",
             "-define",
             "heic:preserve-color-profile=true",
-            avif_path,
+            str(avif_path),
         ]
-        subprocess.run(command, check=True)
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Error during conversion: {e}") from e
-    finally:
-        original_path = image_path.with_suffix(image_path.suffix + "_original")
-        if original_path.exists():
-            original_path.unlink()
+        subprocess.run(command, check=True, capture_output=True)
+        print(f"Successfully converted {image_path.name} to {avif_path.name}")
+    except subprocess.CalledProcessError as e:  # pragma: no cover
+        raise RuntimeError(
+            f"Error during AVIF conversion of {image_path.name}: {e}"
+        ) from e
 
 
-ALLOWED_VIDEO_EXTENSIONS: set[str] = {
-    ".gif",
-    ".mov",
-    ".mp4",
-    ".webm",
-    ".avi",
-    ".mpeg",
-}
-
-ALLOWED_EXTENSIONS: set[str] = (
-    ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
-)
-
-
-VIDEO_QUALITY: int = 28  # Default quality (0-51). Lower is better but slower.
-
-
-def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
+def video(
+    video_path: Path,
+    quality_hevc: int = _DEFAULT_HEVC_CRF,
+    quality_webm: int = _DEFAULT_VP9_CRF,
+) -> None:
     """
-    Converts a video to mp4 format using ffmpeg with HEVC encoding, if not
-    already HEVC.
+    Converts a video to both mp4 (HEVC) and webm (VP9) formats using ffmpeg,
+    unless the output files already exist.
     """
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
 
-    if video_path.suffix not in ALLOWED_VIDEO_EXTENSIONS:
+    if video_path.suffix.lower() not in ALLOWED_VIDEO_EXTENSIONS:
         raise ValueError(
-            f"Error: Unsupported file type '{video_path.suffix}'."
+            f"Error: Unsupported file type '{video_path.suffix}'. "
             f"Supported types are: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}."
         )
 
-    # Check if the input is already HEVC encoded
-    probe_cmd = [
-        "ffprobe",
-        "-v",
-        "error",
-        "-select_streams",
-        "v:0",
-        "-show_entries",
-        "stream=codec_name",
-        "-of",
-        "default=noprint_wrappers=1:nokey=1",
-        str(video_path),
-    ]
+    hevc_output_path: Path = video_path.with_suffix(".mp4")
+    _run_ffmpeg_hevc(video_path, hevc_output_path, quality_hevc)
 
-    try:
-        codec = subprocess.check_output(
-            probe_cmd, universal_newlines=True
-        ).strip()
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Error probing video codec: {e}") from e
+    webm_output_path: Path = video_path.with_suffix(".webm")
+    _run_ffmpeg_webm(video_path, webm_output_path, quality_webm)
 
-    if codec == "hevc":
-        print(
-            f"File {video_path} is already HEVC encoded. Skipping conversion."
-        )
+
+def _run_ffmpeg_hevc(
+    input_video_path: Path,
+    output_path: Path,
+    quality: int,
+) -> None:
+    """
+    Helper function to run the ffmpeg command for HEVC/MP4 conversion.
+    """
+    if input_video_path.suffix.lower() == ".mp4" and _check_if_hevc_codec(
+        input_video_path
+    ):
+        _print_filepath_warning(input_video_path)
         return
 
-    # Determine output path
-    output_path = video_path.with_suffix(".mp4")
-    if video_path.suffix.lower() == ".mp4":
-        temp_output_path = video_path.with_stem(video_path.stem + "_temp")
-    else:
-        temp_output_path = output_path
+    is_gif: bool = input_video_path.suffix.lower() == ".gif"
+    audio_args = [
+        "-map",
+        "0:v:0",
+        "-map",
+        "0:a?",
+        "-c:a",
+        "copy",
+    ]
 
-    try:
-        if video_path.suffix == ".gif":
-            _compress_gif(video_path, quality)
-        else:
-            # Single pass encoding
-            subprocess.run(
-                [
-                    "ffmpeg",
-                    "-i",
-                    str(video_path),
-                    "-c:v",
-                    "libx265",
-                    "-x265-params",
-                    "log-level=warning",  # God it's loud otherwise
-                    "-preset",
-                    "slower",
-                    "-crf",
-                    str(quality),
-                    "-c:a",
-                    "copy",  # Copy audio without re-encoding
-                    "-tag:v",
-                    "hvc1",  # For better compatibility with Apple devices
-                    "-movflags",
-                    "+faststart",
-                    "-colorspace",
-                    "bt709",
-                    "-v",
-                    "error",
-                    str(temp_output_path),
-                ],
-                check=True,
-            )
+    ffmpeg_cmd: list[str] = [
+        "ffmpeg",
+        "-i",
+        str(input_video_path),
+        "-c:v",
+        _CODEC_HEVC,
+        "-crf",
+        str(quality),
+        "-x265-params",
+        "log-level=warning",  # Keep logging minimal for x265
+        "-preset",
+        "slower",
+        "-vf",
+        "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+        "-pix_fmt",
+        _PIXEL_FORMAT_YUV420P,
+        "-tag:v",
+        _TAG_APPLE_COMPATIBILITY,
+        *(["-an"] if is_gif else audio_args),  # No audio for GIF output
+        *(["-loop", "0"] if is_gif else []),
+        *_FFMPEG_COMMON_OUTPUT_ARGS,
+    ]
 
-        # If we're overwriting the original file, replace it now
-        if output_path == video_path:
-            video_path.unlink()
-            temp_output_path.rename(output_path)
-
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Error during conversion: {e}") from e
-    finally:
-        original_path = output_path.with_suffix(
-            output_path.suffix + "_original"
-        )
-
-        if original_path.exists():
-            original_path.unlink()
-
-    print(f"Successfully converted {video_path} to HEVC: {output_path}")
-
-
-def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
-    """
-    Compress a GIF file to an MP4 video, preserving the original frame rate.
-    """
     with tempfile.TemporaryDirectory() as temp_dir:
-        temp_path = Path(temp_dir)
-
-        # Get the frame rate of the original GIF
-        probe_cmd = [
-            "ffprobe",
-            "-v",
-            "quiet",
-            "-print_format",
-            "json",
-            "-show_streams",
-            str(gif_path),
-        ]
-        probe_output = subprocess.check_output(
-            probe_cmd,
-            universal_newlines=True,
-        )
-        probe_data = json.loads(probe_output)
-
-        # Extract the frame rate, defaulting to 10 if not found
-        frame_rate = 10
-        for stream in probe_data.get("streams", []):
-            if stream.get("codec_type") == "video":
-                avg_frame_rate = stream.get("avg_frame_rate", "10/1")
-                num, den = map(int, avg_frame_rate.split("/"))
-                frame_rate = int(num / den) if den != 0 else 10
-                break
-
-        # Extract frames from GIF
+        temp_path: Path = Path(temp_dir) / output_path.name
         subprocess.run(
-            [
-                "ffmpeg",
-                "-i",
-                str(gif_path),
-                "-fps_mode",
-                "auto",
-                f"{temp_path / 'frame_%04d.png'}",
-            ],
+            ffmpeg_cmd + [str(temp_path)],
             check=True,
             stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
         )
+        shutil.move(temp_path, output_path)
+    print(
+        f"Successfully converted {input_video_path.name} to {output_path.name}"
+    )
 
-        try:
-            # Convert frames to MP4
-            output_path = gif_path.with_suffix(".mp4")
-            subprocess.run(
-                [
-                    "ffmpeg",
-                    "-framerate",
-                    str(frame_rate),
-                    "-i",
-                    f"{temp_path / 'frame_%04d.png'}",
-                    "-c:v",
-                    "libx265",
-                    "-crf",
-                    str(quality),
-                    "-x265-params",
-                    "log-level=warning",  # God it's loud otherwise
-                    "-vf",
-                    "scale=trunc(iw/2)*2:trunc(ih/2)*2",
-                    "-pix_fmt",
-                    "yuv420p",
-                    "-loop",
-                    "0",  # Loop the video indefinitely
-                    "-v",
-                    "error",
-                    str(output_path),
-                ],
-                check=True,
-                stdout=subprocess.DEVNULL,
-            )
 
-            print(f"Successfully converted {gif_path} to MP4: {output_path}")
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"Error during conversion: {e}") from e
+_WEBM_AUDIO_ARGS: Final[list[str]] = [
+    "-map",
+    "0:v:0",
+    "-map",
+    "0:a?",
+    "-c:a",
+    _CODEC_AUDIO_OPUS,
+    "-b:a",
+    "128k",
+]
+
+
+def _run_ffmpeg_webm(
+    input_video_path: Path,
+    output_path: Path,
+    quality: int,
+) -> None:
+    """
+    Helper function to run the ffmpeg command for WebM/VP9 conversion.
+    """
+    if not 0 <= quality <= 63:
+        raise ValueError(
+            f"WebM quality (CRF) must be between 0 and 63, got {quality}."
+        )
+    if output_path.exists():
+        _print_filepath_warning(output_path)
+        return
+
+    is_gif: bool = input_video_path.suffix.lower() == ".gif"
+    ffmpeg_cmd: list[str] = [
+        "ffmpeg",
+        "-i",
+        str(input_video_path),
+        "-c:v",
+        _CODEC_VP9,
+        "-crf",
+        str(quality),
+        "-b:v",
+        "0",
+        "-vf",
+        "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+        "-pix_fmt",
+        _PIXEL_FORMAT_YUV420P,
+        "-deadline",
+        "good",
+        "-cpu-used",
+        "4",
+        "-row-mt",
+        "1",
+        "-auto-alt-ref",
+        "1",
+        *(["-an"] if is_gif else _WEBM_AUDIO_ARGS),
+        *(["-loop", "0"] if is_gif else []),
+        *_FFMPEG_COMMON_OUTPUT_ARGS,
+    ]
+
+    subprocess.run(
+        ffmpeg_cmd + [str(output_path)],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+    )
+
+    print(
+        f"Successfully converted {input_video_path.name} to {output_path.name}"
+    )
+
+
+_CMD_TO_CHECK_CODEC: tuple[str, ...] = (
+    "ffprobe",
+    "-v",
+    "error",
+    "-select_streams",
+    "v:0",
+    "-show_entries",
+    "stream=codec_name",
+    "-of",
+    "default=noprint_wrappers=1:nokey=1",
+)
+
+
+def _check_if_hevc_codec(video_path: Path) -> bool:
+    """
+    Checks if the video is already HEVC encoded.
+    """
+    args: tuple[str, ...] = _CMD_TO_CHECK_CODEC + (str(video_path),)
+    codec: str = subprocess.check_output(
+        args, universal_newlines=True, stderr=subprocess.PIPE
+    ).strip()
+    return codec == "hevc"
+
+
+def _parse_args() -> argparse.Namespace:  # pragma: no cover
+    """
+    Parse command-line arguments.
+    """
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(
+        description="Compress assets: image to AVIF,"
+        " video to MP4/HEVC and WebM/VP9."
+    )
+    parser.add_argument(
+        "path", type=Path, help="Path to the file to compress."
+    )
+    parser.add_argument(
+        "--quality-img",
+        type=int,
+        default=_DEFAULT_IMAGE_QUALITY,
+        help=f"Quality for image (AVIF) (0-100, lower means smaller file)."
+        f" Default: {_DEFAULT_IMAGE_QUALITY}",
+    )
+    parser.add_argument(
+        "--quality-hevc",
+        type=int,
+        default=_DEFAULT_HEVC_CRF,
+        help=f"Quality for video (HEVC CRF) (0-51, lower is better quality)."
+        f" Default: {_DEFAULT_HEVC_CRF}",
+        choices=list(range(0, 52)),
+    )
+    parser.add_argument(
+        "--quality-webm",
+        type=int,
+        default=_DEFAULT_VP9_CRF,
+        help=f"Quality for video (WebM CRF) (0-63, lower is better quality)."
+        f" Default: {_DEFAULT_VP9_CRF}",
+        choices=list(range(0, 64)),
+    )
+
+    return parser.parse_args()
+
+
+def main() -> None:  # pragma: no cover
+    """
+    Main execution function.
+    """
+    # Check dependencies first
+    _check_dependencies()
+
+    args: argparse.Namespace = _parse_args()
+    file_path: Path = args.path
+
+    if not file_path.is_file():
+        raise FileNotFoundError(f"Error: Input file '{file_path}' not found.")
+
+    file_suffix_lower: str = file_path.suffix.lower()
+
+    if file_suffix_lower in ALLOWED_IMAGE_EXTENSIONS:
+        image(file_path, args.quality_img)
+    elif file_suffix_lower in ALLOWED_VIDEO_EXTENSIONS:
+        video(file_path, args.quality_hevc, args.quality_webm)
+    else:
+        raise ValueError(
+            f"Error: Unsupported file type '{file_path.suffix}'. "
+            f"Allowed types: {', '.join(ALLOWED_EXTENSIONS)}"
+        )
 
 
 if __name__ == "__main__":
-    parser: argparse.ArgumentParser = argparse.ArgumentParser(
-        description="Compress the asset."
-    )
-    parser.add_argument("path", type=Path, help="Path to the file to compress.")
-    parser.add_argument(
-        "-q",
-        "--quality",
-        type=int,
-        default=None,
-        help="Quality (0-100 for images)",
-    )
-
-    args: argparse.Namespace = parser.parse_args()
-    if args.path.suffix.lower() in ALLOWED_IMAGE_EXTENSIONS:
-        ARG_TYPE = "image"
-    elif args.path.suffix.lower() in ALLOWED_VIDEO_EXTENSIONS:
-        ARG_TYPE = "video"
-    else:
-        raise ValueError(f"Error: Unsupported file type '{args.path.suffix}'.")
-
-    if args.quality is None:
-        args.quality = IMAGE_QUALITY if ARG_TYPE == "image" else VIDEO_QUALITY
-
-    if ARG_TYPE == "image":
-        image(args.path, args.quality)
-    elif ARG_TYPE == "video":
-        to_hevc_video(args.path, args.quality)
+    main()

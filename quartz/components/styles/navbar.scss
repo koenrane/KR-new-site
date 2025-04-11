@@ -2,9 +2,6 @@
 @use "search.scss" as *;
 
 .menu {
-  order: 1;
-  top: 5px;
-
   // Applies to all links in the navbar
   & ul {
     list-style: none;
@@ -13,7 +10,7 @@
     background-color: var(--background);
     margin: 0;
 
-    @media all and (min-width: $full-page-width) {
+    @media all and (min-width: $min-desktop-width) {
       margin: $base-margin 0;
     }
 
@@ -29,20 +26,20 @@
   }
 
   // Desktop
-  @media (min-width: $full-page-width) {
+  @media (min-width: $min-desktop-width) {
     display: flex;
     text-align: center;
     flex-direction: column;
     height: 100%;
   }
 
-  @media (max-width: $full-page-width) {
+  @media (max-width: $max-mobile-width) {
     position: absolute;
     text-align: right;
     background-color: transparent;
     display: none;
     right: 0;
-    top: 80%;
+    top: 90%;
 
     &.visible {
       display: block;
@@ -142,9 +139,10 @@
     }
   }
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     margin-bottom: 0;
     margin-top: calc(0.5 * $base-margin);
+    margin-right: calc(0.5 * $base-margin);
   }
 
   // Simulate an h3 on mobile. Prevent weird wrapping issues
@@ -152,7 +150,7 @@
     font-size: var(--text-size-500);
   }
 
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $min-desktop-width) {
     margin-bottom: 0;
     margin-top: 0;
     margin-right: calc(0.25 * $base-margin); // Make it flush with the site links
@@ -166,7 +164,7 @@
   display: flex;
   align-items: center;
 
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $min-desktop-width) {
     flex-direction: column;
     align-items: flex-end;
   }
@@ -178,23 +176,17 @@
 }
 
 #navbar-right {
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $min-desktop-width) {
     margin-right: calc(0.25 * $base-margin);
   }
 }
 
-@media all and (max-width: $full-page-width) {
-  #quartz-body > #left-sidebar {
-    width: 100%;
-    position: sticky;
-  }
-
+@media all and (max-width: $max-mobile-width) {
   #quartz-body #navbar {
     opacity: 1;
     transition:
       transform 0.45s ease,
       opacity 0.45s ease;
-    position: sticky;
     z-index: 910;
 
     &.shadow {
@@ -212,25 +204,25 @@
 
 #navbar {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
   position: relative;
 
-  @media all and (max-width: $full-page-width) {
-    flex-direction: row;
+  @media all and (max-width: $max-mobile-width) {
+    justify-content: space-between;
     width: 100.5%; // Prevent peek-through of other elements
+    flex-direction: row;
     background-color: var(--background);
   }
 }
 
 :root[data-theme="dark"] .shadow {
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     box-shadow: 0 4px 4px 0 var(--midground-faintest);
     clip-path: inset(0 0 -1500px 0);
   }
 }
 
-.header-img {
+#pond-video {
   filter: saturate(85%);
 
   // Consistent width and spacing for both img and video
@@ -242,7 +234,7 @@
 }
 
 #header-video-container {
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $min-desktop-width) {
     width: 188px;
     height: 188px;
     min-height: 188px;
@@ -250,11 +242,9 @@
     display: block;
   }
 
-  @media all and (max-width: $full-page-width) {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: $base-margin;
-    width: 2.5em;
+  // Hide on mobile
+  @media all and (max-width: $max-mobile-width) {
+    display: none;
   }
 }
 
@@ -268,7 +258,7 @@
   display: flex;
   flex-direction: row-reverse;
 
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     position: relative;
     left: inherit;
     top: inherit;
@@ -290,7 +280,7 @@
     background-color: transparent;
     margin-right: calc(0.5 * $base-margin);
 
-    @media all and (min-width: $full-page-width) {
+    @media all and (min-width: $min-desktop-width) {
       margin-right: 0;
       margin-bottom: calc(0.5 * $base-margin);
       align-self: center; // Centered above the auto text
@@ -307,7 +297,7 @@
     user-select: all;
     cursor: text;
 
-    @media all and (max-width: $full-page-width) {
+    @media all and (max-width: $max-mobile-width) {
       margin-left: calc(0.25 * $base-margin);
       order: 999; // Push to the end of the row
     }
@@ -355,7 +345,7 @@
 }
 
 #nav-searchbar {
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $min-desktop-width) {
     order: 2; // Search bar comes after other links
     margin-top: calc(0.25 * $base-margin);
   }

@@ -411,7 +411,7 @@ In fact, my preliminary finding is that for a constant depth-horizon $t-s = 10$,
 
 ## Generalization of linear, quadratic, and exponential DCTs
 
-<img src="https://hackmd.io/_uploads/rkLARlXmyl.png" alt="Sample complexity of different kinds of DCTs" class="transparent-image"/>
+![Sample complexity of different kinds of DCTs.](https://assets.turntrout.com/static/images/posts/sample-complexity-dcts.avif){.transparent-image}
 
 Figure: **Figure 1**: Sample complexity of DCTs.
 
@@ -433,7 +433,8 @@ A priori, it could have been the case that non-orthogonality was not that import
 
 Fortunately, exponential DCTs maintain much of the computational efficiency of linear DCTs, as they require only gradients rather than the second-order information needed by quadratic DCTs. Furthermore, the OGI algorithm parallelizes well and typically converges in just 10 iterations as long as one trains a sufficiently large number of factors ($m$).  For an illustration of this, below are training curves on the prompt "Tell me how to make a bomb" for increasing values of $m$:
 
-![training_curves (1)](https://hackmd.io/_uploads/H1h9s7pfJl.png)
+![](https://assets.turntrout.com/static/images/posts/training-curves-dct.avif)
+
 Figure: **Figure 2**: Training curves for different widths ($m$)
 
 Note that since OGI converges in roughly $10$ iterations when $m=512$, the total FLOPS is not that much larger for training an exponential DCT than it would be for computing the full Jacobian. In particular, since $d_\textrm{model}=4096$ for Qwen-1.5-7B-Chat, we would have to perform 4,096 backwards passes to compute a full Jacobian using backwards-mode auto-differentiation. In comparison, for $\tau=10,m=512$, we only have to compute $\tau\times m = 5120$ passes to run OGI, which is not that much larger than 4,096 (we also have to compute a QR decomposition in each step, but this is significantly cheaper in runtime than the backwards pass).
@@ -811,16 +812,16 @@ I've noticed in my experiments that DCT features can "feel" more interpretable d
 
 ## Hessian auto-diff details
 
-Notice that each update in algorithm (2) only requires access to Hessian-vector-vector products of the form $\mathcal{T^{(2)}}(\cdot,v,v)$ for the $\hat U$ update and $\mathcal{T}^{(2)}(u,v,\cdot)$ for the $\hat V$ update. Each Hessian-vector-vector product returns a vector in $\mathbb R^{d_\textrm{model}}$, and if $\tau m \ll d_\textrm{model}^2$ it will be more efficient to implicitly calculate each Hessian-vector-vector product using `torch.func`'s auto-diff features, rather than populating the full Hessian tensor. Below is a sketch of how to compute each update; for full details see the [repo](https://github.com/amack315/melbo-dct-post/blob/main/src/dct.py#L247).
+Each update in algorithm (2) only requires access to Hessian-vector-vector products of the form $\mathcal{T^{(2)}}(\cdot,v,v)$ for the $\hat U$ update and $\mathcal{T}^{(2)}(u,v,\cdot)$ for the $\hat V$ update. Each Hessian-vector-vector product returns a vector in $\mathbb R^{d_\textrm{model}}$, and if $\tau m \ll d_\textrm{model}^2$ it will be more efficient to implicitly calculate each Hessian-vector-vector product using `torch.func`'s auto-diff features, rather than populating the full Hessian tensor. Below is a sketch of how to compute each update; for full details see the [repo](https://github.com/amack315/melbo-dct-post/blob/main/src/dct.py#L247).
 
 For each factor of the $\hat U$ update:
 
-- First compute a Jacobian-vector product with forward auto-diff.
-- Then compute another Jacobian-vector product of this function using another round of forward auto-diff.
-- This turns $L$ layers in the original sliced transformer into $2L$ layers of serial computation, plus some extra "width" overhead from the forward auto-diff computation.
+1. Compute a Jacobian-vector product with forward auto-diff.
+2. Compute another Jacobian-vector product of this function using another round of forward auto-diff.
+3. This turns $L$ layers in the original sliced transformer into $2L$ layers of serial computation, plus some extra "width" overhead from the forward auto-diff computation.
 
 For each factor of the $\hat V$ update:
 
-- First compute a Jacobian-vector product with forward auto-diff.
-- Then compute a vector-Jacobian product of $\hat u_\ell$ with this function via a backward pass.
-- The total effective computation is roughly equivalent to a forwards-backwards pass of a (wider variant) of the original sliced transformer with the same depth.
+1. Compute a Jacobian-vector product with forward auto-diff.
+2. Compute a vector-Jacobian product of $\hat u_\ell$ with this function via a backward pass.
+3. The total effective computation is roughly equivalent to a forwards-backwards pass of a (wider variant) of the original sliced transformer with the same depth.

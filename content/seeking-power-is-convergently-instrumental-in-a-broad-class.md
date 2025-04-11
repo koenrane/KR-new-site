@@ -48,7 +48,7 @@ date_updated: 2025-03-22 12:22:59.421452
 
 
 
-
+ 
 
 
 
@@ -150,9 +150,9 @@ Since each utility function is over an _AOH_, each path through the tree is assi
 
 More formally, for any two actions $a_1$ and $a_2$, let $\phi$ be a permutation over AOH which transposes the histories available after $a_1$ with the histories available after $a_2$ (there's an equal number of histories for each action, due to the regularity of the tree – you can verify this by inspection).
 
-For every u<sub>AOH</sub> $u$, suppose $a_1$ is strictly $u$\-optimal over $a_2$. The permuted utility function $\phi\cdot u$ makes $a_2$ be strictly $u$\-optimal over $a_1$, since $\phi$ swaps $a_1$'s strictly $u$\-optimal history with $a_2$'s strictly $u$\-suboptimal histories.
+For every $u\in \mathcal{U}_\text{AOH}$, suppose $a_1$ is strictly $u$\-optimal over $a_2$. The permuted utility function $\phi\cdot u$ makes $a_2$ be strictly $u$\-optimal over $a_1$, since $\phi$ swaps $a_1$'s strictly $u$\-optimal history with $a_2$'s strictly $u$\-suboptimal histories.
 
-Symmetrically, $\phi$ works the other way around ({$a_2$ strictly optimal} -> {$a_1$ strictly optimal}). Therefore, for every utility function $u$, _the # of variants which strictly prefer $a_1$ over $a_2$, is equal to the # of variants strictly preferring $a_2$ over $a_1$_.
+Symmetrically, $\phi$ works the other way around (\{$a_2$ strictly optimal\} -> \{$a_1$ strictly optimal\}). Therefore, for every utility function $u$, _the # of variants which strictly prefer $a_1$ over $a_2$, is equal to the # of variants strictly preferring $a_2$ over $a_1$_.
 
 While I haven't been writing in the "definition-theorem-corollary" style, the key claims are just corollaries of the scaling law of instrumental convergence. They're provably true. (I'm just not writing up the math here because it's annoying to define all the relevant quantities in a nice way that respects existing formalisms.)
 

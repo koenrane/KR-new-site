@@ -6,7 +6,7 @@ export default {
     description: "Опис не надано",
   },
   components: {
-    callout: {
+    admonition: {
       note: "Примітка",
       abstract: "Абстракт",
       info: "Інформація",

@@ -42,7 +42,9 @@ const browsers: Browser[] = [
 
 export default defineConfig({
   timeout: process.env.CI ? 90000 : 30000, // Increased timeout for larger test sets
-  workers: 1,
+  workers: process.env.CI ? 1 : 16,
+  fullyParallel: !process.env.CI,
+
   retries: process.env.CI ? 3 : 3,
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,

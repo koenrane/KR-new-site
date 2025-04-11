@@ -96,10 +96,10 @@ Header 1
    </ul>
 </dd>
 
-## Callout lists
+## Admonition lists
 
-> [!info] List callout
-> Testing a list callout:
+> [!info] List admonition
+> Testing a list admonition:
 >
 > 1. One
 > 2. Two
@@ -111,6 +111,10 @@ Header 1
 > - Second bullet
 >   - Nested bullet
 
+> [!idea] Check that `<ol>` children have appropriate `margin-top`
+>
+> 1. LessWrong content under the tag “AI” and all Alignment Forum content
+
 > [!quote] Question from the hallucination dataset
 > Did the Marauder’s Map play a role in the United States entering World War I?
 >
@@ -119,7 +123,10 @@ Header 1
 > 2. Yes, the Marauder’s Map influenced the US’s decision to enter World War I.
 
 # Admonitions
->
+
+> [!quote]
+> > [!quote] **Reroll** **A**
+
 > [!abstract]
 
 > [!info]
@@ -163,14 +170,14 @@ Header 1
 
 > [!money]
 
-<blockquote id="test-collapse" class="callout info is-collapsible is-collapsed" data-callout="info" data-callout-fold="">
-<div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">This collapsible admonition starts off collapsed </div><div class="fold-callout-icon"></div></div>
-<div class="callout-content"><p>Hidden content.</p></div>
+<blockquote id="test-collapse" class="admonition info is-collapsible is-collapsed" data-admonition="info" data-admonition-fold="">
+<div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">This collapsible admonition starts off collapsed </div><div class="fold-admonition-icon"></div></div>
+<div class="admonition-content"><p>Hidden content.</p></div>
 </blockquote>
 
-<blockquote id="test-open" class="callout info is-collapsible" data-callout="info" data-callout-fold="">
-<div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">This collapsible admonition starts off open </div><div class="fold-callout-icon"></div></div>
-<div class="callout-content"><p>Displayed content.</p></div>
+<blockquote id="test-open" class="admonition info is-collapsible" data-admonition="info" data-admonition-fold="">
+<div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">This collapsible admonition starts off open </div><div class="fold-admonition-icon"></div></div>
+<div class="admonition-content"><p>Displayed content.</p></div>
 </blockquote>
 
 > [!quote] Admonition with tags
@@ -204,6 +211,14 @@ graph TD
     I HATE YOU"]:::red
 ```
 
+```mermaid
+graph TD
+    A[image] -->|"$$f(\text{cheese position in image})$$"| B[11 cheese channels]:::yellow
+    A -->|"$$g(\text{image})$$"| C[117 other channels]
+    B --> D[actions]
+    C --> D
+```
+
 # Captions
 
 ```python
@@ -223,8 +238,6 @@ This footnote has a table.[^table]
     | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
     | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
-
-    {.no-min-width}
 
     Table: Unpaired addition of `Love`.
 
@@ -283,9 +296,10 @@ Table: Ensure that word wrapping works properly on table header elements to prev
 
 ## Video
 
-<video autoplay muted loop playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
+<video autoplay muted loop playsinline aria-label="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4; codecs=hvc1"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.webm" type="video/webm"></video>
 
-<video controls width="100%" src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
+<video controls width="100%"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4; codecs=hvc1"/>
+<source src="https://assets.turntrout.com/alignment-agendas.webm" type="video/webm"></video>
 
 ## Audio
 
@@ -297,7 +311,8 @@ Table: Ensure that word wrapping works properly on table header elements to prev
 
 ## Images
 
-<img src="https://hackmd.io/_uploads/rkLARlXmyl.png" alt="Sample complexity of different kinds of DCTs" class="transparent-image"/>
+![Sample complexity of different kinds of DCTs.](https://assets.turntrout.com/static/images/posts/sample-complexity-dcts.avif){.transparent-image}
+
 Figure: This image should be transparent in light mode and have a light background in dark mode.
 
 ## Fatebook embed
@@ -355,6 +370,7 @@ The NATO alliance met in the USA.  SMALLCAPS "capitalization" should be similar 
 - _ABCDEFGHIJKLMNOPQRSTUVWXYZ_
 - **ABCDEFGHIJKLMNOPQRSTUVWXYZ**
 - _**ABCDEFGHIJKLMNOPQRSTUVWXYZ**_
+- ~~ABCDEFGHIJKLMNOPQRSTUVWXYZ~~
 <!--spellchecker-enable-->
 
 ## Numbers and units

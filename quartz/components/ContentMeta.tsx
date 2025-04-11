@@ -153,7 +153,7 @@ export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | nu
   )
 }
 
-// a callout that displays the tags for the post
+// an admonition that displays the tags for the post
 export const renderTags = (props: QuartzComponentProps): JSX.Element => {
   // Check if there are any tags
   const tags = props.fileData.frontmatter?.tags
@@ -162,12 +162,12 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
   }
 
   return (
-    <blockquote className="callout callout-metadata" data-callout="tag">
-      <div className="callout-title">
-        <div className="callout-icon"></div>
-        <div className="callout-title-inner">Tags</div>
+    <blockquote className="admonition admonition-metadata" data-admonition="tag">
+      <div className="admonition-title">
+        <div className="admonition-icon"></div>
+        <div className="admonition-title-inner">Tags</div>
       </div>
-      <div className="callout-content" id="tags">
+      <div className="admonition-content" id="tags">
         <TagList {...props} />
       </div>
     </blockquote>
@@ -229,12 +229,12 @@ const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element | null => {
   const nextPostJsx = renderNextPostJsx(fileData)
 
   return (
-    <blockquote className="callout callout-metadata" data-callout="example">
-      <div className="callout-title">
-        <div className="callout-icon"></div>
+    <blockquote className="admonition admonition-metadata" data-admonition="example">
+      <div className="admonition-title">
+        <div className="admonition-icon"></div>
         {sequenceTitleJsx}
       </div>
-      <div className="callout-content">
+      <div className="admonition-content">
         {previousPostJsx}
         {nextPostJsx}
       </div>
@@ -249,12 +249,16 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
   const lastUpdated = renderLastUpdated(props.cfg, props.fileData)
 
   return (
-    <blockquote id="post-statistics" className="callout callout-metadata" data-callout="info">
-      <div className="callout-title">
-        <div className="callout-icon"></div>
-        <div className="callout-title-inner">About this post</div>
+    <blockquote
+      id="post-statistics"
+      className="admonition admonition-metadata"
+      data-admonition="info"
+    >
+      <div className="admonition-title">
+        <div className="admonition-icon"></div>
+        <div className="admonition-title-inner">About this post</div>
       </div>
-      <div className="callout-content">
+      <div className="admonition-content">
         <ul>
           {readingTime && <li>{readingTime}</li>}
           {linkpostInfo && <li>{linkpostInfo}</li>}

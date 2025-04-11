@@ -17,7 +17,7 @@ const newsletterElement = h("a", { href: "https://turntrout.substack.com/subscri
 ])
 
 const rssSpan = h("span", { className: "favicon-span" }, [
-  h("abbr", { class: "small-caps" }, "RSS"),
+  h("abbr", { class: "small-caps" }, "rss"),
   h("img", {
     src: "https://assets.turntrout.com/static/images/rss.svg",
     id: "rss-svg",

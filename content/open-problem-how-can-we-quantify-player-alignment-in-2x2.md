@@ -51,7 +51,7 @@ Thoughts:
   - So the function need not be symmetric over players.
 
 - The function should be invariant to applying a separate positive affine transformation to each player's payoffs; it shouldn't matter whether you add 3 to player 1's payoffs, or multiply the payoffs by a half.
-- ~The function may or may not rely only on the players' orderings over outcome lotteries, ignoring the cardinal payoff values. I haven't thought much about this point, but it seems important.~ EDIT: I no longer think this point is important, but rather confused.
+- ~The function may or may not rely only on the players' orderings over outcome lotteries, ignoring the cardinal payoff values. I haven't thought much about this point, but it seems important.
 
 If I were interested in thinking about this more right now, I would:
 

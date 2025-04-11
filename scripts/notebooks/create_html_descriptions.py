@@ -44,7 +44,7 @@ def prepare_few_shot_examples() -> str:
     for post in example_posts:
         post_path = Path(f"content/{post}.md")
         if post_path.exists():
-            with open(post_path, "r", encoding="utf-8") as file:
+            with open(post_path, encoding="utf-8") as file:
                 post_content = file.read()
             yaml_match = re.match(r"^---\n(.*?)\n---", post_content, re.DOTALL)
             if yaml_match:
@@ -75,7 +75,7 @@ def get_gemini_description(content: str) -> str:
     Generate a description for a blog post using the Gemini 1.5 Pro model.
     """
     model = genai.GenerativeModel("gemini-1.5-pro")
-    prompt = f"""
+    prompt = """
     Based on the following content, write a concise description for a blog post. Offer a factual, neutral summary of the content. 
 
     The description should be engaging, accurate, and between 20-30 words long. IT CANNOT BE LONGER THAN 140 CHARACTERS. Do not say things like 'this post is about...' or 'this article covers.' Write how George Orwell would describe the post. 
@@ -109,7 +109,7 @@ def process_file(file_path: Path) -> None:
     Process a single file, extract YAML front matter, generate a description if
     needed, and update the file.
     """
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(file_path, encoding="utf-8") as file:
         content = file.read()
 
     # Extract YAML front matter

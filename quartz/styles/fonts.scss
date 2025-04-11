@@ -139,12 +139,14 @@ $fonts-dir: "/static/styles/fonts";
   font-family: "EBGaramondInitialsF1";
   src: url("#{$fonts-dir}/EBGaramond/EBGaramond-InitialsF1.woff2") format("woff2");
   font-display: block;
+  -subfont-text: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Used in ::before, so subfont doesn't find automatically
 }
 
 @font-face {
   font-family: "EBGaramondInitialsF2";
   src: url("#{$fonts-dir}/EBGaramond/EBGaramond-InitialsF2.woff2") format("woff2");
   font-display: block;
+  -subfont-text: "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 }
 
 @font-face {
@@ -180,7 +182,6 @@ body {
   --font-text-swash: "EBGaramond:+swsh", cursive;
   --font-bad-handwriting: "BadHandwriting";
 
-  // Specify so glyphhanger can find the family
   font-family: EBGaramond, var(--font-text);
   line-height: var(--base-line-height);
   font-feature-settings:
@@ -204,6 +205,11 @@ em {
   font-family: Elvish, serif;
   line-height: 2.2;
   position: relative;
+  cursor: text;
+
+  & a {
+    cursor: pointer;
+  }
 
   & em,
   em & {
@@ -248,7 +254,7 @@ em {
 // Bolding text
 b,
 strong,
-.callout-title-inner,
+.admonition-title-inner,
 dt {
   text-shadow: 0.3px 0.3px;
   font-weight: 400 !important; // Normal font weight -- otherwise would be eg 600
@@ -393,7 +399,7 @@ article[data-use-dropcap="true"] {
 }
 
 // Center only to avoid sidebars
-.center .ordinal-num {
+#center-content .ordinal-num {
   font-variant-numeric: lining-nums;
 }
 
@@ -404,4 +410,12 @@ article[data-use-dropcap="true"] {
 .tag-text {
   font-family: var(--font-monospace);
   font-size: smaller;
+}
+
+.gold-script {
+  font-feature-settings: "swsh" 1;
+  color: var(--gold);
+
+  // Make it easier to see on light themes
+  -webkit-text-stroke: 0.2px light-dark(black, transparent);
 }

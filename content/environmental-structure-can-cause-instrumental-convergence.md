@@ -88,7 +88,7 @@ date_updated: 2025-03-22 12:22:59.421452
 
 One view on AGI risk is that we're charging ahead into the unknown, into a particularly unfair game of Minesweeper in which the first click is allowed to blow us up. Following the analogy, we want to understand enough about the mine placement so that we _don't_ get exploded on the first click. And once we get a foothold, we start gaining information about other mines, and the situation is a bit less dangerous.
 
-![](https://assets.turntrout.com/static/images/posts/mine_empty.avif)
+![](https://assets.turntrout.com/static/images/posts/mine_empty.avif){style="width: 35%;"}
 
 My previous theorems on power-seeking said something like: "at least half of the tiles conceal mines."
 
@@ -107,15 +107,15 @@ We can sample coordinates in many ways - not just uniformly randomly. So why sho
 
 My new results say something analogous to: for _every_ coordinate, either it contains a mine, or its reflection across $x=y$  contains a mine, or both. Therefore, for _every distribution_ $\mathcal{D}$ over tile coordinates, either $\mathcal{D}$ assigns at least 1/2 probability to mines, or it does after you reflect it across $x=y$.
 
-> [!definition] Definition: Orbit
+> [!math] Definition: Orbit
 > The [_orbit_](https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers) of a coordinate $C$ under the symmetric group $S_2$ is $\{C,C_\text{reflected}\}$. More generally, if we have a probability distribution over coordinates, its orbit is the set of all possible "permuted" distributions.
->
-> Orbits under symmetric groups quantify all ways of "changing things around" for that object.
 
-![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif)
+Orbits under symmetric groups quantify all ways of "changing things around" for that object.
+
+![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif){style="width: 35%;"}
 <br/>Figure: My new theorems demand that (in the analogy) at least one of these tiles conceal a mine.
 
-![](https://assets.turntrout.com/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.avif)
+![](https://assets.turntrout.com/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.avif){style="width: 35%;"}
 <br/>Figure: If the mines had been on the right, then both coordinates are safe.
 
 Since my results (in the analogy) prove that at least one of the two blue coordinates conceals a mine, we deduce that the mines are _not_ all on the right.
@@ -156,8 +156,6 @@ In this three-state MDP, let $R_C$ assign 1 reward to $C$ and 0 to all other sta
 |   $\phi \cdot R_C$ | $0$ | $1$ | $0$ |
 | $\phi^2 \cdot R_C$ | $0$ | $0$ | $1$ |
 
-{.no-min-width}
-
 Table: Different reward functions and the rewards they assign to states.
 
 My new theorems prove that in many situations, for _every_ reward function, power-seeking is incentivized by most (at least half) of its orbit elements.
@@ -190,7 +188,7 @@ The recurring thought which kept my hope alive was:
 Then I reconsidered the same state permutation $\phi$ which proved my original IID-reward theorems. That kind of $\phi$ would imply that since `blue-gems` has more options, there is therefore greater optimality probability (under IID reward function distributions) for moving toward the blue gems. In the end, that _same permutation_ $\phi$ holds the key to understanding instrumental convergence in MDPs.
 
 ![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
-<br/>Figure: Suppose `red-gems` is optimal. For example, let $R_text{castle}$ assign 1 reward to the castle 🏰 , and 0 to all other states. Then the permuted reward function $\phi \cdot R_\text{castle}$ assigns 1 reward to the gold pile, and 0 to all other states, and so `blue-gems` has strictly more optimal value than `red-gems`.
+<br/>Figure: Suppose `red-gems` is optimal. For example, let $R_\text{castle}$ assign 1 reward to the castle 🏰 and 0 to all other states. Then the permuted reward function $\phi \cdot R_\text{castle}$ assigns 1 reward to the gold pile, and 0 to all other states, and so `blue-gems` has strictly more optimal value than `red-gems`.
 
 Consider any discount rate $\gamma\in(0,1)$. For _all_ reward functions $R$ such that $V^*_{R}(\texttt{red-gems},\gamma)>V^*_{R}(\texttt{blue-gems},\gamma)$, this permutation $\phi$ turns them into `blue-gem` lovers: $V^*_{\phi\cdot R}(\texttt{red-gems},\gamma)<V^*_{\phi\cdot R}(\texttt{blue-gems},\gamma)$.
 
@@ -198,7 +196,7 @@ $\phi$ takes non-power-seeking reward functions, and injectively maps them to po
 
 Throughout this post, when I say "most" reward functions incentivize something, I mean the following:
 
-> [!definition]
+> [!math] Definition: When "most" reward functions incentivize an actions
 > At state $s$, _most reward functions_ incentivize action $a$ over action $a'$ when for all reward functions $R$, at least half of the orbit agrees that $a$ has at least as much action value as $a'$ does at state $s$.[^weaker]
 
 [^weaker]: This assumption is actually a bit stronger than what I rely on in the paper, but it's easier to explain in words.
@@ -216,17 +214,19 @@ This might feel too abstract, so let's run through examples.
 ![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
 <br/>Figure: At all discount rates $\gamma\in[0,1]$, it's optimal for _most reward functions_ to get `blue-gems` because that leads to strictly more options. We can permute every `red-gems` reward function into a `blue-gems` reward function.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/vase.webm" type="video/webm"></video>
 
-Figure: Consider a robot  (<span style="color:blue">■</span>) navigating through a room with a vase (■). By the logic of "every `destroying-vase-is-optimal` can be permuted into a `preserving-vase-is-optimal` reward function", my results (specifically, [Proposition 6.9](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=6.09) and its generalization via [Lemma E.49](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=36.78)) suggest[^suggest] that optimal policies tend to avoid breaking the vase, since doing so would strictly decrease available options.
+Figure: Consider a robot  (<span style="color:blue">■</span>) navigating through a room with a vase (■). By the logic of "every `destroying-vase-is-optimal` reward function can be permuted into a `preserving-vase-is-optimal` reward function", my results (specifically, [Proposition 6.9](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=6.09) and its generalization via [Lemma E.49](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=36.78)) suggest[^suggest] that optimal policies tend to avoid breaking the vase, since doing so would strictly decrease available options.
   
   <br/>
   
 [^suggest]: "Suggest" instead of "prove" because E.49's preconditions may not always be met, depending on the details of the dynamics. I think this is probably unimportant, but that's for future work. Also, the argument may barely not apply to _this_ gridworld, but if you could move the vase around without destroying it, I think it goes through fine.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/safelife3.webm" type="video/webm"></video>
 
-Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can irreversibly destroy green cell patterns. By the logic of "every `destroy-green-pattern` reward function can be permuted into a `preserve-green-pattern` reward function", Lemma E.49 suggests that optimal policies tend to not disturb any given green cell pattern (although most probably destroy _some_ pattern). The permutation would swap {states reachable after destroying the pattern} with {states reachable after not destroying the pattern}. <br/><br/>However, the converse is not true: you cannot fix a permutation which turns all `preserve-green-pattern` reward functions into `destroy-green-pattern` reward functions. There are simply too many extra ways for preserving green cells to be optimal.  <br/><br/>Assuming some conjectures I have about the combinatorial properties of power-seeking, this helps explain why [AUP works in SafeLife using a single auxiliary reward function](/avoiding-side-effects-in-complex-environments) - but more on that in another post.
+Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can irreversibly destroy green cell patterns. By the logic of "every `destroy-green-pattern` reward function can be permuted into a `preserve-green-pattern` reward function", Lemma E.49 suggests that optimal policies tend to not disturb any given green cell pattern (although most probably destroy _some_ pattern). The permutation would swap \{states reachable after destroying the pattern\} with \{states reachable after not destroying the pattern\}. <br/><br/>However, the converse is not true: you cannot fix a permutation which turns all `preserve-green-pattern` reward functions into `destroy-green-pattern` reward functions. There are simply too many extra ways for preserving green cells to be optimal.  <br/><br/>Assuming some conjectures I have about the combinatorial properties of power-seeking, this helps explain why [AUP works in SafeLife using a single auxiliary reward function](/avoiding-side-effects-in-complex-environments) - but more on that in another post.
 
 ### Terminal options (theorem 6.13)
 
@@ -268,7 +268,7 @@ One possible hope would have been:
 
 Unfortunately, there are always power-seeking reward functions not much more complex than their non-power-seeking counterparts. Here, "power-seeking" corresponds to the intuitive notions of either keeping strictly more options open (Proposition 6.9), or navigating towards larger sets of terminal states (theorem 6.13). (Since this applies to several results, I'll leave the meaning a bit ambiguous, with the understanding that it could be formalized if necessary.)
 
-> [!note] Theorem: Simplicity priors assign non-negligible probability to power-seeking
+> [!math] Theorem: Simplicity priors assign non-negligible probability to power-seeking
 > Consider any MDP which meets the preconditions of Proposition 6.9 or theorem 6.13. Let $U$ be a universal Turing machine, and let $P_U$ be the $U$\-simplicity prior over computable reward functions.
 >
 > Let `NPS` be the set of non-power-seeking computable reward functions which choose a fixed non-power-seeking action in the given situation. Let $\text{PS}$ be the set of computable reward functions for which seeking power is strictly optimal.[^1]

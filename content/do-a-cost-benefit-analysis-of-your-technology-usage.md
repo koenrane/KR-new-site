@@ -79,7 +79,7 @@ I was immediately convinced that this thesis is correct, and resolved to start m
 
 Consider why you originally bought a cell phone. It was probably to call people, to text people, to take photos, to get GPS navigation. Would you have bought it if you foresaw how you would feel an urge to check it even during a dinner with a friend you hadn’t seen in a long time? Would you have bought it if you knew you would take impatiently take it out of your pocket dozens of times a day, staring at it 2+ hours daily?
 
-The point isn’t “phone bad, never use phone, quit now.” My phone provides me with enormous benefits. The point is _where was the cost-benefit analysis, what tf has happened to us?!_
+The point isn’t “phone bad, never use phone, quit now.” My phone provides me with enormous benefits. The point is _where was the cost-benefit analysis, WTF has happened to us?!_
 
 ![](https://assets.turntrout.com/static/images/posts/2749e833d9821059f131c852d2ab35451550729fb305ea07.avif)
 <br/>Figure: Notice the middle stat: **one third of daily waking hours**. I am disgusted that some people try to make this number go up further. From [AppAnnie](https://www.data.ai/en/insights/market-data/state-of-mobile-2022/).

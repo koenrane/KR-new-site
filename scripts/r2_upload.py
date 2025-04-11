@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 from typing import Optional, Sequence
 
@@ -44,30 +45,30 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
     Raises:
         RuntimeError: If the check operation fails.
     """
+    # Extract the bucket and key from the upload_target
+    _, _, path = upload_target.partition(":")
+    bucket, _, key = path.partition("/")
     try:
-        # Extract the bucket and key from the upload_target
-        _, _, path = upload_target.partition(":")
-        bucket, _, key = path.partition("/")
-
         result = subprocess.run(
             ["rclone", "ls", f"r2:{bucket}"],
             capture_output=True,
             text=True,
             check=False,
         )
-        if result.returncode == 0 and key in result.stdout:
-            if verbose:
-                print(f"File found in R2: {upload_target}")
-            return True
-
-        # Unsuccessful return code
-        if verbose:
-            print(f"No existing file found in R2: {upload_target}")
-        return False
-    except Exception as e:
+    except subprocess.CalledProcessError as e:  # pragma: no cover
         raise RuntimeError(
             f"Failed to check existence of file in R2: {e}"
         ) from e
+
+    if result.returncode == 0 and key in result.stdout:
+        if verbose:
+            print(f"File found in R2: {upload_target}")
+        return True
+
+    # Unsuccessful return code
+    if verbose:
+        print(f"No existing file found in R2: {upload_target}")
+    return False
 
 
 def update_markdown_references(
@@ -101,7 +102,7 @@ def update_markdown_references(
     for text_file_path in script_utils.get_files(
         references_dir, (".md",), use_git_ignore=False
     ):
-        with open(text_file_path, "r", encoding="utf-8") as f:
+        with open(text_file_path, encoding="utf-8") as f:
             file_content: str = f.read()
 
         escaped_original_path: str = re.escape(str(relative_original_path))
@@ -114,6 +115,13 @@ def update_markdown_references(
 
         with open(text_file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
+
+
+def _download_from_r2(
+    upload_target: str, target: Path
+) -> None:  # pragma: no cover
+    rclone_args = ["rclone", "copyto", upload_target, str(target)]
+    subprocess.run(rclone_args, check=True)
 
 
 def upload_to_r2(
@@ -159,18 +167,26 @@ def upload_to_r2(
         return f"{R2_BASE_URL}/{r2_key}"
 
     if file_exists and overwrite_existing:
-        print(f"Overwriting existing file in R2: {r2_key}")
+        # ANSI escape code for red text
+        red_start = "\033[91m"
+        red_end = "\033[0m"
+        print(f"{red_start}Overwriting existing file in R2: {r2_key}{red_end}")
+
+        temp_file = Path(tempfile.gettempdir()) / file_path.name
+        subprocess.run(
+            ["rclone", "copyto", upload_target, str(temp_file)], check=True
+        )
+        print(f"Downloaded backup from R2: {temp_file}")
 
     if verbose:
         print(f"Uploading {file_path} to R2 with key: {r2_key}")
 
+    rclone_args = ["rclone", "copyto", str(file_path), upload_target]
+    # Add metadata option for SVG files
+    # otherwise CORS will deny the request by the client
+    if file_path.suffix.lower() == ".svg":
+        rclone_args.extend(["--metadata-set", "content-type=image/svg+xml"])
     try:
-        rclone_args = ["rclone", "copyto", str(file_path), upload_target]
-
-        # Add metadata option for SVG files
-        # otherwise CORS will deny the request by the client
-        if file_path.suffix.lower() == ".svg":
-            rclone_args.extend(["--metadata-set", "content-type=image/svg+xml"])
         subprocess.run(rclone_args, check=True)
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Failed to upload file to R2: {e}") from e
@@ -276,7 +292,7 @@ def main() -> None:
         "-t",
         "--filetypes",
         nargs="+",
-        default=(".mp4", ".svg", ".avif"),
+        default=(".mp4", ".svg", ".avif", ".webm"),
         help="File types to upload when using --upload-from-directory",
     )
     parser.add_argument(

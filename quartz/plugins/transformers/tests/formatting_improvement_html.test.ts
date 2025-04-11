@@ -15,6 +15,7 @@ import {
   transformElement,
   assertSmartQuotesMatch,
   enDashNumberRange,
+  CHARS_TO_MOVE_INTO_LINK_FROM_RIGHT,
   minusReplace,
   l_pRegex,
   collectTransformableElements,
@@ -136,12 +137,12 @@ describe("HTMLFormattingImprovement", () => {
         "<article><blockquote><div>Testestes</div><div><p><strong>small voice.</strong></p><p><strong>‘I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></blockquote></article>",
       ],
       [
-        '<blockquote class="callout quote" data-callout="quote"> <div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="callout-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div> </blockquote>',
-        '<blockquote class="callout quote" data-callout="quote"> <div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="callout-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div> </blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"> <div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="admonition-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div> </blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"> <div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied to each paragraph element </div></div> <div class="admonition-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div> </blockquote>',
       ],
       [
-        '<blockquote class="callout quote" data-callout="quote"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="callout-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div></blockquote>',
-        '<blockquote class="callout quote" data-callout="quote"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="callout-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div></blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"><div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="admonition-content"><p>Comes before the single quote</p><p>\'I will take the Ring\'</p></div></blockquote>',
+        '<blockquote class="admonition quote" data-admonition="quote"><div class="admonition-title"><div class="admonition-icon"></div><div class="admonition-title-inner">Checking that HTML formatting is applied per-paragraph element </div></div><div class="admonition-content"><p>Comes before the single quote</p><p>‘I will take the Ring’</p></div></blockquote>',
       ],
     ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
@@ -575,7 +576,6 @@ describe("HTMLFormattingImprovement", () => {
 })
 
 describe("rearrangeLinkPunctuation", () => {
-  const punctuationToMove = [".", ",", "!", "?", ";", ":", "`"]
   const specialCases = [
     [
       '<p>"<a href="https://example.com">Link</a>"</p>',
@@ -611,8 +611,12 @@ describe("rearrangeLinkPunctuation", () => {
     ],
   ]
 
+  // Ignore chars which will be transformed into smart quotes; will error
+  const CHARS_TO_TEST = CHARS_TO_MOVE_INTO_LINK_FROM_RIGHT.filter(
+    (char) => !['"', "'"].includes(char),
+  )
   const generateLinkScenarios = () => {
-    const basicScenarios = punctuationToMove.map((mark) => [
+    const basicScenarios = CHARS_TO_TEST.map((mark: string) => [
       `<p><a href="https://example.com">Link</a>${mark}</p>`,
       `<p><a href="https://example.com">Link${mark}</a></p>`,
     ])

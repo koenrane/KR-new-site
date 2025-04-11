@@ -1,6 +1,6 @@
 [tool.black]
-line-length = 80
-target-version = ['py39']
+line-length = 79
+target-version = ['py311']
 include = '\.pyw?$'
 
 [tool.isort]
@@ -10,11 +10,11 @@ include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
-line_length = 80
+line_length = 79
 
 [tool.docformatter]
-wrap-summaries = 80
-wrap-descriptions = 80
+wrap-summaries = 79
+wrap-descriptions = 79
 pre-summary-newline = true
 make-summary-multi-line = true
 black = true
@@ -26,4 +26,18 @@ remove-unused-variables = true
 
 [tool.autopep8]
 ignore = ["E402"]
-max_line_length = 80
+max_line_length = 79
+
+[tool.coverage.run]
+omit = ["scripts/tests/*", "scripts/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+    "^except ImportError:",
+    "if verbose:",
+]

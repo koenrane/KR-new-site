@@ -101,19 +101,19 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
 
   return (
     <blockquote
-      className="callout callout-metadata is-collapsible is-collapsed"
+      className="admonition admonition-metadata is-collapsible is-collapsed"
       id="backlinks"
-      data-callout="link"
-      data-callout-fold=""
+      data-admonition="link"
+      data-admonition-fold=""
     >
-      <div className="callout-title">
-        <div className="callout-icon"></div>
-        <div className="callout-title-inner">
+      <div className="admonition-title">
+        <div className="admonition-icon"></div>
+        <div className="admonition-title-inner">
           <p>Links to this page</p>
         </div>
-        <div className="fold-callout-icon"></div>
+        <div className="fold-admonition-icon"></div>
       </div>
-      <div className="callout-content" id="backlinks-callout">
+      <div className="admonition-content" id="backlinks-admonition">
         <BacklinksList backlinkFiles={backlinkFiles} currentSlug={fileData.slug as FullSlug} />
       </div>
     </blockquote>

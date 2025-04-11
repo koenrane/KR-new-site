@@ -37,9 +37,7 @@ def download_image(url: str, target_dir: Path) -> bool:
     ]
 
     try:
-        result = subprocess.run(
-            curl_command, check=True, stderr=subprocess.PIPE
-        )
+        subprocess.run(curl_command, check=True, stderr=subprocess.PIPE)
         return True
     except subprocess.CalledProcessError as e:
         print(f"Error downloading {url}: {e.stderr.decode()}", file=sys.stderr)
@@ -47,7 +45,7 @@ def download_image(url: str, target_dir: Path) -> bool:
 
 
 def replace_urls_in_file(file_path: Path, url: str, new_url: str) -> None:
-    with open(file_path, "r") as f:
+    with open(file_path) as f:
         content = f.read()
 
     new_content = content.replace(url, new_url)
@@ -71,10 +69,12 @@ def main(markdown_files: list[Path]) -> None:
     # 1. Find all image URLs in Markdown files
     asset_urls: set[str] = set()
     for file in markdown_files:
-        with open(file, "r") as f:
+        with open(file) as f:
             content = f.read()
             print(r"(https?://.*?" + SUFFIX_REGEX)
-            urls = re.findall(r"(https?://.*?\." + SUFFIX_REGEX + r")", content)
+            urls = re.findall(
+                r"(https?://.*?\." + SUFFIX_REGEX + r")", content
+            )
             asset_urls.update(url for url, _ in urls)
 
     # 2. Download each image and replace URLs in markdown files

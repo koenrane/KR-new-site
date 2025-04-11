@@ -62,7 +62,7 @@ Figure: An early depiction of the shoggoth.
 
 **In my opinion, the prevalence of the shoggoth meme is just another (small) reflection of how the rationalist community epistemics have been compromised by groupthink and fear.** If it's your job to try to accurately understand how models work—if you aspire to wield them and grow them for friendly purposes—then you shouldn't pollute your head with propaganda which isn't based on any substantial evidence.
 
-I'm confident that if there were a "pro-AI" meme with a friendly-looking base model, LessWrong & the shoggoth enjoyers would have nitpicked the friendly meme-creature to hell. They would (correctly) point out "hey, we don't actually _know_ how these things work; we don't know them to be friendly, or what they even 'want' (if anything); we don't actually know what each stage of training _does_..."
+I'm confident that if there were a "pro-AI" meme with a friendly looking base model, LessWrong & the shoggoth enjoyers would have nitpicked the friendly meme-creature to hell. They would (correctly) point out "hey, we don't actually _know_ how these things work; we don't know them to be friendly, or what they even 'want' (if anything); we don't actually know what each stage of training _does_..."
 
 Oh, hm, let's try that! I'll make a meme asserting that the final model is a friendly combination of its three stages of training, each stage adding different colors of knowledge (pre-training), helpfulness (supervised instruction finetuning), and deep caring (RLHF):
 

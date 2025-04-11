@@ -32,7 +32,7 @@ export const renderSequenceTitle = (fileData: QuartzPluginData) => {
   if (!sequence) return null
   const sequenceLink: string = fileData.frontmatter?.["sequence-link"] as string
 
-  return h("div.callout-title-inner", [
+  return h("div.admonition-title-inner", [
     h("b", "Sequence:"),
     " ",
     h(

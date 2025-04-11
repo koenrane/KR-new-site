@@ -53,7 +53,7 @@ date_updated: 2025-03-22 12:22:59.421452
 
 By just adding e.g. a "sycophancy vector" to one bias term, we outperform supervised finetuning and few-shot prompting at steering completions to be more or less sycophantic. Furthermore, these techniques are complementary: we show evidence that we can get all three benefits at once!
 
-**Summary:** By adding e.g. a sycophancy vector to one of the model's bias terms, we make Llama-2-{7B, 13B}-chat more sycophantic. We find the following vectors:
+**Summary:** By adding e.g. a sycophancy vector to one of the model's bias terms, we make Llama-2-\{7B, 13B\}-chat more sycophantic. We find the following vectors:
 
 1. Hallucination
 2. Sycophancy

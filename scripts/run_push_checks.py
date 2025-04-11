@@ -13,12 +13,13 @@ import signal
 import socket
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from collections import deque, namedtuple
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Deque, List, Optional, TextIO, Tuple
+from typing import Collection, Deque, Sequence, TextIO, Tuple
 
 import psutil
 from rich.console import Console
@@ -29,15 +30,13 @@ console = Console()
 SERVER_START_WAIT_TIME: int = 90
 
 # skipcq: BAN-B108
-TEMP_DIR = Path("/tmp/quartz_checks")
+TEMP_DIR = Path(tempfile.gettempdir()) / "quartz_checks"
 os.makedirs(TEMP_DIR, exist_ok=True)
 STATE_FILE_PATH = TEMP_DIR / "last_successful_step.json"
 
 ServerInfo = namedtuple("ServerInfo", ["pid", "created_by_script"])
 
 
-
-@staticmethod
 def save_state(step_name: str) -> None:
     """
     Save the last successful step.
@@ -46,42 +45,52 @@ def save_state(step_name: str) -> None:
     with open(STATE_FILE_PATH, "w", encoding="utf-8") as f:
         json.dump(state, f)
 
-@staticmethod
+
 def get_last_step(
-    available_steps: Optional[List[str]] = None
-) -> Optional[str]:
+    available_steps: Collection[str] | None = None,
+) -> str | None:
     """
     Get the name of the last successful step.
     Args:
-        available_steps: Optional list of valid step names. If provided,
-                       validates that the last step is in this list.
+        available_steps: Optional collection of valid step names. If provided,
+                         validates that the last step is in this collection.
 
     Returns:
         The name of the last successful step, or None if no state exists
         or validation fails.
     """
+    # Create stderr console for error messages
+    err_console = Console(stderr=True)
+
     if not STATE_FILE_PATH.exists():
         return None
-    try:
-        with open(STATE_FILE_PATH, "r", encoding="utf-8") as f:
-            state = json.load(f)
-            last_step = state.get("last_successful_step")
-            # Only validate if available_steps is provided
-            if (
-                last_step
-                and available_steps is not None
-                and last_step not in available_steps
-            ):
-                return None
-            return last_step
-    except (json.JSONDecodeError, KeyError):
-        return None
 
-@staticmethod
-def clear_state() -> None:
-    """
-    Clear the saved state.
-    """
+    try:
+        with open(STATE_FILE_PATH, encoding="utf-8") as f:
+            state = json.load(f)
+
+        last_step = state.get("last_successful_step")
+        if last_step is None:
+            err_console.print(
+                f"No 'last_successful_step' key in {STATE_FILE_PATH}"
+            )
+            return None
+
+        if available_steps is not None and last_step not in available_steps:
+            err_console.print(
+                f"Last successful step '{last_step}' not in available steps"
+            )
+            return None
+
+        return last_step
+    except json.JSONDecodeError:
+        err_console.print(f"Error parsing JSON in {STATE_FILE_PATH}")
+    return None
+
+
+# pylint: disable=missing-function-docstring
+def reset_saved_progress() -> None:
+    print("Clearing state")
     if STATE_FILE_PATH.exists():
         STATE_FILE_PATH.unlink()
 
@@ -91,7 +100,7 @@ class ServerManager:
     Manages the quartz server process and handles cleanup on interrupts.
     """
 
-    _server_pid: Optional[int] = None
+    _server_pid: int | None = None
     _is_server_created_by_script: bool = False
 
     def __init__(self):
@@ -99,7 +108,7 @@ class ServerManager:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
 
-    def _signal_handler(self, _: int, __: Optional[object]) -> None:
+    def _signal_handler(self, _: int, __: object) -> None:
         """
         Handle interrupt signals by cleaning up server and exiting.
         """
@@ -107,7 +116,9 @@ class ServerManager:
         self.cleanup()
         sys.exit(1)
 
-    def set_server_pid(self, pid: int, created_by_script: bool = False) -> None:
+    def set_server_pid(
+        self, pid: int, created_by_script: bool = False
+    ) -> None:
         """
         Set the server PID to track for cleanup.
 
@@ -137,7 +148,7 @@ def is_port_in_use(port: int) -> bool:
         return s.connect_ex(("localhost", port)) == 0
 
 
-def find_quartz_process() -> Optional[int]:
+def find_quartz_process() -> int | None:
     """
     Find the PID of any running quartz server.
 
@@ -150,7 +161,7 @@ def find_quartz_process() -> Optional[int]:
                 "quartz" in cmd.lower() for cmd in cmdline
             ):
                 return proc.pid
-        except (psutil.NoSuchProcess, psutil.AccessDenied):
+        except (psutil.NoSuchProcess, psutil.AccessDenied):  # pragma: no cover
             continue
     return None
 
@@ -221,7 +232,9 @@ def create_server(git_root_path: Path) -> ServerInfo:
             if is_port_in_use(8080):
                 progress.remove_task(task_id)
                 progress.stop()
-                console.log("[green]Quartz server successfully started[/green]")
+                console.log(
+                    "[green]Quartz server successfully started[/green]"
+                )
                 return ServerInfo(server_pid, True)
             progress.update(
                 task_id,
@@ -247,17 +260,17 @@ class CheckStep:
     """
 
     name: str
-    command: List[str]
+    command: Sequence[str]
     shell: bool = False
-    cwd: Optional[str] = None
+    cwd: str | None = None
 
 
-def run_checks(steps: List[CheckStep], resume: bool = False) -> None:
+def run_checks(steps: Sequence[CheckStep], resume: bool = False) -> None:
     """
-    Run a list of check steps and handle their output.
+    Run a sequence of check steps and handle their output.
 
     Args:
-        steps: List of check steps to run
+        steps: Sequence of check steps to run
         resume: Whether to resume from last successful step
     """
     step_names = [step.name for step in steps]
@@ -360,11 +373,11 @@ def run_command(
             stderr=subprocess.PIPE,
             text=True,
         ) as process:
-            stdout_lines: List[str] = []
-            stderr_lines: List[str] = []
+            stdout_lines: list[str] = []
+            stderr_lines: list[str] = []
             last_lines: Deque[str] = deque(maxlen=5)
 
-            def stream_reader(stream: TextIO, lines_list: List[str]) -> None:
+            def stream_reader(stream: TextIO, lines_list: list[str]) -> None:
                 for line in iter(stream.readline, ""):
                     lines_list.append(line)
                     last_lines.append(line.rstrip())
@@ -397,7 +410,7 @@ def run_command(
 
             return return_code == 0, stdout, stderr
 
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError as e:  # pragma: no cover
         return False, e.stdout or "", e.stderr or ""
 
 
@@ -468,11 +481,21 @@ def get_check_steps(
         ),
         CheckStep(
             name="Running Python unit tests",
-            command=["pytest", f"{git_root_path}/scripts"],
+            command=[
+                "pytest",
+                f"{git_root_path}/scripts",
+                "-n",
+                "auto",
+                "--cov=scripts",
+                "--cov-fail-under=100",
+            ],
         ),
         CheckStep(
             name="Compressing and uploading local assets",
-            command=["sh", f"{git_root_path}/scripts/handle_local_assets.sh"],
+            command=[
+                "bash",
+                f"{git_root_path}/scripts/handle_local_assets.sh",
+            ],
             shell=True,
         ),
         CheckStep(
@@ -513,14 +536,6 @@ def get_check_steps(
                 "python",
                 f"{git_root_path}/scripts/update_date_on_publish.py",
             ],
-        ),
-        CheckStep(
-            name="Cryptographically timestamping the last commit",
-            command=[
-                "sh",
-                f"{git_root_path}/scripts/timestamp_last_commit.sh",
-            ],
-            shell=True,
         ),
     ]
 
@@ -582,9 +597,6 @@ def main() -> None:
 
     except KeyboardInterrupt:
         console.log("\n[yellow]Process interrupted by user.[/yellow]")
-        raise
-    except Exception as e:
-        console.log(f"\n[red]Error: {str(e)}[/red]")
         raise
     finally:
         server_manager.cleanup()

@@ -163,12 +163,12 @@ Random variables are functions $Y:\Omega\to\mathbb{R}$, assigning a number to ea
 
 Fairly straightforward.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/converge_distribution.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/converge_distribution.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/converge_distribution.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/converge_distribution.webm" type="video/webm"></video>
 
 A similar [^1] geometric intuition:
 
-![](https://upload.wikimedia.org/wikipedia/commons/c/c9/Archimedes_pi.svg)
-
+![](https://assets.turntrout.com/static/images/posts/Archimedes_pi.svg)
 _Note:_ The continuity requirement is important. Imagine we distribute points uniformly on $(0,\frac{1}{n})$; we see that $X_n \rightsquigarrow 0$. However, $F_n$ is $0$ when $x \leq 0$, but $F(0)=1$. Thus CDF convergence does not occur at $x=0$.
 
 #### In Quadratic Mean

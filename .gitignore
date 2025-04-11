@@ -1,5 +1,4 @@
 .DS_Store
-.gitignore
 
 node_modules
 public
@@ -10,6 +9,8 @@ tsconfig.tsbuildinfo
 private/
 *subset.woff2
 *zopfli*
+.timestamps
+.coverage*
 
 *snapshots*
 lost-pixel/*

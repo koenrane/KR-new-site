@@ -1,7 +1,7 @@
 @use "../../styles/variables.scss" as *;
 
 #navbar-right {
-  @media all and (max-width: $full-page-width) {
+  @media all and (max-width: $max-mobile-width) {
     display: flex;
     align-items: center;
   }
@@ -12,7 +12,7 @@
   flex-direction: row-reverse;
   min-width: fit-content;
 
-  @media all and (min-width: $full-page-width) {
+  @media all and (min-width: $min-desktop-width) {
     margin-top: calc(2 * $base-margin);
     margin-right: 0;
     width: 5rem;
@@ -41,7 +41,7 @@
       margin-left: calc(1 * $base-margin);
       margin-right: calc(1.5 * $base-margin);
 
-      @media all and (max-width: $full-page-width) {
+      @media all and (max-width: $max-mobile-width) {
         // Make it more centered for mobile
         margin-right: calc(2 * $base-margin);
       }
@@ -88,7 +88,7 @@
     margin-left: auto;
     margin-right: auto;
 
-    @media all and (max-width: $full-page-width) {
+    @media all and (max-width: $max-mobile-width) {
       width: 90%;
     }
 
@@ -131,7 +131,7 @@
       }
 
       &[data-preview] > #results-container {
-        flex: 0 0 min(30%, $right-width);
+        flex: 0 0 min(30%, $right-sidebar-width);
       }
 
       @media all and (min-width: $mobile-breakpoint) {
@@ -197,7 +197,7 @@
         }
 
         & #article-title {
-          margin-top: 1vw;
+          margin-top: 1.5vw;
         }
 
         a[role="anchor"] {

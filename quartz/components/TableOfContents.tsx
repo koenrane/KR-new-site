@@ -256,7 +256,7 @@ export function elementToJsx(elt: RootContent): JSX.Element | null {
 CreateTableOfContents.css = modernStyle
 CreateTableOfContents.afterDOMLoaded = `
 document.addEventListener('nav', function() {
-  const sections = document.querySelectorAll(".center h1, .center h2");
+  const sections = document.querySelectorAll("#center-content h1, #center-content h2");
   const navLinks = document.querySelectorAll("#toc-content a");
 
   function updateActiveLink() {

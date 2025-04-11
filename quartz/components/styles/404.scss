@@ -4,7 +4,7 @@
 #not-found-div-popover {
   display: flex;
 
-  @media (max-width: $full-page-width) {
+  @media (max-width: $max-mobile-width) {
     justify-content: center;
   }
 

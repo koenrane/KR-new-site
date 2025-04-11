@@ -6,7 +6,7 @@ import {
   editAdmonition,
   noteAdmonition,
   wrapLeadingNumbers,
-  spaceCallouts,
+  spaceAdmonitions,
 } from "../formatting_improvement_text"
 
 describe("TextFormattingImprovement Plugin", () => {
@@ -283,36 +283,36 @@ describe("Mass transforms", () => {
   })
 })
 
-describe("spaceCallouts", () => {
-  it("should add a space after doubly nested callouts", () => {
+describe("spaceAdmonitions", () => {
+  it("should add a space after doubly nested admonitions", () => {
     const input = "> > [!note] Nested note\n> > This is nested content."
     const expected = "> > [!note] Nested note\n> > \n> > This is nested content."
-    expect(spaceCallouts(input)).toBe(expected)
+    expect(spaceAdmonitions(input)).toBe(expected)
   })
 
-  it("should modify singly nested callouts", () => {
+  it("should modify singly nested admonitions", () => {
     const input = "> [!note] Single note\n> This is single nested content."
     const expected = "> [!note] Single note\n> \n> This is single nested content."
-    expect(spaceCallouts(input)).toBe(expected)
+    expect(spaceAdmonitions(input)).toBe(expected)
   })
 
   it("preserve indentation before blockquote markers", () => {
     const input = "    > > [!note] Single note\n    > > This is single nested content."
     const expected = "    > > [!note] Single note\n    > > \n    > > This is single nested content."
-    expect(spaceCallouts(input)).toBe(expected)
+    expect(spaceAdmonitions(input)).toBe(expected)
   })
 
-  it("should handle multiple doubly nested callouts", () => {
+  it("should handle multiple doubly nested admonitions", () => {
     const input = "> > [!note] First note\n> > Content 1\n> > [!warning] Second note\n> > Content 2"
     const expected =
       "> > [!note] First note\n> > \n> > Content 1\n> > [!warning] Second note\n> > \n> > Content 2"
-    expect(spaceCallouts(input)).toBe(expected)
+    expect(spaceAdmonitions(input)).toBe(expected)
   })
 
-  it("should handle mixed singly and doubly nested callouts", () => {
+  it("should handle mixed singly and doubly nested admonitions", () => {
     const input = "> [!note] Outer\n> Content\n> > [!warning] Inner\n> > Warning content"
     const expected =
       "> [!note] Outer\n> \n> Content\n> > [!warning] Inner\n> > \n> > Warning content"
-    expect(spaceCallouts(input)).toBe(expected)
+    expect(spaceAdmonitions(input)).toBe(expected)
   })
 })

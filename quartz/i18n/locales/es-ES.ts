@@ -6,7 +6,7 @@ export default {
     description: "Sin descripción",
   },
   components: {
-    callout: {
+    admonition: {
       note: "Nota",
       abstract: "Resumen",
       info: "Información",

@@ -92,7 +92,8 @@ The table’s convergently instrumental strategies are about maintaining, gainin
 
 My theorems apply to finite MDPs; for the unfamiliar, I’ll illustrate with Pac-Man.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.mp4" type="video/mp4; codecs=hvc1">
+<source src="https://assets.turntrout.com/static/images/posts/f9uz4ran04prpaofwfce.webm" type="video/webm"></video>
 
 <dl>
 <dt>Full observability</dt>
@@ -391,7 +392,7 @@ Speaking to the broader debate taking place in the AI research community, I thin
 > Logan Smith ([`elriggs`](https://www.lesswrong.com/users/`elriggs`)) spent an enormous amount of time writing Mathematica code to compute power and measure in arbitrary toy MDPs, saving me from computing many quintuple integrations by hand. I thank Rohin Shah for his detailed feedback and brainstorming over the summer of 2019, and I thank Andrew Critch for significantly improving this work through his detailed critiques. Last, thanks to:
 >
 > 1. Zack M. Davis, Chase Denecke, William Ellsworth, Vahid Ghadakchi, Ofer Givoli, Evan Hubinger, Neale Ratzlaff, Jess Riedel, Duncan Sabien, Davide Zagami, and `TheMajor` for feedback on version 1 of this post.
-> 2. Alex Appel (diffractor), Emma Fickel, Vanessa Kosoy, Steve Omohundro, Neale Ratzlaff, and Mark Xu for reading / giving feedback on version 2 of this post.
+> 2. Alex Appel (diffractor), Emma, Vanessa Kosoy, Steve Omohundro, Neale Ratzlaff, and Mark Xu for reading / giving feedback on version 2 of this post.
 
 <hr/>
 
