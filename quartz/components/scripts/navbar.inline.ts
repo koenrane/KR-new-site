@@ -1,4 +1,4 @@
-import { SESSION_STORAGE_POND_VIDEO_KEY } from "../component_utils"
+import { sessionStoragePondVideoKey } from "../component_utils"
 import { setupDarkMode } from "./darkmode"
 import { setupHamburgerMenu } from "./hamburgerMenu"
 import { setupScrollHandler } from "./scrollHandler"
@@ -9,7 +9,7 @@ function setupPondVideo(): void {
 
   if (videoElement) {
     // Restore timestamp
-    const savedTime = sessionStorage.getItem(SESSION_STORAGE_POND_VIDEO_KEY)
+    const savedTime = sessionStorage.getItem(sessionStoragePondVideoKey)
     if (savedTime) {
       videoElement.currentTime = parseFloat(savedTime)
     }

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-import { SESSION_STORAGE_POND_VIDEO_KEY } from "../component_utils"
+import { sessionStoragePondVideoKey } from "../component_utils"
 import { type Theme } from "../scripts/darkmode"
 import { takeRegressionScreenshot, isDesktopViewport, setTheme } from "./visual_utils"
 
@@ -277,7 +277,7 @@ test("Video timestamp is preserved across SPA navigation", async ({ page }) => {
 
   const storedTimestamp = await page.evaluate(
     (key) => window.sessionStorage.getItem(key),
-    SESSION_STORAGE_POND_VIDEO_KEY,
+    sessionStoragePondVideoKey,
   )
   const storedTimestampNumber = Number(storedTimestamp)
   expect(storedTimestampNumber).not.toBeNaN()

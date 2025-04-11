@@ -9,7 +9,7 @@ import {
   getFullSlug,
   normalizeRelativeURLs,
 } from "../../util/path"
-import { SESSION_STORAGE_POND_VIDEO_KEY } from "../component_utils"
+import { videoId, sessionStoragePondVideoKey } from "../component_utils"
 
 declare global {
   interface Window {
@@ -96,7 +96,7 @@ function scrollToHash(hash: string) {
 function saveVideoTimestamp() {
   const video = document.getElementById("pond-video") as HTMLVideoElement | null
   if (video) {
-    sessionStorage.setItem(SESSION_STORAGE_POND_VIDEO_KEY, String(video.currentTime))
+    sessionStorage.setItem(sessionStoragePondVideoKey, String(video.currentTime))
   }
 }
 
@@ -149,6 +149,19 @@ async function navigate(url: URL) {
   }
   announcer.dataset.persist = ""
   html.body.appendChild(announcer)
+
+  // Clean up potential extension-injected siblings around the video
+  // Prevents reloading the video when navigating between pages
+  const videoElement = document.getElementById(videoId)
+  if (videoElement && videoElement.parentElement) {
+    const parent = videoElement.parentElement
+    Array.from(parent.childNodes).forEach((node) => {
+      if (node !== videoElement) {
+        parent.removeChild(node)
+        console.log("removed node", node)
+      }
+    })
+  }
 
   // Morph body
   await micromorph(document.body, html.body)
