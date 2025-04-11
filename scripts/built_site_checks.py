@@ -1205,8 +1205,8 @@ def _validate_source_src(
     if ext.lower() != expected_ext.lower():
         issues.append(
             f"Video source {source_index} 'src'"
-            " does not end with {expected_ext}: '{src_attr}'"
-            f" in {video_preview}"
+            f" does not end with {expected_ext}: "
+            f"'{src_attr}' in {video_preview}"
         )
         validated_src = None
     else:
