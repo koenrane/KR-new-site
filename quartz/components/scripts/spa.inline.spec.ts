@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test"
 
+import { videoId } from "../component_utils"
+
 const SCROLL_TOLERANCE: number = 500
 
 /**
@@ -216,5 +218,40 @@ test.describe("Same-page navigation", () => {
     // Verify we're back at the top (or within reasonable tolerance)
     const scrollAfterBack = await page.evaluate(() => window.scrollY)
     expect(scrollAfterBack).toBeLessThanOrEqual(SCROLL_TOLERANCE) // Small tolerance for browser differences
+  })
+})
+
+test.describe("SPA Navigation DOM Cleanup", () => {
+  test("removes unexpected siblings of video element before morphing", async ({ page }) => {
+    // Inject the video element and a rogue sibling
+    await page.evaluate(() => {
+      const navbarLeft = document.getElementById("navbar-left")
+      if (navbarLeft) {
+        const videoContainer = document.createElement("span")
+        videoContainer.id = "header-video-container" // Use the actual container ID if needed
+
+        const rogueDiv = document.createElement("div")
+        rogueDiv.id = "rogue-sibling"
+        rogueDiv.textContent = "Injected by extension"
+
+        // Insert rogue div *next to* video inside its actual parent for a realistic scenario
+        // Assuming the video is inside the span#header-video-container
+        const actualVideoParent = document.createElement("div") // The wrapper div we added earlier
+        actualVideoParent.appendChild(rogueDiv) // Inject sibling next to where video will be
+
+        videoContainer.appendChild(actualVideoParent)
+        navbarLeft.prepend(videoContainer)
+      }
+    }, videoId)
+
+    await expect(page.locator(`#${videoId}`)).toBeVisible()
+    await expect(page.locator("#rogue-sibling")).toBeVisible()
+
+    // Trigger SPA navigation
+    const localLink = page.locator("a").first() // Navigate to a different page
+    await localLink.click()
+
+    await expect(page.locator("#rogue-sibling")).not.toBeVisible()
+    await expect(page.locator(`#${videoId}`)).toBeVisible()
   })
 })
