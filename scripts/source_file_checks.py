@@ -51,7 +51,8 @@ def validate_video_tags(text: str) -> List[str]:
     issues = []
     for match in re.finditer(r"<video[^>]*\s(src|type)\s*=", text):
         issues.append(
-            f"Video tag contains forbidden 'src' or 'type' attribute: {match.group()}"
+            f"Video tag contains forbidden 'src' or 'type' attribute:"
+            f" {match.group()}"
         )
     return issues
 

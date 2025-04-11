@@ -58,7 +58,7 @@ def _video_original_pattern(input_file: Path) -> str:
             r"<video (?P<earlyTagInfo>[^>]*)"
             rf"src=\"{tag_link_pattern}\""
             rf"(?P<tagInfo>[^>]*)(?:type=\"video/{input_file.suffix[1:]}\")?"
-            # TODO will ignore existing source tags
+            # NOTE will ignore existing source tags
             r"(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)"
         )
 

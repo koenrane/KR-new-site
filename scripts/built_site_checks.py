@@ -21,9 +21,8 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 # pylint: disable=C0413
 sys.path.append(str(Path(__file__).parent.parent))
 
-import scripts.source_file_checks as source_file_checks
-import scripts.utils as script_utils
-from scripts import compress
+from scripts import compress, source_file_checks
+from scripts import utils as script_utils
 
 _GIT_ROOT = script_utils.get_git_root()
 _PUBLIC_DIR: Path = _GIT_ROOT / "public"
@@ -897,7 +896,8 @@ def _strip_path(path_str: str) -> str:
     Strip the git root path from a path string.
     """
     beginning_stripped = re.sub(
-        r"^ *(\.{1,2}((?=\/asset_staging)|\/(?!asset_staging)))?(/asset_staging/)?",
+        r"^ *(\.{1,2}((?=\/asset_staging)"
+        r"|\/(?!asset_staging)))?(/asset_staging/)?",
         "",
         path_str,
     )
@@ -1169,7 +1169,8 @@ def _validate_source_type(
         or type_attr.lower() != expected_type.lower()
     ):
         issues.append(
-            f"Video source {source_index} type != '{expected_type}': {video_preview} (got '{type_attr}')"
+            f"Video source {source_index} type != '{expected_type}':"
+            f" {video_preview} (got '{type_attr}')"
         )
     return issues
 
@@ -1192,7 +1193,8 @@ def _validate_source_src(
     if not isinstance(src_attr, str):
         _append_to_list(
             issues,
-            f"Video source {source_index} 'src' missing or not a string: {video_preview}",
+            f"Video source {source_index} 'src' missing or not a string:"
+            f" {video_preview}",
         )
         return IssuesAndMaybeSrc(issues, None)
 
@@ -1202,7 +1204,9 @@ def _validate_source_src(
     _, ext = os.path.splitext(path_only)
     if ext.lower() != expected_ext.lower():
         issues.append(
-            f"Video source {source_index} 'src' does not end with {expected_ext}: '{src_attr}' in {video_preview}"
+            f"Video source {source_index} 'src'"
+            " does not end with {expected_ext}: '{src_attr}'"
+            f" in {video_preview}"
         )
         validated_src = None
     else:
@@ -1247,7 +1251,8 @@ def _compare_base_paths(src1: str, src2: str, video_preview: str) -> list[str]:
 
     if paths[0] != paths[1]:
         return [
-            f"Video source base paths mismatch: '{paths[0]}' vs '{paths[1]}' in {video_preview}"
+            f"Video source base paths mismatch: '{paths[0]}'"
+            f" vs '{paths[1]}' in {video_preview}"
         ]
     return []
 
@@ -1270,7 +1275,8 @@ def _check_single_video(
     if len(sources) < len(expected_sources):
         _append_to_list(
             issues,
-            f"<video> tag has < {len(expected_sources)} <source> children: {open_tag}",
+            f"<video> tag has < {len(expected_sources)}"
+            f" <source> children: {open_tag}",
         )
         return issues  # Cannot proceed if sources are missing
 
