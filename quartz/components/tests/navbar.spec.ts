@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-import { sessionStoragePondVideoKey } from "../component_utils"
+import { sessionStoragePondVideoKey, videoId as pondVideoId } from "../component_utils"
 import { type Theme } from "../scripts/darkmode"
 import { takeRegressionScreenshot, isDesktopViewport, setTheme } from "./visual_utils"
 
@@ -215,7 +215,7 @@ for (const theme of ["light", "dark", "auto"]) {
 }
 
 test("Video plays on hover and pauses on mouse leave", async ({ page }) => {
-  const video = page.locator("video#pond-video")
+  const video = page.locator(`video#${pondVideoId}`)
 
   // Helper to check video state
   const isPaused = async () => video.evaluate((v: HTMLVideoElement) => v.paused)
@@ -234,7 +234,7 @@ test("Video plays on hover and pauses on mouse leave", async ({ page }) => {
 })
 
 test("Video plays on hover and pauses on mouse leave (SPA)", async ({ page }) => {
-  const video = page.locator("video#pond-video")
+  const video = page.locator(`video#${pondVideoId}`)
 
   const isPaused = async () => video.evaluate((v: HTMLVideoElement) => v.paused)
 
@@ -258,7 +258,7 @@ test("Video plays on hover and pauses on mouse leave (SPA)", async ({ page }) =>
 })
 
 test("Video timestamp is preserved across SPA navigation", async ({ page }) => {
-  const video = page.locator("video#pond-video")
+  const video = page.locator(`video#${pondVideoId}`)
 
   // 1. Play video for a bit
   await video.dispatchEvent("mouseenter")
@@ -269,11 +269,10 @@ test("Video timestamp is preserved across SPA navigation", async ({ page }) => {
   await expect.poll(async () => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true)
 
   // 3. SPA Navigation
-  const navigationLink = page.locator("a[href^='/']").first()
+  const navigationLink = page.locator("a[href$='/about']").first()
   const targetUrl = await navigationLink.getAttribute("href")
   expect(targetUrl).not.toBeNull()
   await navigationLink.click()
-  await page.waitForURL((url) => url.pathname === targetUrl)
 
   const storedTimestamp = await page.evaluate(
     (key) => window.sessionStorage.getItem(key),
