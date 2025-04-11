@@ -53,6 +53,6 @@ if [ "$CURRENT_BRANCH" != "main" ]; then
 fi
 
 # Run all checks with progress bars
-python "$GIT_ROOT/scripts/run_push_checks.py"
+python "$GIT_ROOT/scripts/run_push_checks.py" --resume
 
 exit 0
