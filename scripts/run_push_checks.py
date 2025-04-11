@@ -482,6 +482,8 @@ def get_check_steps(
         CheckStep(
             name="Running Python unit tests",
             command=[
+                "python",
+                "-m",
                 "pytest",
                 f"{git_root_path}/scripts",
                 "-n",
