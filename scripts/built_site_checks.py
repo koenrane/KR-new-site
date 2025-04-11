@@ -101,7 +101,7 @@ def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> list[str]:
     """
     Check for invalid internal anchor links in the HTML.
     """
-    invalid_anchors = []
+    invalid_anchors: list[str] = []
     links = soup.find_all("a", href=True)
     for link in links:
         href = link["href"]
