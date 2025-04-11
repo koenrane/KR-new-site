@@ -268,6 +268,10 @@ def main():
         if args.ignore_files and asset.name in args.ignore_files:
             print(f"Ignoring file: {asset}")
             continue
+        if asset.name.startswith("."):
+            print(f"Skipping hidden file: {asset}")
+            continue
+
         convert_asset(
             asset,
             remove_originals=args.remove_originals,

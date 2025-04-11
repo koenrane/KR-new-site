@@ -696,6 +696,51 @@ def test_main_ignores_files(setup_test_env):
         assert call.args[0] != ignored_asset_path
 
 
+def test_main_skips_hidden_files(setup_test_env):
+    """Verify that the main function skips hidden files (starting with '.')."""
+    test_dir = Path(setup_test_env)
+    asset_dir = test_dir / "quartz" / "static"
+    hidden_asset_name = ".hidden_asset.png"
+    converted_asset_name = "converted_asset.jpg"
+    hidden_asset_path = asset_dir / hidden_asset_name
+    converted_asset_path = asset_dir / converted_asset_name
+
+    # Create dummy files
+    test_utils.create_test_image(hidden_asset_path, size="10x10")
+    test_utils.create_test_image(converted_asset_path, size="10x10")
+
+    mock_args = mock.Mock()
+    mock_args.remove_originals = False
+    mock_args.strip_metadata = False
+    mock_args.asset_directory = str(asset_dir)
+    mock_args.ignore_files = None  # No specific ignores for this test
+
+    with (
+        mock.patch(
+            "argparse.ArgumentParser.parse_args", return_value=mock_args
+        ),
+        mock.patch("scripts.convert_assets.convert_asset") as mock_convert,
+        # Ensure get_files returns both hidden and regular assets
+        mock.patch(
+            "scripts.utils.get_files",
+            return_value=[hidden_asset_path, converted_asset_path],
+        ),
+    ):
+        convert_assets.main()
+
+    # Assert convert_asset was called ONLY for the non-hidden file
+    mock_convert.assert_called_once_with(
+        converted_asset_path,
+        remove_originals=False,
+        strip_metadata=False,
+        md_references_dir=Path("content/"),
+    )
+
+    # Verify it wasn't called for the hidden asset
+    for call in mock_convert.call_args_list:
+        assert call.args[0] != hidden_asset_path
+
+
 def test_video_conversion_long_html(setup_test_env):
     test_dir = Path(setup_test_env)
     content_dir = test_dir / "content"
