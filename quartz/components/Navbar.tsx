@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 // (For the spa-preserve attribute)
 
 // skipcq: JS-W1028
@@ -93,6 +92,24 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
     </li>
   ))
 
+  const headerVideoSpan = (
+    <span id="header-video-container">
+      <video
+        id="pond-video"
+        className="no-select no-vsc"
+        loop
+        muted
+        playsInline
+        data-persist
+        preload="auto"
+        poster="https://assets.turntrout.com/static/pond_frame.avif"
+        aria-label="A goose and a trout play in a pond in front of a castle."
+      >
+        <source src="https://assets.turntrout.com/static/pond.mov" type="video/mp4; codecs=hvc1" />
+        <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm" />
+      </video>
+    </span>
+  )
   const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
   const baseDir = pathToRoot(fileData.slug || ("" as FullSlug))
 
@@ -116,24 +133,7 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
   return (
     <div id="navbar" className="navbar">
       <div id="navbar-left">
-        <span id="header-video-container">
-          <video
-            id="pond-video"
-            className="no-select no-vsc"
-            loop
-            muted
-            playsInline
-            spa-preserve
-            preload="auto"
-            aria-label="A goose and a trout play in a pond in front of a castle."
-          >
-            <source
-              src="https://assets.turntrout.com/static/pond.mov"
-              type="video/mp4; codecs=hvc1"
-            />
-            <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm" />
-          </video>
-        </span>
+        {headerVideoSpan}
         <h2>
           <a href={baseDir}>{title}</a>
         </h2>
