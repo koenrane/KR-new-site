@@ -791,6 +791,7 @@ I lastly check that my CSS:
 
 1. Defines font-faces using fonts which actually exist in the filesystem, and
 2. Does not refer to nonexistent fonts.
+3. Only references valid CSS variables.
 
 ### Unit tests
 
