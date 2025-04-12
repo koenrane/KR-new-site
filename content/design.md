@@ -213,9 +213,9 @@ Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC
 | Total WEBM size | 61MB |
 | Overall space savings from MP4 -> WEBM | 20% |
 
-Table: Both of these formats are good compared to GIFs. My WEBM files were 10x lighter than my GIFs! For example: [the "goose in a pond" video](https://assets.turntrout.com/static/pond.webm) weighed 561KB in GIF format. The WEBM weighs 58KB and the MOV weighs 260KB.
+Table: Both of these formats are good compared to GIFs. My WEBM files were 10x lighter than my GIFs! For example: [the "goose in a pond" video](https://assets.turntrout.com/static/pond.webm) weighed 561KB in GIF format. The MP4 weighs 260KB while the WEBM weighs 58KB.
 
-So why not just always use WEBM? There's a catch: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs, or to render transparency_. After reading [an article on how to stably display transparent videos across browsers](https://rotato.app/blog/transparent-videos-for-the-web), I implemented the following scheme:
+So why not just always use WEBM? While [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs, or to render transparency_. After reading [an article on how to stably display transparent videos across browsers](https://rotato.app/blog/transparent-videos-for-the-web), I implemented the following scheme:
 
 ```html
 <video [attributes]>
@@ -231,9 +231,9 @@ However, it was quite difficult to produce a transparent MP4 (as required by Saf
 
 To make the site quieter and more peaceful, the desktop website's pond video (below) only plays while the mouse hovers over it.
 
-![](pond-video-interaction.gif)
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/pond-video-interaction.mp4" type="video/mp4; codecs=hvc1"><source src="https://assets.turntrout.com/static/images/posts/pond-video-interaction.webm" type="video/webm"></video>
 
-Caption: By using [`micromorph`](https://github.com/natemoo-re/micromorph) to preserve the video element, the video doesn't even unload as you navigate through the site. Therefore, the current video frame stays constant until the user hovers over the video again. Furthermore, since auto/light/dark mode selector is above the pond, that provides a natural interaction pathway for the user to realize the "pond image" is actually a "pond video"!
+Figure: By using [`micromorph`](https://github.com/natemoo-re/micromorph) to preserve the video element, the video doesn't even unload as you navigate through the site. Therefore, the current video frame stays constant until the user hovers over the video again. Furthermore, since auto/light/dark mode selector is above the pond, that provides a natural interaction pathway for the user to realize the "pond image" is actually a "pond video"!
 
 > [!quote] [`gwern`](https://www.lesswrong.com/posts/Nq2BtFidsnhfLuNAx/announcing-turntrout-com-my-new-digital-home?commentId=vJAsuKGLMmuWCb45h), who suggested this design choice
 > In fact, why not make 'fun on hover' a core design principle? "If not friend, why friend-shaped?" Make everything on the site a little friend you can play with. (This would be a good time to try to write down a few catchphrases or design principles to sum up your goals here. Why dropcaps or the animated pond logo? etc) When I look at your pond, I feel like it would be wonderful if the pond was animated on hover - if when I hovered, _then_ it was animated.
