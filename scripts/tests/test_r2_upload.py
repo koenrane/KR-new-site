@@ -578,41 +578,31 @@ def test_upload_to_r2_overwrite_print(
     assert "Downloaded backup from R2" in captured.out
 
 
-_DUMMY_CONTENT = "dummy content"
-
-
-def _mock_download(upload_target: str, target: Path) -> None:
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.touch()
-    target.write_text(_DUMMY_CONTENT)
-
-
 def test_upload_to_r2_download_backup(mock_git_root: Path, tmp_path: Path):
-    """Test file move logic when overwriting an existing file."""
+    """Test file backup logic when overwriting an existing file."""
     test_file = mock_git_root / "quartz" / "static" / "test_overwrite_move.jpg"
     test_file.parent.mkdir(parents=True, exist_ok=True)
-    test_file.write_text("Shouldn't appear")
-    move_to_dir = tmp_path / "moved_files_overwrite"
-    move_to_dir.mkdir()
+    test_file.write_text("Original content")
+
+    r2_key = r2_upload.get_r2_key(test_file)
+    upload_target = f"r2:{r2_upload.R2_BUCKET_NAME}/{r2_key}"
+    expected_backup_path = tmp_path / test_file.name
 
     with (
         patch("scripts.r2_upload.check_exists_on_r2", return_value=True),
-        patch("scripts.r2_upload._download_from_r2", _mock_download),
-        patch("subprocess.run"),
+        patch("scripts.r2_upload._download_from_r2") as mock_download,
+        patch("scripts.r2_upload.tempfile.gettempdir", return_value=tmp_path),
     ):
         r2_upload.upload_to_r2(
             test_file,
             overwrite_existing=True,
         )
 
-    # Verify the backup file was created by the mock
-    expected_backup_path = Path(tempfile.gettempdir()) / test_file.name
-    assert expected_backup_path.exists()
-    assert expected_backup_path.read_text() == _DUMMY_CONTENT
+    mock_download.assert_called_once_with(upload_target, expected_backup_path)
 
     # Verify the original file still exists
     assert test_file.exists()
-    assert test_file.read_text() == "Shouldn't appear"
+    assert test_file.read_text() == "Original content"
 
 
 # Ensure we tell rclone to handle the MIME header correctly

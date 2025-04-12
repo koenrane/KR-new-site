@@ -218,7 +218,7 @@ def test_steps():
     ]
 
 
-def test_run_checks_all_success(test_steps):
+def test_run_checks_all_success(test_steps, temp_state_dir):
     """Test that all checks run successfully when there are no failures"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         mock_run.return_value = (True, "", "")
@@ -227,7 +227,9 @@ def test_run_checks_all_success(test_steps):
 
 
 @pytest.mark.parametrize("failing_step_index", [0, 1, 2])
-def test_run_checks_exits_on_failure(test_steps, failing_step_index):
+def test_run_checks_exits_on_failure(
+    test_steps, failing_step_index, temp_state_dir
+):
     """Test that run_checks exits immediately when a check fails"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         # Create a list of results where one step fails

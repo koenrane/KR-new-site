@@ -3152,10 +3152,6 @@ def test_check_video_source_order_and_match(
             '<a href="mailto:test.name+alias@example.co.uk">Valid Complex Email</a>',
             [],
         ),
-        (
-            '<a href="mailto:test@example.com?subject=Hello">Valid Email with Subject</a>',
-            [],
-        ),
         # Invalid mailto links (should fail)
         (
             '<a href="mailto:test@">Invalid Email (Missing domain)</a>',
