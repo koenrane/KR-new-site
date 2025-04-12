@@ -515,17 +515,20 @@ def get_check_steps(
         ),
     ]
 
+    css_check_command = (
+        f"npx stylelint {git_root_path}/public/index.css"
+        f" --config {git_root_path}/.variables-only-stylelintrc.json"
+        " 2>&1"
+        " | grep -vE '(shiki|problems|public/index.css)'"
+        " | grep -c ."
+    )
+
     steps_after_server = [
         CheckStep(
             name="Checking built CSS for unknown CSS variables",
-            command=(
-                "count=$(npx stylelint public/index.css"
-                " --config .variables-only-stylelintrc.json 2>&1 | "
-                "grep -vE '(shiki|problems|public/index.css)' | "
-                "grep -c .); "
-                'test "$count" -eq 0'
-            ),
-            shell=True,
+            command=[
+                f"count=$({css_check_command}) && test $count -eq 0",
+            ],
             cwd=str(git_root_path),
         ),
         CheckStep(
