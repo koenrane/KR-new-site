@@ -97,7 +97,7 @@ Utility functions evaluate states of the universe;  $U$ evaluates each region an
 
 ## Agent
 
- $\mathcal{A}$ chooses the best possible strategy - that is, the one that maximizes the  $U$ of the final state of the universe-history:  $\mathcal{A}:= \text{argmax}_{\langle \bar{a}^k \rangle \in \texttt{Feasible}} U(\langle \bar{a}^k \rangle)$. Note that this definition implies a Cartesian boundary between the agent and the universe; that is,  $\mathcal{A}$ doesn't model itself as part of the environment (it [isn't naturalized](ht<em>tp://lesswr</em>ong.com/lw/jd9/building_phenomenological_bridges/%E2%80%8E)).
+ $\mathcal{A}$ chooses the best possible strategy - that is, the one that maximizes the  $U$ of the final state of the universe-history:  $\mathcal{A}:= \text{argmax}_{\langle \bar{a}^k \rangle \in \texttt{Feasible}} U(\langle \bar{a}^k \rangle)$. Note that this definition implies a Cartesian boundary between the agent and the universe; that is,  $\mathcal{A}$ doesn't model itself as part of the environment (it [isn't naturalized](https://www.lesswrong.com/posts/ethRJh2E7mSSjzCay/building-phenomenological-bridges)).
 
 # Seizing the Means of Cartesian Production
 

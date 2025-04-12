@@ -51,8 +51,7 @@ date_updated: 2024-11-22 20:04:30.137574
 
 ![](https://assets.turntrout.com/static/images/posts/OIDCLpl.avif)
 
-[​](​![]\(https://assets.turntrout.com/static/images/posts/x3myqQ1.avif)![](https://assets.turntrout.com/static/images/posts/x3myqQ1.avif)
-
+​![](https://assets.turntrout.com/static/images/posts/x3myqQ1.avif)
 ![](https://assets.turntrout.com/static/images/posts/G1UgvEf.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/lCPSncS.avif )

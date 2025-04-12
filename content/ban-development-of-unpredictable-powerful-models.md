@@ -80,7 +80,7 @@ Most notably, this test seems _extremely strict_, perhaps beyond even the strict
 
 **But maybe "a long time" is too long. It's not clear that this criterion** _**can**_ **be passed,**[^5] **even after deeply qualitatively understanding the model.**
 
-: I share this concern. That's one reason I'm not lobbying to implement this as-is. Even [`solu-2l` (6.3M params, 2-layer)](https://neelnanda-io.github.io/TransformerLens/model_properties_table.html) is probably out of reach absent serious effort and solution of [superposition](https://www.anthropic.com/index/toy-models-of-superposition).
+: I share this concern. That's one reason I'm not lobbying to implement this as-is. Even [`solu-2l` (6.3M params, 2-layer)](https://neelnanda-io.github.io/TransformerLens/generated/model_properties_table.html) is probably out of reach absent serious effort and solution of [superposition](https://www.anthropic.com/index/toy-models-of-superposition).
 :
 : Maybe there are useful relaxations which are both more attainable and require deep understanding of the model. We can, of course, set the acceptable misprediction rate to be higher at first, and decrease it over time. Another relaxation would be "only predict e.g. the algorithm written in a coding task, not the per-token probabilities", but I think that seems way too easy.
 :
