@@ -222,7 +222,7 @@ def paragraphs_contain_canary_phrases(soup: BeautifulSoup) -> list[str]:
     Ignores text within <code> tags.
     """
     bad_anywhere = (r"> \[\![a-zA-Z]+\]",)  # Callout syntax
-    bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ")
+    bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ", r"Caption: ")
     bad_paragraph_starting_prefixes = (r"^: ", r"^#+ ")
 
     problematic_paragraphs: list[str] = []

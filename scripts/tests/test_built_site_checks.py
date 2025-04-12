@@ -1033,11 +1033,13 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             <blockquote>
                 Figure: Direct text in blockquote
                 <p>Normal paragraph</p>
+                <p>Caption: here's a stray figcaption.</p>
             </blockquote>
             """,
             [
                 "Problematic paragraph: Table: Direct text in article",
                 "Problematic paragraph: Figure: Direct text in blockquote",
+                "Problematic paragraph: Caption: here's a stray figcaption.",
             ],
         ),
         # Test code tag exclusions
