@@ -6,17 +6,14 @@
 
 :root {
   --base-line-height: 1.4;
-  --text-size-70: #{calculate-scale(-3)};
-  --text-size-80: #{calculate-scale(-2)};
-  --text-size-85: #{calculate-scale(-1.5)};
-  --text-size-90: #{calculate-scale(-1)};
-  --text-size-100: #{calculate-scale(0)};
-  --text-size-200: #{calculate-scale(1)};
-  --text-size-300: #{calculate-scale(1)};
-  --text-size-400: #{calculate-scale(1)};
-  --text-size-500: #{calculate-scale(2)};
-  --text-size-600: #{calculate-scale(3)};
-  --text-size-700: #{calculate-scale(4)};
+  --text-size-minus-3: #{calculate-scale(-3)};
+  --text-size-minus-2: #{calculate-scale(-2)};
+  --text-size-minus-1: #{calculate-scale(-1)};
+  --text-size-baseline: #{calculate-scale(0)};
+  --text-size-plus-1: #{calculate-scale(1)};
+  --text-size-plus-2: #{calculate-scale(2)};
+  --text-size-plus-3: #{calculate-scale(3)};
+  --text-size-plus-4: #{calculate-scale(4)};
   --min-font-size: 0.875rem; // 14px
   --max-font-size: 1.5rem; // 24px
   --base-font-size: clamp(
@@ -52,71 +49,62 @@ h6,
   }
 }
 
-// Directly using CSS variables in SCSS
-.text-size-80 {
-  font-size: var(--text-size-80);
+.text-size-minus-2 {
+  font-size: var(--text-size-minus-2);
 }
 
-.text-size-90 {
-  font-size: var(--text-size-90);
+.text-size-minus-1 {
+  font-size: var(--text-size-minus-1);
 }
 
-.text-size-100 {
-  font-size: var(--text-size-100);
+.text-size-baseline {
+  font-size: var(--text-size-baseline);
 }
 
-.text-size-200 {
-  font-size: var(--text-size-200);
+.text-size-plus-1 {
+  font-size: var(--text-size-plus-1);
 }
 
-.text-size-300 {
-  font-size: var(--text-size-300);
+.text-size-plus-2 {
+  font-size: var(--text-size-plus-2);
 }
 
-.text-size-400 {
-  font-size: var(--text-size-400);
+.text-size-plus-3 {
+  font-size: var(--text-size-plus-3);
 }
 
-.text-size-500 {
-  font-size: var(--text-size-500);
-}
-
-.text-size-600 {
-  font-size: var(--text-size-600);
-}
-
-.text-size-700 {
-  font-size: var(--text-size-700);
+.text-size-plus-4 {
+  font-size: var(--text-size-plus-4);
 }
 
 h1,
 .h1 {
-  font-size: var(--text-size-700);
+  font-size: var(--text-size-plus-4);
 }
 
 h2,
 .h2 {
-  font-size: var(--text-size-600);
+  font-size: var(--text-size-plus-3);
 }
 
 h3,
 .h3 {
-  font-size: var(--text-size-500);
+  font-size: var(--text-size-plus-2);
 }
 
 h4,
 .h4 {
-  font-size: var(--text-size-400);
+  font-size: var(--text-size-plus-1);
 }
 
 h5,
 .h5 {
-  font-size: var(--text-size-300);
+  font-size: var(--text-size-plus-1);
 }
 
 h6,
 .h6 {
-  font-size: var(--text-size-200);
+  font-size: var(--text-size-plus-1);
 }
 
 // FONT SETUP

@@ -396,7 +396,7 @@ pre {
   & > div > code,
   & > code {
     background: none;
-    font-size: var(--text-size-80);
+    font-size: var(--text-size-minus-2);
     counter-reset: line;
     counter-increment: line 0;
     display: grid;

@@ -30,7 +30,7 @@ ol.overflow {
   max-height: none;
   transition: max-height 0.5s ease;
   position: relative;
-  font-size: var(--text-size-90);
+  font-size: var(--text-size-minus-1);
 
   & > ul {
     padding-left: $base-margin !important;
