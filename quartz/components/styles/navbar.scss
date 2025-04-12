@@ -147,14 +147,14 @@
 
   // Simulate an h3 on mobile. Prevent weird wrapping issues
   @media all and (max-width: $mobile-breakpoint) {
-    font-size: var(--text-size-plus-2);
+    font-size: var(--font-size-plus-2);
   }
 
   @media all and (min-width: $min-desktop-width) {
     margin-bottom: 0;
     margin-top: 0;
     margin-right: calc(0.25 * $base-margin); // Make it flush with the site links
-    font-size: var(--text-size-plus-2);
+    font-size: var(--font-size-plus-2);
   }
 }
 
@@ -253,7 +253,7 @@
   position: absolute;
   right: 0;
   top: 5%;
-  font-size: var(--text-size-minus-2);
+  font-size: var(--font-size-minus-2);
   text-align: right;
   display: flex;
   flex-direction: row-reverse;

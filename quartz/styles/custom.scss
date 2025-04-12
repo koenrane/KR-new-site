@@ -208,7 +208,7 @@ ol {
     &::marker {
       margin-left: calc(-0.25 * $base-margin);
       vertical-align: baseline;
-      font-size: var(--text-size-plus-0);
+      font-size: var(--font-size-plus-0);
       content: counter(footnote) "."; // Display the counter followed by a period
     }
 
@@ -367,11 +367,11 @@ p:has(+ .subtitle),
 .subtitle {
   color: var(--midground);
   margin-top: 0;
-  font-size: var(--text-size-minus-1);
+  font-size: var(--font-size-minus-1);
 
   & .favicon {
     // Smaller favicon for smaller font
-    --favicon-size: calc(var(--text-size-minus-1) * 0.65);
+    --favicon-size: calc(var(--font-size-minus-1) * 0.65);
 
     width: var(--favicon-size);
     height: var(--favicon-size);
@@ -403,7 +403,7 @@ figcaption,
 .float-right {
   text-align: center;
   color: var(--midground-strong);
-  font-size: var(--text-size-minus-1); /* smaller than the surrounding text */
+  font-size: var(--font-size-minus-1); /* smaller than the surrounding text */
 }
 
 .float-right {
@@ -618,7 +618,7 @@ hr {
   }
 
   & #content-meta {
-    font-size: var(--text-size-minus-1);
+    font-size: var(--font-size-minus-1);
     margin-bottom: 0;
   }
 }

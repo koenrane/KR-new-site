@@ -63,12 +63,12 @@ li.section-li {
 
 .tag-count {
   color: var(--midground);
-  font-size: var(--text-size-minus-1);
+  font-size: var(--font-size-minus-1);
 }
 
 a.internal.tag-link {
   font-family: FiraCode, var(--font-monospace);
-  font-size: var(--text-size-minus-3);
+  font-size: var(--font-size-minus-3);
   margin: calc(0.25 * $base-margin) 0;
 }
 

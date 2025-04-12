@@ -42,7 +42,7 @@
     font-weight: initial;
     font-style: initial;
     line-height: var(--base-line-height);
-    font-size: var(--text-size-minus-1);
+    font-size: var(--font-size-minus-1);
     font-family: EBGaramond, var(--font-text);
 
     & h1,
@@ -83,7 +83,7 @@
         counter-increment: footnote-popover;
 
         &::marker {
-          font-size: var(--text-size-minus-1);
+          font-size: var(--font-size-minus-1);
           content: counter(footnote-popover) ".";
         }
 
