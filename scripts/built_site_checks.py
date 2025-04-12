@@ -15,6 +15,7 @@ from urllib.parse import urlparse
 
 import requests  # type: ignore[import]
 import tqdm
+import validators
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 # Add the project root to sys.path
@@ -776,6 +777,43 @@ def check_preloaded_fonts(soup: BeautifulSoup) -> bool:
     return False
 
 
+def check_malformed_hrefs(soup: BeautifulSoup) -> list[str]:
+    """
+    Check for syntactically malformed href attributes in `<a>` tags using the
+    `validators` library.
+    """
+    malformed_links = []
+    for link in soup.find_all("a", href=True):
+        href = link.get("href")
+        if not isinstance(href, str):
+            continue
+
+        if href.startswith("mailto:"):
+            email = href.split(":")[1]
+            if not validators.email(email):
+                _append_to_list(
+                    malformed_links,
+                    href,
+                    prefix="Syntactically invalid email: ",
+                )
+            continue
+
+        if (
+            "external" not in link.get("class", [])
+            or not href
+            or href.startswith(("/", "#", ".", "tel:"))
+        ):
+            continue
+
+        # Allow spaces in URLs for readability
+        if not validators.url(href) and " " not in href:
+            _append_to_list(
+                malformed_links, href, prefix="Syntactically invalid href: "
+            )
+
+    return malformed_links
+
+
 def check_file_for_issues(
     file_path: Path,
     base_dir: Path,
@@ -802,6 +840,7 @@ def check_file_for_issues(
         "localhost_links": check_localhost_links(soup),
         "invalid_internal_links": check_invalid_internal_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, base_dir),
+        "malformed_hrefs": check_malformed_hrefs(soup),
         "problematic_paragraphs": paragraphs_contain_canary_phrases(soup),
         "missing_media_files": check_local_media_files(soup, base_dir),
         "trailing_blockquotes": check_blockquote_elements(soup),
