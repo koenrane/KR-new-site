@@ -3,7 +3,8 @@ permalink: formalizing-policy-modification-corrigibility
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
+lw-page-url: 
+  https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
 lw-is-question: 'false'
 lw-posted-at: 2021-12-03T01:31:42.011000Z
 lw-last-modification: 2021-12-03T22:56:16.017000Z
@@ -34,12 +35,14 @@ prev-post-title: A Certain Formalization of Corrigibility Is VNM-Incoherent
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2021-12-03 00:00:00
-original_url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
+original_url: 
+  https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
 skip_import: true
-description: "Formalizing one aspect of corrigibility: How much can a human change\
-  \ an AI's policy, measured using mutual information."
-date_updated: 2025-03-01 17:42:48.379662
+description: "Formalizing one aspect of corrigibility: How much can a human change
+  an AI's policy, measured using mutual information."
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

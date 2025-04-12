@@ -3,7 +3,8 @@ permalink: mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
+lw-page-url: 
+  https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 lw-is-question: 'false'
 lw-posted-at: 2023-06-19T21:51:04.129000Z
 lw-last-modification: 2023-06-26T17:52:14.168000Z
@@ -29,12 +30,14 @@ aliases:
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2023-06-19 00:00:00
-original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
+original_url: 
+  https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 skip_import: true
 description: A proposed tweak to policy gradient algorithms may avoid mode collapse,
   but more research is needed to assess its practicality.
-date_updated: 2025-03-22 12:22:59.421452
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

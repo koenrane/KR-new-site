@@ -3,7 +3,8 @@ permalink: whitelisting-impact-measure
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
+lw-page-url: 
+  https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
 lw-is-question: "false"
 lw-posted-at: 2018-06-16T02:17:08.890000Z
 lw-last-modification: None
@@ -28,12 +29,14 @@ aliases:
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 2018-06-16 00:00:00
-original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
+original_url: 
+  https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
 skip_import: true
 description: An impact measure for AI safety that whitelists the object transformations
   which are allowed.
-date_updated: 2025-03-05 20:43:54.692493
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

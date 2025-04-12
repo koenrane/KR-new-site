@@ -3,7 +3,8 @@ permalink: environmental-structure-can-cause-instrumental-convergence
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/b6jJddSvWMdZHJHh3/environmental-structure-can-cause-instrumental-convergence
+lw-page-url: 
+  https://www.lesswrong.com/posts/b6jJddSvWMdZHJHh3/environmental-structure-can-cause-instrumental-convergence
 lw-linkpost-url: https://arxiv.org/abs/1912.01683
 lw-is-question: 'false'
 lw-posted-at: 2021-06-22T22:26:03.120000Z
@@ -38,13 +39,16 @@ next-post-title: A world in which the alignment problem seems lower-stakes
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
 date_published: 2021-06-22 00:00:00
-original_url: https://www.lesswrong.com/posts/b6jJddSvWMdZHJHh3/environmental-structure-can-cause-instrumental-convergence
+original_url: 
+  https://www.lesswrong.com/posts/b6jJddSvWMdZHJHh3/environmental-structure-can-cause-instrumental-convergence
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/card_images/78ceb0300f76784b6d8d043afb15587fb25a50dd52a42e21.png
+card_image: 
+  https://assets.turntrout.com/static/images/card_images/78ceb0300f76784b6d8d043afb15587fb25a50dd52a42e21.png
 description: The structure of environments, not just reward functions, contributes
   to power-seeking in AI agents.
-date_updated: 2025-03-22 12:22:59.421452
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

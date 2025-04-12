@@ -3,7 +3,8 @@ permalink: seeking-power-is-often-convergently-instrumental-in-mdps
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
+lw-page-url: 
+  https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
 lw-linkpost-url: https://arxiv.org/abs/1912.01683
 lw-is-question: 'false'
 lw-posted-at: 2019-12-05T02:33:34.321000Z
@@ -37,13 +38,15 @@ next-post-title: 'Attainable Utility Landscape: How The World Is Changed'
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
 date_published: 2019-12-05 00:00:00
-original_url: https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
+original_url: 
+  https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/xveuJm2.png
 description: A mathematical exploration of why goal-directed AI, regardless of its
   programmed goal, might be driven to seek power.
-date_updated: 2025-03-22 12:22:59.421452
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

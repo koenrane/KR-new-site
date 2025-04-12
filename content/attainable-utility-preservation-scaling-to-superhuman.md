@@ -3,7 +3,8 @@ permalink: attainable-utility-preservation-scaling-to-superhuman
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utility-preservation-scaling-to-superhuman
+lw-page-url: 
+  https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utility-preservation-scaling-to-superhuman
 lw-is-question: "false"
 lw-posted-at: 2020-02-27T00:52:49.970000Z
 lw-last-modification: 2022-04-07T12:46:16.547000Z
@@ -36,12 +37,14 @@ next-post-title: Reasons for Excitement about Impact of Impact Measure Research
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 2020-02-27 00:00:00
-original_url: https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utility-preservation-scaling-to-superhuman
+original_url: 
+  https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utility-preservation-scaling-to-superhuman
 skip_import: true
 description: AUP scales to superintelligence by penalizing power-seeking, but loopholes
   exist. I propose fixes and explore their implications.
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

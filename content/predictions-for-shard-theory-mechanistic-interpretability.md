@@ -3,7 +3,8 @@ permalink: predictions-for-shard-theory-mechanistic-interpretability
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
+lw-page-url: 
+  https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
 lw-is-question: 'false'
 lw-posted-at: 2023-03-01T05:16:48.043000Z
 lw-last-modification: 2023-03-03T21:31:03.643000Z
@@ -37,12 +38,14 @@ next-post-title: Understanding and controlling a maze-solving policy network
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2023-03-01 00:00:00
-original_url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
+original_url: 
+  https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
 skip_import: true
 description: Predictions about a cheese-finding AI model's internal workings, before
   the results are revealed. Will it prefer cheese or the top-right corner? 🧀🤖
-date_updated: 2025-03-22 12:22:59.421452
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

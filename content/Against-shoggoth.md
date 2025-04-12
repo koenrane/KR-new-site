@@ -16,13 +16,16 @@ aliases:
   - friendly-shoggoth
   - dont-use-shoggoth
   - shoggoth-as-harmful
-lw-page-url: https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=XHktatQRYpsfritrA
+lw-page-url: 
+  https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=XHktatQRYpsfritrA
 lw-posted-at: 2024-01-19T00:47:04.621000Z
 lw-is-shortform: "true"
 date_published: 2024-01-19 20:10:07.919814
-original_url: https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=XHktatQRYpsfritrA
-date_updated: 2025-03-11 22:34:38.102338
+original_url: 
+  https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=XHktatQRYpsfritrA
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

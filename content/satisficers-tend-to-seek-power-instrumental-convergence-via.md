@@ -3,7 +3,8 @@ permalink: satisficers-tend-to-seek-power
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend-to-seek-power-instrumental-convergence-via
+lw-page-url: 
+  https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend-to-seek-power-instrumental-convergence-via
 lw-linkpost-url: https://www.overleaf.com/read/kmjjqwdfhkvy
 lw-is-question: 'false'
 lw-posted-at: 2021-11-18T01:54:33.589000Z
@@ -38,12 +39,14 @@ next-post-title: Instrumental Convergence For Realistic Agent Objectives
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2021-11-18 00:00:00
-original_url: https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend-to-seek-power-instrumental-convergence-via
+original_url: 
+  https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend-to-seek-power-instrumental-convergence-via
 skip_import: true
 description: Power-seeking isn't just for optimal agents; it's a feature of many decision-making
   processes, including satisficers. This is a problem for AI alignment.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

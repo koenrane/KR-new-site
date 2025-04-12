@@ -3,7 +3,8 @@ permalink: elk-proposal-thinking-via-a-human-imitator
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/z3xTDPDsndJBmHLFH/elk-proposal-thinking-via-a-human-imitator
+lw-page-url: 
+  https://www.lesswrong.com/posts/z3xTDPDsndJBmHLFH/elk-proposal-thinking-via-a-human-imitator
 lw-is-question: 'false'
 lw-posted-at: 2022-02-22T01:52:41.794000Z
 lw-last-modification: 2022-02-25T19:15:00.112000Z
@@ -25,12 +26,14 @@ tags:
 aliases:
   - elk-proposal-thinking-via-a-human-imitator
 date_published: 2022-02-22 00:00:00
-original_url: https://www.lesswrong.com/posts/z3xTDPDsndJBmHLFH/elk-proposal-thinking-via-a-human-imitator
+original_url: 
+  https://www.lesswrong.com/posts/z3xTDPDsndJBmHLFH/elk-proposal-thinking-via-a-human-imitator
 skip_import: 'true'
-description: "A proposal to solve ELK by routing an AI's knowledge through a simulated\
-  \ human mind, forcing interpretability as an instrumental subgoal. "
-date_updated: 2025-01-30 09:30:36.233182
+description: "A proposal to solve ELK by routing an AI's knowledge through a simulated
+  human mind, forcing interpretability as an instrumental subgoal. "
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

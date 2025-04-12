@@ -1,6 +1,6 @@
 ---
-title: "Deep Causal Transcoding: A Framework for Mechanistically Eliciting Latent\
-  \ Behaviors in Language Models"
+title: "Deep Causal Transcoding: A Framework for Mechanistically Eliciting Latent
+  Behaviors in Language Models"
 permalink: deep-causal-transcoding
 publish: true
 no_dropcap: "false"
@@ -17,9 +17,11 @@ aliases:
   - melbo-framework
   - dct
 date_published: 2024-12-04 22:12:56.910555
-date_updated: 2025-03-22 12:22:59.421452
-original_url: https://www.lesswrong.com/posts/fSRg5qs9TPbNy3sm5/deep-causal-transcoding-a-framework-for-mechanistically
+date_updated: 2025-04-12 09:51:51.137842
+original_url: 
+  https://www.lesswrong.com/posts/fSRg5qs9TPbNy3sm5/deep-causal-transcoding-a-framework-for-mechanistically
 ---
+
 
 
 

@@ -7,17 +7,20 @@ no_dropcap: "false"
 tags:
   - AI
   - understanding-the-world
-description: Norm growth in activations drowns out earlier computations - do transformers just process recent sublayer outputs?
+description: Norm growth in activations drowns out earlier computations - do transformers
+  just process recent sublayer outputs?
 date-published: 07/23/24
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: 
-original_url: https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=onhHdxZ8iQ4qvSHgi
+card_image:
+original_url: 
+  https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=onhHdxZ8iQ4qvSHgi
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2025-03-05 20:43:54.692493
+date_updated: 2025-04-12 09:51:51.137842
 aliases:
   - layer-horizon
 ---
+
 
 
 

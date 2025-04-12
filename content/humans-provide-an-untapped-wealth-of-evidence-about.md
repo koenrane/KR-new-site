@@ -3,7 +3,8 @@ permalink: humans-provide-alignment-evidence
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about
+lw-page-url: 
+  https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about
 lw-is-question: "false"
 lw-posted-at: 2022-07-14T02:31:48.575000Z
 lw-last-modification: 2024-03-02T01:18:50.890000Z
@@ -27,7 +28,8 @@ tags:
   - human-values
 aliases:
   - humans-provide-an-untapped-wealth-of-evidence-about
-lw-podcast-link: https://www.buzzsprout.com//2037297/11168035-humans-provide-an-untapped-wealth-of-evidence-about-alignment-by-turntrout-quintin-pope.js?container_id=buzzsprout-player-11168035&amp;player=small
+lw-podcast-link: 
+  https://www.buzzsprout.com//2037297/11168035-humans-provide-an-untapped-wealth-of-evidence-about-alignment-by-turntrout-quintin-pope.js?container_id=buzzsprout-player-11168035&amp;player=small
 lw-sequence-title: Shard Theory
 lw-sequence-image-grid: sequencesgrid/igo7185zypqhuclvbmiv
 lw-sequence-image-banner: sequences/ot2siejtvcl9pvzly2ma
@@ -37,12 +39,14 @@ next-post-title: Human values & biases are inaccessible to the genome
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2022-07-14 00:00:00
-original_url: https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about
+original_url: 
+  https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about
 skip_import: "true"
-description: "I argue for studying the only known example of aligned intelligence:\
-  \ humans. Stop speculating about AIXI and diamonds - look at humans!"
-date_updated: 2025-03-01 17:42:48.379662
+description: "I argue for studying the only known example of aligned intelligence:
+  humans. Stop speculating about AIXI and diamonds - look at humans!"
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

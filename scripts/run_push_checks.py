@@ -422,7 +422,6 @@ git_root = Path(
 )
 
 
-# Define all check steps
 def get_check_steps(
     git_root_path: Path,
 ) -> tuple[list[CheckStep], list[CheckStep]]:

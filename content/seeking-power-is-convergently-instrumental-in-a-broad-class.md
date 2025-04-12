@@ -3,7 +3,8 @@ permalink: power-seeking-beyond-MDPs
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
+lw-page-url: 
+  https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 lw-is-question: 'false'
 lw-posted-at: 2021-08-08T02:02:18.975000Z
 lw-last-modification: 2023-05-16T20:31:52.646000Z
@@ -38,12 +39,14 @@ next-post-title: When Most VNM-Coherent Preference Orderings Have Convergent Ins
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
 date_published: 2021-08-08 00:00:00
-original_url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
+original_url: 
+  https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 skip_import: true
-description: "Power-seeking is instrumentally convergent for agents maximizing over\
-  \ possible futures, but not for agents maximizing over their own actions. "
-date_updated: 2025-03-22 12:22:59.421452
+description: "Power-seeking is instrumentally convergent for agents maximizing over
+  possible futures, but not for agents maximizing over their own actions. "
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

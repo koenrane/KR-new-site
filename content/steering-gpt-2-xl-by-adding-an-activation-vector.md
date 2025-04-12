@@ -3,7 +3,8 @@ permalink: gpt2-steering-vectors
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
+lw-page-url: 
+  https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 lw-is-question: "false"
 lw-posted-at: 2023-05-13T18:42:41.321000Z
 lw-last-modification: 2024-02-19T23:30:54.973000Z
@@ -31,15 +32,19 @@ aliases:
   - steering-vectors
   - steeringvectors
   - gpt2-steering
-lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
+lw-podcast-link: 
+  https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2023-05-13 00:00:00
-original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
+original_url: 
+  https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 skip_import: true
-description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful prompts into loving completions.
-date_updated: 2025-03-22 12:22:59.421452
+description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
+  prompts into loving completions.
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 

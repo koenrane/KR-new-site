@@ -15,10 +15,12 @@ authors: Alex Cloud, Jacob Goldman-Wetzler, Evžen Wybitul, Joseph Miller, and A
 hideSubscriptionLinks: false
 card_image: https://assets.turntrout.com/static/images/card_images/NO2S3mX.png
 lw-linkpost-url: https://arxiv.org/abs/2410.04332
-original_url: https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
+original_url: 
+  https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
 date_published: 2024-12-05 16:17:06.041179
-date_updated: 2025-03-05 20:43:54.692493
+date_updated: 2025-04-12 09:51:51.137842
 ---
+
 
 
 
