@@ -162,7 +162,7 @@ I use the darkest text color sparingly. The margin text is medium-contrast, as a
 
 Color is important to this website, but I need to be tasteful and strict in my usage or the site turns into a mess. For example, in-line [favicons](https://en.wikipedia.org/wiki/Favicon) are colorless (e.g. [YouTube's](https://youtube.com) logo is definitely red). To choose otherwise is to choose chaos and distraction.
 
-When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond video (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor).
+When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond scene (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor).
 
 During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme. I even override and standardize the colors used for syntax highlighting in the code blocks.
 
@@ -227,9 +227,18 @@ So why not just always use WEBM? There's a catch: while [Safari technically "sup
 
 However, it was quite difficult to produce a transparent MP4 (as required by Safari). I eventually used `ffmpeg` to convert a non-transparent MP4 into a ProRes 444 file. I then used my Mac Finder's built-in encoding tool to convert the ProRes 444 to a MOV with transparency... Phew.
 
-### CSS purging
+#### Website video looping
 
-I tried using [`PurgeCSS`](https://purgecss.com/) to remove unused styles, reducing the CSS footprint from 84KB to 73KB. Since I couldn't safely purge selectors from my main stylesheet (there were too many false positives), the benefit was quite marginal. The purging caused trouble in my build process and had little benefit, so I removed it.
+To make the site quieter and more peaceful, the desktop website's pond video (below) only plays while the mouse hovers over it.
+
+![](pond-video-interaction.gif)
+
+Caption: By using [`micromorph`](https://github.com/natemoo-re/micromorph) to preserve the video element, the video doesn't even unload as you navigate through the site. Therefore, the current video frame stays constant until the user hovers over the video again. Furthermore, since auto/light/dark mode selector is above the pond, that provides a natural interaction pathway for the user to realize the "pond image" is actually a "pond video"!
+
+> [!quote] [`gwern`](https://www.lesswrong.com/posts/Nq2BtFidsnhfLuNAx/announcing-turntrout-com-my-new-digital-home?commentId=vJAsuKGLMmuWCb45h), who suggested this design choice
+> In fact, why not make 'fun on hover' a core design principle? "If not friend, why friend-shaped?" Make everything on the site a little friend you can play with. (This would be a good time to try to write down a few catchphrases or design principles to sum up your goals here. Why dropcaps or the animated pond logo? etc) When I look at your pond, I feel like it would be wonderful if the pond was animated on hover - if when I hovered, _then_ it was animated.
+> \[...\]
+> I also still think that the logo should probably not play by default, and for animations like this, it's better to take an Apple-like attitude about them being enhancements, opted into by user actions, to 'spark joy', but not to be used by default. What do the worst websites do? They animate tons of stuff gratuitously. How much more delightful it is to discover a website with taste & restraint, where there are easter eggs and features to discover as you surf, where, say, the animated logo plays only when you hover over it... Truly an oasis or quiet little pond amidst the howling desert of the contemporary Internet. (I'm reminded of a _Family Guy_ meme I re-ran into recently: why does Peter Griffin dislike _The Godfather_? Because ["It insists upon itself."](https://x.com/SethMacFarlane/status/1881825910040702979) A website animating the logo unasked for insists upon itself.) And this helps instill a design feature: you the reader are in control, and you express this control in part because you can hover over _everything_ to learn more or focus on some things.
 
 ## Inlining critical CSS
 
