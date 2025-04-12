@@ -208,7 +208,7 @@ ol {
     &::marker {
       margin-left: calc(-0.25 * $base-margin);
       vertical-align: baseline;
-      font-size: var(--text-size-baseline);
+      font-size: var(--text-size-plus-0);
       content: counter(footnote) "."; // Display the counter followed by a period
     }
 

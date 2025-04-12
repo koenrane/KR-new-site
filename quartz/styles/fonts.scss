@@ -5,15 +5,15 @@
 }
 
 :root {
+  @for $i from -3 through -1 {
+    --text-size-minus#{abs($i)}: #{calculate-scale($i)};
+  }
+
+  @for $i from 0 through 4 {
+    --text-size-plus#{abs($i)}: #{calculate-scale($i)};
+  }
+
   --base-line-height: 1.4;
-  --text-size-minus-3: #{calculate-scale(-3)};
-  --text-size-minus-2: #{calculate-scale(-2)};
-  --text-size-minus-1: #{calculate-scale(-1)};
-  --text-size-baseline: #{calculate-scale(0)};
-  --text-size-plus-1: #{calculate-scale(1)};
-  --text-size-plus-2: #{calculate-scale(2)};
-  --text-size-plus-3: #{calculate-scale(3)};
-  --text-size-plus-4: #{calculate-scale(4)};
   --min-font-size: 0.875rem; // 14px
   --max-font-size: 1.5rem; // 24px
   --base-font-size: clamp(
@@ -49,62 +49,32 @@ h6,
   }
 }
 
-.text-size-minus-2 {
-  font-size: var(--text-size-minus-2);
+@for $i from 1 through 3 {
+  .text-size-minus#{$i} {
+    font-size: var(--text-size-minus#{$i});
+  }
 }
 
-.text-size-minus-1 {
-  font-size: var(--text-size-minus-1);
+@for $i from 0 through 4 {
+  .text-size-plus#{$i} {
+    font-size: var(--text-size-plus#{$i});
+  }
 }
 
-.text-size-baseline {
-  font-size: var(--text-size-baseline);
-}
+$heading-sizes: (
+  1: --text-size-plus-4,
+  2: --text-size-plus-3,
+  3: --text-size-plus-2,
+  4: --text-size-plus-1,
+  5: --text-size-plus-1,
+  6: --text-size-plus-1,
+);
 
-.text-size-plus-1 {
-  font-size: var(--text-size-plus-1);
-}
-
-.text-size-plus-2 {
-  font-size: var(--text-size-plus-2);
-}
-
-.text-size-plus-3 {
-  font-size: var(--text-size-plus-3);
-}
-
-.text-size-plus-4 {
-  font-size: var(--text-size-plus-4);
-}
-
-h1,
-.h1 {
-  font-size: var(--text-size-plus-4);
-}
-
-h2,
-.h2 {
-  font-size: var(--text-size-plus-3);
-}
-
-h3,
-.h3 {
-  font-size: var(--text-size-plus-2);
-}
-
-h4,
-.h4 {
-  font-size: var(--text-size-plus-1);
-}
-
-h5,
-.h5 {
-  font-size: var(--text-size-plus-1);
-}
-
-h6,
-.h6 {
-  font-size: var(--text-size-plus-1);
+@each $level, $size-var in $heading-sizes {
+  h#{$level},
+  .h#{$level} {
+    font-size: var(#{$size-var});
+  }
 }
 
 // FONT SETUP
