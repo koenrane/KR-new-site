@@ -435,7 +435,12 @@ def get_check_steps(
     steps_before_server = [
         CheckStep(
             name="Typechecking Python",
-            command=["mypy"] + script_files,
+            command=[
+                "python",
+                "-m",
+                "mypy",
+            ]
+            + script_files,
         ),
         CheckStep(
             name="Typechecking TypeScript",
@@ -455,6 +460,8 @@ def get_check_steps(
         CheckStep(
             name="Linting Python",
             command=[
+                "python",
+                "-m",
                 "pylint",
                 str(git_root_path),
                 "--rcfile",
