@@ -785,9 +785,6 @@ def check_malformed_hrefs(soup: BeautifulSoup) -> list[str]:
     malformed_links: list[str] = []
     for link in soup.find_all("a", href=True):
         href = link.get("href")
-        if not isinstance(href, str):
-            continue
-
         if href.startswith("mailto:"):
             email = href.split(":")[1]
             if not validators.email(email):
