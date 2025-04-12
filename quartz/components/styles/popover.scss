@@ -68,7 +68,7 @@
             }
 
             &:first-child {
-              margin-top: var(--li-margin); // Remove top margin from the first nested list item
+              margin-top: 0; // Remove top margin from the first nested list item
             }
           }
         }
@@ -137,9 +137,7 @@
     opacity 0.15s ease,
     visibility 0.15s ease;
 
-  // $min-desktop-width is 1580px, but for some reason it isn't working
-  //  so I manually set the breakpoint to 1580px
-  @media all and (width <= 1580px) {
+  @media all and (width <= $max-mobile-width) {
     display: none !important;
   }
 }

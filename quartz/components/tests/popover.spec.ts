@@ -1,5 +1,6 @@
 import { test as base, expect, type Locator } from "@playwright/test"
 
+import { minDesktopWidth } from "../../styles/variables"
 import { takeRegressionScreenshot, isDesktopViewport, showingPreview } from "./visual_utils"
 
 type TestFixtures = {
@@ -114,9 +115,11 @@ test("Popover updates position on window resize", async ({ page, dummyLink }) =>
 
   // Get initial position
   const initialRect = await popover.boundingBox()
+  const initialWidth = initialRect?.width
+  expect(initialWidth).not.toBeUndefined()
 
   // Resize viewport
-  await page.setViewportSize({ width: 800, height: 600 })
+  await page.setViewportSize({ width: Number(initialWidth) + 100, height: 600 })
 
   // Get new position and wait for it to change
   await expect(async () => {
@@ -271,7 +274,6 @@ test("Popovers do not appear in search previews", async ({ page }) => {
 })
 
 test("Popovers appear for content-meta links", async ({ page, dummyLink }) => {
-  // Hover over the meta link
   const metaLink = page.locator("#content-meta a.tag-link").first()
   await metaLink.scrollIntoViewIfNeeded()
   await expect(metaLink).toBeVisible()
@@ -285,7 +287,6 @@ test("Popovers appear for content-meta links", async ({ page, dummyLink }) => {
   await page.mouse.move(0, 0)
   await expect(metaPopover).not.toBeVisible()
 
-  // Hover over the dummy link
   await dummyLink.scrollIntoViewIfNeeded()
   await expect(dummyLink).toBeVisible()
   await dummyLink.hover()
@@ -294,6 +295,21 @@ test("Popovers appear for content-meta links", async ({ page, dummyLink }) => {
   await expect(dummyPopover).toBeVisible()
   const dummyX = (await dummyPopover.boundingBox())?.x
 
-  // Assert x-coordinates are different
   expect(metaX).not.toEqual(dummyX)
+})
+
+test("Popover is hidden on mobile", async ({ page, dummyLink }) => {
+  await page.setViewportSize({ width: 320, height: 600 })
+  await expect(dummyLink).toBeVisible()
+  await dummyLink.hover()
+  const popover = page.locator(".popover")
+  await expect(popover).not.toBeVisible()
+})
+
+test("Popover appears at minimal viewport width", async ({ page, dummyLink }) => {
+  await page.setViewportSize({ width: minDesktopWidth, height: 600 })
+  await expect(dummyLink).toBeVisible()
+  await dummyLink.hover()
+  const popover = page.locator(".popover")
+  await expect(popover).toBeVisible()
 })
