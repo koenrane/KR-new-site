@@ -1,16 +1,16 @@
 ---
 permalink: read-hpmor
-lw-was-draft-post: 'false'
-lw-is-af: 'false'
-lw-is-debate: 'false'
+lw-was-draft-post: "false"
+lw-is-af: "false"
+lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/HL6x8zHo9BkuK3tic/transcript-you-should-read-hpmor
-lw-is-question: 'false'
+lw-is-question: "false"
 lw-posted-at: 2021-11-02T18:20:53.161000Z
 lw-last-modification: 2024-07-07T21:15:29.825000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-11-02T18:57:09.142000Z
-lw-was-unlisted: 'false'
-lw-is-shortform: 'false'
+lw-was-unlisted: "false"
+lw-is-shortform: "false"
 lw-num-comments-on-upload: 12
 lw-base-score: 124
 lw-vote-count: 59
@@ -19,21 +19,20 @@ af-num-comments-on-upload: 0
 publish: true
 title: You Should Read 'Harry Potter and the Methods of Rationality'
 lw-latest-edit: 2023-08-27T21:04:29.890000Z
-lw-is-linkpost: 'false'
+lw-is-linkpost: "false"
 tags:
   - rationality
   - fiction
   - personal
 aliases:
   - transcript-you-should-read-hpmor
-lw-reward-post-warning: 'false'
-use-full-width-images: 'false'
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 2021-11-02 00:00:00
 original_url: https://www.lesswrong.com/posts/HL6x8zHo9BkuK3tic/transcript-you-should-read-hpmor
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/grinnell.png
-description: Why you should read _Harry Potter and the Methods of Rationality_ to
-  live more ethically and effectively.
+description: Why you should read “Harry Potter and the Methods of Rationality” to live more ethically and effectively.
 date_updated: 2025-01-30 09:30:36.233182
 ---
 
