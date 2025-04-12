@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 
 import requests  # type: ignore[import]
 import tqdm
-import validators
+import validators  # type: ignore[import]
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 # Add the project root to sys.path
@@ -782,7 +782,7 @@ def check_malformed_hrefs(soup: BeautifulSoup) -> list[str]:
     Check for syntactically malformed href attributes in `<a>` tags using the
     `validators` library.
     """
-    malformed_links = []
+    malformed_links: list[str] = []
     for link in soup.find_all("a", href=True):
         href = link.get("href")
         if not isinstance(href, str):
