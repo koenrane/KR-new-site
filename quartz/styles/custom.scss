@@ -94,7 +94,6 @@ a[id*="fnref-"] {
   background-color: color-mix(in srgb, gray 10%, transparent);
   padding: 0 0.1rem;
   border-radius: 5px;
-  line-height: var(--line-height);
 
   @media all and (max-width: $max-mobile-width) {
     scroll-margin-top: calc(7 * $base-margin);
