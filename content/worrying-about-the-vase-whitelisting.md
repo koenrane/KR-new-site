@@ -34,8 +34,9 @@ original_url:
 skip_import: true
 description: An impact measure for AI safety that whitelists the object transformations
   which are allowed.
-date_updated: 2025-04-12 09:51:51.137842
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 

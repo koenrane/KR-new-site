@@ -3,7 +3,8 @@ permalink: a-shot-at-the-diamond-alignment-problem
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
+lw-page-url: 
+  https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 lw-is-question: 'false'
 lw-posted-at: 2022-10-06T18:29:10.586000Z
 lw-last-modification: 2023-06-01T20:06:10.512000Z
@@ -34,12 +35,14 @@ next-post-title: Don’t Design Agents Which Exploit Adversarial Inputs
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2022-10-06 00:00:00
-original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
+original_url: 
+  https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 skip_import: true
-description: "A technical deep dive exploring how to align an AI with the goal of\
-  \ creating diamonds, rather than more nebulous human values. "
-date_updated: 2025-03-05 20:43:54.692493
+description: "A technical deep dive exploring how to align an AI with the goal of
+  creating diamonds, rather than more nebulous human values. "
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 

@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/FNVolSf.png
 description: Impact, viewed through the lens of humans and other agents, demands a
   definition. How do we measure the mark we leave on the world?
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 

@@ -3,7 +3,8 @@ permalink: ban-development-of-unpredictable-powerful-models
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
+lw-page-url: 
+  https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
 lw-is-question: 'false'
 lw-posted-at: 2023-06-20T01:43:11.574000Z
 lw-last-modification: 2024-03-27T02:57:58.444000Z
@@ -27,12 +28,14 @@ aliases:
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2023-06-20 00:00:00
-original_url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
+original_url: 
+  https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
 skip_import: true
-description: "A proposal for a government regulation of AI: Developers must be able\
-  \ to accurately predict the model's output. "
-date_updated: 2025-01-30 09:30:36.233182
+description: "A proposal for a government regulation of AI: Developers must be able
+  to accurately predict the model's output. "
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 
