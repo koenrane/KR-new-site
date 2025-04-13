@@ -3,7 +3,8 @@ permalink: shard-theory-confirmed
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-definitive-confirmation-of-shard-theory
+lw-page-url: 
+  https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-definitive-confirmation-of-shard-theory
 lw-is-question: "false"
 lw-posted-at: 2023-04-01T07:27:23.096000Z
 lw-last-modification: 2023-04-03T16:23:50.515000Z
@@ -31,18 +32,20 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2023-04-01 00:00:00
-original_url: https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-definitive-confirmation-of-shard-theory
+original_url: 
+  https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-definitive-confirmation-of-shard-theory
 skip_import: true
-description: Shard theory, once speculative, is definitively confirmed by gpt-neox-20b.
+description: Shard theory, once speculative, is definitively confirmed by GPT-NeoX-20B.
   Time to stop arguing and start experimenting.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-04-13 13:06:04.177811
 ---
 
 
 
 
 
-I have written a lot about [[shard theory]] over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
+
+I have written a lot about [shard theory](./posts#shard-theory) over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
 
 Last month, I was downloading [`gpt-neox-20b`](https://arxiv.org/abs/2204.06745) when I noticed the following:
 

@@ -3,7 +3,8 @@ permalink: ban-development-of-unpredictable-powerful-models
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
+lw-page-url: 
+  https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
 lw-is-question: 'false'
 lw-posted-at: 2023-06-20T01:43:11.574000Z
 lw-last-modification: 2024-03-27T02:57:58.444000Z
@@ -27,12 +28,14 @@ aliases:
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2023-06-20 00:00:00
-original_url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
+original_url: 
+  https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
 skip_import: true
-description: "A proposal for a government regulation of AI: Developers must be able\
-  \ to accurately predict the model's output. "
-date_updated: 2025-01-30 09:30:36.233182
+description: "A proposal for a government regulation of AI: Developers must be able
+  to accurately predict the model's output. "
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 
@@ -80,7 +83,7 @@ Most notably, this test seems _extremely strict_, perhaps beyond even the strict
 
 **But maybe "a long time" is too long. It's not clear that this criterion** _**can**_ **be passed,**[^5] **even after deeply qualitatively understanding the model.**
 
-: I share this concern. That's one reason I'm not lobbying to implement this as-is. Even [`solu-2l` (6.3M params, 2-layer)](https://neelnanda-io.github.io/TransformerLens/model_properties_table.html) is probably out of reach absent serious effort and solution of [superposition](https://www.anthropic.com/index/toy-models-of-superposition).
+: I share this concern. That's one reason I'm not lobbying to implement this as-is. Even [`solu-2l` (6.3M params, 2-layer)](https://neelnanda-io.github.io/TransformerLens/generated/model_properties_table.html) is probably out of reach absent serious effort and solution of [superposition](https://www.anthropic.com/index/toy-models-of-superposition).
 :
 : Maybe there are useful relaxations which are both more attainable and require deep understanding of the model. We can, of course, set the acceptable misprediction rate to be higher at first, and decrease it over time. Another relaxation would be "only predict e.g. the algorithm written in a coding task, not the per-token probabilities", but I think that seems way too easy.
 :

@@ -19,7 +19,7 @@ handle_cleanup() {
   if [ "$_git_status" -gt 0 ]; then
     echo "Committing changes..."
     git add -A
-    git commit || true
+    git commit -m "Update date on publish" || true
   fi
 
   _pushed_changes=$1
@@ -51,8 +51,6 @@ PUSHED_CHANGES=$(stash_and_exit)
 if [ "$CURRENT_BRANCH" != "main" ]; then
   exit 0
 fi
-
-python "$GIT_ROOT/scripts/run_push_checks.py" --resume
 
 python "$GIT_ROOT/scripts/update_date_on_publish.py"
 

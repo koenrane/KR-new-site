@@ -16,7 +16,7 @@ const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} className="favicon" a
 
 const WarningLink = (
   <a
-    href="/reward-is-not-the-optimization-target"
+    href="./reward-is-not-the-optimization-target"
     className="internal alias"
     data-slug="reward-is-not-the-optimization-target"
   >

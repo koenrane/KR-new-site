@@ -173,9 +173,7 @@ def upload_to_r2(
         print(f"{red_start}Overwriting existing file in R2: {r2_key}{red_end}")
 
         temp_file = Path(tempfile.gettempdir()) / file_path.name
-        subprocess.run(
-            ["rclone", "copyto", upload_target, str(temp_file)], check=True
-        )
+        _download_from_r2(upload_target, temp_file)
         print(f"Downloaded backup from R2: {temp_file}")
 
     if verbose:

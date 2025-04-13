@@ -3,7 +3,8 @@ permalink: dont-align-agents-to-evaluations-of-plans
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans
+lw-page-url: 
+  https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans
 lw-is-question: "false"
 lw-posted-at: 2022-11-26T21:16:23.425000Z
 lw-last-modification: 2024-02-15T18:55:51.898000Z
@@ -30,17 +31,19 @@ lw-sequence-title: Shard Theory
 prev-post-slug: dont-design-agents-which-exploit-adversarial-inputs
 prev-post-title: "Don’t Design Agents Which Exploit Adversarial Inputs"
 next-post-slug: alignment-without-total-robustness
-next-post-title: "Alignment Allows “Nonrobust” Decision-Influences and Doesn’t Require\
-  \ Robust Grading"
+next-post-title: "Alignment Allows “Nonrobust” Decision-Influences and Doesn’t Require
+  Robust Grading"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2022-11-26 00:00:00
-original_url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans
-description: "A subtle point: aligning an AI to evaluations of your goals won't give\
-  \ you what you want. Don't do it."
+original_url: 
+  https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans
+description: "A subtle point: aligning an AI to evaluations of your goals won't give
+  you what you want. Don't do it."
 skip_import: true
-date_updated: 2025-03-01 17:42:48.379662
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 
@@ -218,7 +221,7 @@ As a corollary, grader-optimization is not synonymous with planning. Grader-opti
 
 > I feel confident \[~95%\] that we will not train a grader which is "secured" against actor-level intelligences. Even if the grader is reasonably smarter than the actor \[~90%\].
 
-That said, I think this pattern is extremely unwise, and [alternative patterns AFAICT cleanly avoid incentivizing the agent to exploit adversarial inputs to the grader](dont-design-agents-which-exploit-adversarial-inputs#user-content-fn-3). Thus, I bid that we:
+That said, I think this pattern is extremely unwise, and [alternative patterns AFAICT cleanly avoid incentivizing the agent to exploit adversarial inputs to the grader](/dont-design-agents-which-exploit-adversarial-inputs#user-content-fn-3). Thus, I bid that we:
 
 > [!idea] Give up on all schemes which involve motivating the agent to get high outputs from a grader function
 > These schemes include:

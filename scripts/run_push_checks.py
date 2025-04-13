@@ -246,7 +246,6 @@ def create_server(git_root_path: Path) -> ServerInfo:
             )
             time.sleep(1)
 
-        # Server failed to start
         kill_process(server_pid)
         raise RuntimeError(
             f"Server failed to start after {SERVER_START_WAIT_TIME} seconds"
@@ -414,7 +413,7 @@ def run_command(
         return False, e.stdout or "", e.stderr or ""
 
 
-git_root = Path(
+_GIT_ROOT = Path(
     subprocess.check_output(
         [shutil.which("git") or "git", "rev-parse", "--show-toplevel"],
         text=True,
@@ -435,7 +434,12 @@ def get_check_steps(
     steps_before_server = [
         CheckStep(
             name="Typechecking Python",
-            command=["mypy"] + script_files,
+            command=[
+                # "python", # NOTE Will cause type errors in built site checks
+                # "-m",
+                "mypy",
+            ]
+            + script_files,
         ),
         CheckStep(
             name="Typechecking TypeScript",
@@ -455,6 +459,8 @@ def get_check_steps(
         CheckStep(
             name="Linting Python",
             command=[
+                "python",
+                "-m",
                 "pylint",
                 str(git_root_path),
                 "--rcfile",
@@ -510,14 +516,12 @@ def get_check_steps(
 
     steps_after_server = [
         CheckStep(
-            name="Checking built CSS for unknown CSS variables (ignore shiki)",
-            # Runs stylelint with a specific config, ignores shiki errors,
-            # counts remaining lines, and fails if count > 0.
+            name="Checking built CSS for unknown CSS variables",
             command=[
-                'count=$(npx stylelint public/index.css --config .variables-only-stylelintrc.json 2>&1 | grep -vE "(shiki|problems|public/index.css)" | grep -c .); test "$count" -eq 0'
+                "fish",
+                f"{git_root_path}/scripts/check_css_vars.fish",
             ],
-            shell=True,  # Needs shell for pipes, command substitution, test
-            cwd=str(git_root_path),
+            shell=True,
         ),
         CheckStep(
             name="Checking HTML files",
@@ -541,13 +545,6 @@ def get_check_steps(
             command=["fish", f"{git_root_path}/scripts/linkchecker.fish"],
             shell=True,
         ),
-        CheckStep(
-            name="Updating metadata on published posts",
-            command=[
-                "python",
-                f"{git_root_path}/scripts/update_date_on_publish.py",
-            ],
-        ),
     ]
 
     return steps_before_server, steps_after_server
@@ -570,7 +567,7 @@ def main() -> None:
     server_manager = ServerManager()
 
     try:
-        steps_before_server, steps_after_server = get_check_steps(git_root)
+        steps_before_server, steps_after_server = get_check_steps(_GIT_ROOT)
         all_steps = steps_before_server + steps_after_server
         all_step_names = [step.name for step in all_steps]
 
@@ -597,7 +594,7 @@ def main() -> None:
             for step in steps_before_server:
                 console.log(f"[grey]Skipping step: {step.name}[/grey]")
 
-        server_info = create_server(git_root)
+        server_info = create_server(_GIT_ROOT)
         server_manager.set_server_pid(
             server_info.pid, server_info.created_by_script
         )

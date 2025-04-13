@@ -3,7 +3,8 @@ permalink: toy-instrumental-convergence-paper-walkthrough
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
+lw-page-url: 
+  https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
 lw-is-question: 'false'
 lw-posted-at: 2018-02-26T02:20:09.294000Z
 lw-last-modification: None
@@ -28,12 +29,14 @@ aliases:
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2018-02-26 00:00:00
-original_url: https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
+original_url: 
+  https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
 skip_import: true
-description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated\
-  \ to humanity, it may still turn us into paperclips. "
-date_updated: 2025-03-01 17:42:48.379662
+description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated
+  to humanity, it may still turn us into paperclips. "
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 
@@ -97,7 +100,7 @@ Utility functions evaluate states of the universe;  $U$ evaluates each region an
 
 ## Agent
 
- $\mathcal{A}$ chooses the best possible strategy - that is, the one that maximizes the  $U$ of the final state of the universe-history:  $\mathcal{A}:= \text{argmax}_{\langle \bar{a}^k \rangle \in \texttt{Feasible}} U(\langle \bar{a}^k \rangle)$. Note that this definition implies a Cartesian boundary between the agent and the universe; that is,  $\mathcal{A}$ doesn't model itself as part of the environment (it [isn't naturalized](ht<em>tp://lesswr</em>ong.com/lw/jd9/building_phenomenological_bridges/%E2%80%8E)).
+ $\mathcal{A}$ chooses the best possible strategy - that is, the one that maximizes the  $U$ of the final state of the universe-history:  $\mathcal{A}:= \text{argmax}_{\langle \bar{a}^k \rangle \in \texttt{Feasible}} U(\langle \bar{a}^k \rangle)$. Note that this definition implies a Cartesian boundary between the agent and the universe; that is,  $\mathcal{A}$ doesn't model itself as part of the environment (it [isn't naturalized](https://www.lesswrong.com/posts/ethRJh2E7mSSjzCay/building-phenomenological-bridges)).
 
 # Seizing the Means of Cartesian Production
 

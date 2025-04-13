@@ -41,7 +41,7 @@ describe("renderPreviousPost", () => {
     const fileData = {
       frontmatter: {
         title: "Test Title",
-        "prev-post-slug": "/prev-post",
+        "prev-post-slug": "prev-post",
         "prev-post-title": "Previous Post",
       },
     } as QuartzPluginData
@@ -61,13 +61,14 @@ describe("renderNextPost", () => {
     const fileData = {
       frontmatter: {
         title: "Test Title",
-        "next-post-slug": "/next-post",
+        "next-post-slug": "next-post",
         "next-post-title": "Next Post",
       },
     } as QuartzPluginData
     const result = renderNextPost(fileData)
     expect(result).toBeTruthy()
     expect(result?.tagName).toBe("p")
+    expect((result?.children[2] as Element).properties?.href).toBe("./next-post")
   })
 })
 

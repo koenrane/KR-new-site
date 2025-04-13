@@ -52,7 +52,11 @@ export const renderPreviousPost = (fileData: QuartzPluginData) => {
   const prevPostTitleFormatted = formatTitle(prevPostTitle)
   if (!prevPostSlug) return null
 
-  const linkElement = h("a", { href: prevPostSlug, className: "internal" }, prevPostTitleFormatted)
+  const linkElement = h(
+    "a",
+    { href: `./${prevPostSlug}`, className: "internal" },
+    prevPostTitleFormatted,
+  )
 
   return h("p", [h("b", "Previous"), h("br"), linkElement])
 }
@@ -66,7 +70,11 @@ export const renderNextPost = (fileData: QuartzPluginData) => {
   const nextPostTitleFormatted = formatTitle(nextPostTitle)
   if (!nextPostSlug) return null
 
-  const linkElement = h("a", { href: nextPostSlug, className: "internal" }, nextPostTitleFormatted)
+  const linkElement = h(
+    "a",
+    { href: `./${nextPostSlug}`, className: "internal" },
+    nextPostTitleFormatted,
+  )
 
   return h("p", [h("b", "Next"), h("br"), linkElement])
 }

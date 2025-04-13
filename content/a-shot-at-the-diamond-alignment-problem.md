@@ -3,7 +3,8 @@ permalink: a-shot-at-the-diamond-alignment-problem
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
+lw-page-url: 
+  https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 lw-is-question: 'false'
 lw-posted-at: 2022-10-06T18:29:10.586000Z
 lw-last-modification: 2023-06-01T20:06:10.512000Z
@@ -34,12 +35,14 @@ next-post-title: Don’t Design Agents Which Exploit Adversarial Inputs
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2022-10-06 00:00:00
-original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
+original_url: 
+  https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 skip_import: true
-description: "A technical deep dive exploring how to align an AI with the goal of\
-  \ creating diamonds, rather than more nebulous human values. "
-date_updated: 2025-03-05 20:43:54.692493
+description: "A technical deep dive exploring how to align an AI with the goal of
+  creating diamonds, rather than more nebulous human values. "
+date_updated: 2025-04-13 13:06:04.177811
 ---
+
 
 
 
@@ -130,7 +133,7 @@ The AI begins to chain together cognition in order to acquire diamonds in a succ
 
 Suppose the agent takes exploratory actions, solves a new maze, and then sees a diamond at the end, triggering the existing diamond-shard. The agent receives reward when it reaches the diamond. Since the start-of-maze agent probably realized there was a diamond at the end of the maze, SGD expands the agent’s current shards (like diamond-acquisition) while also possibly creating new shards (like maze-solving). Across such tasks, the diamond-shard is the most strengthened overall, since diamonds are present in all of the reward events.
 
-In particular, even though online self-supervised learning continues to develop the world model and create more advanced concepts, the reward events also keep crediting the invocation of the diamond-abstraction as responsible for reward (because insofar as the agent's diamond-shard guides its decisions, then the diamond-shard's `diamond` abstraction _is in fact responsible_ for the agent getting reward). The diamond-abstraction [gradient starves](https://mohammadpz.github.io/GradientStarvation.html) the AI from exclusively acting on the basis of possible advanced "alien" abstractions which would otherwise have replaced the diamond abstraction. The diamond shard already gets reward effectively, integrating with the rest of the agent's world model and recurrent state, and therefore provides "job security" for the diamond-abstraction. (And once the agent is smart enough, it will _want_ to preserve its diamond abstraction, insofar as that is necessary for the agent to keep achieving its current goals which involve prototypical-diamonds.)
+In particular, even though online self-supervised learning continues to develop the world model and create more advanced concepts, the reward events also keep crediting the invocation of the diamond-abstraction as responsible for reward (because insofar as the agent's diamond-shard guides its decisions, then the diamond-shard's `diamond` abstraction _is in fact responsible_ for the agent getting reward). The diamond-abstraction [gradient starves](https://arxiv.org/abs/2011.09468) the AI from exclusively acting on the basis of possible advanced "alien" abstractions which would otherwise have replaced the diamond abstraction. The diamond shard already gets reward effectively, integrating with the rest of the agent's world model and recurrent state, and therefore provides "job security" for the diamond-abstraction. (And once the agent is smart enough, it will _want_ to preserve its diamond abstraction, insofar as that is necessary for the agent to keep achieving its current goals which involve prototypical-diamonds.)
 
 By the time the agent is capable of stealing diamonds from us, it's smart enough to realize this is strategically unwise. The AI begins biding its time until it can take over the world and acquire diamonds and safety. The AI has learned an explicit power-seeking shard, since such heuristics are widely useful for a range of tasks in training. Therefore, the agent doesn’t just have power-seeking cognition in its activations (i.e. explicit online reasoning about the instrumental value of power relative to its terminal diamond values). The power-seeking motivation is terminalized into its _weights_ (see also [Richard Ngo’s “convergent final goals” speculation](https://www.alignmentforum.org/posts/L9HcyaiWBLYe7vXid/distinguishing-claims-about-training-vs-deployment#Instrumental_convergence)).[^9]
 

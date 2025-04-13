@@ -2603,7 +2603,7 @@ def test_check_asset_references(
     assert sorted(missing_assets) == expected_missing_resolved
 
 
-def test_check_file_for_issues_markdown_check_called(tmp_path):
+def test_check_file_for_issues_markdown_check_called_with_valid_md(tmp_path):
     """Test that check_markdown_assets_in_html is called when md_path is valid."""
     base_dir = tmp_path / "public"
     base_dir.mkdir()
@@ -2614,20 +2614,37 @@ def test_check_file_for_issues_markdown_check_called(tmp_path):
     html_file_path.write_text("<html><body>Test</body></html>")
     md_file_path = content_dir / "test.md"
     md_file_path.touch()
+    assert md_file_path.is_file()
 
     with patch(
         "built_site_checks.check_markdown_assets_in_html",
-        return_value=[],
+        return_value=["Mocked issue"],
     ) as mock_check:
         issues = built_site_checks.check_file_for_issues(
             html_file_path, base_dir, md_file_path, should_check_fonts=False
         )
 
-    mock_check.assert_called_once()
+    mock_check.assert_called_once_with(
+        BeautifulSoup("<html><body>Test</body></html>", "html.parser"),
+        md_file_path,
+    )
     assert "missing_markdown_assets" in issues
-    assert issues["missing_markdown_assets"] == []
+    assert issues["missing_markdown_assets"] == ["Mocked issue"]
 
-    # Test case where md_path is None or doesn't exist to ensure it's NOT called
+
+def test_check_file_for_issues_markdown_check_not_called_with_invalid_md(
+    tmp_path,
+):
+    """Test that check_markdown_assets_in_html is NOT called when md_path is invalid."""
+    base_dir = tmp_path / "public"
+    base_dir.mkdir()
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+
+    html_file_path = base_dir / "test.html"
+    html_file_path.write_text("<html><body>Test</body></html>")
+    non_existent_md_path = content_dir / "non_existent.md"
+
     with patch(
         "built_site_checks.check_markdown_assets_in_html",
         return_value=[],
@@ -2635,15 +2652,20 @@ def test_check_file_for_issues_markdown_check_called(tmp_path):
         issues_none = built_site_checks.check_file_for_issues(
             html_file_path, base_dir, None, should_check_fonts=False
         )
+    mock_check_none.assert_not_called()
+    assert "missing_markdown_assets" not in issues_none
+
+    with patch(
+        "built_site_checks.check_markdown_assets_in_html",
+        return_value=[],
+    ) as mock_check_non_existent:
         issues_non_existent = built_site_checks.check_file_for_issues(
             html_file_path,
             base_dir,
-            content_dir / "non_existent.md",
+            non_existent_md_path,
             should_check_fonts=False,
         )
-
-    mock_check_none.assert_not_called()
-    assert "missing_markdown_assets" not in issues_none
+    mock_check_non_existent.assert_not_called()
     assert "missing_markdown_assets" not in issues_non_existent
 
 
@@ -3108,4 +3130,165 @@ def test_check_video_source_order_and_match(
     soup = BeautifulSoup(html, "html.parser")
     # Ensure the function being tested is correctly referenced
     result = built_site_checks.check_video_source_order_and_match(soup)
+    assert sorted(result) == sorted(expected_issues)
+
+
+@pytest.mark.parametrize(
+    "html_content, expected_issues",
+    [
+        # --- Valid Cases ---
+        ('<a class="external" href="https://example.com">Valid HTTPS</a>', []),
+        ('<a class="external" href="http://example.com">Valid HTTP</a>', []),
+        # Internal/Relative/Fragment/Mailto/Tel links (no 'external' class, should be ignored by check)
+        ('<a href="/relative/path">Valid Relative Path</a>', []),
+        ('<a href="./relative">Valid Relative Dot Path</a>', []),
+        ('<a href="../relative">Valid Relative Parent Path</a>', []),
+        ('<a href="#fragment">Valid Fragment</a>', []),
+        ('<a href="mailto:test@example.com">Valid Mailto</a>', []),
+        ('<a href="tel:+1234567890">Valid Tel</a>', []),
+        # Valid mailto links (should pass)
+        ('<a href="mailto:test@example.com">Valid Email</a>', []),
+        (
+            '<a href="mailto:test.name+alias@example.co.uk">Valid Complex Email</a>',
+            [],
+        ),
+        # Invalid mailto links (should fail)
+        (
+            '<a href="mailto:test@">Invalid Email (Missing domain)</a>',
+            ["Syntactically invalid email: mailto:test@"],
+        ),
+        (
+            '<a href="mailto:@example.com">Invalid Email (Missing local part)</a>',
+            ["Syntactically invalid email: mailto:@example.com"],
+        ),
+        (
+            '<a href="mailto:test@@example.com">Invalid Email (Double @)</a>',
+            ["Syntactically invalid email: mailto:test@@example.com"],
+        ),
+        (
+            '<a href="mailto:test space@example.com">Invalid Email (Space)</a>',
+            ["Syntactically invalid email: mailto:test space@example.com"],
+        ),
+        (
+            '<a href="mailto:test@exa mple.com">Invalid Email (Space in domain)</a>',
+            ["Syntactically invalid email: mailto:test@exa mple.com"],
+        ),
+        (
+            '<a href="mailto:test">Invalid Email (No @)</a>',
+            ["Syntactically invalid email: mailto:test"],
+        ),
+        (
+            '<a href="mailto:">Invalid Email (Empty)</a>',
+            ["Syntactically invalid email: mailto:"],
+        ),
+        # External link that looks like mailto but isn't (should use URL validation if external)
+        (
+            '<a class="external" href="http://mailto:fake@example.com">External Looks Like Mailto</a>',
+            [],
+        ),  # Valid URL
+        (
+            '<a class="external" href="mailto-server.com/path">External Starts With mailto</a>',
+            ["Syntactically invalid href: mailto-server.com/path"],
+        ),  # Invalid URL syntax
+        # Non-external link that looks like mailto (should be skipped)
+        (
+            '<a href="http://mailto:fake@example.com">Internal Looks Like Mailto</a>',
+            [],
+        ),
+        (
+            '<a href="mailto-server.com/path">Internal Starts With mailto</a>',
+            [],
+        ),
+        # Protocol relative IS considered external for validation purposes if class="external"
+        (
+            '<a class="external" href="//protocol.relative.com">Valid Protocol Relative</a>',
+            [],
+        ),
+        # --- Invalid Cases (Caught by validators.url, only if class="external") ---
+        (
+            '<a class="external" href="http://">Missing Domain</a>',
+            ["Syntactically invalid href: http://"],
+        ),
+        (
+            '<a class="external" href="https://">Missing Domain HTTPS</a>',
+            ["Syntactically invalid href: https://"],
+        ),
+        (
+            '<a class="external" href="http://invalid-tld">Invalid TLD</a>',
+            ["Syntactically invalid href: http://invalid-tld"],
+        ),
+        (
+            '<a class="external" href="notaurl">Not a URL</a>',
+            ["Syntactically invalid href: notaurl"],
+        ),
+        # Space in URL (skipped)
+        (
+            '<a class="external" href="https://example.com/path with space">Space in Path</a>',
+            [],
+        ),
+        # Previously identified malformed URLs (only flagged if external)
+        (
+            '<a class="external" href="https://ht%3Cem%3Etp://lesswr%3C/em%3Eong.com/lw/jd9/building_phenomenological_bridges/%E2%80%8E">Malformed 1</a>',
+            [
+                "Syntactically invalid href: https://ht%3Cem%3Etp://lesswr%3C/em%3Eong.com/lw/jd9/building_phenomenological_bridges/%E2%80%8E"
+            ],
+        ),
+        (
+            '<a class="external" href="https://%E2%80%8B!%5B%5D(https://assets.turntrout.com/static/images/posts/x3myqQ1.avif">Malformed 2</a>',
+            [
+                "Syntactically invalid href: https://%E2%80%8B!%5B%5D(https://assets.turntrout.com/static/images/posts/x3myqQ1.avif"
+            ],
+        ),
+        (
+            '<a class="external" href="https://shard%20theory">Malformed 3 (Space)</a>',
+            ["Syntactically invalid href: https://shard%20theory"],
+        ),
+        # --- Cases that should NOT be flagged (missing class="external") ---
+        (
+            '<a href="http://">Missing Domain (Internal)</a>',
+            [],
+        ),  # No class="external"
+        (
+            '<a href="notaurl">Not a URL (Internal)</a>',
+            [],
+        ),  # No class="external"
+        (
+            '<a href="https://example.com/path with space">Space (Internal)</a>',
+            [],
+        ),  # No class="external"
+        (
+            '<a href="https://ht%3Cem%3Etp://...">Malformed 1 (Internal)</a>',
+            [],
+        ),  # No class="external"
+        # --- Edge Cases ---
+        (
+            '<a class="external" href="">Empty Href</a>',
+            [],
+        ),  # Empty string is not invalid syntax per se, might be caught elsewhere
+        ("<a>Missing Href</a>", []),  # Ignored by selector
+        (
+            '<a class="external">Missing Href External</a>',
+            [],
+        ),  # Ignored by selector
+        # --- Mixed valid and invalid external links ---
+        (
+            """
+         <a class="external" href="https://valid.com">Valid Ext</a>
+         <a class="external" href="invalid-syntax">Invalid Ext</a>
+         <a href="/relative">Relative (Ignored)</a>
+         <a class="external" href="http://">No Domain Ext</a>
+         <a href="invalid-internal">Invalid Int (Ignored)</a>
+        """,
+            [
+                "Syntactically invalid href: invalid-syntax",
+                "Syntactically invalid href: http://",
+            ],
+        ),
+    ],
+)
+def test_check_malformed_hrefs(html_content: str, expected_issues: list[str]):
+    """Test the check_malformed_hrefs function correctly filters for external links."""
+    soup = BeautifulSoup(html_content, "html.parser")
+    # Assuming built_site_checks contains the corrected check_malformed_hrefs
+    result = built_site_checks.check_malformed_hrefs(soup)
     assert sorted(result) == sorted(expected_issues)
