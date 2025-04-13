@@ -246,7 +246,6 @@ def create_server(git_root_path: Path) -> ServerInfo:
             )
             time.sleep(1)
 
-        # Server failed to start
         kill_process(server_pid)
         raise RuntimeError(
             f"Server failed to start after {SERVER_START_WAIT_TIME} seconds"
@@ -414,7 +413,7 @@ def run_command(
         return False, e.stdout or "", e.stderr or ""
 
 
-git_root = Path(
+_GIT_ROOT = Path(
     subprocess.check_output(
         [shutil.which("git") or "git", "rev-parse", "--show-toplevel"],
         text=True,
@@ -515,21 +514,14 @@ def get_check_steps(
         ),
     ]
 
-    css_check_command = (
-        f"npx stylelint {git_root_path}/public/index.css"
-        f" --config {git_root_path}/.variables-only-stylelintrc.json"
-        " 2>&1"
-        " | grep -vE '(shiki|problems|public/index.css)'"
-        " | grep -c ."
-    )
-
     steps_after_server = [
         CheckStep(
             name="Checking built CSS for unknown CSS variables",
             command=[
-                f"count=$({css_check_command}) && test $count -eq 0",
+                "fish",
+                f"{git_root_path}/scripts/check_css_vars.fish",
             ],
-            cwd=str(git_root_path),
+            shell=True,
         ),
         CheckStep(
             name="Checking HTML files",
@@ -582,7 +574,7 @@ def main() -> None:
     server_manager = ServerManager()
 
     try:
-        steps_before_server, steps_after_server = get_check_steps(git_root)
+        steps_before_server, steps_after_server = get_check_steps(_GIT_ROOT)
         all_steps = steps_before_server + steps_after_server
         all_step_names = [step.name for step in all_steps]
 
@@ -609,7 +601,7 @@ def main() -> None:
             for step in steps_before_server:
                 console.log(f"[grey]Skipping step: {step.name}[/grey]")
 
-        server_info = create_server(git_root)
+        server_info = create_server(_GIT_ROOT)
         server_manager.set_server_pid(
             server_info.pid, server_info.created_by_script
         )
