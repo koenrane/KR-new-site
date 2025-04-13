@@ -115,7 +115,7 @@ def mock_rclone():
 
 @pytest.fixture(autouse=True)
 def mock_home_directory(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    r2_upload._home_directory = tmp_path
+    r2_upload._HOME_DIR = tmp_path
 
 
 def test_verbose_output(

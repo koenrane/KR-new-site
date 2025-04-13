@@ -16,10 +16,10 @@ try:
 except ImportError:
     import utils as script_utils  # type: ignore
 
-_home_directory = Path(os.environ.get("HOME", os.path.expanduser("~")))
 R2_BASE_URL: str = "https://assets.turntrout.com"
 R2_BUCKET_NAME: str = "turntrout"
-R2_MEDIA_DIR: Path = _home_directory / "Downloads" / "website-media-r2"
+_HOME_DIR = Path(os.environ.get("HOME", os.path.expanduser("~")))
+R2_MEDIA_DIR: Path = _HOME_DIR / "Downloads" / "website-media-r2"
 
 
 def get_r2_key(filepath: Path) -> str:
