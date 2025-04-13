@@ -364,6 +364,9 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
       :root {
         font-family: var(--font-text);
       }
+      #navbar-left h2 {
+        color: var(--midground);
+      }
       code,
       pre {
         font-family: var(--font-monospace);
