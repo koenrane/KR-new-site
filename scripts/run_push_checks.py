@@ -545,13 +545,6 @@ def get_check_steps(
             command=["fish", f"{git_root_path}/scripts/linkchecker.fish"],
             shell=True,
         ),
-        CheckStep(
-            name="Updating metadata on published posts",
-            command=[
-                "python",
-                f"{git_root_path}/scripts/update_date_on_publish.py",
-            ],
-        ),
     ]
 
     return steps_before_server, steps_after_server
