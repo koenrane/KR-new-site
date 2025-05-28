@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "The Pond",
+    pageTitle: "Koen Rane",
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
@@ -19,8 +19,9 @@ const config: QuartzConfig = {
     navbar: {
       pages: [
         { title: "About me", slug: "/about" },
-        { title: "My research", slug: "/research" },
-        { title: "Posts", slug: "/posts" },
+        { title: "About Site", slug: "/about-site" },
+        { title: "Changelog", slug: "/changelog" },
+        { title: "Links", slug: "/links" },
       ],
     },
   },

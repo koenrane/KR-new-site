@@ -93,7 +93,21 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
     </li>
   ))
 
-  const headerVideoSpan = (
+  // static KR logo
+  const headerLogoSpan = (
+    <span id="header-logo-container">
+      <img
+        id="site-logo"
+        className="no-select"
+        src="/static/images/KoenRane.png"// KR png logo static
+        alt="Site logo"
+        aria-label="Site logo"
+      />
+    </span>
+  )
+
+
+  /*const headerVideoSpan = (
     <span id="header-video-container" data-persist-video="true">
       <video
         id={videoId}
@@ -110,7 +124,8 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
         <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm" />
       </video>
     </span>
-  )
+  )*/
+
   const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
   const baseDir = pathToRoot(fileData.slug || ("" as FullSlug))
 
@@ -120,7 +135,7 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
         {links}
         <li>
           <a
-            href="https://turntrout.substack.com/subscribe"
+            href="https://koenrane.substack.com/subscribe" 
             className="external"
             target="_blank"
             rel="noopener noreferrer"

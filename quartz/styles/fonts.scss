@@ -79,7 +79,7 @@ $fonts-dir: "/static/styles/fonts";
 }
 
 @include font-face("FiraCode", "firacode-vf", ".woff2");
-@include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
+/*@include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
 
 @font-face {
   font-family: "EBGaramondInitialsF1";
@@ -107,6 +107,10 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("EBGaramondOriginal", "EBGaramond/EBGaramond08-Regular-original", ".woff2");
 @include font-face("EBGaramond12", "EBGaramond/EBGaramond12-Regular", ".woff2");
 @include font-face("EBGaramond12Italic", "EBGaramond/EBGaramond12-Regular", ".woff2");
+*/
+// local @font-face declarations
+
+
 
 // Less commonly used
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
@@ -116,19 +120,19 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("ElvishItalic", "tengwar_annatar/TengwarAnnatar-Italic", ".woff2");
 
 body {
-  --font-dropcap-foreground: "EBGaramondInitialsF2", serif;
-  --font-dropcap-background: "EBGaramondInitialsF1", serif;
+  --font-dropcap-foreground: "Source Serif 4", serif;
+  --font-dropcap-background: "Source Serif 4", serif;
   --font-monospace: "FiraCode", "JetBrains Mono", "Courier New", monospace;
   --font-monospace-theme: "FiraCode", "JetBrains Mono", "Courier New", monospace;
-  --font-text-theme: "EBGaramond", garamond, "Times New Roman", serif;
-  --font-text: "EBGaramond", garamond, "Times New Roman", serif;
-  --font-text-original: "EBGaramondOriginal";
-  --font-text-italic: "EBGaramondItalic", "EBGaramond";
-  --font-text-header: "EBGaramond", garamond, "Times New Roman", serif;
-  --font-text-swash: "EBGaramond:+swsh", cursive;
+  --font-text-theme: "Source Serif 4", "Times New Roman", serif;
+  --font-text: "Source Serif 4", "Times New Roman", serif;
+  --font-text-original: "Source Serif 4";
+  --font-text-italic: "Source Serif 4", serif;
+  --font-text-header: "Source Serif 4", "Times New Roman", serif;
+  --font-text-swash: "Source Serif 4", cursive;
   --font-bad-handwriting: "BadHandwriting";
 
-  font-family: EBGaramond, var(--font-text);
+  font-family: "Source Serif 4", var(--font-text);
   line-height: var(--base-line-height);
   font-feature-settings:
     "liga" 1,
@@ -144,7 +148,7 @@ body {
 
 em {
   font-style: italic;
-  font-family: EBGaramondItalic, var(--font-text-italic);
+  font-family: "Source Serif 4", var(--font-text-italic);
 }
 
 .elvish {
@@ -193,7 +197,7 @@ em {
   font-feature-settings: "frac" 1;
   line-height: normal;
   font-size: 1.2rem;
-  font-family: "EBGaramond12", serif;
+  font-family: "Source Serif 4", serif; //changed from EBGaramond12
   vertical-align: -10%;
 }
 
@@ -253,7 +257,7 @@ code {
 }
 
 .text-ornament {
-  font-family: "EBGaramond12", serif;
+  font-family: "Source Serif 4", serif; //changed from EBGaramond12
   font-size: 3rem;
   filter: saturate(90%);
   color: var(--blue);

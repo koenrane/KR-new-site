@@ -180,6 +180,17 @@ export default (() => {
 
         <link rel="stylesheet" href="/index.css" spa-preserve />
 
+        {/* Google Fonts - Source Serif 4 ---------------------------------------------------------------------------------------------------*/}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" 
+          rel="stylesheet" 
+          spa-preserve 
+        />
+
+        {/* ---------------------------------------------------------------------------------------------------*/}
+
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
         )}
