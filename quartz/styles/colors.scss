@@ -14,13 +14,13 @@
   --gold: #ffd700; /* Gold */
 
   // Theme-specific colors (from quartz.config.ts darkMode)
-  --background: #303446; // frappeColors.base
+  --background: #161616; // frappeColors.base
   --midground-faint: #737994; // frappeColors.overlay-0
   --midground: #aab3db; // frappeColors.overlay-2
   --midground-strong: #c6cff0; // frappeColors.subtext-1
-  --foreground: #d8def5; // frappeColors.text, modified
-  --secondary: #97b0e9; // frappeColors.blue
-  --tertiary: #99d1db; // custom color
+  --foreground: #f7f7f7; // frappeColors.text, modified
+  --secondary: #f7f7f7; // frappeColors.blue
+  --tertiary: #dddddd; // custom color
   --highlight: #949cbb30; // frappeColors.overlay-2 at 20% opacity
 
   & img,
@@ -53,9 +53,9 @@
   --midground-faint: #9ca0b0; // latteColors.overlay-0
   --midground: #7c7f93; // latteColors.overlay-2
   --midground-strong: #5c5f77; // latteColors.subtext-1
-  --foreground: #4c4f69; // latteColors.text
-  --secondary: #1e66f5; // latteColors.blue
-  --tertiary: #0486b9; // custom color
+  --foreground: #161616; // latteColors.text
+  --secondary: #161616; // latteColors.blue
+  --tertiary: #333333; // custom color
   --highlight: #7c7f9324; // latteColors.overlay-2 at 20% opacity
 
   & img:not([src$=".svg"]), // don't make SVGs fuzzy

@@ -6,9 +6,9 @@ tags:
   - site
   - meta
 ---
-> -A list of website updates, progress on personal projects, writing updates, and any other type of additions to koenrane.xyz. To see every minor edit by page, select History. Code changes can be tracked in the GitHub [repo](https://github.com/koenrane/koenrane.xyz)-
->
-> 2025-03-02 -- in progress
+A list of website updates, progress on personal projects, writing updates, and any other type of additions to koenrane.xyz. To see every minor edit by page, select History. Code changes can be tracked in the GitHub [repo](https://github.com/koenrane/koenrane.xyz)-
+
+2025-03-02 -- in progress
 
 ---
 

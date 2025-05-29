@@ -79,7 +79,7 @@ $fonts-dir: "/static/styles/fonts";
 }
 
 @include font-face("FiraCode", "firacode-vf", ".woff2");
-/*@include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
+@include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
 
 @font-face {
   font-family: "EBGaramondInitialsF1";
@@ -107,7 +107,7 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("EBGaramondOriginal", "EBGaramond/EBGaramond08-Regular-original", ".woff2");
 @include font-face("EBGaramond12", "EBGaramond/EBGaramond12-Regular", ".woff2");
 @include font-face("EBGaramond12Italic", "EBGaramond/EBGaramond12-Regular", ".woff2");
-*/
+
 // local @font-face declarations
 
 
@@ -119,9 +119,10 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("Elvish", "tengwar_annatar/TengwarAnnatar", ".woff2");
 @include font-face("ElvishItalic", "tengwar_annatar/TengwarAnnatar-Italic", ".woff2");
 
+/* Source Serif changes
 body {
-  --font-dropcap-foreground: "Source Serif 4", serif;
-  --font-dropcap-background: "Source Serif 4", serif;
+  --font-dropcap-foreground: "EBGaramondInitialsF2", serif;
+  --font-dropcap-background: "EBGaramondInitialsF2", serif;
   --font-monospace: "FiraCode", "JetBrains Mono", "Courier New", monospace;
   --font-monospace-theme: "FiraCode", "JetBrains Mono", "Courier New", monospace;
   --font-text-theme: "Source Serif 4", "Times New Roman", serif;
@@ -130,9 +131,22 @@ body {
   --font-text-italic: "Source Serif 4", serif;
   --font-text-header: "Source Serif 4", "Times New Roman", serif;
   --font-text-swash: "Source Serif 4", cursive;
-  --font-bad-handwriting: "BadHandwriting";
+  --font-bad-handwriting: "BadHandwriting";*/
 
-  font-family: "Source Serif 4", var(--font-text);
+  body {
+    --font-dropcap-foreground: "EBGaramondInitialsF2", serif;
+    --font-dropcap-background: "EBGaramondInitialsF1", serif;
+    --font-monospace: "FiraCode", "JetBrains Mono", "Courier New", monospace;
+    --font-monospace-theme: "FiraCode", "JetBrains Mono", "Courier New", monospace;
+    --font-text-theme: "EBGaramond", garamond, "Times New Roman", serif;
+    --font-text: "EBGaramond", garamond, "Times New Roman", serif;
+    --font-text-original: "EBGaramondOriginal";
+    --font-text-italic: "EBGaramondItalic", "EBGaramond";
+    --font-text-header: "EBGaramond", garamond, "Times New Roman", serif;
+    --font-text-swash: "EBGaramond:+swsh", cursive;
+    --font-bad-handwriting: "BadHandwriting";
+
+  font-family: "EBGaramond", var(--font-text);
   line-height: var(--base-line-height);
   font-feature-settings:
     "liga" 1,

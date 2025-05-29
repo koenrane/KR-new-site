@@ -149,11 +149,10 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
   return (
     <div id="navbar" className="navbar">
       <div id="navbar-left">
-        {headerVideoSpan}
+        {headerLogoSpan}
         <h2>
           <a href={baseDir}>{title}</a>
         </h2>
-        {darkMode}
       </div>
       <div id="navbar-right">
         {searchHTML}
@@ -168,6 +167,7 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
           <span className="bar" />
         </button>
         {pageLinks}
+        {darkMode}
       </div>
     </div>
   )

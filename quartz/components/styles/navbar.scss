@@ -244,10 +244,10 @@
   // static KR logo styling
 #header-logo-container {
   @media all and (min-width: $min-desktop-width) {
-    width: 188px;
-    height: 188px;
-    min-height: 188px;
-    aspect-ratio: 188 / 188;
+    width: 120px;
+    height: 120px;
+    min-height: 120px;
+    aspect-ratio: 120 / 120;
     display: block;
   }
 
@@ -268,20 +268,19 @@
 
 #darkmode-span {
   z-index: 3;
-  position: absolute;
-  right: 0;
-  top: 5%;
+  position: relative;
   font-size: var(--font-size-minus-2);
   text-align: right;
   display: flex;
   flex-direction: row-reverse;
+  margin-top: calc(1 * $base-margin);
 
   @media all and (max-width: $max-mobile-width) {
     position: relative;
     left: inherit;
     top: inherit;
     margin: 0 calc(1.5 * $base-margin);
-    flex-direction: row; // Left-to-right
+    flex-direction: row;
   }
 
   & #darkmode-toggle {
