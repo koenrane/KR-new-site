@@ -8,12 +8,7 @@ tags:
   - web
   - meta
 ---
-*This page describes the intent for this website, how I find my ideas, site content, how I organize information, why I write, and all technical aspects of the site*
-
----
-</br>
-
-On this site, my hope for the content is to offer my informed take on various subjects that involve programming, philosophy, biology, self-experiments, psychology, economics, AI, and some musings on practical life. 
+On this site, the intention is to write on various subjects that involve programming, philosophy, biology, self-experiments, psychology, economics, AI, and some musings on practical life. 
 
 </br>
 

@@ -11,7 +11,7 @@ import { createSequenceLinksComponent } from "./sequenceLinks"
 const SUBSTACK_URL =
   "https://assets.turntrout.com/static/images/external-favicons/substack_com.avif"
 
-const newsletterElement = h("a", { href: "https://turntrout.substack.com/subscribe" }, [
+const newsletterElement = h("a", { href: "https://koenrane.substack.com/subscribe" }, [
   "newsle",
   h("span", { className: "favicon-span" }, ["tter", createFaviconElement(SUBSTACK_URL)]),
 ])
@@ -30,8 +30,8 @@ const subscriptionElement = h("center", [
   h("div", h("p", ["Find out when I post more content: ", newsletterElement, " & ", rssElement])),
 ])
 
-const mailLink = h("a", { href: "mailto:alex@turntrout.com" }, [
-  "alex@turntrout",
+const mailLink = h("a", { href: "mailto:koenrane@protonmail.com" }, [
+  "koenrane@protonmail",
   h("span", { className: "favicon-span" }, [".com", createFaviconElement(MAIL_PATH)]),
 ])
 

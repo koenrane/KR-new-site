@@ -10,11 +10,20 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
     return null
   }
 
-  let authors = "Alex Turner"
+
+  // file's creation/modification date
+  let authors = fileData.dates?.created 
+    ? new Date(fileData.dates.created).toISOString().split('T')[0]
+    : new Date().toISOString().split('T')[0]
+
+
+
+
+  /*let authors = "KR"
   if (fileData.frontmatter?.authors) {
     authors = fileData.frontmatter.authors as string
-  }
-  authors = `By ${authors}`
+  }*/
+  //authors = `By ${authors}`
 
   // Add the publication info
   const publicationInfo = RenderPublicationInfo(cfg as GlobalConfiguration, fileData)
