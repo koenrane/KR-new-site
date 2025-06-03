@@ -9,7 +9,7 @@ tags:
 
 </br>
 
-A list of website updates, progress on personal projects, writing updates, and any other type of additions to koenrane.xyz. To see every minor edit by page, select History. Code changes can be tracked in the GitHub [repo](https://github.com/koenrane/koenrane.xyz)-
+Monthly chronological list of writings, changes, and additions. Code changes can be tracked in the GitHub [repo](https://github.com/koenrane/koenrane.xyz)-
 
 
 </br>
@@ -18,6 +18,7 @@ A list of website updates, progress on personal projects, writing updates, and a
 # 2025
 ----
 ### MAY
+- [Containerized Intentionality](/containerized-intentionality)
 - added page link to longform LessWrong post: A Guide to AI 2027
 - added left-padding to skin.css to shorten the width of text
 

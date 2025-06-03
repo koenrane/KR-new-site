@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "*",
+    pageTitle: "", // no linkable title, empty string
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
@@ -20,7 +20,7 @@ const config: QuartzConfig = {
       pages: [
         { title: "About me", slug: "/about" },
         { title: "About Site", slug: "/about-site" },
-        { title: "Changelog", slug: "/changelog" },
+        { title: "New Essays", slug: "/changelog" },
         { title: "Links", slug: "/links" },
       ],
     },

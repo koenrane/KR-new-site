@@ -17,7 +17,7 @@
   --background: #161616; // frappeColors.base
   --midground-faint: #eaeaea; // frappeColors.overlay-0
   --midground: #f7f7f7; // frappeColors.overlay-2
-  --midground-strong: #c6cff0; // frappeColors.subtext-1
+  --midground-strong: #d24646; // frappeColors.subtext-1
   --foreground: #f7f7f7; // frappeColors.text, modified
   --secondary: #f7f7f7; // frappeColors.blue
   --tertiary: #dddddd; // custom color
@@ -51,8 +51,8 @@
   // Theme-specific colors (from quartz.config.ts lightMode)
   --background: #eff1f5; // latteColors.base
   --midground-faint: #9ca0b0; // latteColors.overlay-0
-  --midground: #7c7f93; // latteColors.overlay-2
-  --midground-strong: #5c5f77; // latteColors.subtext-1
+  --midground: #161616; // latteColors.overlay-2
+  --midground-strong: #d24646; // latteColors.subtext-1
   --foreground: #161616; // latteColors.text
   --secondary: #161616; // latteColors.blue
   --tertiary: #333333; // custom color

@@ -87,22 +87,27 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
   const pages: Page[] = "pages" in cfg.navbar ? (cfg.navbar.pages as Page[]) : []
   const currentSlug = fileData.slug || ("" as FullSlug)
 
+  const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
+  const baseDir = pathToRoot(fileData.slug || ("" as FullSlug))
+
   const links = pages.map((page: Page) => (
     <li key={page.slug}>
       <a href={resolveRelative(currentSlug, page.slug as FullSlug)}>{page.title}</a>
     </li>
   ))
 
-  // static KR logo
+  // static KR logo, linkable
   const headerLogoSpan = (
     <span id="header-logo-container">
-      <img
-        id="site-logo"
-        className="no-select"
-        src="/static/images/KoenRane.png"// KR png logo static
-        alt="Site logo"
-        aria-label="Site logo"
-      />
+      <a href={baseDir}> 
+        <img
+          id="site-logo"
+          className="no-select"
+          src="/static/images/KoenRane.png"
+          alt="Site logo"
+          aria-label="Site logo"
+        />
+      </a>
     </span>
   )
 
@@ -126,8 +131,7 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
     </span>
   )*/
 
-  const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
-  const baseDir = pathToRoot(fileData.slug || ("" as FullSlug))
+  
 
   const pageLinks = (
     <nav className="menu">
@@ -135,12 +139,12 @@ const NavbarComponent: QuartzComponent = ({ cfg, fileData }: QuartzComponentProp
         {links}
         <li>
           <a
-            href="https://koenrane.substack.com/subscribe" 
+            href="https://patreon.com/koenrane" 
             className="external"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Subscribe
+            Patreon
           </a>
         </li>
       </ul>
