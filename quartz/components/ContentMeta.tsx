@@ -279,7 +279,7 @@ export const ContentMetadata = (props: QuartzComponentProps) => {
   const metadataElements = [
     renderSequenceInfo(props.fileData),
     renderTags(props),
-    renderPostStatistics(props),
+    //renderPostStatistics(props), //remove post statistics sitewide
   ]
 
   const filteredElements = metadataElements.filter(Boolean) // Remove any null or undefined elements

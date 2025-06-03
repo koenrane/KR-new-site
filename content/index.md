@@ -56,3 +56,9 @@ The *[About Site](/about-site)* page provides information about this website's d
 ### BLOG
 ---
 - [Containerized Intentionality](/containerized-intentionality)
+
+</br>
+
+### ESSAYS
+---
+~
