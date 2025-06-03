@@ -2,10 +2,7 @@
 permalink: about
 publish: true
 hideSubscriptionLinks: false
-card_image: https://assets.turntrout.com/static/images/card_images/about-me.png
 description: I'm Koen Rane, an independent researcher and writer
-date_published: 2024-10-27 19:14:04.653922
-date_updated: 2025-01-18 20:52:33.479757
 tags:
   - personal
 title: About me

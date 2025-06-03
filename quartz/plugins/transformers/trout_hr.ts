@@ -22,14 +22,14 @@ export const ornamentNode: Element = {
         class: "text-ornament no-select",
         style: "vertical-align:2.6rem;margin-right:0.3rem;",
       },
-      children: [{ type: "text", value: "☙" }],
+      children: [{ type: "text", value: "༻" }],
     },
     {
       type: "element",
       tagName: "img",
       children: [],
       properties: {
-        src: "https://assets.turntrout.com/static/trout-bw.svg",
+        src: "/static/images/Kr(2).png",
         style: "height:var(--ornament-size);",
         alt: "Black and white trout",
         class: "no-select trout-ornament",
@@ -42,7 +42,7 @@ export const ornamentNode: Element = {
         class: "text-ornament no-select",
         style: "vertical-align:2.6rem;margin-left:0.5rem;",
       },
-      children: [{ type: "text", value: "❧" }],
+      children: [{ type: "text", value: "༺" }],
     },
   ],
 }

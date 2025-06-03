@@ -27,7 +27,7 @@ const rssSpan = h("span", { className: "favicon-span" }, [
 ])
 export const rssElement = h("a", { href: "/rss.xml", id: "rss-link" }, [rssSpan])
 const subscriptionElement = h("center", [
-  h("div", h("p", ["Find out when I post more content: ", newsletterElement, " & ", rssElement])),
+  h("div", h("p", ["New Links & Articles: ", newsletterElement, " & ", rssElement])),
 ])
 
 const mailLink = h("a", { href: "mailto:koenrane@protonmail.com" }, [
@@ -35,7 +35,7 @@ const mailLink = h("a", { href: "mailto:koenrane@protonmail.com" }, [
   h("span", { className: "favicon-span" }, [".com", createFaviconElement(MAIL_PATH)]),
 ])
 
-const contactMe = h("div", [h("center", ["Thoughts? Email me at ", h("code", {}, [mailLink])])])
+const contactMe = h("div", [h("center", ["email:", h("code", {}, [mailLink])])])
 
 export function insertAfterTroutOrnament(tree: Root, components: Element[]) {
   visit(tree, "element", (node: Element, index, parent: Element | null) => {

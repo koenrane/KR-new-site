@@ -1,5 +1,5 @@
 ---
-title: ABOUT SITE
+title: About This Website
 draft: false
 tags:
   - site

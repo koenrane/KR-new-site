@@ -270,11 +270,11 @@ sup {
 }
 
 .trout-ornament {
-  width: 3rem;
+  width: 6rem;
   margin-top: calc(2 * $base-margin);
   margin-bottom: calc(2 * $base-margin);
-  filter: light-dark(none, invert(66%)) !important;
-  opacity: light-dark(0.5, 1);
+  filter: none !important; //no filter
+  opacity: 1; // no opacity, logo as is
 }
 
 // Dark <-> Light

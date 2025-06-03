@@ -272,10 +272,10 @@ code {
 
 .text-ornament {
   font-family: "Source Serif 4", serif; //changed from EBGaramond12
-  font-size: 3rem;
-  filter: saturate(90%);
-  color: var(--blue);
-  opacity: light-dark(0.7, 0.7);
+  font-size: 5rem;
+  filter: none !important; //no filter
+  color: var(--midground);
+  opacity: 1;
 }
 
 // For usage in the middle of a paragraph
